@@ -13,7 +13,7 @@ class Application:
         self.topo.pack(fill="x")
 
         self.titulo = Label(self.topo, text="Project Vimp")
-        self.titulo["font"] = ("Aller Bold", 28)
+        self.titulo["font"] = ("Arial", 28, "bold")
         self.titulo.pack()
 
         # Link
