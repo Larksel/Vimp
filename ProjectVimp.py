@@ -49,7 +49,7 @@ class Application:
         # Download the video to a temp file
         
         video = yt.streams.get_lowest_resolution()
-        video.download("C:/Users/Lemuel/Documents/Vimp Temp")
+        video.download(os.path.expanduser("~") + "/Documents/Vimp Temp")
 
         # Convert to mp3
 
@@ -60,8 +60,8 @@ class Application:
                     filename = filename.replace(ch, "")
             return filename
 
-        mp4_file = "C:/Users/Lemuel/Documents/Vimp Temp/" + FormatFilename(f"{yt.title}") + ".mp4"
-        mp3_file = "C:/Users/Lemuel/Desktop/Music/Vimp Music/" + FormatFilename(f"{yt.title}") + ".mp3"
+        mp4_file = os.path.expanduser("~") + "/Documents/Vimp Temp/" + FormatFilename(f"{yt.title}") + ".mp4"
+        mp3_file = os.path.expanduser("~") + "/Desktop/Music/Vimp Music/" + FormatFilename(f"{yt.title}") + ".mp3"
 
         videoclip = VideoFileClip(mp4_file)
         audioclip = videoclip.audio
