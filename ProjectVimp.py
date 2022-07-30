@@ -2,6 +2,8 @@ from pytube import YouTube
 from moviepy.editor import *
 import os
 from tkinter import *
+from threading import Thread
+from time import sleep
 
 class Application:
     def __init__(self, master=None):
@@ -19,7 +21,7 @@ class Application:
         # Link
         self.link = Frame(master)
         self.link.pack(expand=1)
-        
+
         self.linkcontainer = Frame(self.link)
         self.linkcontainer.pack()
 
@@ -37,31 +39,40 @@ class Application:
 
         self.botaolink = Button(self.botaocontainer, font=self.fontePadrao)
         self.botaolink["text"] = "Baixar"
-        self.botaolink["command"] = self.baixar
+        self.botaolink["command"] = self.iniciarVimp
         self.botaolink.pack()
 
-    def baixar(self):
+        self.statuslabel = Label(self.botaocontainer, text="", font=self.fontePadrao)
+        self.statuslabel.pack()
+
+    def iniciarVimp(self):
+        tarefa = Thread(target=self.Vimp)
+        tarefa.start()
+        tarefa.join
+
+    def Vimp(self):
+
         link = self.linkbox.get()
         yt = YouTube(link)
 
-        print(f"Downloading: {yt.title}")
-
         # Download the video to a temp file
-        
+        self.statuslabel["text"] = f"Downloading: {yt.title}"
+        print(f"Downloading: {yt.title}")
         video = yt.streams.get_lowest_resolution()
         video.download(os.path.expanduser("~") + "/Documents/Vimp Temp")
 
         # Convert to mp3
 
+        self.statuslabel["text"] = "Converting to mp3..."
         def FormatFilename(filename):
-            blacklist = set(".',|:\/")
+            blacklist = set(".',|:\/" + '"')
             for ch in filename:
                 if ch in blacklist:
                     filename = filename.replace(ch, "")
             return filename
 
         mp4_file = os.path.expanduser("~") + "/Documents/Vimp Temp/" + FormatFilename(f"{yt.title}") + ".mp4"
-        mp3_file = os.path.expanduser("~") + "/Desktop/Music/Vimp Music/" + FormatFilename(f"{yt.title}") + ".mp3"
+        mp3_file = os.path.expanduser("~") + "/Desktop/Vimp Music/" + FormatFilename(f"{yt.title}") + ".mp3"
 
         videoclip = VideoFileClip(mp4_file)
         audioclip = videoclip.audio
@@ -72,10 +83,13 @@ class Application:
         # Remove temp files
 
         if os.path.exists(mp4_file):
-            os.remove(mp4_file)
-        else:
-            print("The file does not exist")
+            os.remove(mp4_file)    
+
+        self.statuslabel["text"] = "Done"
+        sleep(1)
+        self.statuslabel["text"] = ""  
 
 root = Tk()
+root.title("Project Vimp")
 Application(root)
 root.mainloop()
