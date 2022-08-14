@@ -5,6 +5,8 @@ from tkinter import *
 from threading import Thread
 from time import sleep
 
+userfolder = os.path.expanduser("~")
+
 class Application:
     def __init__(self, master=None):
         self.fontePadrao = ("Arial", 10)
@@ -51,18 +53,24 @@ class Application:
         tarefa.join
 
     def Vimp(self):
-
         link = self.linkbox.get()
         yt = YouTube(link)
 
+        def verificaDiretorio(dir):
+            if not os.path.exists(dir):
+                os.mkdir(dir)
+            pass
+
         # Download the video to a temp file
+        verificaDiretorio(userfolder + "/Documents/Vimp Temp/")
         self.statuslabel["text"] = f"Downloading: {yt.title}"
         print(f"Downloading: {yt.title}")
         video = yt.streams.get_lowest_resolution()
-        video.download(os.path.expanduser("~") + "/Documents/Vimp Temp")
+        video.download(userfolder + "/Documents/Vimp Temp")
 
         # Convert to mp3
 
+        verificaDiretorio(userfolder + "/Desktop/Vimp Music/")
         self.statuslabel["text"] = "Converting to mp3..."
         def FormatFilename(filename):
             blacklist = set(".',|:\/" + '"')
@@ -71,8 +79,8 @@ class Application:
                     filename = filename.replace(ch, "")
             return filename
 
-        mp4_file = os.path.expanduser("~") + "/Documents/Vimp Temp/" + FormatFilename(f"{yt.title}") + ".mp4"
-        mp3_file = os.path.expanduser("~") + "/Desktop/Vimp Music/" + FormatFilename(f"{yt.title}") + ".mp3"
+        mp4_file = userfolder + "/Documents/Vimp Temp/" + FormatFilename(f"{yt.title}") + ".mp4"
+        mp3_file = userfolder + "/Desktop/Vimp Music/" + FormatFilename(f"{yt.title}") + ".mp3"
 
         videoclip = VideoFileClip(mp4_file)
         audioclip = videoclip.audio
