@@ -6,6 +6,8 @@ from threading import Thread
 from time import sleep
 
 userfolder = os.path.expanduser("~")
+tempfolder = userfolder + "/Documents/Vimp Temp/"
+musicfolder = userfolder + "/Desktop/Vimp Music/"
 
 class Application:
     def __init__(self, master=None):
@@ -59,28 +61,30 @@ class Application:
         def verificaDiretorio(dir):
             if not os.path.exists(dir):
                 os.mkdir(dir)
-            pass
 
         # Download the video to a temp file
-        verificaDiretorio(userfolder + "/Documents/Vimp Temp/")
+
+        verificaDiretorio(tempfolder)
         self.statuslabel["text"] = f"Downloading: {yt.title}"
         print(f"Downloading: {yt.title}")
+
         video = yt.streams.get_lowest_resolution()
-        video.download(userfolder + "/Documents/Vimp Temp")
+        video.download(tempfolder)
 
         # Convert to mp3
 
-        verificaDiretorio(userfolder + "/Desktop/Vimp Music/")
+        verificaDiretorio(musicfolder)
         self.statuslabel["text"] = "Converting to mp3..."
-        def FormatFilename(filename):
+
+        def formatFilename(filename):
             blacklist = set(".',|:\/" + '"')
             for ch in filename:
                 if ch in blacklist:
                     filename = filename.replace(ch, "")
             return filename
 
-        mp4_file = userfolder + "/Documents/Vimp Temp/" + FormatFilename(f"{yt.title}") + ".mp4"
-        mp3_file = userfolder + "/Desktop/Vimp Music/" + FormatFilename(f"{yt.title}") + ".mp3"
+        mp4_file = tempfolder + formatFilename(f"{yt.title}") + ".mp4"
+        mp3_file = musicfolder + formatFilename(f"{yt.title}") + ".mp3"
 
         videoclip = VideoFileClip(mp4_file)
         audioclip = videoclip.audio
