@@ -1,15 +1,9 @@
 from pytube import YouTube
-from moviepy.editor import *
-import os
 from tkinter import *
 from threading import Thread
 from time import sleep
 
 from Downloader import Music
-
-userfolder = os.path.expanduser("~")
-tempfolder = userfolder + "/Documents/Vimp Temp/"
-musicfolder = userfolder + "/Desktop/Vimp Music/"
 
 class Application:
     def __init__(self, master=None):
