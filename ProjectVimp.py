@@ -5,6 +5,8 @@ from tkinter import *
 from threading import Thread
 from time import sleep
 
+from Downloader import Music
+
 userfolder = os.path.expanduser("~")
 tempfolder = userfolder + "/Documents/Vimp Temp/"
 musicfolder = userfolder + "/Desktop/Vimp Music/"
@@ -57,45 +59,10 @@ class Application:
     def Vimp(self):
         link = self.linkbox.get()
         yt = YouTube(link)
-
-        def verificaDiretorio(dir):
-            if not os.path.exists(dir):
-                os.mkdir(dir)
-
-        # Download the video to a temp file
-
-        verificaDiretorio(tempfolder)
         self.statuslabel["text"] = f"Downloading: {yt.title}"
-        print(f"Downloading: {yt.title}")
+        self.linkbox.delete(0,"end")
 
-        video = yt.streams.get_lowest_resolution()
-        video.download(tempfolder)
-
-        # Convert to mp3
-
-        verificaDiretorio(musicfolder)
-        self.statuslabel["text"] = "Converting to mp3..."
-
-        def formatFilename(filename):
-            blacklist = set(".',|:\/" + '"')
-            for ch in filename:
-                if ch in blacklist:
-                    filename = filename.replace(ch, "")
-            return filename
-
-        mp4_file = tempfolder + formatFilename(f"{yt.title}") + ".mp4"
-        mp3_file = musicfolder + formatFilename(f"{yt.title}") + ".mp3"
-
-        videoclip = VideoFileClip(mp4_file)
-        audioclip = videoclip.audio
-        audioclip.write_audiofile(mp3_file)
-        audioclip.close()
-        videoclip.close()
-
-        # Remove temp files
-
-        if os.path.exists(mp4_file):
-            os.remove(mp4_file)    
+        Music(link)
 
         self.statuslabel["text"] = "Done"
         sleep(1)
