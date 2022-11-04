@@ -1,15 +1,14 @@
-from pytube import YouTube
+from pytube import YouTube, Playlist
 from moviepy.editor import *
 import os.path
-from GerenciaDiretorio import formatFilename, removeTemp, verificaDiretorio
-from time import sleep
+from GerenciaDiretorio import *
 
 userfolder = os.path.expanduser("~")
 tempfolder = userfolder + "/Documents/Vimp Temp/"
 musicfolder = userfolder + "/Desktop/Vimp Music/"
 videofolder = userfolder + "/Desktop/Videos"
 
-
+# Function to download the highest resolution of the video
 def Video(link):
 	yt = YouTube(link)
 
@@ -20,6 +19,7 @@ def Video(link):
 	video = yt.streams.get_highest_resolution()
 	video.download(videofolder)
 
+# Function to download and convert the video in music
 def Music(link):
 	yt = YouTube(link)
 
@@ -47,3 +47,24 @@ def Music(link):
 	# Remove temp files and finish
 
 	removeTemp(mp4_file)
+
+# Function to download every video from a playlist
+def MusicPlaylist(playlist):
+	p = Playlist(playlist)
+
+	print(f"Downloading {p.length} videos from {p.title}")
+
+	for url in p.video_urls:
+		Music(url)
+
+def VideoPlaylist(playlist):
+	p = Playlist(playlist)
+
+	print(f"Downloading {p.length} videos from {p.title}")
+
+	for url in p.video_urls:
+		Video(url)
+
+
+if __name__ == "__main__":
+	MusicPlaylist('https://www.youtube.com/playlist?list=PLzq8FL-koum2uniPBZysuPw-RWgdhYHvO')

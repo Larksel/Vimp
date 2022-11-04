@@ -2,8 +2,7 @@ from pytube import YouTube
 from tkinter import *
 from threading import Thread
 from time import sleep
-
-from Downloader import Music
+import Downloader
 
 class Application:
     def __init__(self, master=None):
@@ -56,7 +55,7 @@ class Application:
         self.statuslabel["text"] = f"Downloading: {yt.title}"
         self.linkbox.delete(0,"end")
 
-        Music(link)
+        Downloader.Music(link)
 
         self.statuslabel["text"] = "Done"
         sleep(1)
