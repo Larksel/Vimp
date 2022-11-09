@@ -65,6 +65,3 @@ def VideoPlaylist(playlist):
 	for url in p.video_urls:
 		Video(url)
 
-
-if __name__ == "__main__":
-	MusicPlaylist('https://www.youtube.com/playlist?list=PLzq8FL-koum2uniPBZysuPw-RWgdhYHvO')

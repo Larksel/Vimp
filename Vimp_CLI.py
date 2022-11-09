@@ -1,9 +1,9 @@
 import Downloader
-from os import get_terminal_size, startfile, path
+from os import startfile, path, system
 
 def VideoMode():
     while True:
-        print("\n" * get_terminal_size().lines)
+        system("cls")
         print("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-")
         print("               Download Video               ")
         print("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-")
@@ -16,7 +16,7 @@ def VideoMode():
 
 def MusicMode():
     while True:
-        print("\n" * get_terminal_size().lines)
+        system("cls")
         print("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-")
         print("               Download Music               ")
         print("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-")
@@ -29,7 +29,7 @@ def MusicMode():
 
 def ListMusic():
     while True:
-        print("\n" * get_terminal_size().lines)
+        system("cls")
         print("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-")
         print("               Download Music from Playlist               ")
         print("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-")
@@ -42,7 +42,7 @@ def ListMusic():
 
 def ListVideo():
     while True:
-        print("\n" * get_terminal_size().lines)
+        system("cls")
         print("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-")
         print("               Download Video from Playlist               ")
         print("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-")
@@ -57,7 +57,7 @@ def FolderMode():
     userFolder = path.expanduser("~")
 
     while True:
-        print("\n" * get_terminal_size().lines)
+        system("cls")
         print("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-")
         print("               Open Folder               ")
         print("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-")
@@ -76,13 +76,13 @@ def FolderMode():
         else:
             print("Opção inválida. Tente novamente!")
 
-def Cabecalho():
+def Home():
     while True:
 
-        print("\n" * get_terminal_size().lines)
-        print("-+" * 20)
+        system("cls")
+        print("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-")
         print("               Vimp CLI               ")
-        print("-+" * 20)
+        print("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-")
         print("0 - Cancel")
         print("1 - Download Video")
         print("2 - Download Music")
@@ -108,4 +108,4 @@ def Cabecalho():
         else:
             print("Opção inválida. Tente novamente!")
     
-Cabecalho()
+Home()
