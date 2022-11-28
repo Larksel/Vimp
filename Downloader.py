@@ -1,9 +1,9 @@
 from pytube import YouTube, Playlist
-from moviepy.editor import *
-import os.path
+from os import path, system
 from GerenciaDiretorio import *
 
-userfolder = os.path.expanduser("~")
+
+userfolder = path.expanduser("~")
 tempfolder = userfolder + "/Documents/Vimp Temp/"
 musicfolder = userfolder + "/Desktop/Vimp Music/"
 videofolder = userfolder + "/Desktop/Videos"
@@ -27,7 +27,7 @@ def Music(link):
 
 	verificaDiretorio(tempfolder)
 
-	print(f"Título: {yt.title}")
+	print(f"Baixando: {yt.title}")
 	video = yt.streams.get_lowest_resolution()
 	video.download(tempfolder)
 
@@ -38,11 +38,7 @@ def Music(link):
 	mp4_file = tempfolder + formatFilename(f"{yt.title}") + ".mp4"
 	mp3_file = musicfolder + formatFilename(f"{yt.title}") + ".mp3"
 
-	videoclip = VideoFileClip(mp4_file)
-	audioclip = videoclip.audio
-	audioclip.write_audiofile(mp3_file)
-	audioclip.close()
-	videoclip.close()
+	system(f'ffmpeg -y -i "{mp4_file}" "{mp3_file}" -loglevel quiet -stats')
 
 	# Remove temp files and finish
 
@@ -65,3 +61,5 @@ def VideoPlaylist(playlist):
 	for url in p.video_urls:
 		Video(url)
 
+if __name__ == "__main__":
+	Music("https://www.youtube.com/watch?v=63hoSNvS6Z4")
