@@ -37,14 +37,14 @@ def Music(link):
 	yt = YouTube(link)
 	tituloVideo = yt.title
 	urlThumbnail = yt.thumbnail_url
-
+	tituloFormatado = formatFilename(f"{tituloVideo}")
 	# Download the video to a temp file
 	adicionaDiretorio(tempfolder)
 
 	print(f"Baixando: {tituloVideo}")
 
-	GetThumbnail(tituloVideo, urlThumbnail)
-	thumbPath = tempfolder + f"{tituloVideo}.jpg"
+	GetThumbnail(tituloFormatado, urlThumbnail)
+	thumbPath = tempfolder + f"{tituloFormatado}.jpg"
 
 	video = yt.streams.get_lowest_resolution()
 	video.download(tempfolder)
@@ -52,8 +52,8 @@ def Music(link):
 	# Convert to mp3
 	adicionaDiretorio(musicfolder)
 
-	mp4_file = tempfolder + formatFilename(f"{tituloVideo}") + ".mp4"
-	mp3_file = musicfolder + formatFilename(f"{tituloVideo}") + ".mp3"
+	mp4_file = tempfolder + tituloFormatado + ".mp4"
+	mp3_file = musicfolder + tituloFormatado + ".mp3"
 	VideoToAudio(mp4_file, mp3_file)
 
 	SetMetaData(mp3_file, tituloVideo, thumbPath)
@@ -80,4 +80,4 @@ def VideoPlaylist(playlist):
 		Video(url)
 
 if __name__ == "__main__":
-	Music("https://www.youtube.com/watch?v=59r6sluvqo4&list=PLExP5Z-pht115Ca1PhsosERNvtgt4yx1m&index=1")
+	Music("https://www.youtube.com/watch?v=LibgOE0g9xk&list=PLExP5Z-pht115Ca1PhsosERNvtgt4yx1m&index=3")
