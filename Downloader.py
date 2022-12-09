@@ -1,9 +1,10 @@
 from pytube import YouTube, Playlist
 from os import path
+import urllib.request
+
 from DirManager import *
 from Converter import *
 from FileManager import *
-import urllib.request
 
 userfolder = path.expanduser("~")
 tempfolder = userfolder + "/Documents/Vimp Temp/"
@@ -24,7 +25,6 @@ def GetThumbnail(title, link):
 # Downloads the highest resolution of the video
 def Video(link):
 	yt = YouTube(link)
-
 	print(f"Título: {yt.title}")
 
 	adicionaDiretorio(videofolder)
@@ -32,19 +32,20 @@ def Video(link):
 	video = yt.streams.get_highest_resolution()
 	video.download(videofolder)
 
-# Function to download and convert the video in music
+# Downloads and convert the video in music
 def Music(link):
 	yt = YouTube(link)
 	tituloVideo = yt.title
 	urlThumbnail = yt.thumbnail_url
 	tituloFormatado = formatFilename(f"{tituloVideo}")
+
 	# Download the video to a temp file
 	adicionaDiretorio(tempfolder)
 
 	print(f"Baixando: {tituloVideo}")
 
 	GetThumbnail(tituloFormatado, urlThumbnail)
-	thumbPath = tempfolder + f"{tituloFormatado}.jpg"
+	thumbImage = tempfolder + f"{tituloFormatado}.jpg"
 
 	video = yt.streams.get_lowest_resolution()
 	video.download(tempfolder)
@@ -56,27 +57,27 @@ def Music(link):
 	mp3_file = musicfolder + tituloFormatado + ".mp3"
 	VideoToAudio(mp4_file, mp3_file)
 
-	SetMetaData(mp3_file, tituloVideo, thumbPath)
+	SetMetaData(mp3_file, tituloVideo, thumbImage)
 
 	removeTemp(mp4_file)
-	removeTemp(thumbPath)
+	removeTemp(thumbImage)
 
-# Function to download every music from a playlist
+# Downloads every music from a playlist
 def MusicPlaylist(playlist):
-	p = Playlist(playlist)
+	pl = Playlist(playlist)
 
-	print(f"Downloading {p.length} videos from {p.title}")
+	print(f"Downloading {pl.length} videos from {pl.title}")
 
-	for url in p.video_urls:
+	for url in pl.video_urls:
 		Music(url)
 
-# Function to download every video from a playlist
+# Downloads every video from a playlist
 def VideoPlaylist(playlist):
-	p = Playlist(playlist)
+	pl = Playlist(playlist)
 
-	print(f"Downloading {p.length} videos from {p.title}")
+	print(f"Downloading {pl.length} videos from {pl.title}")
 
-	for url in p.video_urls:
+	for url in pl.video_urls:
 		Video(url)
 
 if __name__ == "__main__":
