@@ -2,6 +2,7 @@ from os import path
 import urllib.request
 
 from pytube import YouTube, Playlist
+from pytube.cli import on_progress
 
 from .managers import DirManager, FileManager
 from .converter import Converter
@@ -25,7 +26,7 @@ def get_thumbnail(title, link):
 
 # Downloads the highest (max 720p) resolution of the video.
 def get_video(link):
-	yt = YouTube(link)
+	yt = YouTube(link, on_progress_callback=on_progress)
 	print(f"Downloading: {yt.title}")
 
 	DirManager.make_dir(videofolder)
@@ -35,7 +36,7 @@ def get_video(link):
 
 # Downloads and converts the video in music with album art.
 def get_music(link):
-	yt = YouTube(link)
+	yt = YouTube(link, on_progress_callback=on_progress)
 	video_title = yt.title
 	formatted_title = FileManager.format_filename(video_title)
 
