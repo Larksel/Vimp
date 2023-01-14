@@ -36,7 +36,7 @@ def get_video(link):
 
 # Downloads and converts the video in music with album art.
 def get_music(link):
-	yt = YouTube(link, on_progress_callback=on_progress)
+	yt = YouTube(link)
 	video_title = yt.title
 	formatted_title = FileManager.format_filename(video_title)
 

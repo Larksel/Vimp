@@ -9,7 +9,7 @@ def VideoMode():
         print("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-")
         print("               Download Video               ")
         print("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-")
-        print("0 - Cancel")
+        print("0 - Go back")
         print("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-")
         link = input("Link: -> ")
         if link == "0" or link == "":
@@ -22,7 +22,7 @@ def MusicMode():
         print("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-")
         print("               Download Music               ")
         print("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-")
-        print("0 - Cancel")
+        print("0 - Go back")
         print("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-")
         link = input("Link: -> ")
         if link == "0" or link == "":
@@ -35,7 +35,7 @@ def ListMusic():
         print("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-")
         print("               Download Music from Playlist               ")
         print("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-")
-        print("0 - Cancel")
+        print("0 - Go back")
         print("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-")
         link = input("Link: -> ")
         if link == "0" or link == "":
@@ -48,7 +48,7 @@ def ListVideo():
         print("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-")
         print("               Download Video from Playlist               ")
         print("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-")
-        print("0 - Cancel")
+        print("0 - Go back")
         print("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-")
         link = input("Link: -> ")
         if link == "0" or link == "":
@@ -63,7 +63,7 @@ def FolderMode():
         print("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-")
         print("               Open Folder               ")
         print("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-")
-        print("0 - Cancel")
+        print("0 - Go back")
         print("1 - Music Folder")
         print("2 - Video Folder")
         print("3 - Vimp Folder")
@@ -88,7 +88,7 @@ def Home():
         print("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-")
         print("               Vimp CLI               ")
         print("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-")
-        print("0 - Cancel")
+        print("0 - Exit")
         print("1 - Download Video")
         print("2 - Download Music")
         print("3 - Download Music from Playlist")
