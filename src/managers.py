@@ -4,17 +4,17 @@ import music_tag
 
 
 class FileManager:
-    def set_audio_metadata(audiofile, titulo, thumbImg):
+    def set_audio_metadata(audiofile, titulo, thumbimg):
         file = music_tag.load_file(audiofile)
 
         file['album'] = titulo
-        with open(thumbImg, 'rb') as img:
+        with open(thumbimg, 'rb') as img:
             file['artwork'] = img.read()
         file['tracktitle'] = titulo
 
         file.save()
 
-    # Removes every non supported character from the filename
+    # Removes every non-supported character from the filename
     def format_filename(filename):
         blacklist = set(".'?*,<;>|:\/" + '"')
         for ch in filename:
