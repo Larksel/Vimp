@@ -16,6 +16,7 @@ def VideoMode():
             break
         downloader.get_video(link)
 
+
 def MusicMode():
     while True:
         system("cls")
@@ -28,6 +29,7 @@ def MusicMode():
         if link == "0" or link == "":
             break
         downloader.get_music(link)
+
 
 def ListMusic():
     while True:
@@ -42,6 +44,7 @@ def ListMusic():
             break
         downloader.get_music_playlist(link)
 
+
 def ListVideo():
     while True:
         system("cls")
@@ -55,8 +58,9 @@ def ListVideo():
             break
         downloader.get_video_playlist(link)
 
+
 def FolderMode():
-    USERFOLDER = path.expanduser("~")
+    userfolder = path.expanduser("~")
 
     while True:
         system("cls")
@@ -71,15 +75,16 @@ def FolderMode():
 
         opcao = input("-> ")
         if opcao == "1":
-            startfile(USERFOLDER + r"\Desktop\Vimp Music")
+            startfile(userfolder + r"\Desktop\Vimp Music")
         elif opcao == "2":
-            startfile(USERFOLDER + r"\Desktop\Videos")
+            startfile(userfolder + r"\Desktop\Videos")
         elif opcao == "3":
-            startfile(USERFOLDER + r"\Desktop\Vimp Project")
+            startfile(userfolder + r"\Desktop\Vimp Project")
         elif opcao == "0" or opcao == "":
             break
         else:
             print("Opção inválida. Tente novamente!")
+
 
 def Home():
     while True:
