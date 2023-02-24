@@ -1,17 +1,14 @@
+# Vimp Project
 
-<h1>Vimp-Project</h1>
+Simple command line tool to download youtube videos and music.</p>
 
-<p>Youtube Video / Music downloader</p>
+## Requirements
 
-<h2>Requirements</h2>
-
-- Python 3.9+ <br>
-- pytube <br>
-- ffmpeg (global) <br>
+- Python 3.9+
+- pytube
+- ffmpeg (global)
 - music-tag
 
+## How to use
 
-<h2>How to use</h2>
-<p>Just execute the file VimpCLI.py</p>
-
-
+Just execute VimpCLI.py
