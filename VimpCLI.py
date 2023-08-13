@@ -1,6 +1,10 @@
 from os import startfile, path, system
 
-from src import downloader
+from src.downloader import Downloader
+from src.managers import DirManager
+
+
+dirmanager = DirManager()
 
 
 def VideoMode():
@@ -14,7 +18,8 @@ def VideoMode():
         link = input("Link: -> ")
         if link == "0" or link == "":
             break
-        downloader.get_video(link)
+        downloader = Downloader(link)
+        downloader.get_video()
 
 
 def MusicMode():
@@ -28,7 +33,8 @@ def MusicMode():
         link = input("Link: -> ")
         if link == "0" or link == "":
             break
-        downloader.get_music(link)
+        downloader = Downloader(link)
+        downloader.get_music()
 
 
 def ListMusic():
@@ -42,7 +48,8 @@ def ListMusic():
         link = input("Link: -> ")
         if link == "0" or link == "":
             break
-        downloader.get_music_playlist(link)
+        downloader = Downloader(link)
+        downloader.get_music_playlist()
 
 
 def ListVideo():
@@ -56,12 +63,11 @@ def ListVideo():
         link = input("Link: -> ")
         if link == "0" or link == "":
             break
-        downloader.get_video_playlist(link)
+        downloader = Downloader(link)
+        downloader.get_video_playlist()
 
 
 def FolderMode():
-    userfolder = path.expanduser("~")
-
     while True:
         system("cls")
         print("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-")
@@ -75,11 +81,11 @@ def FolderMode():
 
         opcao = input("-> ")
         if opcao == "1":
-            startfile(userfolder + r"\Desktop\Vimp Music")
+            DirManager.open_music_dir()
         elif opcao == "2":
-            startfile(userfolder + r"\Desktop\Videos")
+            DirManager.open_video_dir()
         elif opcao == "3":
-            startfile(userfolder + r"\Desktop\Vimp Project")
+            startfile(dirmanager.USER_FOLDER + r"\Desktop\Vimp Project")
         elif opcao == "0" or opcao == "":
             break
         else:

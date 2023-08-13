@@ -28,13 +28,28 @@ class FileManager:
 
 
 class DirManager:
-    def make_dir(dir):
+    def __init__(self):
+        self.USER_FOLDER = os.path.expanduser("~")
+        self.tempfolder = self.USER_FOLDER + "/Documents/Vimp Temp/"
+        self.musicfolder = self.USER_FOLDER + "/Desktop/Vimp Music/"
+        self.videofolder = self.USER_FOLDER + "/Desktop/Videos"
+
+    def make_dir(self, dir):
         if not os.path.exists(dir):
             os.mkdir(dir)
 
-    def remove_dir(dir):
+    def remove_dir(self, dir):
         if os.path.exists(dir):
             os.rmdir(dir)
+
+    def open_music_dir(self):
+        os.startfile(self.musicfolder)
+        
+    def open_video_dir(self):
+        os.startfile(self.videofolder)
+
+    def open_temp_dir(self):
+        os.startfile(self.tempfolder)
 
 
 class DependenciesManager:
