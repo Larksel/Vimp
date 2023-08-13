@@ -5,8 +5,6 @@ from src.downloader import *
 set_appearance_mode("dark")  # Modes: system (default), light, dark
 set_default_color_theme("blue")  # Themes: blue (default), dark-blue, green
 
-img_size = (240, 160)
-
 
 class ErrorWindow(CTkToplevel):
     def __init__(self, *args, **kwargs):
@@ -28,7 +26,8 @@ class App(CTk):
 
         self.grid_columnconfigure((0, 11), weight=0)
         
-        self.placeholderImg = CTkImage(Image.open("images/placeholder.png"), size=img_size)
+        self.img_size = (240, 160)
+        self.placeholderImg = CTkImage(Image.open("images/placeholder.png"), size=self.img_size)
         self.font = CTkFont(family="Poppins")
         self.error_window = None
 
@@ -57,16 +56,21 @@ class App(CTk):
         self.qualitybox = CTkComboBox(self, values=["720p"])
         self.qualitybox.grid(row=4, column=4, padx=(20, 10), pady=10, sticky="ew", columnspan=5)
 
-        self.testbtn = CTkButton(self, text="Teste img", command=self.update_img)
+        self.testbtn = CTkButton(self, text="Teste img", command=self.selected_thumb)
         self.testbtn.grid(row=5, column=5, padx=20, columnspan=2, sticky="nsew")
 
         self.testbtn = CTkButton(self, text="Download", command=self.download_handle)
         self.testbtn.grid(row=5, column=3, columnspan=2, sticky="nsew")
 
 
+    def selected_thumb(self):
+        get_thumbnail("selected", self.linkbox.get())
+        self.update_img
+
+
     def update_img(self):
         try:
-            self.img = CTkImage(Image.open("images/selected.png"), size=img_size)
+            self.img = CTkImage(Image.open(tempfolder + "selected.jpg"), size=self.img_size)
             self.thumbbox.configure(image=self.img)
         except FileNotFoundError:
             print("O arquivo da thumbnail nao foi encontrado.")
