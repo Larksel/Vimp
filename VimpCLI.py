@@ -81,9 +81,9 @@ def FolderMode():
 
         opcao = input("-> ")
         if opcao == "1":
-            DirManager.open_music_dir()
+            dirmanager.open_music_dir()
         elif opcao == "2":
-            DirManager.open_video_dir()
+            dirmanager.open_video_dir()
         elif opcao == "3":
             startfile(dirmanager.USER_FOLDER + r"\Desktop\Vimp Project")
         elif opcao == "0" or opcao == "":
