@@ -1,17 +1,23 @@
 from customtkinter import *
 from PIL import Image
-from src.downloader import *
+
+from src.downloader import Downloader
+from src.managers import DirManager
 
 set_appearance_mode("dark")  # Modes: system (default), light, dark
 set_default_color_theme("blue")  # Themes: blue (default), dark-blue, green
 
+dirmanager = DirManager()
+
 
 class ErrorWindow(CTkToplevel):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, message, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.geometry("400x100")
 
-        self.label = CTkLabel(self, text_color="#f22", text="O arquivo da thumbnail nao foi encontrado.")
+        self.message = message
+
+        self.label = CTkLabel(self, text_color="#f22", text=self.message)
         self.label.pack(padx=20, pady=20)
 
 
@@ -56,55 +62,53 @@ class App(CTk):
         self.qualitybox = CTkComboBox(self, values=["720p"])
         self.qualitybox.grid(row=4, column=4, padx=(20, 10), pady=10, sticky="ew", columnspan=5)
 
-        self.testbtn = CTkButton(self, text="Teste img", command=self.selected_thumb)
+        self.testbtn = CTkButton(self, text="Teste img", command=self.get_selected_thumb)
         self.testbtn.grid(row=5, column=5, padx=20, columnspan=2, sticky="nsew")
 
         self.testbtn = CTkButton(self, text="Download", command=self.download_handle)
         self.testbtn.grid(row=5, column=3, columnspan=2, sticky="nsew")
 
+    async def get_selected_thumb(self):
+        downloader = Downloader(self.linkbox.get())
+        downloader.get_thumbnail()
+        self.update_img(downloader.thumbnail_path)
 
-    def selected_thumb(self):
-        get_thumbnail("selected", self.linkbox.get())
-        self.update_img
-
-
-    def update_img(self):
+    def update_img(self, thumb_path):
         try:
-            self.img = CTkImage(Image.open(tempfolder + "selected.jpg"), size=self.img_size)
-            self.thumbbox.configure(image=self.img)
+            img = CTkImage(Image.open(thumb_path), size=self.img_size)
+            self.thumbbox.configure(image=img)
         except FileNotFoundError:
             print("O arquivo da thumbnail nao foi encontrado.")
             if self.error_window is None or not self.error_window.winfo_exists():
-                self.error_window = ErrorWindow(self)
+                self.error_window = ErrorWindow(self, "O arquivo da thumbnail nao foi encontrado.")
             else:
                 self.error_window.focus()
         finally:
             print("Tentativa de alterar imagem realizada")
 
-
     # ! parte das funcoes que pegam a info do video
     def get_video_quality(self):
         pass
-
 
     # ! Ainda falta arrumar o lag da parte visual
     def download_handle(self):
         link = self.linkbox.get()
         modo = self.modebox.get()
 
+        downloader = Downloader(link)
         self.linkbox.configure(text="")
 
         if modo == "Música":
-            get_music(link)
+            downloader.get_music()
 
         elif modo == "Vídeo":
-            get_video(link)
+            downloader.get_video()
 
         elif modo == "Playlist de Música":
-            get_music_playlist(link)
+            downloader.get_music_playlist()
 
         elif modo == "Playlist de Vídeo":
-            get_video_playlist(link)
+            downloader.get_video_playlist()
 
 
 if __name__ == "__main__":
