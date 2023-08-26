@@ -4,6 +4,7 @@ import music_tag
 
 
 class FileManager:
+    @staticmethod
     def set_audio_metadata(audiofile, titulo, thumbimg):
         file = music_tag.load_file(audiofile)
 
@@ -15,6 +16,7 @@ class FileManager:
         file.save()
 
     # Removes every non-supported character from the filename
+    @staticmethod
     def format_filename(filename):
         blacklist = set(".'?*,<;>|:\/" + '"')
         for ch in filename:
@@ -22,9 +24,10 @@ class FileManager:
                 filename = filename.replace(ch, "")
         return filename
 
+    @staticmethod
     def remove_tempfile(file):
         if os.path.exists(file):
-            os.remove(file)    
+            os.remove(file)
 
 
 class DirManager:
@@ -34,17 +37,19 @@ class DirManager:
         self.musicfolder = self.USER_FOLDER + "/Desktop/Vimp Music/"
         self.videofolder = self.USER_FOLDER + "/Desktop/Videos"
 
-    def make_dir(self, dir):
+    @staticmethod
+    def make_dir(dir):
         if not os.path.exists(dir):
             os.mkdir(dir)
 
-    def remove_dir(self, dir):
+    @staticmethod
+    def remove_dir(dir):
         if os.path.exists(dir):
             os.rmdir(dir)
 
     def open_music_dir(self):
         os.startfile(self.musicfolder)
-        
+
     def open_video_dir(self):
         os.startfile(self.videofolder)
 
@@ -54,4 +59,3 @@ class DirManager:
 
 class DependenciesManager:
     pass
-

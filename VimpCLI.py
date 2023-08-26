@@ -1,4 +1,4 @@
-from os import startfile, path, system
+from os import startfile, system
 
 from src.downloader import Downloader
 from src.managers import DirManager

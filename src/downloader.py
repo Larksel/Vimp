@@ -1,4 +1,3 @@
-from os import path
 import urllib.request
 
 from pytube import YouTube, Playlist
@@ -34,29 +33,26 @@ class Downloader:
         self.title = self.yt.title
         self.formatted_title = FileManager.format_filename(self.title)
         self.thumbnail_url = self.yt.thumbnail_url
+        self.thumbnail_path = dirmanager.tempfolder + f"{self.formatted_title}.jpg"
 
         #   Video    |     Playlist
         #     V                X        Video Unico
         #     V                V          Playlist
 
-
     # Downloads the video's thumbnail image
-    def get_thumbnail(self):
+    def get_thumbnail(self) -> None:
         opener = urllib.request.build_opener()
         opener.addheaders = [("User-Agent",
-                            "Mozilla/5.0 (Windows NT 6.1; WOW64) " +
-                            "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1941.0 Safari/537.36")]
+                              "Mozilla/5.0 (Windows NT 6.1; WOW64) " +
+                              "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1941.0 Safari/537.36")]
         urllib.request.install_opener(opener)
 
-        thumbnail_path = dirmanager.tempfolder + f"{self.title}.jpg"
         image_url = self.thumbnail_url
 
-        urllib.request.urlretrieve(image_url, thumbnail_path)
-        return thumbnail_path
-
+        urllib.request.urlretrieve(image_url, self.thumbnail_path)
 
     # Downloads the highest (max 720p) resolution of the video.
-    def get_video(self):
+    def get_video(self) -> None:
         print(f"Downloading: {self.title}")
 
         dirmanager.make_dir(dirmanager.videofolder)
@@ -64,14 +60,13 @@ class Downloader:
         video = self.yt.streams.get_highest_resolution()
         video.download(dirmanager.videofolder)
 
-
     # Downloads and converts the video in music with album art.
-    def get_music(self):
+    def get_music(self) -> None:
         # Download the video and the thumbnail to a temp file
         print(f"Downloading: {self.title}")
         dirmanager.make_dir(dirmanager.tempfolder)
 
-        thumbnail_image = self.get_thumbnail()
+        self.get_thumbnail()
 
         video = self.yt.streams.get_lowest_resolution()
         video.download(dirmanager.tempfolder)
@@ -82,32 +77,33 @@ class Downloader:
         mp4_file = dirmanager.tempfolder + f"{self.formatted_title}.mp4"
         mp3_file = dirmanager.musicfolder + f"{self.formatted_title}.mp3"
         Converter.video_to_audio(mp4_file, mp3_file)
-        FileManager.set_audio_metadata(mp3_file, self.title, thumbnail_image)
+        FileManager.set_audio_metadata(mp3_file, self.title, self.thumbnail_path)
 
         FileManager.remove_tempfile(mp4_file)
-        FileManager.remove_tempfile(thumbnail_image)
+        FileManager.remove_tempfile(self.thumbnail_path)
 
     # Downloads every music from a playlist.
-    def get_music_playlist(self):
+    def get_music_playlist(self) -> None:
         print(f"Downloading {self.pl_length} audios from {self.pl_title}")
-        
+
         for url in self.pl_list:
             downloader = Downloader(url)
             downloader.get_music()
 
-
     # Downloads every video from a playlist.
-    def get_video_playlist(self):
+    def get_video_playlist(self) -> None:
         print(f"Downloading {self.pl_length} videos from {self.pl_title}")
 
         for url in self.pl_list:
             downloader = Downloader(url)
-            downloader.get_version()
+            downloader.get_video()
 
 
 if __name__ == "__main__":
     from managers import DirManager, FileManager
     from converter import Converter
+
     dirmanager = DirManager()
 
     # Test code goes here
+    
