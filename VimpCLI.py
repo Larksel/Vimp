@@ -67,6 +67,21 @@ def ListVideo():
         downloader.get_video_playlist()
 
 
+def ThumbMode():
+    while True:
+        system("cls")
+        print("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-")
+        print("                     Download Thumbnail                     ")
+        print("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-")
+        print("0 - Go back")
+        print("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-")
+        link = input("Link: -> ")
+        if link == "0" or link == "":
+            break
+        downloader = Downloader(link)
+        downloader.get_thumbnail()
+
+
 def FolderMode():
     while True:
         system("cls")
@@ -76,7 +91,8 @@ def FolderMode():
         print("0 - Go back")
         print("1 - Music Folder")
         print("2 - Video Folder")
-        print("3 - Vimp Folder")
+        print("3 - Temp Folder")
+        print("4 - Vimp Folder")
         print("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-")
 
         opcao = input("-> ")
@@ -85,6 +101,8 @@ def FolderMode():
         elif opcao == "2":
             dirmanager.open_video_dir()
         elif opcao == "3":
+            dirmanager.open_temp_dir()
+        elif opcao == "4":
             startfile(dirmanager.USER_FOLDER + r"\Desktop\Vimp Project")
         elif opcao == "0" or opcao == "":
             break
@@ -104,7 +122,8 @@ def Home():
         print("2 - Download Music")
         print("3 - Download Music from Playlist")
         print("4 - Download Video from Playlist")
-        print("5 - Folder Navigation")
+        print("5 - Download Thumbnail")
+        print("6 - Folder Navigation")
         print("-+" * 20)
 
         opcao = input("-> ")
@@ -118,6 +137,8 @@ def Home():
         elif opcao == "4":
             ListVideo()
         elif opcao == "5":
+            ThumbMode()
+        elif opcao == "6":
             FolderMode()
         elif opcao == "0" or opcao == "":
             break
@@ -125,4 +146,5 @@ def Home():
             print("Opção inválida. Tente novamente!")
 
 
-Home()
+if __name__ == "__main__":
+    Home()
