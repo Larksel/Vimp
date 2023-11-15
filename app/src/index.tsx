@@ -1,16 +1,16 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import Rotas from './core/Rotas';
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import { ThemeProvider } from '@emotion/react';
 import { tema } from './core/tema';
 import CssBaseline from '@mui/material/CssBaseline';
-import { ThemeProvider } from '@emotion/react';
+import Rotas from './core/Rotas';
 
-const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
+const root = createRoot(document.getElementById('root') as HTMLElement);
 root.render(
-  <React.StrictMode>
+  <StrictMode>
     <ThemeProvider theme={tema}>
       <CssBaseline enableColorScheme />
       <Rotas />
     </ThemeProvider>
-  </React.StrictMode>
+  </StrictMode>
 );

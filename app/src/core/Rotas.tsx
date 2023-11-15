@@ -1,17 +1,16 @@
-import React from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import ROUTES from "./rotas.json";
 import loadable from '@loadable/component'
 
-import Home from '../paginas/home/Home';
+import HomePage from '../paginas/home/HomePage';
 
 const Carregando = () => {
   return <div>Carregando...</div>
 }
 
 // Load bundles asynchronously so that the initial render happens faster
-const NoPage = loadable(() =>
-  import('../paginas/nopage/NoPage')
+const ErrorPage = loadable(() =>
+  import('../paginas/error/ErrorPage')
 );
 
 export default function Rotas() {
@@ -19,8 +18,8 @@ export default function Rotas() {
     <div className="App">
       <BrowserRouter basename='/main_window'>
         <Routes>
-          <Route path={ROUTES.HOME} index element={<Home />} />
-          <Route path={ROUTES.NOPAGE} index element={<NoPage fallback={<Carregando />}/>} />
+          <Route path={ROUTES.HOME} index element={<HomePage />} />
+          <Route path={ROUTES.ERRORPAGE} element={<ErrorPage />} />
         </Routes>
       </BrowserRouter>
     </div>
