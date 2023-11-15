@@ -49,6 +49,7 @@
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@loadable/component": "^5.15.3",
+    "@mui/icons-material": "^5.14.18",
     "@mui/material": "^5.14.17",
     "@types/loadable__component": "^5.13.7",
     "electron-squirrel-startup": "^1.0.0",
