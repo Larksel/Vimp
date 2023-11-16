@@ -16,6 +16,8 @@ import AddIcon from '@mui/icons-material/Add';
 import sizeConfigs from '../../configs/sizeConfigs';
 import colorConfigs from '../../configs/colorConfigs';
 
+import placeholderImage from '../../assets/images/placeholder.png'
+
 /*
 const playlists = () => {
  *  // Get all playlists available
@@ -102,6 +104,10 @@ const mainListIcons = [
 const colors = colorConfigs.sidebar
 const sizes = sizeConfigs.sidebar
 
+const handleImageError = (event: React.BaseSyntheticEvent) => {
+  event.target.src = placeholderImage
+}
+
 export default function Sidebar() {
   const [selectedIndex, setSelectedIndex] = useState(0);
 
@@ -160,6 +166,7 @@ export default function Sidebar() {
           mt: '8px',
           bgcolor: colors.bg,
           borderRadius: '8px',
+          overflowX: 'hidden',
           overflowY: 'scroll',
           '&::-webkit-scrollbar': {
             width: `${sizes.scrollbar.width}`,
@@ -186,19 +193,23 @@ export default function Sidebar() {
                       borderRadius: '8px',
                     }}
                   >
-                    <Box 
+                    <Box
+                      component='img'
+                      src={playlist.imgPath}
+                      onError={handleImageError}
                       sx={{ 
-                        height: '48px', 
-                        width: '48px', 
-                        bgcolor: '#ff0', 
+                        height: `${sizeConfigs.playlist.img}`,
+                        width: `${sizeConfigs.playlist.img}`,
+                        overflow: 'hidden',
+                        bgcolor: 'primary.dark', 
                         color: 'black',
                         display: 'flex',
                         justifyContent: 'center',
                         alignItems: 'center',
-                        borderRadius: '4px'
-                      }}>
-                      Img
-                    </Box>
+                        borderRadius: '4px',
+                        objectFit: 'cover'
+                      }}
+                    />
                     <ListItemText 
                       primary={playlist.nome}
                       secondary={'Playlist'}
