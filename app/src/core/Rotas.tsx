@@ -15,13 +15,11 @@ const ErrorPage = loadable(() =>
 
 export default function Rotas() {
   return (
-    <div className="App">
-      <BrowserRouter basename='/main_window'>
-        <Routes>
-          <Route path={ROUTES.HOME} index element={<HomePage />} />
-          <Route path={ROUTES.ERRORPAGE} element={<ErrorPage />} />
-        </Routes>
-      </BrowserRouter>
-    </div>
+    <BrowserRouter basename='/main_window'>
+      <Routes>
+        <Route path={ROUTES.HOME} index element={<HomePage />} />
+        <Route path={ROUTES.ERRORPAGE} element={<ErrorPage />} />
+      </Routes>
+    </BrowserRouter>
   );
 }

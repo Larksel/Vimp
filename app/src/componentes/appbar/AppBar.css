@@ -1,0 +1,18 @@
+.app-bar {
+    background-color: #333;
+    padding: 10px;
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  button {
+    background-color: #007acc;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #005a8c;
+  }
