@@ -1,17 +1,19 @@
 const sizeConfigs = {
   sidebar: {
     width: '300px',
-    playlistHeight: '64px',
-    mainListItem: '56px',
+    playlistItem: {
+      height: '64px',
+      img: '48px',
+    },
+    mainListItem: {
+      height: '56px',
+    },
     scrollbar: {
       width: '10px'
-    }
+    },
   },
   playerControl: {
     height: '90px'
-  },
-  playlist: {
-    img: '48px'
   },
   card: {
     img: '192px'

@@ -16,7 +16,8 @@ import AddIcon from '@mui/icons-material/Add';
 import sizeConfigs from '../../configs/sizeConfigs';
 import colorConfigs from '../../configs/colorConfigs';
 
-import placeholderImage from '../../assets/images/placeholder.png'
+import SidebarItem from './SidebarItem';
+import PlaylistItem from './PlaylistItem';
 
 /*
 const playlists = () => {
@@ -26,7 +27,7 @@ const playlists = () => {
 const playlists = [
   {
     id: 1,
-    nome: 'Teste 1',
+    nome: 'Hello World',
     imgPath: '#'
     //link: '/playlist/teste1' - link to the playlist
   },
@@ -104,14 +105,10 @@ const mainListIcons = [
 const colors = colorConfigs.sidebar
 const sizes = sizeConfigs.sidebar
 
-const handleImageError = (event: React.BaseSyntheticEvent) => {
-  event.target.src = placeholderImage
-}
-
 export default function Sidebar() {
   const [selectedIndex, setSelectedIndex] = useState(0);
 
-  const handleListItemClick = (
+  const handleItemClick = (
     index: number,
   ) => {
     setSelectedIndex(index);
@@ -136,28 +133,15 @@ export default function Sidebar() {
         }}
       >
         <List> {/* Main list*/}
-          {
-            mainList.map((text, index) => {
-              return (
-                <ListItem key={text} disablePadding>
-                  <ListItemButton 
-                    selected={selectedIndex === index}
-                    onClick={() => 
-                      index !== 4 ? handleListItemClick(index) : ''
-                    }
-                    sx={{
-                      height: `${sizes.mainListItem}`
-                    }}
-                  >
-                    <ListItemIcon>
-                      {mainListIcons[index]}
-                    </ListItemIcon>
-                    <ListItemText primary={text} />
-                  </ListItemButton>
-                </ListItem>
-              )
-            })
-          }
+          {mainList.map((text, index) => (
+            <SidebarItem 
+              key={text}
+              text={text}
+              icon={mainListIcons[index]}
+              selected={selectedIndex === index}
+              onClick={() => (index !== 4 ? handleItemClick(index) : '')}
+            />
+          ))}
         </List>
       </Box>
 
@@ -182,44 +166,12 @@ export default function Sidebar() {
         }}
       >
         <List> {/* Playlist list*/}
-          {
-            playlists.map(playlist => {
-              return (
-                <ListItem key={playlist.id} disablePadding>
-                  <ListItemButton
-                    sx={{
-                      height: `${sizes.playlistHeight}`,
-                      margin: '0 8px',
-                      borderRadius: '8px',
-                    }}
-                  >
-                    <Box
-                      component='img'
-                      src={playlist.imgPath}
-                      onError={handleImageError}
-                      sx={{ 
-                        height: `${sizeConfigs.playlist.img}`,
-                        width: `${sizeConfigs.playlist.img}`,
-                        overflow: 'hidden',
-                        bgcolor: 'primary.dark', 
-                        color: 'black',
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        borderRadius: '4px',
-                        objectFit: 'cover'
-                      }}
-                    />
-                    <ListItemText 
-                      primary={playlist.nome}
-                      secondary={'Playlist'}
-                      sx={{ ml: '16px' }}
-                    />
-                  </ListItemButton>
-                </ListItem>
-              )
-            })
-          }
+          {playlists.map(playlist => (
+            <PlaylistItem 
+              key={playlist.id}
+              playlist={playlist}
+            />
+          ))}
         </List>
       </Box>
     </Box>
