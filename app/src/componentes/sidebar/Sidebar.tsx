@@ -2,10 +2,6 @@ import React, { useState } from 'react';
 
 import Box from '@mui/material/Box';
 import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
 
 import HomeIcon from '@mui/icons-material/Home';
 import SearchIcon from '@mui/icons-material/Search';
@@ -94,6 +90,7 @@ const mainList = [
   'Video Library', 
   'New Playlist'
 ]
+
 const mainListIcons = [
   <HomeIcon />, 
   <SearchIcon />, 
@@ -116,7 +113,7 @@ export default function Sidebar() {
 
   return (
     <Box
-      component='aside'
+      component='nav'
       sx={{
         p: '8px',
         width: sizes.width,
