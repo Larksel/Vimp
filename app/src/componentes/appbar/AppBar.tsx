@@ -5,16 +5,18 @@ import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 
 import sizeConfigs from '../../configs/sizeConfigs'
+import colorConfigs from '../../configs/colorConfigs'
 
 import WindowButtons from './WindowButtons'
 
 const sizes = sizeConfigs.appBar
+const colors = colorConfigs.appBar
 
 // Definição de cada parte da aplicação
 export default function AppBar() {
   return (
     <Box sx={{
-      backgroundColor: '#f0f',
+      backgroundColor: `${colors.bg}`,
       height: `${sizes.height}`,
       width: '100%',
       display: 'flex',

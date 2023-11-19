@@ -10,6 +10,14 @@ const colorConfigs = {
       thumb: 'rgba(255,255,255, 0.3)',
       track: 'rgba(50,50,50, 0.3)'
     }
+  },
+  appBar: {
+    bg: '#000',
+    buttons: {
+      text: '#fff',
+      defaultHoverBg: 'rgba(255, 255, 255, 0.3)',
+      closeHoverBg: 'rgba(255, 0, 0, 1)'
+    }
   }
 };
 

@@ -12,6 +12,13 @@ const sizeConfigs = {
       width: '10px'
     },
   },
+  appBar: {
+    height: '31px',
+    buttons: {
+      width: '45px',
+      height: '31px'
+    }
+  },
   playerControl: {
     height: '90px'
   },
