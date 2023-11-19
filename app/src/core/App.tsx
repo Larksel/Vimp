@@ -7,6 +7,8 @@ import Sidebar from '../componentes/sidebar/Sidebar';
 import Rotas from './Rotas';
 import PlayerControl from '../componentes/PlayerControl/PlayerControl';
 
+import sizeConfigs from '../configs/sizeConfigs';
+
 export default function App() {
   return (
     <Box sx={{ /* Flex column */
@@ -22,7 +24,8 @@ export default function App() {
         display: 'flex',
         flexDirection: 'row',
         width: '100%',
-        p: '8px'
+        p: '8px 8px 0',
+        height: `calc(100vh - ${sizeConfigs.playerControl.height} - ${sizeConfigs.appBar.height} - 8px)`
       }}>
         <Sidebar />
         <Box sx={{

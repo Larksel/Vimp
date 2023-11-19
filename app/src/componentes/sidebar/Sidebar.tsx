@@ -120,7 +120,7 @@ export default function Sidebar() {
         display: 'flex',
         flexDirection: 'column',
         position: 'relative',
-        height: `calc(100vh - ${sizeConfigs.playerControl.height})`,
+        height: '100%'
       }}
     >
       <Box
