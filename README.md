@@ -1,4 +1,4 @@
-# Project Vimp
+# Vimp
 
 Simple command line tool to download youtube videos and music.</p>
 
