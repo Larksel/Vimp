@@ -115,7 +115,7 @@ export default function Sidebar() {
     <Box
       component='nav'
       sx={{
-        p: '8px',
+        pr: '8px',
         width: sizes.width,
         display: 'flex',
         flexDirection: 'column',

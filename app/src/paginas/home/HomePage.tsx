@@ -1,10 +1,13 @@
 import React from 'react';
 
+import Box from '@mui/material/Box'
 
 export default function HomePage() {
   return (
     <>
-      <div>Home Page</div>
+      <Box>
+        Main Content
+      </Box>
     </>
   );
 }
