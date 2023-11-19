@@ -116,7 +116,7 @@ export default function Sidebar() {
       component='nav'
       sx={{
         pr: '8px',
-        width: sizes.width,
+        minWidth: sizes.width,
         display: 'flex',
         flexDirection: 'column',
         position: 'relative',
@@ -125,6 +125,7 @@ export default function Sidebar() {
     >
       <Box
         sx={{
+          width: '100%',
           bgcolor: colors.bg,
           borderRadius: '8px',
         }}
@@ -147,6 +148,7 @@ export default function Sidebar() {
           mt: '8px',
           bgcolor: colors.bg,
           borderRadius: '8px',
+          width: '100%',
           overflowX: 'hidden',
           overflowY: 'scroll',
           '&::-webkit-scrollbar': {

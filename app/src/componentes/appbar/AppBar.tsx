@@ -26,10 +26,7 @@ export default function AppBar() {
       WebkitUserSelection: 'none',
       WebkitAppRegion: 'drag'
     }}>
-      {/** Botão do menu lateral */}
-      Menu Button
-      
-      <Typography component='h1'>
+      <Typography component='h1' sx={{ml: '16px'}}>
         Vimp
       </Typography>
 
