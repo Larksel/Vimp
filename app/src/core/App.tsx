@@ -5,7 +5,7 @@ import Box from '@mui/material/Box'
 import AppBar from '../componentes/appbar/AppBar';
 import Sidebar from '../componentes/sidebar/Sidebar';
 import Rotas from './Rotas';
-import PlayerControl from '../componentes/PlayerControl/PlayerControl';
+import PlayerControl from '../componentes/playercontrol/PlayerControl';
 
 import sizeConfigs from '../configs/sizeConfigs';
 
