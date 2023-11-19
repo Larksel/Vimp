@@ -5,7 +5,7 @@ import Box from '@mui/material/Box'
 import AppBar from '../componentes/appbar/AppBar';
 import Sidebar from '../componentes/sidebar/Sidebar';
 import Rotas from './Rotas';
-import PlayerControl from '../componentes/playercontrol/PlayerControl';
+import PlayerControlBar from '../componentes/playercontrolbar/PlayerControlBar';
 
 import sizeConfigs from '../configs/sizeConfigs';
 
@@ -37,7 +37,7 @@ export default function App() {
           <Rotas />
         </Box>
       </Box>
-      <PlayerControl />
+      <PlayerControlBar />
     </Box>
   )
 }

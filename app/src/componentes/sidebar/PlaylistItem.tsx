@@ -41,7 +41,7 @@ export default function PlaylistItem({ playlist }: PlaylistItemProps) {
             height: `${sizes.img}`,
             width: `${sizes.img}`,
             overflow: 'hidden',
-            bgcolor: 'primary.dark',
+            bgcolor: '#EB1E79',
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
