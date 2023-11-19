@@ -1,12 +1,14 @@
 import React from 'react'
 
-import './AppBar.css'
+import Box from '@mui/material/Box'
 
 
 export default function AppBar() {
   return (
-    <div className="app-bar">
-      <button onClick={() => alert('Botão de Ação Clicado')}>Ação</button>
-    </div>
+    <Box sx={{
+      backgroundColor: '#121212',
+    }}>
+      AppBar
+    </Box>
   )
 }

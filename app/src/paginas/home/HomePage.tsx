@@ -1,10 +1,10 @@
-import Sidebar from "../../componentes/sidebar/Sidebar";
+import React from 'react';
 
 
 export default function HomePage() {
   return (
     <>
-      <Sidebar />
+      <div>Home Page</div>
     </>
   );
 }
