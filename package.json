@@ -1,6 +1,6 @@
 {
   "name": "vimp",
-  "productName": "vimp",
+  "productName": "Vimp",
   "version": "0.1.0",
   "description": "Vimp - Video/music downloader",
   "main": ".webpack/main",
