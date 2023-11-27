@@ -17,7 +17,7 @@ const menu = Menu.buildFromTemplate([
     label: 'Recarregamento Forçado',
     role: 'forceReload'
   },
-  {type: 'separator'},
+  { type: 'separator' },
   {
     label: 'Sair',
     role: 'quit'
@@ -43,7 +43,7 @@ const createWindow = (): void => {
       devTools: true
     },
   });
-  
+
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
   ipcMain.on('minimizeApp', () => {
@@ -68,7 +68,7 @@ const createWindow = (): void => {
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
-  
+
   /* //* Incluir no pacote se o app iniciar rápido
   mainWindow.on('ready-to-show', () => {
     mainWindow.show()

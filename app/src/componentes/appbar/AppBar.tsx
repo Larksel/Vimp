@@ -26,7 +26,7 @@ export default function AppBar() {
       WebkitUserSelection: 'none',
       WebkitAppRegion: 'drag'
     }}>
-      <Typography component='h1' sx={{ml: '16px'}}>
+      <Typography component='h1' sx={{ ml: '16px' }}>
         Vimp
       </Typography>
 

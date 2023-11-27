@@ -6,9 +6,9 @@ import sizeConfigs from '../../configs/sizeConfigs'
 import colorConfigs from '../../configs/colorConfigs'
 
 const buttons = [
-  { label: '-', action: () => window.electronAPI.minimize()},
-  { label: '+', action: () => window.electronAPI.maximizeOrRestore()},
-  { label: 'x', action: () => window.electronAPI.close()},
+  { label: '-', action: () => window.electronAPI.minimize() },
+  { label: '+', action: () => window.electronAPI.maximizeOrRestore() },
+  { label: 'x', action: () => window.electronAPI.close() },
 ]
 
 const sizes = sizeConfigs.appBar.buttons

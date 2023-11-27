@@ -84,18 +84,18 @@ const playlists = [
 ]
 
 const mainList = [
-  'Home', 
-  'Search', 
-  'Music Library', 
-  'Video Library', 
+  'Home',
+  'Search',
+  'Music Library',
+  'Video Library',
   'New Playlist'
 ]
 
 const mainListIcons = [
-  <HomeIcon />, 
-  <SearchIcon />, 
-  <LibraryMusicIcon />, 
-  <VideoLibraryIcon />, 
+  <HomeIcon />,
+  <SearchIcon />,
+  <LibraryMusicIcon />,
+  <VideoLibraryIcon />,
   <AddIcon />
 ]
 
@@ -132,7 +132,7 @@ export default function Sidebar() {
       >
         <List> {/* Main list*/}
           {mainList.map((text, index) => (
-            <SidebarItem 
+            <SidebarItem
               key={text}
               text={text}
               icon={mainListIcons[index]}
@@ -166,7 +166,7 @@ export default function Sidebar() {
       >
         <List> {/* Playlist list*/}
           {playlists.map(playlist => (
-            <PlaylistItem 
+            <PlaylistItem
               key={playlist.id}
               playlist={playlist}
             />
