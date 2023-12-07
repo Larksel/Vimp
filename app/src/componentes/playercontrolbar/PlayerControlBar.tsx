@@ -11,7 +11,7 @@ export default function PlayerControlBar() {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'space-between',
-      bgcolor: '#f00',
+      bgcolor: '#000',
       paddingX: '8px',
       height: `${sizes.height}`,
     }}>

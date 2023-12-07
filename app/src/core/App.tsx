@@ -18,7 +18,7 @@ export default function App() {
       width: '100%',
       height: '100vh',
       overflow: 'hidden',
-      bgcolor: '#f0f'
+      bgcolor: '#000'
     }}>
       <AppBar />
       <Box sx={{
