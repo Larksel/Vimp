@@ -2,8 +2,22 @@ import React from 'react'
 
 import Box from '@mui/material/Box'
 
+import sizeConfigs from '../../configs/sizeConfigs';
+const sizes = sizeConfigs.playerControl
+
 export default function PlayerControlBar() {
   return (
-    <div>PlayerControlBar</div>
+    <Box sx={{ 
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      bgcolor: '#f00',
+      paddingX: '8px',
+      height: `${sizes.height}`,
+    }}>
+      <p>CurrentTrack</p>
+      <p>PlayerControl</p>
+      <p>OtherButtons</p>
+    </Box>
   )
 }

@@ -19,6 +19,9 @@ const sizeConfigs = {
       height: '31px'
     }
   },
+  mainContent: {
+    height: '',
+  },
   playerControl: {
     height: '90px'
   },
@@ -26,5 +29,7 @@ const sizeConfigs = {
     img: '192px'
   }
 };
+
+sizeConfigs.mainContent.height = `calc(100vh - ${sizeConfigs.playerControl.height} - ${sizeConfigs.appBar.height})`
 
 export default sizeConfigs;

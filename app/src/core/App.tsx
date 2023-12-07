@@ -18,6 +18,7 @@ export default function App() {
       width: '100%',
       height: '100vh',
       overflow: 'hidden',
+      bgcolor: '#f0f'
     }}>
       <AppBar />
       <Box sx={{
@@ -25,7 +26,7 @@ export default function App() {
         flexDirection: 'row',
         width: '100%',
         p: '8px 8px 0',
-        height: `calc(100vh - ${sizeConfigs.playerControl.height} - ${sizeConfigs.appBar.height} - 8px)`
+        height: `${sizeConfigs.mainContent.height}`
       }}>
         <Sidebar />
         <Box sx={{
