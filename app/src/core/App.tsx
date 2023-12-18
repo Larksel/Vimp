@@ -1,11 +1,24 @@
-import React from 'react'
+import React from 'react';
 
-import Box from '@mui/material/Box'
+import Box from '@mui/material/Box';
 
-import AppBar from '../componentes/appbar/AppBar';
-import Sidebar from '../componentes/sidebar/Sidebar';
-import Rotas from './Rotas';
-import PlayerControlBar from '../componentes/playercontrolbar/PlayerControlBar';
+import loadable from '@loadable/component';
+
+const AppBar = loadable(() =>
+  import('../componentes/appbar/AppBar')
+);
+
+const Sidebar = loadable(() =>
+  import('../componentes/sidebar/Sidebar')
+);
+
+const Rotas = loadable(() =>
+  import('./Rotas')
+);
+
+const PlayerControlBar = loadable(() =>
+  import('../componentes/playercontrolbar/PlayerControlBar')
+);
 
 import sizeConfigs from '../configs/sizeConfigs';
 

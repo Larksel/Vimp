@@ -14,7 +14,7 @@ const sizes = sizeConfigs.appBar.buttons
 const colors = colorConfigs.appBar.buttons
 
 export default function AppBarButtons() {
-  const [isMaximized, setIsMaximized] = useState<boolean>()
+  const [isMaximized, setIsMaximized] = useState<boolean>() //! <--- Lógica dos botões
 
   const buttons = [
     { 

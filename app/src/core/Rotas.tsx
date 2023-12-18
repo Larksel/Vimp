@@ -3,13 +3,11 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import ROUTES from "./rotas.json";
 import loadable from '@loadable/component'
 
-import HomePage from '../paginas/home/HomePage';
-
-const Carregando = () => {
-  return <div>Carregando...</div>
-}
-
 // Load bundles asynchronously so that the initial render happens faster
+const HomePage = loadable(() =>
+  import('../paginas/home/HomePage')
+);
+
 const ErrorPage = loadable(() =>
   import('../paginas/error/ErrorPage')
 );
