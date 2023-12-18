@@ -24,8 +24,14 @@ const sizeConfigs = {
   mainContent: {
     height: '',
   },
-  playerControl: {
-    height: '90px'
+  playerControlBar: {
+    height: '90px',
+    width: '100%',
+    minWidth: '620px',
+    playerControl: {
+      width: '40%',
+      maxWidth: '722px'
+    }
   },
 
   // Content
@@ -34,6 +40,6 @@ const sizeConfigs = {
   }
 };
 
-sizeConfigs.mainContent.height = `calc(100vh - ${sizeConfigs.playerControl.height} - ${sizeConfigs.appBar.height})`
+sizeConfigs.mainContent.height = `calc(100vh - ${sizeConfigs.playerControlBar.height} - ${sizeConfigs.appBar.height})`
 
 export default sizeConfigs;
