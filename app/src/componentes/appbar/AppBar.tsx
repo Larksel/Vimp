@@ -2,12 +2,11 @@ import React from 'react'
 
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
-import Button from '@mui/material/Button'
 
 import sizeConfigs from '../../configs/sizeConfigs'
 import colorConfigs from '../../configs/colorConfigs'
 
-import WindowButtons from './WindowButtons'
+import AppBarButtons from './AppBarButtons'
 
 const sizes = sizeConfigs.appBar
 const colors = colorConfigs.appBar
@@ -18,7 +17,7 @@ export default function AppBar() {
     <Box sx={{
       backgroundColor: `${colors.bg}`,
       height: `${sizes.height}`,
-      width: '100%',
+      width: `${sizes.width}`,
       display: 'flex',
       flexDirection: 'row',
       alignItems: 'center',
@@ -26,14 +25,14 @@ export default function AppBar() {
       WebkitUserSelection: 'none',
       WebkitAppRegion: 'drag'
     }}>
-      <Typography component='h1' sx={{ ml: '16px' }}>
+      <Typography component='h1' sx={{ ml: '18px' }}>
         Vimp
       </Typography>
 
       <Box sx={{
         WebkitAppRegion: 'no-drag',
       }}>
-        <WindowButtons />
+        <AppBarButtons />
       </Box>
     </Box>
   )

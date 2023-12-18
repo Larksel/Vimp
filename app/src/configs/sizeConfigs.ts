@@ -1,4 +1,13 @@
 const sizeConfigs = {
+  // Main layout
+  appBar: {
+    height: '35px',
+    width: '100%',
+    buttons: {
+      width: '50px',
+      height: '35px'
+    }
+  },
   sidebar: {
     width: '300px',
     playlistItem: {
@@ -12,19 +21,14 @@ const sizeConfigs = {
       width: '10px'
     },
   },
-  appBar: {
-    height: '31px',
-    buttons: {
-      width: '45px',
-      height: '31px'
-    }
-  },
   mainContent: {
     height: '',
   },
   playerControl: {
     height: '90px'
   },
+
+  // Content
   card: {
     img: '192px'
   }

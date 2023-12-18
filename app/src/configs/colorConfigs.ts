@@ -1,6 +1,14 @@
 import colors from '@mui/material/colors';
 
 const colorConfigs = {
+  appBar: {
+    bg: '#000',
+    buttons: {
+      text: '#fff',
+      defaultHoverBg: 'rgba(255, 255, 255, 0.3)',
+      closeHoverBg: 'rgba(255, 0, 0, 1)'
+    }
+  },
   sidebar: {
     bg: '#121212',
     color: '#eeeeee',
@@ -11,14 +19,12 @@ const colorConfigs = {
       track: 'rgba(50,50,50, 0.3)'
     }
   },
-  appBar: {
+  mainContent: {
+    bg: '#121212',
+  },
+  playerControl: {
     bg: '#000',
-    buttons: {
-      text: '#fff',
-      defaultHoverBg: 'rgba(255, 255, 255, 0.3)',
-      closeHoverBg: 'rgba(255, 0, 0, 1)'
-    }
-  }
+  },
 };
 
 export default colorConfigs;

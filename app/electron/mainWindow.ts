@@ -24,10 +24,10 @@ const menu = Menu.buildFromTemplate([
   },
 ])
 
-let mainWindow: BrowserWindow | undefined;
+let mainWindow: BrowserWindow;
 
 const createWindow = (): void => {
-  // Create the browser window.
+  //#region window setup
   mainWindow = new BrowserWindow({
     width: 1024,
     height: 670,
@@ -35,7 +35,7 @@ const createWindow = (): void => {
     minHeight: 560,
     backgroundColor: '#000000',
     frame: false,
-    //* show: false,
+    show: false,
     webPreferences: {
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
       contextIsolation: true,
@@ -45,35 +45,33 @@ const createWindow = (): void => {
   });
 
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
-
-  ipcMain.on('minimizeApp', () => {
-    mainWindow?.minimize()
-  })
-
-  ipcMain.on('maximizeOrRestoreApp', () => {
-    if (mainWindow?.isMaximized()) {
-      mainWindow.restore()
-    } else {
-      mainWindow?.maximize()
-    }
-  })
-
-  ipcMain.on('closeApp', () => {
-    mainWindow?.close()
-  })
-
+  
   mainWindow.webContents.on('context-menu', () => {
     menu.popup({ window: mainWindow })
   })
 
-  // Open the DevTools.
-  mainWindow.webContents.openDevTools();
-
-  /* //* Incluir no pacote se o app iniciar rápido
-  mainWindow.on('ready-to-show', () => {
+  mainWindow.once('ready-to-show', () => {
     mainWindow.show()
   })
-  */
+  //#endregion
+
+  //#region ipcMain section
+  ipcMain.on('minimizeApp', () => {
+    mainWindow.minimize()
+  })
+
+  ipcMain.on('maximizeOrRestoreApp', () => {
+    if (mainWindow.isMaximized()) {
+      mainWindow.restore()
+    } else {
+      mainWindow.maximize()
+    }
+  })
+
+  ipcMain.on('closeApp', () => {
+    mainWindow.close()
+  })
+  //#endregion
 };
 
 export default createWindow;
