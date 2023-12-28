@@ -6,13 +6,19 @@ import Slider from '@mui/material/Slider';
 import Typography from '@mui/material/Typography'
 
 export default function PlaybackTrack() {
-  const [songDuration, setSongDuration] = useState(300) // segundos
-  const [songProgress, setSongProgress] = useState(210) // segundos
+  const [songDuration, setSongDuration] = useState<number>(3661) // segundos
+  const [songProgress, setSongProgress] = useState<number>(300) // segundos
 
   function formatDuration(value: number) {
-    const minute = Math.floor(value / 60);
-    const secondLeft = value - minute * 60;
-    return `${minute}:${secondLeft < 10 ? `0${secondLeft}` : secondLeft}`;
+    const hours = Math.floor(value / 3600);
+    const minutes = Math.floor((value % 3600) / 60);
+    const seconds = value % 60;
+  
+    const formattedHours = hours > 0 ? `${hours}:` : '';
+    const formattedMinutes = `${minutes < 10 ? `0${minutes}` : minutes}:`;
+    const formattedSeconds = `${seconds < 10 ? `0${seconds}` : seconds}`;
+  
+    return `${formattedHours}${formattedMinutes}${formattedSeconds}`;
   }
 
   return (
