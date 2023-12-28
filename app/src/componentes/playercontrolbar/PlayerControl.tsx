@@ -175,14 +175,14 @@ export default function PlayerControl() {
             '& .MuiSlider-thumb': {
               width: 0,
               height: 0,
-              '&:hover, &.Mui-focusVisible': {
+              '&:hover, &.Mui-focusVisible, &.Mui-active': {
                 boxShadow: 0,
               },
             },
             '&:hover .MuiSlider-track': {
               color: 'secondary.main',
             },
-            '&:hover .MuiSlider-thumb': {
+            '&:hover .MuiSlider-thumb, & .MuiSlider-thumb.Mui-active': {
               width: 12,
               height: 12
             },
