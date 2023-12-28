@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import Box from '@mui/material/Box'
 import IconButton from '@mui/material/IconButton'
-import LinearProgress from '@mui/material/LinearProgress';
+import Slider from '@mui/material/Slider';
 
 import ShuffleIcon from '@mui/icons-material/Shuffle';
 import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
@@ -20,11 +20,17 @@ const sizes = sizeConfigs.playerControlBar.playerControl
 type RepeatMode = 'off' | 'all' | 'one'
 
 export default function PlayerControl() {
-  const [isShuffled, setIsShuffled] = useState<boolean>()
-  const [isPlaying, setIsPlaying] = useState<boolean>()
+  const [isShuffled, setIsShuffled] = useState<boolean>(false)
+  const [isPlaying, setIsPlaying] = useState<boolean>(false)
   const [repeatMode, setRepeatMode] = useState<RepeatMode>('off')
-  const [songDuration, setSongDuration] = useState('5:00')
-  const [songProgress, setSongProgress] = useState('3:75')
+  const [songDuration, setSongDuration] = useState(300) // segundos
+  const [songProgress, setSongProgress] = useState(210) // segundos
+
+  function formatDuration(value: number) {
+    const minute = Math.floor(value / 60);
+    const secondLeft = value - minute * 60;
+    return `${minute}:${secondLeft < 10 ? `0${secondLeft}` : secondLeft}`;
+  }
 
   const toggleShuffle = () => {
     setIsShuffled(!isShuffled)
@@ -133,7 +139,7 @@ export default function PlayerControl() {
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'space-between',
-          gap: '8px'
+          gap: '12px',
         }}
       >
         <Typography 
@@ -143,22 +149,43 @@ export default function PlayerControl() {
             minWidth: '40px',
             textAlign: 'right',
             fontWeight: 400,
-            color: '#777'
+            color: '#777',
           }}
         >
-          {songProgress}
+          {formatDuration(songProgress)}
         </Typography>
 
-        <LinearProgress 
-          variant='determinate' 
-          value={-1}
-          color='inherit'
+        <Slider 
+          value={songProgress}
+          color='primary'
+          size='small'
+          min={0}
+          step={1}
+          max={songDuration}
+          onChange={(_, value) => setSongProgress(value as number)}
           sx={{
+            color: '#fff',
+            height: 4,
             width: '100%',
-            borderRadius: '8px',
-            '& > .MuiLinearProgress-bar': {
-              borderRadius: '8px',
-            }
+            pt: 1,
+            pb: 1,
+            '& .MuiSlider-rail': {
+              opacity: 0.28,
+            },
+            '& .MuiSlider-thumb': {
+              width: 0,
+              height: 0,
+              '&:hover, &.Mui-focusVisible': {
+                boxShadow: 0,
+              },
+            },
+            '&:hover .MuiSlider-track': {
+              color: 'secondary.main',
+            },
+            '&:hover .MuiSlider-thumb': {
+              width: 12,
+              height: 12
+            },
           }}
         />
 
@@ -169,10 +196,10 @@ export default function PlayerControl() {
             minWidth: '40px',
             textAlign: 'left',
             fontWeight: 400,
-            color: '#777'
+            color: '#777',
           }}
         >
-          {songDuration}
+          {formatDuration(songDuration)}
         </Typography>
       </Box>
     </Box>
