@@ -24,6 +24,9 @@ const colorConfigs = {
   },
   playbackConsole: {
     bg: '#000',
+    playbackControl: {
+      unfocused: '#aaa'
+    }
   },
 };
 

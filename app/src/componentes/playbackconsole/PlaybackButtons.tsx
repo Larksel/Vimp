@@ -11,6 +11,9 @@ import SkipNextIcon from '@mui/icons-material/SkipNext';
 import RepeatIcon from '@mui/icons-material/Repeat';
 import RepeatOneIcon from '@mui/icons-material/RepeatOne';
 
+import colorConfigs from '../../configs/colorConfigs';
+const colors = colorConfigs.playbackConsole.playbackControl
+
 type RepeatMode = 'off' | 'all' | 'one'
 
 export default function PlaybackButtons() {
@@ -58,22 +61,34 @@ export default function PlaybackButtons() {
         width: '100%',
         alignItems: 'center',
         gap: '16px',
-        mb: '8px',
       }}
     >
       <Box
         sx={{
           display: 'flex',
           flex: 1,
-          gap: '8px',
           justifyContent: 'flex-end'
         }}
       >
-        <IconButton onClick={toggleShuffle}>
+        <IconButton disableRipple onClick={toggleShuffle}
+          sx={{
+            color: `${colors.unfocused}`,
+            '&:hover': {
+              color: '#fff'
+            }
+          }}
+        >
           <ShuffleIcon sx={isShuffled ? { color: 'secondary.main' } : {}} />
         </IconButton>
 
-        <IconButton>
+        <IconButton disableRipple
+          sx={{
+            color: `${colors.unfocused}`,
+            '&:hover': {
+              color: '#fff'
+            }
+          }}
+        >
           <SkipPreviousIcon />
         </IconButton>
       </Box>
@@ -82,12 +97,10 @@ export default function PlaybackButtons() {
         disableRipple
         onClick={handlePlayPause}
         sx={{
-          height: '32px',
-          width: '32px',
+          height: '35px',
+          width: '35px',
           bgcolor: '#fff',
-          '& > svg': {
-            color: '#000'
-          }
+          color: '#000',
         }}
       >
         {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
@@ -97,15 +110,26 @@ export default function PlaybackButtons() {
         sx={{
           display: 'flex',
           flex: 1,
-          gap: '8px'
         }}
       >
-        <IconButton>
+        <IconButton disableRipple
+          sx={{
+            color: `${colors.unfocused}`,
+            '&:hover': {
+              color: '#fff'
+            }
+          }}
+        >
           <SkipNextIcon />
         </IconButton>
 
-        <IconButton
-          onClick={changeRepeatMode}
+        <IconButton disableRipple onClick={changeRepeatMode}
+          sx={{
+            color: `${colors.unfocused}`,
+            '&:hover': {
+              color: '#fff'
+            }
+          }}
         >
           {repeatIcons[repeatMode]}
         </IconButton>
