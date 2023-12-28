@@ -33,26 +33,32 @@ export default function PlaylistItem({ playlist }: PlaylistItemProps) {
           borderRadius: '8px',
         }}
       >
-        <Box
-          component="img"
-          src={playlist.imgPath}
-          onError={handleImageError}
-          sx={{
-            height: `${sizes.img}`,
-            width: `${sizes.img}`,
-            overflow: 'hidden',
-            bgcolor: '#EB1E79',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            borderRadius: '4px',
-            objectFit: 'cover',
-          }}
-        />
+        <Box>
+          <Box
+            component="img"
+            src={playlist.imgPath}
+            onError={handleImageError}
+            sx={{
+              height: `${sizes.img}`,
+              width: `${sizes.img}`,
+              overflow: 'hidden',
+              bgcolor: '#EB1E79',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              borderRadius: '4px',
+              objectFit: 'cover',
+            }}
+          />
+        </Box>
+
         <ListItemText
           primary={playlist.nome}
           secondary={'Playlist'}
-          sx={{ ml: '16px' }}
+          sx={{ 
+            ml: '16px',
+            whiteSpace: 'nowrap'
+          }}
         />
       </ListItemButton>
     </ListItem>
