@@ -5,6 +5,7 @@ import Box from '@mui/material/Box'
 import MusicInfo from './MusicInfo';
 import PlaybackButtons from './PlaybackButtons';
 import PlaybackTrack from './PlaybackTrack';
+import MoreOptions from './MoreOptions';
 
 import sizeConfigs from '../../configs/sizeConfigs';
 import colorConfigs from '../../configs/colorConfigs';
@@ -41,19 +42,7 @@ export default function PlaybackConsole() {
         <PlaybackTrack />
       </Box>
 
-      <Box sx={{
-        height: '100%',
-        width: '30%',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'flex-end',
-        flexDirection: 'row',
-        borderRadius: '8px',
-        padding: '0 8px',
-        gap: '8px'
-      }}>
-        <p>MoreOptions</p>
-      </Box>
+      <MoreOptions />
     </Box>
   )
 }

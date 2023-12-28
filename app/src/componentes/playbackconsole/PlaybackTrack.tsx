@@ -47,7 +47,6 @@ export default function PlaybackTrack() {
 
       <Slider
         value={songProgress}
-        color='primary'
         size='small'
         min={0}
         step={1}
