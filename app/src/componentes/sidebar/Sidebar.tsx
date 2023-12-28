@@ -3,11 +3,11 @@ import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import List from '@mui/material/List';
 
-import HomeIcon from '@mui/icons-material/Home';
-import SearchIcon from '@mui/icons-material/Search';
-import LibraryMusicIcon from '@mui/icons-material/LibraryMusic';
-import VideoLibraryIcon from '@mui/icons-material/VideoLibrary';
-import AddIcon from '@mui/icons-material/Add';
+import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
+import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
+import LibraryMusicRoundedIcon from '@mui/icons-material/LibraryMusicRounded';
+import VideoLibraryRoundedIcon from '@mui/icons-material/VideoLibraryRounded';
+import AddRoundedIcon from '@mui/icons-material/AddRounded';
 
 import sizeConfigs from '../../configs/sizeConfigs';
 import colorConfigs from '../../configs/colorConfigs';
@@ -92,11 +92,11 @@ const mainList = [
 ]
 
 const mainListIcons = [
-  <HomeIcon />,
-  <SearchIcon />,
-  <LibraryMusicIcon />,
-  <VideoLibraryIcon />,
-  <AddIcon />
+  <HomeRoundedIcon />,
+  <SearchRoundedIcon />,
+  <LibraryMusicRoundedIcon />,
+  <VideoLibraryRoundedIcon />,
+  <AddRoundedIcon />
 ]
 
 const colors = colorConfigs.sidebar

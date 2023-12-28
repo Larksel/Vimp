@@ -3,13 +3,13 @@ import React, { useState } from 'react';
 import Box from '@mui/material/Box'
 import IconButton from '@mui/material/IconButton'
 
-import ShuffleIcon from '@mui/icons-material/Shuffle';
-import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import PauseIcon from '@mui/icons-material/Pause';
-import SkipNextIcon from '@mui/icons-material/SkipNext';
-import RepeatIcon from '@mui/icons-material/Repeat';
-import RepeatOneIcon from '@mui/icons-material/RepeatOne';
+import ShuffleRoundedIcon from '@mui/icons-material/ShuffleRounded';
+import SkipPreviousRoundedIcon from '@mui/icons-material/SkipPreviousRounded';
+import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded';
+import PauseRoundedIcon from '@mui/icons-material/PauseRounded';
+import SkipNextRoundedIcon from '@mui/icons-material/SkipNextRounded';
+import RepeatRoundedIcon from '@mui/icons-material/RepeatRounded';
+import RepeatOneRoundedIcon from '@mui/icons-material/RepeatOneRounded';
 
 import colorConfigs from '../../configs/colorConfigs';
 const colors = colorConfigs.playbackConsole.playbackControl
@@ -49,27 +49,23 @@ export default function PlaybackButtons() {
   }
 
   const repeatIcons = {
-    off: <RepeatIcon />,
-    all: <RepeatIcon sx={{ color: 'secondary.main' }}/>,
-    one: <RepeatOneIcon sx={{ color: 'secondary.main' }}/>
+    off: <RepeatRoundedIcon />,
+    all: <RepeatRoundedIcon sx={{ color: 'secondary.main' }}/>,
+    one: <RepeatOneRoundedIcon sx={{ color: 'secondary.main' }}/>
   }
 
   return (
-    <Box
-      sx={{
+    <Box sx={{
+      display: 'flex',
+      width: '100%',
+      alignItems: 'center',
+      gap: '16px',
+    }}>
+      <Box sx={{
         display: 'flex',
-        width: '100%',
-        alignItems: 'center',
-        gap: '16px',
-      }}
-    >
-      <Box
-        sx={{
-          display: 'flex',
-          flex: 1,
-          justifyContent: 'flex-end'
-        }}
-      >
+        flex: 1,
+        justifyContent: 'flex-end'
+      }}>
         <IconButton disableRipple onClick={toggleShuffle}
           sx={{
             color: `${colors.unfocused}`,
@@ -78,7 +74,7 @@ export default function PlaybackButtons() {
             }
           }}
         >
-          <ShuffleIcon sx={isShuffled ? { color: 'secondary.main' } : {}} />
+          <ShuffleRoundedIcon sx={isShuffled ? { color: 'secondary.main' } : {}} />
         </IconButton>
 
         <IconButton disableRipple
@@ -89,7 +85,7 @@ export default function PlaybackButtons() {
             }
           }}
         >
-          <SkipPreviousIcon />
+          <SkipPreviousRoundedIcon />
         </IconButton>
       </Box>
 
@@ -103,15 +99,13 @@ export default function PlaybackButtons() {
           color: '#000',
         }}
       >
-        {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
+        {isPlaying ? <PauseRoundedIcon /> : <PlayArrowRoundedIcon />}
       </IconButton>
 
-      <Box
-        sx={{
-          display: 'flex',
-          flex: 1,
-        }}
-      >
+      <Box sx={{
+        display: 'flex',
+        flex: 1,
+      }}>
         <IconButton disableRipple
           sx={{
             color: `${colors.unfocused}`,
@@ -120,7 +114,7 @@ export default function PlaybackButtons() {
             }
           }}
         >
-          <SkipNextIcon />
+          <SkipNextRoundedIcon />
         </IconButton>
 
         <IconButton disableRipple onClick={changeRepeatMode}
