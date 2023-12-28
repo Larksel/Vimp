@@ -31,6 +31,12 @@ const sizeConfigs = {
     playbackControl: {
       width: '40%',
       maxWidth: '722px'
+    },
+    musicInfo: {
+      width: '30%'
+    },
+    moreOptions: {
+      width: '30%'
     }
   },
 

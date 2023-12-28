@@ -2,6 +2,7 @@ import React from 'react'
 
 import Box from '@mui/material/Box'
 
+import MusicInfo from './MusicInfo';
 import PlaybackButtons from './PlaybackButtons';
 import PlaybackTrack from './PlaybackTrack';
 
@@ -24,7 +25,10 @@ export default function PlaybackConsole() {
       minWidth: `${sizes.minWidth}`,
       zIndex: 6
     }}>
-      <p>CurrentTrack</p>
+      <MusicInfo
+        titulo='Hello World'
+        artista='Dinosaurs'
+      />
 
       <Box sx={{
         width: `${sizes.playbackControl.width}`,
@@ -37,7 +41,19 @@ export default function PlaybackConsole() {
         <PlaybackTrack />
       </Box>
 
-      <p>OtherButtons</p>
+      <Box sx={{
+        height: '100%',
+        width: '30%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'flex-end',
+        flexDirection: 'row',
+        borderRadius: '8px',
+        padding: '0 8px',
+        gap: '8px'
+      }}>
+        <p>MoreOptions</p>
+      </Box>
     </Box>
   )
 }
