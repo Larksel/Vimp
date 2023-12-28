@@ -22,7 +22,7 @@ const colorConfigs = {
   mainContent: {
     bg: '#121212',
   },
-  playerControl: {
+  playbackConsole: {
     bg: '#000',
   },
 };

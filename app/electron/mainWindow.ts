@@ -45,13 +45,13 @@ const createWindow = (): void => {
   });
 
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
-  
-  mainWindow.webContents.on('context-menu', () => {
-    menu.popup({ window: mainWindow })
-  })
 
   mainWindow.once('ready-to-show', () => {
     mainWindow.show()
+  })
+  
+  mainWindow.webContents.on('context-menu', () => {
+    menu.popup({ window: mainWindow })
   })
   //#endregion
 

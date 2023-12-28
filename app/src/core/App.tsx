@@ -2,29 +2,16 @@ import React from 'react';
 
 import Box from '@mui/material/Box';
 
-import loadable from '@loadable/component';
-
-const AppBar = loadable(() =>
-  import('../componentes/appbar/AppBar')
-);
-
-const Sidebar = loadable(() =>
-  import('../componentes/sidebar/Sidebar')
-);
-
-const Rotas = loadable(() =>
-  import('./Rotas')
-);
-
-const PlayerControlBar = loadable(() =>
-  import('../componentes/playercontrolbar/PlayerControlBar')
-);
+import AppBar from '../componentes/appbar/AppBar';
+import Sidebar from '../componentes/sidebar/Sidebar';
+import Rotas from './Rotas';
+import PlaybackConsole from '../componentes/playbackconsole/PlaybackConsole'
 
 import sizeConfigs from '../configs/sizeConfigs';
 
 export default function App() {
   return (
-    <Box sx={{ /* Flex column */
+    <Box sx={{
       display: 'flex',
       flexDirection: 'column',
       flexWrap: 'nowrap',
@@ -51,7 +38,7 @@ export default function App() {
           <Rotas />
         </Box>
       </Box>
-      <PlayerControlBar />
+      <PlaybackConsole />
     </Box>
   )
 }
