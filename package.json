@@ -53,10 +53,13 @@
     "@loadable/component": "^5.15.3",
     "@mui/icons-material": "^5.14.18",
     "@mui/material": "^5.14.17",
+    "@reduxjs/toolkit": "^2.0.1",
     "@types/loadable__component": "^5.13.7",
     "electron-squirrel-startup": "^1.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-redux": "^9.0.4",
+    "redux": "^5.0.1",
     "webpack": "^5.89.0"
   }
 }
