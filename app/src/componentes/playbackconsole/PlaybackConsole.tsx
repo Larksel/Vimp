@@ -27,8 +27,8 @@ export default function PlaybackConsole() {
       zIndex: 6
     }}>
       <MusicInfo
-        titulo='Hello World'
-        artista='Dinosaurs'
+        title='Hello World'
+        artist='Dinosaurs'
       />
 
       <Box sx={{

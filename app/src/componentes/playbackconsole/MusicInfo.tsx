@@ -6,12 +6,12 @@ import Typography from '@mui/material/Typography'
 import placeholderImage from '../../assets/images/placeholder.png'
 
 interface MusicInfoProps {
-  titulo: string;
-  artista: string;
+  title: string;
+  artist: string;
   // img?: any;
 }
 
-export default function MusicInfo({ titulo, artista }: MusicInfoProps) {
+export default function MusicInfo({ title, artist }: MusicInfoProps) {
   return (
     <Box sx={{
       height: '100%',
@@ -38,6 +38,7 @@ export default function MusicInfo({ titulo, artista }: MusicInfoProps) {
             alignItems: 'center',
             borderRadius: '4px',
             objectFit: 'cover',
+            userSelect: 'none',
           }}
         />
       </Box>
@@ -49,10 +50,10 @@ export default function MusicInfo({ titulo, artista }: MusicInfoProps) {
         whiteSpace: 'nowrap'
       }}>
         <Typography variant='body1'>
-          {titulo}
+          {title}
         </Typography>
-        <Typography variant='caption'>
-          {artista}
+        <Typography variant='caption' color="text.secondary">
+          {artist}
         </Typography>
       </Box>
     </Box>

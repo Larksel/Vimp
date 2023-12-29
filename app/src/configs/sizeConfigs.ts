@@ -41,6 +41,8 @@ const sizeConfigs = {
   },
 
   // Content
+  scrollbar: '10px',
+
   card: {
     img: '192px'
   }

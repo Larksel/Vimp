@@ -8,6 +8,7 @@ import Rotas from './Rotas';
 import PlaybackConsole from '../componentes/playbackconsole/PlaybackConsole'
 
 import sizeConfigs from '../configs/sizeConfigs';
+import colorConfigs from '../configs/colorConfigs';
 
 export default function App() {
   return (
@@ -33,7 +34,19 @@ export default function App() {
           bgcolor: '#121212',
           borderRadius: '8px',
           width: '100%',
-          overflow: 'hidden'
+          overflow: 'hidden',
+          overflowY: 'scroll',
+          '&::-webkit-scrollbar': {
+            width: `${sizeConfigs.scrollbar}`,
+          },
+          '&::-webkit-scrollbar-thumb': {
+            backgroundColor: `${colorConfigs.scrollbar.thumb}`,
+            borderRadius: '8px',
+          },
+          '&::-webkit-scrollbar-track': {
+            backgroundColor: `${colorConfigs.scrollbar.track}`,
+            borderRadius: '8px',
+          },
         }}>
           <Rotas />
         </Box>

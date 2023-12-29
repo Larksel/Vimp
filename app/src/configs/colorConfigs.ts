@@ -28,6 +28,11 @@ const colorConfigs = {
       unfocused: '#aaa'
     }
   },
+
+  scrollbar: {
+    thumb: 'rgba(255,255,255, 0.3)',
+    track: 'rgba(50,50,50, 0)'
+  }
 };
 
 export default colorConfigs;
