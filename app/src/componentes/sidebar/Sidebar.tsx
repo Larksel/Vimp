@@ -24,90 +24,88 @@ const playlists = [
   {
     id: 1,
     nome: 'Hello World',
-    imgPath: '#'
+    imgPath: '#',
     //link: '/playlist/teste1' - link to the playlist
   },
   {
     id: 2,
     nome: 'Teste 2',
-    imgPath: '#'
+    imgPath: '#',
     //link: '/playlist/teste2' - link to the playlist
   },
   {
     id: 3,
     nome: 'Teste 3',
-    imgPath: '#'
+    imgPath: '#',
     //link: '/playlist/teste3' - link to the playlist
   },
   {
     id: 4,
     nome: 'Teste 4',
-    imgPath: '#'
+    imgPath: '#',
     //link: '/playlist/teste4' - link to the playlist
   },
   {
     id: 5,
     nome: 'Teste 5',
-    imgPath: '#'
+    imgPath: '#',
     //link: '/playlist/teste5' - link to the playlist
   },
   {
     id: 6,
     nome: 'Teste 6',
-    imgPath: '#'
+    imgPath: '#',
     //link: '/playlist/teste6' - link to the playlist
   },
   {
     id: 7,
     nome: 'Teste 7',
-    imgPath: '#'
+    imgPath: '#',
     //link: '/playlist/teste7' - link to the playlist
   },
   {
     id: 8,
     nome: 'Teste 8',
-    imgPath: '#'
+    imgPath: '#',
     //link: '/playlist/teste8' - link to the playlist
   },
   {
     id: 9,
     nome: 'Teste 9',
-    imgPath: '#'
+    imgPath: '#',
     //link: '/playlist/teste9' - link to the playlist
   },
   {
     id: 10,
     nome: 'Teste 10',
-    imgPath: '#'
+    imgPath: '#',
     //link: '/playlist/teste10' - link to the playlist
   },
-]
+];
 
 const mainList = [
   'Home',
   'Search',
   'Music Library',
   'Video Library',
-  'New Playlist'
-]
+  'New Playlist',
+];
 
 const mainListIcons = [
   <HomeRoundedIcon />,
   <SearchRoundedIcon />,
   <LibraryMusicRoundedIcon />,
   <VideoLibraryRoundedIcon />,
-  <AddRoundedIcon />
-]
+  <AddRoundedIcon />,
+];
 
-const colors = colorConfigs.sidebar
-const sizes = sizeConfigs.sidebar
+const colors = colorConfigs.sidebar;
+const sizes = sizeConfigs.sidebar;
 
 export default function Sidebar() {
   const [selectedIndex, setSelectedIndex] = useState(0);
 
-  const handleItemClick = (
-    index: number,
-  ) => {
+  const handleItemClick = (index: number) => {
     setSelectedIndex(index);
   };
 
@@ -120,7 +118,7 @@ export default function Sidebar() {
         display: 'flex',
         flexDirection: 'column',
         position: 'relative',
-        height: '100%'
+        height: '100%',
       }}
     >
       <Box
@@ -130,7 +128,9 @@ export default function Sidebar() {
           borderRadius: '8px',
         }}
       >
-        <List> {/* Main list*/}
+        <List>
+          {' '}
+          {/* Main list*/}
           {mainList.map((text, index) => (
             <SidebarItem
               key={text}
@@ -164,12 +164,11 @@ export default function Sidebar() {
           },
         }}
       >
-        <List> {/* Playlist list*/}
-          {playlists.map(playlist => (
-            <PlaylistItem
-              key={playlist.id}
-              playlist={playlist}
-            />
+        <List>
+          {' '}
+          {/* Playlist list*/}
+          {playlists.map((playlist) => (
+            <PlaylistItem key={playlist.id} playlist={playlist} />
           ))}
         </List>
       </Box>

@@ -24,10 +24,10 @@ const config: ForgeConfig = {
         entryPoints: [
           {
             html: './app/src/index.html',
-            js: './app/electron/renderer.ts',
+            js: './app/src/index.tsx',
             name: 'main_window',
             preload: {
-              js: './app/electron/preload.ts',
+              js: './app/main/preload.ts',
             },
           },
         ],

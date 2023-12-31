@@ -1,38 +1,39 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react';
 
-import Button from '@mui/material/Button'
+import Button from '@mui/material/Button';
 
-import sizeConfigs from '../../configs/sizeConfigs'
-import colorConfigs from '../../configs/colorConfigs'
+import sizeConfigs from '../../configs/sizeConfigs';
+import colorConfigs from '../../configs/colorConfigs';
 
 import HorizontalRuleSharpIcon from '@mui/icons-material/HorizontalRuleSharp';
 import CropSquareSharpIcon from '@mui/icons-material/CropSquareSharp';
 import FilterNoneSharpIcon from '@mui/icons-material/FilterNoneSharp';
 import CloseSharpIcon from '@mui/icons-material/CloseSharp';
 
-const sizes = sizeConfigs.appBar.buttons
-const colors = colorConfigs.appBar.buttons
+const sizes = sizeConfigs.appBar.buttons;
+const colors = colorConfigs.appBar.buttons;
 
 export default function AppBarButtons() {
-  const [isMaximized, setIsMaximized] = useState<boolean>() //! <--- Lógica dos botões
+  const [isMaximized, setIsMaximized] = useState<boolean>(); //TODO <--- Lógica dos botões
 
   const buttons = [
-    { 
-      label: <HorizontalRuleSharpIcon sx={{ fontSize: '18px' }} />, 
-      action: () => window.electronAPI.minimize() 
+    {
+      label: <HorizontalRuleSharpIcon sx={{ fontSize: '18px' }} />,
+      action: () => window.app.minimize(),
     },
-    { 
-      label: isMaximized ? 
-      <FilterNoneSharpIcon sx={{ rotate: '180deg', fontSize: '14px' }} /> 
-      : <CropSquareSharpIcon sx={{ fontSize: '17px' }} />, 
-      action: () => window.electronAPI.maximizeOrRestore()
+    {
+      label: isMaximized ? (
+        <FilterNoneSharpIcon sx={{ rotate: '180deg', fontSize: '14px' }} />
+      ) : (
+        <CropSquareSharpIcon sx={{ fontSize: '17px' }} />
+      ),
+      action: () => window.app.maximizeOrRestore(),
     },
-    { 
-      label: <CloseSharpIcon sx={{ fontSize: '18px' }} />, 
-      action: () => window.electronAPI.close()
+    {
+      label: <CloseSharpIcon sx={{ fontSize: '18px' }} />,
+      action: () => window.app.close(),
     },
-  ]
-  
+  ];
 
   return (
     <>
@@ -47,14 +48,16 @@ export default function AppBarButtons() {
             width: `${sizes.width}`,
             height: `${sizes.height}`,
             color: `${colors.text}`,
-            ":hover": {
-              bgcolor: `${index !== 2 ? colors.defaultHoverBg : colors.closeHoverBg}`
-            }
+            ':hover': {
+              bgcolor: `${
+                index !== 2 ? colors.defaultHoverBg : colors.closeHoverBg
+              }`,
+            },
           }}
         >
           {button.label}
         </Button>
       ))}
     </>
-  )
+  );
 }

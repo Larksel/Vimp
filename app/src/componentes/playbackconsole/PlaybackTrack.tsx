@@ -1,23 +1,23 @@
 import React, { useState } from 'react';
 
-import Box from '@mui/material/Box'
+import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
 
-import Typography from '@mui/material/Typography'
+import Typography from '@mui/material/Typography';
 
 export default function PlaybackTrack() {
-  const [songDuration, setSongDuration] = useState<number>(3661) // segundos
-  const [songProgress, setSongProgress] = useState<number>(300) // segundos
+  const [songDuration, setSongDuration] = useState<number>(3661); // segundos
+  const [songProgress, setSongProgress] = useState<number>(300); // segundos
 
   function formatDuration(value: number) {
     const hours = Math.floor(value / 3600);
     const minutes = Math.floor((value % 3600) / 60);
     const seconds = value % 60;
-  
+
     const formattedHours = hours > 0 ? `${hours}:` : '';
     const formattedMinutes = `${minutes < 10 ? `0${minutes}` : minutes}:`;
     const formattedSeconds = `${seconds < 10 ? `0${seconds}` : seconds}`;
-  
+
     return `${formattedHours}${formattedMinutes}${formattedSeconds}`;
   }
 
@@ -73,7 +73,7 @@ export default function PlaybackTrack() {
           },
           '&:hover .MuiSlider-thumb, & .MuiSlider-thumb.Mui-active': {
             width: 12,
-            height: 12
+            height: 12,
           },
         }}
       />
@@ -91,5 +91,5 @@ export default function PlaybackTrack() {
         {formatDuration(songDuration)}
       </Typography>
     </Box>
-  )
+  );
 }

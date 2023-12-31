@@ -1,9 +1,9 @@
-import React from 'react'
+import React from 'react';
 
-import Box from '@mui/material/Box'
-import Typography from '@mui/material/Typography'
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 
-import placeholderImage from '../../assets/images/placeholder.png'
+import placeholderImage from '../../assets/images/placeholder.png';
 
 interface MusicInfoProps {
   title: string;
@@ -13,20 +13,22 @@ interface MusicInfoProps {
 
 export default function MusicInfo({ title, artist }: MusicInfoProps) {
   return (
-    <Box sx={{
-      height: '100%',
-      width: '30%',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'flex-start',
-      flexDirection: 'row',
-      borderRadius: '8px',
-      padding: '0 8px',
-      gap: '8px',
-    }}>
+    <Box
+      sx={{
+        height: '100%',
+        width: '30%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        flexDirection: 'row',
+        borderRadius: '8px',
+        padding: '0 8px',
+        gap: '8px',
+      }}
+    >
       <Box>
         <Box
-          component="img"
+          component='img'
           src={placeholderImage}
           sx={{
             height: '60px',
@@ -43,19 +45,19 @@ export default function MusicInfo({ title, artist }: MusicInfoProps) {
         />
       </Box>
 
-      <Box sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        overflow: 'hidden',
-        whiteSpace: 'nowrap'
-      }}>
-        <Typography variant='body1'>
-          {title}
-        </Typography>
-        <Typography variant='caption' color="text.secondary">
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          overflow: 'hidden',
+          whiteSpace: 'nowrap',
+        }}
+      >
+        <Typography variant='body1'>{title}</Typography>
+        <Typography variant='caption' color='text.secondary'>
           {artist}
         </Typography>
       </Box>
     </Box>
-  )
+  );
 }

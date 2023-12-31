@@ -7,7 +7,7 @@ import ListItemText from '@mui/material/ListItemText';
 
 import sizeConfigs from '../../configs/sizeConfigs';
 
-import placeholderImage from '../../assets/images/placeholder.png'
+import placeholderImage from '../../assets/images/placeholder.png';
 
 interface PlaylistItemProps {
   playlist: {
@@ -18,10 +18,10 @@ interface PlaylistItemProps {
 }
 
 const handleImageError = (event: React.BaseSyntheticEvent) => {
-  event.target.src = placeholderImage
-}
+  event.target.src = placeholderImage;
+};
 
-const sizes = sizeConfigs.sidebar.playlistItem
+const sizes = sizeConfigs.sidebar.playlistItem;
 
 export default function PlaylistItem({ playlist }: PlaylistItemProps) {
   return (
@@ -35,7 +35,7 @@ export default function PlaylistItem({ playlist }: PlaylistItemProps) {
       >
         <Box>
           <Box
-            component="img"
+            component='img'
             src={playlist.imgPath}
             onError={handleImageError}
             sx={{
@@ -55,9 +55,9 @@ export default function PlaylistItem({ playlist }: PlaylistItemProps) {
         <ListItemText
           primary={playlist.nome}
           secondary={'Playlist'}
-          sx={{ 
+          sx={{
             ml: '16px',
-            whiteSpace: 'nowrap'
+            whiteSpace: 'nowrap',
           }}
         />
       </ListItemButton>

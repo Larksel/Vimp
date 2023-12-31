@@ -3,39 +3,44 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
-import GenericCard from '../../componentes/genericcard/GenericCard';
+import GenericCard from '../../componentes/GenericCard/GenericCard';
 
 //TODO Implementar a lógica do scroll horizontal
 //TODO Criar componente para generalizar as listas horizontais
 //TODO Criar componente para o cabeçalho das páginas
+//TODO Consertar tamanho dos cards quando a tela está pequena
 
 export default function HomePage() {
   return (
     <>
-      <Box sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        p: '16px'
-      }}>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          p: '16px',
+        }}
+      >
         <Box>Header</Box>
         <Box>
           <Typography>Músicas recentes</Typography>
-          <Box sx={{
-            display: 'flex',
-            flexDirection: 'row',
-            gap: '24px',
-          }}>
-            <GenericCard 
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'row',
+              gap: '24px',
+            }}
+          >
+            <GenericCard
               title='Titulo'
               subtitle='Artista'
               action={() => console.log('card clicado')}
             />
-            <GenericCard 
+            <GenericCard
               title='Titulo'
               subtitle='Artista'
               action={() => console.log('card clicado')}
             />
-            <GenericCard 
+            <GenericCard
               title='Titulo'
               subtitle='Artista'
               action={() => console.log('card clicado')}
@@ -43,22 +48,24 @@ export default function HomePage() {
           </Box>
           <br />
           <Typography>Favoritas</Typography>
-          <Box sx={{
-            display: 'flex',
-            flexDirection: 'row',
-            gap: '24px'
-          }}>
-            <GenericCard 
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'row',
+              gap: '24px',
+            }}
+          >
+            <GenericCard
               title='Titulo'
               subtitle='Artista'
               action={() => console.log('card clicado')}
             />
-            <GenericCard 
+            <GenericCard
               title='Titulo'
               subtitle='Artista'
               action={() => console.log('card clicado')}
             />
-            <GenericCard 
+            <GenericCard
               title='Titulo'
               subtitle='Artista'
               action={() => console.log('card clicado')}
@@ -66,22 +73,24 @@ export default function HomePage() {
           </Box>
           <br />
           <Typography>Playlists</Typography>
-          <Box sx={{
-            display: 'flex',
-            flexDirection: 'row',
-            gap: '24px'
-          }}>
-            <GenericCard 
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'row',
+              gap: '24px',
+            }}
+          >
+            <GenericCard
               title='Titulo'
               subtitle='Artista'
               action={() => console.log('card clicado')}
             />
-            <GenericCard 
+            <GenericCard
               title='Titulo'
               subtitle='Artista'
               action={() => console.log('card clicado')}
             />
-            <GenericCard 
+            <GenericCard
               title='Titulo'
               subtitle='Artista'
               action={() => console.log('card clicado')}
@@ -89,22 +98,24 @@ export default function HomePage() {
           </Box>
           <br />
           <Typography>Mais tocadas</Typography>
-          <Box sx={{
-            display: 'flex',
-            flexDirection: 'row',
-            gap: '24px'
-          }}>
-            <GenericCard 
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'row',
+              gap: '24px',
+            }}
+          >
+            <GenericCard
               title='Titulo'
               subtitle='Artista'
               action={() => console.log('card clicado')}
             />
-            <GenericCard 
+            <GenericCard
               title='Titulo'
               subtitle='Artista'
               action={() => console.log('card clicado')}
             />
-            <GenericCard 
+            <GenericCard
               title='Titulo'
               subtitle='Artista'
               action={() => console.log('card clicado')}

@@ -5,8 +5,8 @@ const sizeConfigs = {
     width: '100%',
     buttons: {
       width: '50px',
-      height: '35px'
-    }
+      height: '35px',
+    },
   },
   sidebar: {
     width: '300px',
@@ -18,7 +18,7 @@ const sizeConfigs = {
       height: '56px',
     },
     scrollbar: {
-      width: '10px'
+      width: '10px',
     },
   },
   mainContent: {
@@ -30,24 +30,24 @@ const sizeConfigs = {
     minWidth: '620px',
     playbackControl: {
       width: '40%',
-      maxWidth: '722px'
+      maxWidth: '722px',
     },
     musicInfo: {
-      width: '30%'
+      width: '30%',
     },
     moreOptions: {
-      width: '30%'
-    }
+      width: '30%',
+    },
   },
 
   // Content
   scrollbar: '10px',
 
   card: {
-    img: '192px'
-  }
+    img: '192px',
+  },
 };
 
-sizeConfigs.mainContent.height = `calc(100vh - ${sizeConfigs.playbackConsole.height} - ${sizeConfigs.appBar.height})`
+sizeConfigs.mainContent.height = `calc(100vh - ${sizeConfigs.playbackConsole.height} - ${sizeConfigs.appBar.height})`;
 
 export default sizeConfigs;

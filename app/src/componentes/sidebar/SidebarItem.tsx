@@ -14,16 +14,21 @@ interface SidebarItemProps {
   onClick: () => void;
 }
 
-const sizes = sizeConfigs.sidebar.mainListItem
+const sizes = sizeConfigs.sidebar.mainListItem;
 
-export default function SidebarItem({ text, icon, selected, onClick }: SidebarItemProps) {
+export default function SidebarItem({
+  text,
+  icon,
+  selected,
+  onClick,
+}: SidebarItemProps) {
   return (
     <ListItem disablePadding>
       <ListItemButton
         selected={selected}
         onClick={onClick}
         sx={{
-          height: `${sizes.height}`
+          height: `${sizes.height}`,
         }}
       >
         <ListItemIcon>{icon}</ListItemIcon>

@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 
-import Box from '@mui/material/Box'
-import IconButton from '@mui/material/IconButton'
+import Box from '@mui/material/Box';
+import IconButton from '@mui/material/IconButton';
 import Slider from '@mui/material/Slider';
 
 import VolumeOffRoundedIcon from '@mui/icons-material/VolumeOffRounded';
@@ -12,9 +12,9 @@ import VolumeUpRoundedIcon from '@mui/icons-material/VolumeUpRounded';
 const volumeIconStyle = {
   color: '#aaa',
   '&:hover': {
-    color: '#fff'
-  }
-}
+    color: '#fff',
+  },
+};
 
 export default function VolumeControl() {
   const [volume, setVolume] = useState<number>(55);
@@ -22,59 +22,59 @@ export default function VolumeControl() {
 
   const handleMute = () => {
     if (!isMuted) {
-      setIsMuted(true)
+      setIsMuted(true);
     } else {
-      setIsMuted(false)
+      setIsMuted(false);
     }
-  }
+  };
 
   const handleVolumeChange = (value: number) => {
     if (isMuted) {
-      setIsMuted(!isMuted)
+      setIsMuted(!isMuted);
     }
-    setVolume(value)
-  }
+    setVolume(value);
+  };
 
   const volumeIcons = () => {
     if (volume === 0 || isMuted) {
-      return <VolumeOffRoundedIcon sx={volumeIconStyle}/>
-
+      return <VolumeOffRoundedIcon sx={volumeIconStyle} />;
     } else if (volume >= 1 && volume <= 33) {
-      return <VolumeMuteRoundedIcon sx={volumeIconStyle}/>
-
+      return <VolumeMuteRoundedIcon sx={volumeIconStyle} />;
     } else if (volume >= 34 && volume <= 66) {
-      return <VolumeDownRoundedIcon sx={volumeIconStyle}/>
+      return <VolumeDownRoundedIcon sx={volumeIconStyle} />;
     } else {
-      return <VolumeUpRoundedIcon sx={volumeIconStyle}/>
+      return <VolumeUpRoundedIcon sx={volumeIconStyle} />;
     }
-  }
+  };
 
   return (
-    <Box sx={{
-      display: 'flex',
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'center',
-      gap: '8px'
-    }}>
-      <IconButton 
-        disableRipple 
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: '8px',
+      }}
+    >
+      <IconButton
+        disableRipple
         onClick={handleMute}
         sx={{
           p: 0,
           '& svg': {
-            fontSize: '24px'
+            fontSize: '24px',
           },
         }}
       >
         {volumeIcons()}
       </IconButton>
 
-      <Slider 
-        value={volume} 
+      <Slider
+        value={volume}
         onChange={(_, value) => handleVolumeChange(value as number)}
         size='small'
-        valueLabelDisplay="auto"
+        valueLabelDisplay='auto'
         min={0}
         max={100}
         step={1}
@@ -101,7 +101,7 @@ export default function VolumeControl() {
           },
           '&:hover .MuiSlider-thumb, & .MuiSlider-thumb.Mui-active': {
             width: 16,
-            height: 16
+            height: 16,
           },
           '& .MuiSlider-valueLabel': {
             lineHeight: 1.2,
@@ -125,5 +125,5 @@ export default function VolumeControl() {
         }}
       />
     </Box>
-  )
+  );
 }
