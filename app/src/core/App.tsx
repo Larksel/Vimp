@@ -43,15 +43,15 @@ export default function App() {
             overflow: 'hidden',
             overflowY: 'auto',
             '&::-webkit-scrollbar': {
-              width: `${sizeConfigs.scrollbar}`,
+              width: `${sizeConfigs.scrollbarSize}`,
             },
             '&::-webkit-scrollbar-thumb': {
               backgroundColor: `${colorConfigs.scrollbar.thumb}`,
-              borderRadius: '8px',
+              borderRadius: `${sizeConfigs.scrollbarRadius}`,
             },
             '&::-webkit-scrollbar-track': {
               backgroundColor: `${colorConfigs.scrollbar.track}`,
-              borderRadius: '8px',
+              borderRadius: `${sizeConfigs.scrollbarRadius}`,
             },
           }}
         >

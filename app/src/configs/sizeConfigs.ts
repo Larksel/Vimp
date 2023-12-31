@@ -17,9 +17,6 @@ const sizeConfigs = {
     mainListItem: {
       height: '56px',
     },
-    scrollbar: {
-      width: '10px',
-    },
   },
   mainContent: {
     height: '',
@@ -41,7 +38,8 @@ const sizeConfigs = {
   },
 
   // Content
-  scrollbar: '10px',
+  scrollbarSize: '8px',
+  scrollbarRadius: '8px',
 
   card: {
     img: '192px',

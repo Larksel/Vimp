@@ -27,15 +27,15 @@ export default function CardList({ data }: CardListProps) {
         overflowY: 'hidden',
         overflowX: 'auto',
         '&::-webkit-scrollbar': {
-          height: `${sizeConfigs.scrollbar}`,
+          height: `${sizeConfigs.scrollbarSize}`,
         },
         '&::-webkit-scrollbar-thumb': {
           backgroundColor: `${colorConfigs.scrollbar.thumb}`,
-          borderRadius: '8px',
+          borderRadius: `${sizeConfigs.scrollbarRadius}`,
         },
         '&::-webkit-scrollbar-track': {
           backgroundColor: `${colorConfigs.scrollbar.track}`,
-          borderRadius: '8px',
+          borderRadius: `${sizeConfigs.scrollbarRadius}`,
         },
       }}
     >
