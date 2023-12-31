@@ -113,12 +113,12 @@ export default function Sidebar() {
     <Box
       component='nav'
       sx={{
-        pr: '8px',
         minWidth: sizes.width,
         display: 'flex',
         flexDirection: 'column',
         position: 'relative',
         height: '100%',
+        gap: '8px',
       }}
     >
       <Box
@@ -145,7 +145,6 @@ export default function Sidebar() {
 
       <Box
         sx={{
-          mt: '8px',
           bgcolor: colors.bg,
           borderRadius: '8px',
           width: '100%',

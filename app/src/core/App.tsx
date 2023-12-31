@@ -30,6 +30,7 @@ export default function App() {
           flexDirection: 'row',
           width: '100%',
           p: '8px 8px 0',
+          gap: '8px',
           height: `${sizeConfigs.mainContent.height}`,
         }}
       >

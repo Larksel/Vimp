@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import ROUTES from './rotas.json';
+import ROUTES from './routes';
 //import loadable from '@loadable/component'
 import HomePage from '../paginas/Home/HomePage';
 

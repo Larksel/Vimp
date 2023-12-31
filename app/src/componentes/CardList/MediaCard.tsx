@@ -7,7 +7,7 @@ import CardContent from '@mui/material/CardContent';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 
-import PlayArrowSharpIcon from '@mui/icons-material/PlayArrowSharp';
+import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded';
 
 import placeholder from '../../assets/images/placeholder.png';
 
@@ -35,7 +35,7 @@ export default function MediaCard({ title, desc, action }: CardProps) {
         overflow: 'visible',
         transition: 'background-color .3s ease',
         '&:hover': {
-          bgcolor: 'rgba(255,255,255,0.10)',
+          bgcolor: '#292929',
           cursor: 'pointer',
         },
         '&:hover .MuiButtonBase-root': {
@@ -57,9 +57,10 @@ export default function MediaCard({ title, desc, action }: CardProps) {
               bottom: '8px',
               right: '8px',
               transform: 'translateY(8px)',
+              boxShadow: '0 8px 8px rgba(0,0,0,0.3)',
             }}
           >
-            <PlayArrowSharpIcon />
+            <PlayArrowRoundedIcon />
           </IconButton>
           <CardMedia
             component='img'
