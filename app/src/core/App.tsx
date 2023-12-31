@@ -40,7 +40,7 @@ export default function App() {
             borderRadius: '8px',
             width: '100%',
             overflow: 'hidden',
-            overflowY: 'scroll',
+            overflowY: 'auto',
             '&::-webkit-scrollbar': {
               width: `${sizeConfigs.scrollbar}`,
             },

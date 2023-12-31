@@ -2,7 +2,6 @@
 import { app, BrowserWindow, Menu, ipcMain } from 'electron';
 import MenuBuilder from './menu';
 
-//TODO Instalar extensões das DevTools
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
@@ -41,7 +40,6 @@ const createWindow = () => {
   });
 
   mainWindow.once('ready-to-show', () => {
-    console.log(process.env.START_MINIMIZED);
     if (!mainWindow) {
       throw new Error('"mainWindow" is not defined');
     }

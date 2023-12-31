@@ -13,11 +13,11 @@ import placeholder from '../../assets/images/placeholder.png';
 
 interface CardProps {
   title: string;
-  subtitle: string;
+  desc: string;
   action: () => void;
 }
 
-export default function GenericCard({ title, subtitle, action }: CardProps) {
+export default function MediaCard({ title, desc, action }: CardProps) {
   return (
     <Card
       onClick={action}
@@ -32,6 +32,7 @@ export default function GenericCard({ title, subtitle, action }: CardProps) {
         alignItems: 'flex-start',
         justifyContent: 'center',
         backgroundImage: 'none',
+        overflow: 'visible',
         transition: 'background-color .3s ease',
         '&:hover': {
           bgcolor: 'rgba(255,255,255,0.10)',
@@ -50,7 +51,7 @@ export default function GenericCard({ title, subtitle, action }: CardProps) {
             sx={{
               position: 'absolute',
               opacity: 0,
-              bgcolor: '#772277', //! WYSI
+              bgcolor: 'secondary.dark',
               transition: 'all .3s ease',
               pointerEvents: 'none',
               bottom: '8px',
@@ -69,6 +70,10 @@ export default function GenericCard({ title, subtitle, action }: CardProps) {
               borderRadius: '8px',
               mb: '16px',
               userSelect: 'none',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              objectFit: 'cover',
             }}
           />
         </Box>
@@ -84,7 +89,7 @@ export default function GenericCard({ title, subtitle, action }: CardProps) {
             {title}
           </Typography>
           <Typography variant='caption' color='text.secondary'>
-            {subtitle}
+            {desc}
           </Typography>
         </CardContent>
       </Box>

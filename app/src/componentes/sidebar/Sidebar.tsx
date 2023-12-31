@@ -150,16 +150,16 @@ export default function Sidebar() {
           borderRadius: '8px',
           width: '100%',
           overflowX: 'hidden',
-          overflowY: 'scroll',
+          overflowY: 'auto',
           '&::-webkit-scrollbar': {
             width: `${sizes.scrollbar.width}`,
           },
           '&::-webkit-scrollbar-thumb': {
-            backgroundColor: `${colors.scrollbar.thumb}`,
+            backgroundColor: `${colorConfigs.scrollbar.thumb}`,
             borderRadius: '8px',
           },
           '&::-webkit-scrollbar-track': {
-            backgroundColor: `${colors.scrollbar.track}`,
+            backgroundColor: `${colorConfigs.scrollbar.track}`,
             borderRadius: '8px',
           },
         }}

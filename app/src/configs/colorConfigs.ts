@@ -12,10 +12,6 @@ const colorConfigs = {
     color: '#eeeeee',
     hoverBg: '#1e293a',
     activeBg: '#1e253a',
-    scrollbar: {
-      thumb: 'rgba(255,255,255, 0.3)',
-      track: 'rgba(50,50,50, 0.3)',
-    },
   },
   mainContent: {
     bg: '#121212',
