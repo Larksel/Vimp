@@ -1,4 +1,4 @@
-import React from 'react';
+import { ReactNode } from 'react';
 
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -9,7 +9,7 @@ import sizeConfigs from '../../configs/sizeConfigs';
 
 interface SidebarItemProps {
   text: string;
-  icon: React.ReactNode;
+  icon: ReactNode;
   selected: boolean;
   onClick: () => void;
 }

@@ -1,5 +1,3 @@
-import React from 'react';
-
 import Box from '@mui/material/Box';
 
 import AppBar from '../componentes/AppBar/AppBar';

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import Box from '@mui/material/Box';
 import List from '@mui/material/List';
@@ -95,11 +95,11 @@ const mainList = [
 ];
 
 const mainListIcons = [
-  <HomeRoundedIcon />,
-  <SearchRoundedIcon />,
-  <LibraryMusicRoundedIcon />,
-  <VideoLibraryRoundedIcon />,
-  <AddRoundedIcon />,
+  <HomeRoundedIcon key={'homeIcon'} />,
+  <SearchRoundedIcon key={'searchIcon'} />,
+  <LibraryMusicRoundedIcon key={'musicLibIcon'} />,
+  <VideoLibraryRoundedIcon key={'videoLibIcon'} />,
+  <AddRoundedIcon key={'addIcon'} />,
 ];
 
 const colors = colorConfigs.sidebar;
