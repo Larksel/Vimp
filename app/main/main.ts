@@ -1,6 +1,9 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { app, BrowserWindow, Menu, ipcMain } from 'electron';
+import { app, BrowserWindow, Menu, ipcMain, dialog } from 'electron';
+import * as mmd from 'music-metadata';
 import MenuBuilder from './menu';
+
+//TODO Separar código em módulos
 
 declare const VIMP_WEBPACK_ENTRY: string;
 declare const VIMP_PRELOAD_WEBPACK_ENTRY: string;
@@ -14,6 +17,7 @@ if (require('electron-squirrel-startup')) {
 const isDebug =
   process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true';
 console.log('Debug:', isDebug);
+console.log('Platform:', process.platform);
 
 /**
  * Prevent default menu from loading
@@ -100,3 +104,43 @@ app.whenReady().then(() => {
     }
   });
 });
+
+/**
+ * File picker
+ */
+ipcMain.handle('pick-files', async () => {
+  const result = await dialog.showOpenDialog({
+    properties: ['multiSelections', 'openFile'],
+    filters: [{ name: 'Audio Files', extensions: ['mp3', 'wav', 'ogg'] }],
+  });
+
+  //return result
+  const scanned = await Promise.all(
+    result.filePaths.map(async (path) => {
+      const track = await getMetadata(path);
+      return track;
+    })
+  );
+
+  return scanned;
+});
+
+async function getMetadata(trackPath) {
+  try {
+    const data = await mmd.parseFile(trackPath, {
+      skipCovers: true,
+      duration: true,
+    });
+
+    const metadata = {
+      ...data,
+      path: trackPath,
+    };
+
+    return metadata;
+  } catch (err) {
+    console.log(`Erro ao ler ${trackPath}: ${err}\n`);
+  }
+
+  return;
+}

@@ -28,6 +28,12 @@ const data = [
   },
 ];
 
+const pickFiles = async () => {
+  const result = await window.VimpAPI.pickFile();
+
+  console.log(result);
+};
+
 export default function HomePage() {
   return (
     <>
@@ -40,6 +46,7 @@ export default function HomePage() {
       >
         <Box>Header</Box>
         <Box>
+          <button onClick={pickFiles}>Pick Files</button>
           <Typography>Músicas recentes</Typography>
           <CardList data={data} />
 
