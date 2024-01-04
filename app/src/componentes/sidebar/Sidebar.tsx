@@ -15,12 +15,6 @@ import colorConfigs from '../../configs/colorConfigs';
 import SidebarItem from './SidebarItem';
 import PlaylistItem from './PlaylistItem';
 
-/*
-const playlists = () => {
- *  // Get all playlists available
-}
-*/
-
 //TODO lista virtual
 
 const playlists = [
@@ -168,7 +162,7 @@ export default function Sidebar() {
       >
         <List>
           {' '}
-          {/* Playlist list*/}
+          {/* Playlists list*/}
           {playlists.map((playlist) => (
             <PlaylistItem key={playlist.id} playlist={playlist} />
           ))}

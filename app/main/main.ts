@@ -2,7 +2,6 @@
 import { app, BrowserWindow, Menu, ipcMain } from 'electron';
 import MenuBuilder from './menu';
 
-
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
 
@@ -16,9 +15,15 @@ const isDebug =
   process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true';
 console.log('Debug:', isDebug);
 
+/**
+ * Prevent default menu from loading
+ */
 Menu.setApplicationMenu(null);
 
 const createWindow = () => {
+  /**
+   * Main window configuration
+   */
   mainWindow = new BrowserWindow({
     width: 1024,
     height: 670,
@@ -77,7 +82,7 @@ const createWindow = () => {
 };
 
 /**
- * App event listeners...
+ * App event listeners
  */
 
 app.on('window-all-closed', () => {

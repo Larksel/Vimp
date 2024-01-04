@@ -90,4 +90,6 @@ typings/
 
 # Electron-Forge
 out/
+
 app/src/test/
+todo/
