@@ -2,8 +2,8 @@
 import { app, BrowserWindow, Menu, ipcMain } from 'electron';
 import MenuBuilder from './menu';
 
-declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
-declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
+declare const VIMP_WEBPACK_ENTRY: string;
+declare const VIMP_PRELOAD_WEBPACK_ENTRY: string;
 
 let mainWindow: BrowserWindow | null = null;
 
@@ -33,7 +33,7 @@ const createWindow = () => {
     frame: false,
     show: false,
     webPreferences: {
-      preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
+      preload: VIMP_PRELOAD_WEBPACK_ENTRY,
       contextIsolation: true,
       nodeIntegration: false,
       devTools: true,
@@ -55,7 +55,7 @@ const createWindow = () => {
     }
   });
 
-  mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
+  mainWindow.loadURL(VIMP_WEBPACK_ENTRY);
 
   /**
    * mainWindow event listeners

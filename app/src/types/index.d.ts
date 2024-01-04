@@ -1,11 +1,11 @@
+import type { VimpAPI } from '../../preload/preload'
+
 declare module '*.jpg';
 declare module '*.png';
 declare module '*.module.css';
 
-interface Window {
-  app: {
-    minimize: () => void;
-    maximizeOrRestore: () => void;
-    close: () => void;
-  };
+declare global {
+  interface Window {
+    VimpAPI: VimpAPI;
+  }
 }

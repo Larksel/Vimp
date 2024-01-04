@@ -19,7 +19,7 @@ export default function AppBarButtons() {
   const buttons = [
     {
       label: <HorizontalRuleSharpIcon sx={{ fontSize: '18px' }} />,
-      action: () => window.app.minimize(),
+      action: () => window.VimpAPI.minimize(),
     },
     {
       label: isMaximized ? (
@@ -27,11 +27,11 @@ export default function AppBarButtons() {
       ) : (
         <CropSquareSharpIcon sx={{ fontSize: '17px' }} />
       ),
-      action: () => window.app.maximizeOrRestore(),
+      action: () => window.VimpAPI.maximizeOrRestore(),
     },
     {
       label: <CloseSharpIcon sx={{ fontSize: '18px' }} />,
-      action: () => window.app.close(),
+      action: () => window.VimpAPI.close(),
     },
   ];
 

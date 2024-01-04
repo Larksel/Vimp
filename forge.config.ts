@@ -25,9 +25,9 @@ const config: ForgeConfig = {
           {
             html: './app/src/index.html',
             js: './app/src/index.tsx',
-            name: 'main_window',
+            name: 'vimp',
             preload: {
-              js: './app/main/preload.ts',
+              js: './app/preload/preload.ts',
             },
           },
         ],
