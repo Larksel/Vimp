@@ -1,18 +1,21 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-
 import { ThemeProvider } from '@emotion/react';
-import { tema } from './configs/tema';
 import CssBaseline from '@mui/material/CssBaseline';
+import { Provider } from 'react-redux';
 
 import App from './core/App';
+import store from './store'
+import { tema } from './configs/tema';
 
 const root = createRoot(document.getElementById('root') as HTMLElement);
 root.render(
   <StrictMode>
-    <ThemeProvider theme={tema}>
-      <CssBaseline enableColorScheme />
-      <App />
-    </ThemeProvider>
+    <Provider store={store}>
+      <ThemeProvider theme={tema}>
+        <CssBaseline enableColorScheme />
+        <App />
+      </ThemeProvider>
+    </Provider>
   </StrictMode>
 );

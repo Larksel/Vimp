@@ -1,13 +1,22 @@
-import { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
 import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
-
 import Typography from '@mui/material/Typography';
 
+//TODO consertar atualizações excessivas de estado ao arrastar a barra
+
+import {
+  setSongDuration,
+  setSongProgress,
+  selectSongDuration,
+  selectSongProgress,
+} from '../../features/playerSlice';
+
 export default function PlaybackTrack() {
-  const [songDuration, setSongDuration] = useState<number>(0); // segundos
-  const [songProgress, setSongProgress] = useState<number>(0); // segundos
+  const songDuration = useSelector(selectSongDuration);
+  const songProgress = useSelector(selectSongProgress);
+  const dispatch = useDispatch();
 
   //TODO externalizar função: utilizar em outros lugares
   function formatDuration(value: number) {
@@ -56,7 +65,7 @@ export default function PlaybackTrack() {
         min={0}
         step={1}
         max={songDuration}
-        onChange={(_, value) => setSongProgress(value as number)}
+        onChange={(_, value) => dispatch(setSongProgress(Number(value)))}
         sx={{
           color: '#fff',
           height: 4,
