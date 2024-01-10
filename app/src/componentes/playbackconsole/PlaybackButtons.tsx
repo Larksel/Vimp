@@ -12,8 +12,8 @@ import RepeatRoundedIcon from '@mui/icons-material/RepeatRounded';
 import RepeatOneRoundedIcon from '@mui/icons-material/RepeatOneRounded';
 
 import {
-  toggleShuffle,
-  togglePlayPause,
+  setShuffle,
+  setIsPlaying,
   changeRepeat,
   selectShuffle,
   selectIsPlaying,
@@ -24,7 +24,7 @@ import colorConfigs from '../../configs/colorConfigs';
 const colors = colorConfigs.playbackConsole.playbackControl;
 
 export default function PlaybackButtons() {
-  const isShuffle = useSelector(selectShuffle);
+  const shuffle = useSelector(selectShuffle);
   const isPlaying = useSelector(selectIsPlaying);
   const repeat = useSelector(selectRepeat);
   const dispatch = useDispatch();
@@ -53,7 +53,7 @@ export default function PlaybackButtons() {
       >
         <IconButton
           disableRipple
-          onClick={() => dispatch(toggleShuffle())}
+          onClick={() => dispatch(setShuffle(!shuffle))}
           sx={{
             color: `${colors.unfocused}`,
             '&:hover': {
@@ -61,9 +61,7 @@ export default function PlaybackButtons() {
             },
           }}
         >
-          <ShuffleRoundedIcon
-            sx={isShuffle ? { color: 'secondary.main' } : {}}
-          />
+          <ShuffleRoundedIcon sx={shuffle ? { color: 'secondary.main' } : {}} />
         </IconButton>
 
         <IconButton
@@ -81,7 +79,7 @@ export default function PlaybackButtons() {
 
       <IconButton
         disableRipple
-        onClick={() => dispatch(togglePlayPause())}
+        onClick={() => dispatch(setIsPlaying(!isPlaying))}
         sx={{
           height: '35px',
           width: '35px',

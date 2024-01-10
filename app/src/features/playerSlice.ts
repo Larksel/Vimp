@@ -2,13 +2,15 @@ import { createSlice } from '@reduxjs/toolkit';
 
 type PlayerState = {
   player: {
-    shuffle: boolean,
-    isPlaying: boolean,
-    repeat: 'off' | 'all' | 'one',
-    songDuration: number,
-    songProgress: number,
-  }
-}
+    shuffle: boolean;
+    isPlaying: boolean;
+    repeat: 'off' | 'all' | 'one';
+    songDuration: number;
+    songProgress: number;
+    volume: number;
+    isMuted: boolean;
+  };
+};
 
 export const playerSlice = createSlice({
   name: 'player',
@@ -18,13 +20,15 @@ export const playerSlice = createSlice({
     repeat: 'off',
     songDuration: 300,
     songProgress: 150,
+    volume: 67,
+    isMuted: false,
   },
   reducers: {
-    toggleShuffle: (state) => {
-      state.shuffle = !state.shuffle;
+    setShuffle: (state, action) => {
+      state.shuffle = action.payload;
     },
-    togglePlayPause: (state) => {
-      state.isPlaying = !state.isPlaying;
+    setIsPlaying: (state, action) => {
+      state.isPlaying = action.payload;
     },
     changeRepeat: (state) => {
       switch (state.repeat) {
@@ -50,21 +54,33 @@ export const playerSlice = createSlice({
     setSongProgress: (state, action) => {
       state.songProgress = action.payload;
     },
+    setVolume: (state, action) => {
+      state.volume = action.payload;
+    },
+    setIsMuted: (state, action) => {
+      state.isMuted = action.payload;
+    },
   },
 });
 
 export const {
-  toggleShuffle,
-  togglePlayPause,
+  setShuffle,
+  setIsPlaying,
   changeRepeat,
   setSongDuration,
   setSongProgress,
+  setVolume,
+  setIsMuted,
 } = playerSlice.actions;
 
 export const selectShuffle = (state: PlayerState) => state.player.shuffle;
 export const selectIsPlaying = (state: PlayerState) => state.player.isPlaying;
 export const selectRepeat = (state: PlayerState) => state.player.repeat;
-export const selectSongDuration = (state: PlayerState) => state.player.songDuration;
-export const selectSongProgress = (state: PlayerState) => state.player.songProgress;
+export const selectSongDuration = (state: PlayerState) =>
+  state.player.songDuration;
+export const selectSongProgress = (state: PlayerState) =>
+  state.player.songProgress;
+export const selectVolume = (state: PlayerState) => state.player.volume;
+export const selectIsMuted = (state: PlayerState) => state.player.isMuted;
 
 export default playerSlice.reducer;

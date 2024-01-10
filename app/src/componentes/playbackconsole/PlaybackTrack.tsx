@@ -7,7 +7,6 @@ import Typography from '@mui/material/Typography';
 //TODO consertar atualizações excessivas de estado ao arrastar a barra
 
 import {
-  setSongDuration,
   setSongProgress,
   selectSongDuration,
   selectSongProgress,
