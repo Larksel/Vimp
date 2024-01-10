@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { app, BrowserWindow, Menu, ipcMain, dialog } from 'electron';
-import * as mmd from 'music-metadata';
-import MenuBuilder from './menu';
+import MenuBuilder from './modules/menu';
+
+import { getMetadata } from './modules/metadataHandler';
 
 //TODO Separar código em módulos
 
@@ -114,7 +115,6 @@ ipcMain.handle('pick-files', async () => {
     filters: [{ name: 'Audio Files', extensions: ['mp3', 'wav', 'ogg'] }],
   });
 
-  //return result
   const scanned = await Promise.all(
     result.filePaths.map(async (path) => {
       const track = await getMetadata(path);
@@ -124,23 +124,3 @@ ipcMain.handle('pick-files', async () => {
 
   return scanned;
 });
-
-async function getMetadata(trackPath) {
-  try {
-    const data = await mmd.parseFile(trackPath, {
-      skipCovers: true,
-      duration: true,
-    });
-
-    const metadata = {
-      ...data,
-      path: trackPath,
-    };
-
-    return metadata;
-  } catch (err) {
-    console.log(`Erro ao ler ${trackPath}: ${err}\n`);
-  }
-
-  return;
-}
