@@ -12,14 +12,14 @@ import RepeatRoundedIcon from '@mui/icons-material/RepeatRounded';
 import RepeatOneRoundedIcon from '@mui/icons-material/RepeatOneRounded';
 
 import {
-  setShuffle,
-  setIsPlaying,
-  changeRepeat,
+  setShuffle, // Mover para Queue
+  changeRepeat, // Mover para Queue
   selectShuffle,
   selectIsPlaying,
   selectRepeat,
 } from '../../features/playerSlice';
 
+import player from '../../lib/player';
 import colorConfigs from '../../configs/colorConfigs';
 const colors = colorConfigs.playbackConsole.playbackControl;
 
@@ -28,6 +28,46 @@ export default function PlaybackButtons() {
   const isPlaying = useSelector(selectIsPlaying);
   const repeat = useSelector(selectRepeat);
   const dispatch = useDispatch();
+
+  const handlePlayPause = () => {
+    if (isPlaying) {
+      player.pause();
+    } else {
+      player.play();
+    }
+  };
+
+  const handleNext = () => {
+    console.log('Next song')
+    /*
+    if (!(currentTrack == tracks.length - 1)) {
+      nextTrack = currentTrack + 1;
+    } else {
+      nextTrack = 0;
+    }
+
+    currentTrack = nextTrack;
+
+    player.setTrack(tracks[nextTrack]);
+    player.play();
+    */
+  };
+
+  const handlePrevious = () => {
+    console.log('Previous song')
+    /*
+    if (!(currentTrack == 0)) {
+      prevTrack = currentTrack - 1;
+    } else {
+      prevTrack = tracks.length - 1;
+    }
+
+    currentTrack = prevTrack;
+
+    player.setTrack(tracks[prevTrack]);
+    player.play();
+    */
+  };
 
   const repeatIcons = {
     off: <RepeatRoundedIcon />,
@@ -66,6 +106,7 @@ export default function PlaybackButtons() {
 
         <IconButton
           disableRipple
+          onClick={handlePrevious}
           sx={{
             color: `${colors.unfocused}`,
             '&:hover': {
@@ -79,7 +120,7 @@ export default function PlaybackButtons() {
 
       <IconButton
         disableRipple
-        onClick={() => dispatch(setIsPlaying(!isPlaying))}
+        onClick={handlePlayPause}
         sx={{
           height: '35px',
           width: '35px',
@@ -98,6 +139,7 @@ export default function PlaybackButtons() {
       >
         <IconButton
           disableRipple
+          onClick={handleNext}
           sx={{
             color: `${colors.unfocused}`,
             '&:hover': {

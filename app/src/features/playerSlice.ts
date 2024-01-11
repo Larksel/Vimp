@@ -9,6 +9,7 @@ type PlayerState = {
     songProgress: number;
     volume: number;
     isMuted: boolean;
+    playbackRate: number;
   };
 };
 
@@ -18,10 +19,11 @@ export const playerSlice = createSlice({
     shuffle: false,
     isPlaying: false,
     repeat: 'off',
-    songDuration: 300,
-    songProgress: 150,
+    songDuration: 0,
+    songProgress: 0,
     volume: 67,
     isMuted: false,
+    playbackRate: 1,
   },
   reducers: {
     setShuffle: (state, action) => {
@@ -60,6 +62,9 @@ export const playerSlice = createSlice({
     setIsMuted: (state, action) => {
       state.isMuted = action.payload;
     },
+    setPlaybackRate: (state, action) => {
+      state.playbackRate = action.payload;
+    },
   },
 });
 
@@ -71,8 +76,10 @@ export const {
   setSongProgress,
   setVolume,
   setIsMuted,
+  setPlaybackRate,
 } = playerSlice.actions;
 
+//TODO encontrar um jeito melhor de fazer isso
 export const selectShuffle = (state: PlayerState) => state.player.shuffle;
 export const selectIsPlaying = (state: PlayerState) => state.player.isPlaying;
 export const selectRepeat = (state: PlayerState) => state.player.repeat;
@@ -82,5 +89,7 @@ export const selectSongProgress = (state: PlayerState) =>
   state.player.songProgress;
 export const selectVolume = (state: PlayerState) => state.player.volume;
 export const selectIsMuted = (state: PlayerState) => state.player.isMuted;
+export const selectPlaybackRate = (state: PlayerState) =>
+  state.player.playbackRate;
 
 export default playerSlice.reducer;

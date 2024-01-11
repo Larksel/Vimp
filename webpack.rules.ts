@@ -14,9 +14,9 @@ export const rules: Required<ModuleOptions>['rules'] = [
       loader: 'babel-loader',
       options: {
         exclude: /node_modules/,
-        presets: ['@babel/preset-react']
-      }
-    }
+        presets: ['@babel/preset-react'],
+      },
+    },
   },
   {
     test: /[/\\]node_modules[/\\].+\.(m?js|node)$/,
@@ -41,7 +41,13 @@ export const rules: Required<ModuleOptions>['rules'] = [
   {
     test: /\.(png|jpe?g|gif)$/i,
     use: {
-      loader: 'file-loader'
-    }
-  } 
+      loader: 'file-loader',
+    },
+  },
+  {
+    test: /\.(mp3|ogg|wav)$/i,
+    use: {
+      loader: 'file-loader',
+    },
+  },
 ];

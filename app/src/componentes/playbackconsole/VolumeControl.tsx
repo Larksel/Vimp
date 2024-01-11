@@ -1,4 +1,4 @@
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
@@ -10,11 +10,10 @@ import VolumeDownRoundedIcon from '@mui/icons-material/VolumeDownRounded';
 import VolumeUpRoundedIcon from '@mui/icons-material/VolumeUpRounded';
 
 import {
-  setVolume,
-  setIsMuted,
   selectVolume,
   selectIsMuted,
 } from '../../features/playerSlice';
+import player from '../../lib/player'
 
 const volumeIconStyle = {
   color: '#aaa',
@@ -26,21 +25,20 @@ const volumeIconStyle = {
 export default function VolumeControl() {
   const volume = useSelector(selectVolume);
   const isMuted = useSelector(selectIsMuted);
-  const dispatch = useDispatch();
 
   const handleMute = () => {
     if (!isMuted) {
-      dispatch(setIsMuted(true));
+      player.mute();
     } else {
-      dispatch(setIsMuted(false));
+      player.unmute();
     }
   };
 
   const handleVolumeChange = (value: number) => {
     if (isMuted) {
-      dispatch(setIsMuted(!isMuted));
+      player.unmute();
     }
-    dispatch(setVolume(value));
+    player.setVolume(value);
   };
 
   const volumeIcons = () => {

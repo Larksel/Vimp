@@ -1,37 +1,22 @@
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
 import Typography from '@mui/material/Typography';
 
-//TODO consertar atualizações excessivas de estado ao arrastar a barra
-
 import {
-  setSongProgress,
   selectSongDuration,
   selectSongProgress,
 } from '../../features/playerSlice';
+import { formatDuration } from '../../lib/utils';
+import player from '../../lib/player'
 
 export default function PlaybackTrack() {
   const songDuration = useSelector(selectSongDuration);
   const songProgress = useSelector(selectSongProgress);
-  const dispatch = useDispatch();
 
-  //TODO externalizar função: utilizar em outros lugares
-  function formatDuration(value: number) {
-    if (songDuration && songDuration !== 0) {
-      const hours = Math.trunc(value / 3600);
-      const minutes = Math.trunc((value % 3600) / 60);
-      const seconds = value % 60;
-
-      const formattedHours = hours > 0 ? `${hours}:` : '';
-      const formattedMinutes = `${minutes < 10 ? `0${minutes}` : minutes}:`;
-      const formattedSeconds = `${seconds < 10 ? `0${seconds}` : seconds}`;
-
-      return `${formattedHours}${formattedMinutes}${formattedSeconds}`;
-    }
-
-    return '00:00';
+  const handleProgressChange = (value: number) => {
+    player.setCurrentTime(value)
   }
 
   return (
@@ -62,9 +47,9 @@ export default function PlaybackTrack() {
         value={songProgress}
         size='small'
         min={0}
-        step={1}
+        step={0.1}
         max={songDuration}
-        onChange={(_, value) => dispatch(setSongProgress(Number(value)))}
+        onChange={(_, value) => handleProgressChange(Number(value))}
         sx={{
           color: '#fff',
           height: 4,
