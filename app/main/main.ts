@@ -16,12 +16,19 @@ if (require('electron-squirrel-startup')) {
 const isDebug =
   process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true';
 console.log('Debug:', isDebug);
-console.log('Platform:', process.platform);
+console.log('Platform:', process.platform, '\n\n');
 
-const icon =
+const iconPath =
   process.platform === 'win32'
-    ? path.join(__dirname, '../../resources/icon.ico')
-    : path.join(__dirname, '../../resources/icon.png');
+    ? '../../resources/icon.ico'
+    : '../../resources/icon.png';
+
+let icon = ''
+if (isDebug) {
+  icon = path.join(__dirname, iconPath);
+} else {
+  icon = iconPath;
+}
 
 /**
  * Prevent default menu from loading
@@ -105,7 +112,6 @@ let tray: Tray | null = null;
 app.whenReady().then(() => {
   createWindow();
   tray = new Tray(icon);
-  tray.setToolTip('Vimp');
 
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {

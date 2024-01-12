@@ -16,18 +16,21 @@ const config: ForgeConfig = {
   },
   rebuildConfig: {},
   makers: [
-    new MakerSquirrel({}),
+    new MakerSquirrel({
+      name: 'vimp',
+      setupIcon: './resources/icon.ico',
+    }),
     new MakerZIP({}, ['darwin']),
-    new MakerRpm({}),
-    new MakerDeb({}),
-    {
-      name: '@electron-forge/maker-deb',
-      config: {
-        options: {
-          icon: './resources/icon.png',
-        },
+    new MakerRpm({
+      options: {
+        icon: './resources/icon.png',
       },
-    },
+    }),
+    new MakerDeb({
+      options: {
+        icon: './resources/icon.png',
+      },
+    }),
   ],
   plugins: [
     new AutoUnpackNativesPlugin({}),
