@@ -2,7 +2,7 @@
   "name": "vimp",
   "productName": "Vimp",
   "version": "0.1.0",
-  "description": "Vimp - Video/music downloader",
+  "description": "Vimp - video & music player",
   "main": ".webpack/main",
   "scripts": {
     "start": "electron-forge start",

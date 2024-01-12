@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-import { app, BrowserWindow, Menu, ipcMain, dialog } from 'electron';
+import { app, BrowserWindow, Menu, ipcMain, dialog, Tray } from 'electron';
+import path from 'path'
 import MenuBuilder from './modules/menu';
 
 import { getMetadata } from './modules/metadataHandler';
@@ -8,8 +8,6 @@ import { getMetadata } from './modules/metadataHandler';
 
 declare const VIMP_WEBPACK_ENTRY: string;
 declare const VIMP_PRELOAD_WEBPACK_ENTRY: string;
-
-let mainWindow: BrowserWindow | null = null;
 
 if (require('electron-squirrel-startup')) {
   app.quit();
@@ -20,11 +18,17 @@ const isDebug =
 console.log('Debug:', isDebug);
 console.log('Platform:', process.platform);
 
+const icon =
+  process.platform === 'win32'
+    ? path.join(__dirname, '../../resources/icon.ico')
+    : path.join(__dirname, '../../resources/icon.png');
+
 /**
  * Prevent default menu from loading
  */
 Menu.setApplicationMenu(null);
 
+let mainWindow: BrowserWindow | null = null;
 const createWindow = () => {
   /**
    * Main window configuration
@@ -37,6 +41,7 @@ const createWindow = () => {
     backgroundColor: '#000000',
     frame: false,
     show: false,
+    icon: icon,
     webPreferences: {
       preload: VIMP_PRELOAD_WEBPACK_ENTRY,
       contextIsolation: true,
@@ -96,8 +101,11 @@ app.on('window-all-closed', () => {
   }
 });
 
+let tray: Tray | null = null;
 app.whenReady().then(() => {
   createWindow();
+  tray = new Tray(icon);
+  tray.setToolTip('Vimp');
 
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {
