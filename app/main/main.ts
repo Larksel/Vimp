@@ -1,5 +1,5 @@
 import { app, BrowserWindow, Menu, ipcMain, dialog, Tray } from 'electron';
-import path from 'path'
+import path from 'path';
 import MenuBuilder from './modules/menu';
 
 import { getMetadata } from './modules/metadataHandler';
@@ -23,12 +23,14 @@ const iconPath =
     ? '../../resources/icons/icon.ico'
     : '../../resources/icons/icon.png';
 
-let icon = ''
+let icon = '';
 if (isDebug) {
   icon = path.join(__dirname, iconPath);
 } else {
   icon = iconPath;
 }
+
+let tray: Tray | null = null;
 
 /**
  * Prevent default menu from loading
@@ -104,11 +106,11 @@ const createWindow = () => {
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
+    tray = null;
     app.quit();
   }
 });
 
-let tray: Tray | null = null;
 app.whenReady().then(() => {
   createWindow();
   tray = new Tray(icon);
