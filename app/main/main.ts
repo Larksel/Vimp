@@ -53,7 +53,7 @@ const createWindow = () => {
       preload: VIMP_PRELOAD_WEBPACK_ENTRY,
       contextIsolation: true,
       nodeIntegration: false,
-      devTools: true,
+      devTools: isDebug,
     },
   });
 
