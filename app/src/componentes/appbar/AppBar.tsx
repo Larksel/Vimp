@@ -5,6 +5,7 @@ import sizeConfigs from '../../configs/sizeConfigs';
 import colorConfigs from '../../configs/colorConfigs';
 
 import AppBarButtons from './AppBarButtons';
+import logo from '../../assets/images/icon.png';
 
 const sizes = sizeConfigs.appBar;
 const colors = colorConfigs.appBar;
@@ -25,9 +26,27 @@ export default function AppBar() {
         WebkitAppRegion: 'drag',
       }}
     >
-      <Typography component="h1" sx={{ ml: '18px' }}>
-        Vimp
-      </Typography>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'row',
+          gap: '8px',
+          ml: '16px',
+          height: '100%',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <Box
+          component='img'
+          src={logo}
+          sx={{
+            height: `${sizes.logo}`,
+            width: `${sizes.logo}`,
+          }}
+        />
+        <Typography component='h1'>Vimp</Typography>
+      </Box>
 
       <Box
         sx={{
