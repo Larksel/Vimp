@@ -12,23 +12,23 @@ import { rendererConfig } from './webpack.renderer.config';
 const config: ForgeConfig = {
   packagerConfig: {
     asar: true,
-    icon: './resources/icon',
+    icon: './resources/icons/icon',
   },
   rebuildConfig: {},
   makers: [
     new MakerSquirrel({
       name: 'vimp',
-      setupIcon: './resources/icon.ico',
+      setupIcon: './resources/icons/icon.ico',
     }),
     new MakerZIP({}, ['darwin']),
     new MakerRpm({
       options: {
-        icon: './resources/icon.png',
+        icon: './resources/icons/icon.png',
       },
     }),
     new MakerDeb({
       options: {
-        icon: './resources/icon.png',
+        icon: './resources/icons/icon.png',
       },
     }),
   ],

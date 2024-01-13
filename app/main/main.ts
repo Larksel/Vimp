@@ -20,8 +20,8 @@ console.log('Platform:', process.platform, '\n\n');
 
 const iconPath =
   process.platform === 'win32'
-    ? '../../resources/icon.ico'
-    : '../../resources/icon.png';
+    ? '../../resources/icons/icon.ico'
+    : '../../resources/icons/icon.png';
 
 let icon = ''
 if (isDebug) {
