@@ -5,7 +5,7 @@ import sizeConfigs from '../../configs/sizeConfigs';
 import colorConfigs from '../../configs/colorConfigs';
 
 import AppBarButtons from './AppBarButtons';
-import logo from '../../assets/images/icon.png';
+import logo from '../../assets/images/logo.png';
 
 const sizes = sizeConfigs.appBar;
 const colors = colorConfigs.appBar;
@@ -45,7 +45,13 @@ export default function AppBar() {
             width: `${sizes.logo}`,
           }}
         />
-        <Typography component='h1'>Vimp</Typography>
+        <Typography component='h1' sx={{
+          fontWeight: 'bold',
+          color: '#ff6077',
+          textAlign: 'center',
+        }}>
+          Vimp
+        </Typography>
       </Box>
 
       <Box
