@@ -1,22 +1,20 @@
 import { app, BrowserWindow, Menu, ipcMain, dialog, Tray } from 'electron';
 import path from 'path';
 import MenuBuilder from './modules/menu';
-
 import { getMetadata } from './modules/metadataHandler';
+import { setupVimpProtocol } from './modules/protocol';
 
 //TODO Separar código em módulos
 
 declare const VIMP_WEBPACK_ENTRY: string;
 declare const VIMP_PRELOAD_WEBPACK_ENTRY: string;
 
-if (require('electron-squirrel-startup')) {
-  app.quit();
-}
-
 const isDebug =
   process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true';
 console.log('Debug:', isDebug);
 console.log('Platform:', process.platform, '\n\n');
+
+let mainWindow: BrowserWindow | null = null;
 
 const iconPath =
   process.platform === 'win32'
@@ -32,12 +30,15 @@ if (isDebug) {
 
 let tray: Tray | null = null;
 
+if (require('electron-squirrel-startup')) {
+  app.quit();
+}
+
 /**
  * Prevent default menu from loading
  */
 Menu.setApplicationMenu(null);
 
-let mainWindow: BrowserWindow | null = null;
 const createWindow = () => {
   /**
    * Main window configuration
@@ -113,7 +114,10 @@ app.on('window-all-closed', () => {
 
 app.whenReady().then(() => {
   createWindow();
-  tray = new Tray(icon);
+  //TODO verificar por que o tray não some junto com o app
+  // tray = new Tray(icon);
+
+  setupVimpProtocol()
 
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {
@@ -139,4 +143,13 @@ ipcMain.handle('pick-files', async () => {
   );
 
   return scanned;
+});
+
+ipcMain.handle('open-file', async () => {
+  const result = await dialog.showOpenDialog({
+    properties: ['openFile'],
+    filters: [{ name: 'Audio Files', extensions: ['mp3', 'wav', 'ogg'] }],
+  });
+
+  return result.filePaths[0];
 });

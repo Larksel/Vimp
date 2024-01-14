@@ -5,6 +5,7 @@ const VimpAPI = {
   maximizeOrRestore: () => ipcRenderer.send('maximizeOrRestoreApp'),
   close: () => ipcRenderer.send('closeApp'),
   pickFile: () => ipcRenderer.invoke('pick-files'),
+  openFile: () => ipcRenderer.invoke('open-file'),
 };
 
 contextBridge.exposeInMainWorld('VimpAPI', VimpAPI);

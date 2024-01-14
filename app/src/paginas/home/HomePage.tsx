@@ -2,6 +2,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
 import CardList from '../../componentes/CardList/CardList';
+import player from '../../lib/player';
 
 //TODO Criar componente para o cabeçalho das páginas
 
@@ -28,10 +29,13 @@ const data = [
   },
 ];
 
-const pickFiles = async () => {
-  const result = await window.VimpAPI.pickFile();
+const openFile = async () => {
+  const url = await window.VimpAPI.openFile();
+  console.log(url);
 
-  console.log(result);
+  player.setTrack(`vimp://${url}`)
+  player.play()
+   .catch(() => console.log('Não foi possível carregar a música'))
 };
 
 export default function HomePage() {
@@ -46,7 +50,9 @@ export default function HomePage() {
       >
         <Box>Header</Box>
         <Box>
-          <button onClick={pickFiles}>Pick Files</button>
+          <button onClick={openFile}>
+            Open File
+          </button>
           <Typography>Músicas recentes</Typography>
           <CardList data={data} />
 
