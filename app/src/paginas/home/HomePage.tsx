@@ -33,9 +33,8 @@ const openFile = async () => {
   const url = await window.VimpAPI.openFile();
   console.log(url);
 
-  player.setTrack(`vimp://${url}`)
-  player.play()
-   .catch(() => console.log('Não foi possível carregar a música'))
+  player.setTrack(`vimp://${url}`);
+  player.play().catch(() => console.log('Não foi possível carregar a música'));
 };
 
 export default function HomePage() {
@@ -45,14 +44,12 @@ export default function HomePage() {
         sx={{
           display: 'flex',
           flexDirection: 'column',
-          p: '16px',
+          p: '16px 4px 16px 16px',
         }}
       >
         <Box>Header</Box>
         <Box>
-          <button onClick={openFile}>
-            Open File
-          </button>
+          <button onClick={openFile}>Open File</button>
           <Typography>Músicas recentes</Typography>
           <CardList data={data} />
 

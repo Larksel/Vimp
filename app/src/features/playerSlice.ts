@@ -1,10 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { RepeatMode } from '../types/vimp';
 
 type PlayerState = {
   player: {
     shuffle: boolean;
     isPlaying: boolean;
-    repeat: 'off' | 'all' | 'one';
+    repeat: RepeatMode;
     songDuration: number;
     songProgress: number;
     volume: number;
