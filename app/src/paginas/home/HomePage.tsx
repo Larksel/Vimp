@@ -31,10 +31,9 @@ const data = [
 
 const openFile = async () => {
   const url = await window.VimpAPI.openFile();
-  console.log(url);
 
-  player.setTrack(`vimp://${url}`);
-  player.play().catch(() => console.log('Não foi possível carregar a música'));
+  player.setTrack(url);
+  player.play();
 };
 
 export default function HomePage() {

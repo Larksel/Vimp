@@ -10,8 +10,6 @@ import HomePage from '../paginas/Home/HomePage';
   );
 */
 
-//TODO probleminha chato aqui
-
 export default function Rotas() {
   return (
     <Routes>

@@ -58,9 +58,16 @@ class Player {
    */
   async play() {
     if (!this.audio.src) {
-      throw new Error('Audio source not defined');
+      this.stop()
+      console.log('No audio source defined')
+      return;
     }
-    await this.audio.play();
+    try {
+      await this.audio.play();
+    } catch (err) {
+      this.stop()
+      console.log('Player error:\n', err)
+    }
   }
 
   pause() {
@@ -123,8 +130,14 @@ class Player {
     store.dispatch(setSongProgress(currentTime));
   }
 
-  //TODO utilizar caminho do arquivo
   setTrack(track: string) {
+    if (!track) return;
+    
+    // If the path is a local file, ensure that it has the custom protocol
+    if (!track.startsWith('vimp://') && !track.startsWith('/')) {
+      track = 'vimp://' + track
+    }
+
     this.track = track;
     this.audio.src = track;
   }
