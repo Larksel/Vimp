@@ -1,4 +1,4 @@
-import { HashRouter, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import ROUTES from './routes';
 //import loadable from '@loadable/component'
 import HomePage from '../paginas/Home/HomePage';
@@ -14,10 +14,8 @@ import HomePage from '../paginas/Home/HomePage';
 
 export default function Rotas() {
   return (
-    <HashRouter>
-      <Routes>
-        <Route path={ROUTES.HOME} index element={<HomePage />} />
-      </Routes>
-    </HashRouter>
+    <Routes>
+      <Route path={ROUTES.HOME} index element={<HomePage />} />
+    </Routes>
   );
 }

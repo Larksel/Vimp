@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
 import List from '@mui/material/List';
@@ -14,6 +15,7 @@ import LibraryMusicRoundedIcon from '@mui/icons-material/LibraryMusicRounded';
 import VideoLibraryRoundedIcon from '@mui/icons-material/VideoLibraryRounded';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 
+import ROUTES from '../../core/routes'
 import sizeConfigs from '../../configs/sizeConfigs';
 import colorConfigs from '../../configs/colorConfigs';
 
@@ -88,18 +90,22 @@ const navButtons = [
   {
     text: 'Home',
     icon: <HomeRoundedIcon />,
+    page: ROUTES.HOME,
   },
   {
     text: 'Search',
     icon: <SearchRoundedIcon />,
+    page: ROUTES.SEARCH,
   },
   {
     text: 'Music Library',
     icon: <LibraryMusicRoundedIcon />,
+    page: ROUTES.MUSIC_LIBRARY,
   },
   {
     text: 'Video Library',
     icon: <VideoLibraryRoundedIcon />,
+    page: ROUTES.VIDEO_LIBRARY,
   },
 ];
 
@@ -109,6 +115,7 @@ const sizes = sizeConfigs.sidebar;
 export default function Sidebar() {
   const [collapsed, setCollapsed] = useState(false);
   const [view, setView] = useState(navButtons[0].text);
+  const navigate = useNavigate();
 
   const handleChange = (
     event: React.MouseEvent<HTMLElement>,
@@ -177,10 +184,11 @@ export default function Sidebar() {
           onChange={handleChange}
           fullWidth
         >
-          {navButtons.map(({ text, icon }) => (
+          {navButtons.map(({ text, icon, page }) => (
             <ToggleButton
               key={text}
               value={text}
+              onClick={() => navigate(page)}
               sx={{
                 display: 'flex',
                 height: sizes.navButton.height,

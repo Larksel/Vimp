@@ -1,9 +1,9 @@
 const ROUTES = {
   HOME: '/',
-  QUEUE: '',
-  SEARCH: '',
-  MUSIC_LIBRARY: '',
-  VIDEO_LIBRARY: '',
+  QUEUE: '/queue',
+  SEARCH: '/search',
+  MUSIC_LIBRARY: '/music_library',
+  VIDEO_LIBRARY: '/video_library',
 }
 
 export default ROUTES
