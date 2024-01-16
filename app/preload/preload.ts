@@ -6,6 +6,8 @@ const VimpAPI = {
   close: () => ipcRenderer.send('closeApp'),
   pickFile: () => ipcRenderer.invoke('pick-files'),
   openFile: () => ipcRenderer.invoke('open-file'),
+  onWindowResize: (callback: (value: boolean) => void) =>
+    ipcRenderer.on('window-resized', (_event, value) => callback(value)),
 };
 
 contextBridge.exposeInMainWorld('VimpAPI', VimpAPI);

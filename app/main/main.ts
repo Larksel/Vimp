@@ -99,6 +99,10 @@ const createWindow = () => {
   ipcMain.on('closeApp', () => {
     mainWindow?.close();
   });
+
+  mainWindow.on('resize', () => {
+    mainWindow?.webContents.send('window-resized', mainWindow?.isMaximized())
+  })
 };
 
 /**
@@ -146,10 +150,12 @@ ipcMain.handle('pick-files', async () => {
 });
 
 ipcMain.handle('open-file', async () => {
-  const result = await dialog.showOpenDialog({
+  const { canceled, filePaths } = await dialog.showOpenDialog({
     properties: ['openFile'],
     filters: [{ name: 'Audio Files', extensions: ['mp3', 'wav', 'ogg'] }],
   });
 
-  return result.filePaths[0];
+  if (!canceled) {
+    return filePaths[0];
+  }
 });

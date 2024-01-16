@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import Button from '@mui/material/Button';
 
@@ -14,7 +14,11 @@ const sizes = sizeConfigs.appBar.buttons;
 const colors = colorConfigs.appBar.buttons;
 
 export default function AppBarButtons() {
-  const [isMaximized, setIsMaximized] = useState<boolean>(); //TODO <--- Lógica dos botões
+  const [isMaximized, setIsMaximized] = useState<boolean>();
+
+  useEffect(() => {
+    window.VimpAPI.onWindowResize((value: boolean) => setIsMaximized(value))
+  }, [])
 
   const buttons = [
     {
