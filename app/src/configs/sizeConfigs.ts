@@ -10,12 +10,12 @@ const sizeConfigs = {
     logo: '32px',
   },
   sidebar: {
-    width: '300px',
+    minWidth: '300px',
     playlistItem: {
       height: '64px',
       img: '48px',
     },
-    mainListItem: {
+    navButton: {
       height: '56px',
     },
   },

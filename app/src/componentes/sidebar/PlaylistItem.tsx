@@ -13,6 +13,7 @@ interface PlaylistItemProps {
     nome: string;
     imgPath: string;
   };
+  collapsed: boolean;
 }
 
 const handleImageError = (event: React.BaseSyntheticEvent) => {
@@ -21,13 +22,13 @@ const handleImageError = (event: React.BaseSyntheticEvent) => {
 
 const sizes = sizeConfigs.sidebar.playlistItem;
 
-export default function PlaylistItem({ playlist }: PlaylistItemProps) {
+export default function PlaylistItem({ playlist, collapsed }: PlaylistItemProps) {
   return (
     <ListItem disablePadding>
       <ListItemButton
         sx={{
           height: `${sizes.height}`,
-          margin: '0 8px',
+          p: '8px',
           borderRadius: '8px',
         }}
       >
@@ -50,14 +51,16 @@ export default function PlaylistItem({ playlist }: PlaylistItemProps) {
           />
         </Box>
 
-        <ListItemText
-          primary={playlist.nome}
-          secondary={'Playlist'}
-          sx={{
-            ml: '16px',
-            whiteSpace: 'nowrap',
-          }}
-        />
+        {collapsed ? '' : 
+          <ListItemText
+            primary={playlist.nome}
+            secondary={'Playlist'}
+            sx={{
+              ml: '16px',
+              whiteSpace: 'nowrap',
+            }}
+          />
+        }
       </ListItemButton>
     </ListItem>
   );

@@ -2,7 +2,12 @@ import { useState } from 'react';
 
 import Box from '@mui/material/Box';
 import List from '@mui/material/List';
+import Button from '@mui/material/Button';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import ToggleButton from '@mui/material/ToggleButton';
 
+import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
+import ChevronLeftRoundedIcon from '@mui/icons-material/ChevronLeftRounded';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import LibraryMusicRoundedIcon from '@mui/icons-material/LibraryMusicRounded';
@@ -12,7 +17,6 @@ import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import sizeConfigs from '../../configs/sizeConfigs';
 import colorConfigs from '../../configs/colorConfigs';
 
-import SidebarItem from './SidebarItem';
 import PlaylistItem from './PlaylistItem';
 
 //TODO lista virtual
@@ -80,42 +84,52 @@ const playlists = [
   },
 ];
 
-const mainList = [
-  'Home',
-  'Search',
-  'Music Library',
-  'Video Library',
-  'New Playlist',
-];
-
-const mainListIcons = [
-  <HomeRoundedIcon key={'homeIcon'} />,
-  <SearchRoundedIcon key={'searchIcon'} />,
-  <LibraryMusicRoundedIcon key={'musicLibIcon'} />,
-  <VideoLibraryRoundedIcon key={'videoLibIcon'} />,
-  <AddRoundedIcon key={'addIcon'} />,
+const navButtons = [
+  {
+    text: 'Home',
+    icon: <HomeRoundedIcon />,
+  },
+  {
+    text: 'Search',
+    icon: <SearchRoundedIcon />,
+  },
+  {
+    text: 'Music Library',
+    icon: <LibraryMusicRoundedIcon />,
+  },
+  {
+    text: 'Video Library',
+    icon: <VideoLibraryRoundedIcon />,
+  },
 ];
 
 const colors = colorConfigs.sidebar;
 const sizes = sizeConfigs.sidebar;
 
 export default function Sidebar() {
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [collapsed, setCollapsed] = useState(false);
+  const [view, setView] = useState(navButtons[0].text);
 
-  const handleItemClick = (index: number) => {
-    setSelectedIndex(index);
+  const handleChange = (
+    event: React.MouseEvent<HTMLElement>,
+    nextView: string
+  ) => {
+    if (nextView !== null) {
+      setView(nextView);
+    }
   };
 
   return (
     <Box
       component='nav'
       sx={{
-        minWidth: sizes.width,
+        minWidth: collapsed ? '0px' : sizes.minWidth,
+        maxWidth: collapsed ? '64px' : '300px',
         display: 'flex',
         flexDirection: 'column',
-        position: 'relative',
         height: '100%',
         gap: '8px',
+        transition: 'all .3s ease',
       }}
     >
       <Box
@@ -125,19 +139,66 @@ export default function Sidebar() {
           borderRadius: '8px',
         }}
       >
-        <List>
-          {' '}
-          {/* Main list*/}
-          {mainList.map((text, index) => (
-            <SidebarItem
+        {/* Main list */}
+        <Button
+          color='inherit'
+          fullWidth
+          onClick={() => setCollapsed(!collapsed)}
+          sx={{
+            height: sizes.navButton.height,
+            borderTopRightRadius: 0,
+            borderTopLeftRadius: 0,
+            textTransform: 'capitalize',
+            gap: '0px',
+          }}
+        >
+          <MenuRoundedIcon 
+            sx={{
+              transition: 'all .3s ease',
+              opacity: collapsed ? 1 : 0,
+              position: 'absolute',
+              right: '18px',
+            }}
+          />
+          <ChevronLeftRoundedIcon 
+            sx={{
+              transition: 'all .3s ease',
+              rotate: collapsed ? '0deg' : '720deg',
+              opacity: collapsed ? 0 : 1,
+              position: 'absolute',
+              right: '18px',
+            }}
+          />
+        </Button>
+        <ToggleButtonGroup
+          orientation='vertical'
+          exclusive
+          value={view}
+          onChange={handleChange}
+          fullWidth
+        >
+          {navButtons.map(({ text, icon }) => (
+            <ToggleButton
               key={text}
-              text={text}
-              icon={mainListIcons[index]}
-              selected={selectedIndex === index}
-              onClick={() => (index !== 4 ? handleItemClick(index) : '')}
-            />
+              value={text}
+              sx={{
+                display: 'flex',
+                height: sizes.navButton.height,
+                textTransform: 'capitalize',
+                border: 0,
+                padding: '18px',
+                justifyContent: 'left',
+                gap: '12px',
+                borderBottomLeftRadius: 0,
+                borderBottomRightRadius: 0,
+                whiteSpace: 'nowrap',
+              }}
+            >
+              {icon}
+              {collapsed ? '' : text}
+            </ToggleButton>
           ))}
-        </List>
+        </ToggleButtonGroup>
       </Box>
 
       <Box
@@ -148,7 +209,7 @@ export default function Sidebar() {
           overflowX: 'hidden',
           overflowY: 'auto',
           '&::-webkit-scrollbar': {
-            width: `${sizeConfigs.scrollbarSize}`,
+            width: collapsed ? 0 : `${sizeConfigs.scrollbarSize}`,
           },
           '&::-webkit-scrollbar-thumb': {
             backgroundColor: `${colorConfigs.scrollbar.thumb}`,
@@ -160,11 +221,38 @@ export default function Sidebar() {
           },
         }}
       >
-        <List>
-          {' '}
+        <List disablePadding>
           {/* Playlists list*/}
+          <Button
+            color='inherit'
+            fullWidth
+            sx={{
+              display: 'flex',
+              height: sizes.playlistItem.height,
+              textTransform: 'capitalize',
+              padding: '8px',
+              justifyContent: 'left',
+              gap: '16px',
+              whiteSpace: 'nowrap',
+              borderRadius: '8px',
+              borderBottomRightRadius: 0,
+              borderBottomLeftRadius: 0,
+            }}
+          >
+            <AddRoundedIcon sx={{
+              border: '1px solid #555',
+              height: `${sizes.playlistItem.img}`,
+              width: `${sizes.playlistItem.img}`,
+              borderRadius: '4px',
+            }}/>
+            {collapsed ? '' : 'New Playlist'}
+          </Button>
           {playlists.map((playlist) => (
-            <PlaylistItem key={playlist.id} playlist={playlist} />
+            <PlaylistItem
+              key={playlist.id}
+              playlist={playlist}
+              collapsed={collapsed}
+            />
           ))}
         </List>
       </Box>
