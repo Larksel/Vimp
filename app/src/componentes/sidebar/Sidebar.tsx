@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
 import List from '@mui/material/List';
@@ -114,8 +114,20 @@ const sizes = sizeConfigs.sidebar;
 
 export default function Sidebar() {
   const [collapsed, setCollapsed] = useState(false);
-  const [view, setView] = useState(navButtons[0].text);
+  const [view, setView] = useState<string>(navButtons[0].text);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    const formattedPath = location.pathname
+      .replace(/_/g, ' ')
+      .replace('/', '')
+      .replace(/(?:^|\s)\S/g, (letra) => letra.toUpperCase());
+
+    if (view !== formattedPath && formattedPath !== '') {
+      setView(formattedPath)
+    }
+  }, [location.pathname, view])
 
   const handleChange = (
     event: React.MouseEvent<HTMLElement>,
@@ -150,12 +162,12 @@ export default function Sidebar() {
         <Button
           color='inherit'
           fullWidth
+          disableRipple
           onClick={() => setCollapsed(!collapsed)}
           sx={{
             height: sizes.navButton.height,
             borderTopRightRadius: 0,
             borderTopLeftRadius: 0,
-            textTransform: 'capitalize',
             gap: '0px',
           }}
         >
@@ -188,17 +200,17 @@ export default function Sidebar() {
             <ToggleButton
               key={text}
               value={text}
+              disableRipple
               onClick={() => navigate(page)}
               sx={{
                 display: 'flex',
                 height: sizes.navButton.height,
                 textTransform: 'capitalize',
                 border: 0,
+                borderRadius: '8px',
                 padding: '18px',
                 justifyContent: 'left',
                 gap: '12px',
-                borderBottomLeftRadius: 0,
-                borderBottomRightRadius: 0,
                 whiteSpace: 'nowrap',
               }}
             >

@@ -1,5 +1,5 @@
 const ROUTES = {
-  HOME: '/',
+  HOME: '/home',
   QUEUE: '/queue',
   SEARCH: '/search',
   MUSIC_LIBRARY: '/music_library',
