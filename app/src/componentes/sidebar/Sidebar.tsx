@@ -113,7 +113,7 @@ const colors = colorConfigs.sidebar;
 const sizes = sizeConfigs.sidebar;
 
 export default function Sidebar() {
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(true);
   const [view, setView] = useState<string>(navButtons[0].text);
   const navigate = useNavigate();
   const location = useLocation();

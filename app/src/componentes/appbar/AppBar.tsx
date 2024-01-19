@@ -31,7 +31,7 @@ export default function AppBar() {
           display: 'flex',
           flexDirection: 'row',
           gap: '8px',
-          ml: '16px',
+          ml: '24px',
           height: '100%',
           alignItems: 'center',
           justifyContent: 'center',
