@@ -37,38 +37,6 @@ export default function PlaybackButtons() {
     }
   };
 
-  const handleNext = () => {
-    console.log('Next song')
-    /*
-    if (!(currentTrack == tracks.length - 1)) {
-      nextTrack = currentTrack + 1;
-    } else {
-      nextTrack = 0;
-    }
-
-    currentTrack = nextTrack;
-
-    player.setTrack(tracks[nextTrack]);
-    player.play();
-    */
-  };
-
-  const handlePrevious = () => {
-    console.log('Previous song')
-    /*
-    if (!(currentTrack == 0)) {
-      prevTrack = currentTrack - 1;
-    } else {
-      prevTrack = tracks.length - 1;
-    }
-
-    currentTrack = prevTrack;
-
-    player.setTrack(tracks[prevTrack]);
-    player.play();
-    */
-  };
-
   const repeatIcons = {
     off: <RepeatRoundedIcon />,
     all: <RepeatRoundedIcon sx={{ color: 'secondary.main' }} />,
@@ -106,7 +74,6 @@ export default function PlaybackButtons() {
 
         <IconButton
           disableRipple
-          onClick={handlePrevious}
           sx={{
             color: `${colors.unfocused}`,
             '&:hover': {
@@ -139,7 +106,6 @@ export default function PlaybackButtons() {
       >
         <IconButton
           disableRipple
-          onClick={handleNext}
           sx={{
             color: `${colors.unfocused}`,
             '&:hover': {

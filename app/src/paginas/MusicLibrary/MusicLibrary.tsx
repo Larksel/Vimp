@@ -7,6 +7,7 @@ import Button from '@mui/material/Button';
 import TrackList from '../../componentes/TrackList/TrackList';
 
 //TODO estado da lista de música reseta ao mudar de página
+//TODO lista virtual
 
 export default function MusicLibrary() {
   const [tracks, setTracks] = useState<Track[]>();

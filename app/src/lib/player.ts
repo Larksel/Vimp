@@ -7,6 +7,7 @@ import {
   setSongDuration,
   setPlaybackRate,
 } from '../features/playerSlice';
+import queue from './queue';
 
 interface PlayerOptions {
   playbackRate?: number;
@@ -76,6 +77,14 @@ class Player {
 
   stop() {
     this.audio.pause();
+  }
+
+  next() {
+    queue.next();
+  }
+
+  previous() {
+    queue.previous();
   }
 
   mute() {

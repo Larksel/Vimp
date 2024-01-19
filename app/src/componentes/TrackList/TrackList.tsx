@@ -4,6 +4,7 @@ import Box from '@mui/material/Box';
 import TrackItem from './TrackItem';
 
 //TODO table
+//TODO lista virtual
 //TODO estado da lista de música reseta ao mudar de página
 interface TrackListProps {
   data: Track[]
