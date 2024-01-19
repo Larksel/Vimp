@@ -133,6 +133,7 @@ class Player {
   setTrack(track: string) {
     if (!track) return;
     
+    //! Remove this on production unless needed
     // If the path is a local file, ensure that it has the custom protocol
     if (!track.startsWith('vimp://') && !track.startsWith('/')) {
       track = 'vimp://' + track

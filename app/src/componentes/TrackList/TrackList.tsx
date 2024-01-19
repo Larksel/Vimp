@@ -1,12 +1,27 @@
+import { Track } from '../../types/vimp';
 import Box from '@mui/material/Box';
 
-import Track from './Track';
+import TrackItem from './TrackItem';
 
-export default function TrackList() {
+//TODO table
+//TODO estado da lista de música reseta ao mudar de página
+interface TrackListProps {
+  data: Track[]
+}
+
+export default function TrackList({ data }: TrackListProps) {
   return (
-    <Box>
-      TrackList
-      <Track />
+    <Box sx={{
+      width: '100%',
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '8px',
+      alignItems: 'center',
+      justifyContent: 'center',
+    }}>
+      {data.map((track, index) => (
+        <TrackItem key={index} track={track}/>
+      ))}
     </Box>
   )
 }
