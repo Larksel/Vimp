@@ -1,5 +1,5 @@
-from src.downloader import Downloader
-from src.managers import FileManager
+from app.main.downloader import Downloader
+from app.main.managers import FileManager
 from pathlib import Path
 
 
