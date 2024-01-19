@@ -6,6 +6,7 @@ import List from '@mui/material/List';
 import Button from '@mui/material/Button';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import ToggleButton from '@mui/material/ToggleButton';
+import Typography from '@mui/material/Typography';
 
 import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
 import ChevronLeftRoundedIcon from '@mui/icons-material/ChevronLeftRounded';
@@ -15,7 +16,7 @@ import LibraryMusicRoundedIcon from '@mui/icons-material/LibraryMusicRounded';
 import VideoLibraryRoundedIcon from '@mui/icons-material/VideoLibraryRounded';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 
-import ROUTES from '../../core/routes'
+import ROUTES from '../../core/routes';
 import sizeConfigs from '../../configs/sizeConfigs';
 import colorConfigs from '../../configs/colorConfigs';
 
@@ -113,7 +114,7 @@ const colors = colorConfigs.sidebar;
 const sizes = sizeConfigs.sidebar;
 
 export default function Sidebar() {
-  const [collapsed, setCollapsed] = useState(true);
+  const [collapsed, setCollapsed] = useState(false);
   const [view, setView] = useState<string>(navButtons[0].text);
   const navigate = useNavigate();
   const location = useLocation();
@@ -125,9 +126,9 @@ export default function Sidebar() {
       .replace(/(?:^|\s)\S/g, (letra) => letra.toUpperCase());
 
     if (view !== formattedPath && formattedPath !== '') {
-      setView(formattedPath)
+      setView(formattedPath);
     }
-  }, [location.pathname, view])
+  }, [location.pathname, view]);
 
   const handleChange = (
     event: React.MouseEvent<HTMLElement>,
@@ -166,22 +167,23 @@ export default function Sidebar() {
           onClick={() => setCollapsed(!collapsed)}
           sx={{
             height: sizes.navButton.height,
-            borderTopRightRadius: 0,
-            borderTopLeftRadius: 0,
-            gap: '0px',
+            borderRadius: '8px',
+            borderBottomRightRadius: 0,
+            borderBottomLeftRadius: 0,
+            textTransform: 'none',
           }}
         >
-          <MenuRoundedIcon 
+          <MenuRoundedIcon
             sx={{
-              transition: 'all .3s ease',
+              transition: 'all .3s ease-out',
               opacity: collapsed ? 1 : 0,
               position: 'absolute',
               right: '18px',
             }}
           />
-          <ChevronLeftRoundedIcon 
+          <ChevronLeftRoundedIcon
             sx={{
-              transition: 'all .3s ease',
+              transition: 'all .3s ease-out',
               rotate: collapsed ? '0deg' : '720deg',
               opacity: collapsed ? 0 : 1,
               position: 'absolute',
@@ -208,6 +210,8 @@ export default function Sidebar() {
                 textTransform: 'capitalize',
                 border: 0,
                 borderRadius: '8px',
+                borderTopRightRadius: 0,
+                borderTopLeftRadius: 0,
                 padding: '18px',
                 justifyContent: 'left',
                 gap: '12px',
@@ -215,7 +219,16 @@ export default function Sidebar() {
               }}
             >
               {icon}
-              {collapsed ? '' : text}
+              <Typography
+                variant='body1'
+                sx={{
+                  transition: 'all .3s ease-out',
+                  opacity: collapsed ? 0 : 1,
+                  translate: collapsed ? '-5px' : 0,
+                }}
+              >
+                {text}
+              </Typography>
             </ToggleButton>
           ))}
         </ToggleButtonGroup>
@@ -259,13 +272,24 @@ export default function Sidebar() {
               borderBottomLeftRadius: 0,
             }}
           >
-            <AddRoundedIcon sx={{
-              border: '1px solid #555',
-              height: `${sizes.playlistItem.img}`,
-              width: `${sizes.playlistItem.img}`,
-              borderRadius: '4px',
-            }}/>
-            {collapsed ? '' : 'New Playlist'}
+            <AddRoundedIcon
+              sx={{
+                border: '1px solid #555',
+                height: `${sizes.playlistItem.img}`,
+                width: `${sizes.playlistItem.img}`,
+                borderRadius: '4px',
+              }}
+            />
+            <Typography
+              variant='body1'
+              sx={{
+                transition: 'all .3s ease-out',
+                opacity: collapsed ? 0 : 1,
+                translate: collapsed ? '-5px' : 0,
+              }}
+            >
+              New Playlist
+            </Typography>
           </Button>
           {playlists.map((playlist) => (
             <PlaylistItem

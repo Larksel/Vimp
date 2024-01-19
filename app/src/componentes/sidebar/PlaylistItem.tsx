@@ -22,7 +22,10 @@ const handleImageError = (event: React.BaseSyntheticEvent) => {
 
 const sizes = sizeConfigs.sidebar.playlistItem;
 
-export default function PlaylistItem({ playlist, collapsed }: PlaylistItemProps) {
+export default function PlaylistItem({
+  playlist,
+  collapsed,
+}: PlaylistItemProps) {
   return (
     <ListItem disablePadding>
       <ListItemButton
@@ -51,16 +54,17 @@ export default function PlaylistItem({ playlist, collapsed }: PlaylistItemProps)
           />
         </Box>
 
-        {collapsed ? '' : 
-          <ListItemText
-            primary={playlist.nome}
-            secondary={'Playlist'}
-            sx={{
-              ml: '16px',
-              whiteSpace: 'nowrap',
-            }}
-          />
-        }
+        <ListItemText
+          primary={playlist.nome}
+          secondary={'Playlist'}
+          sx={{
+            ml: '16px',
+            whiteSpace: 'nowrap',
+            transition: 'all .3s ease-out',
+            opacity: collapsed ? 0 : 1,
+            translate: collapsed ? '-5px' : 0,
+          }}
+        />
       </ListItemButton>
     </ListItem>
   );
