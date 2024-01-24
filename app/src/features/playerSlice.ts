@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { RepeatMode } from '../types/vimp';
+import { RepeatMode } from '../../shared/types/vimp';
 
 type PlayerState = {
   player: {

@@ -19,5 +19,5 @@
       "*": ["node_modules/*"]
     }
   },
-  "include": ["app/src/**/*"]
+  "include": ["app/src/**/*", "app/shared/types/vimp.ts"]
 }

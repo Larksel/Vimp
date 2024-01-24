@@ -1,4 +1,4 @@
-import { Track } from '../../types/vimp';
+import { Track } from '../../../shared/types/vimp';
 import { formatDuration } from '../../lib/utils';
 
 import Box from '@mui/material/Box';

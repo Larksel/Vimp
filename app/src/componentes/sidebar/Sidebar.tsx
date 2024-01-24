@@ -22,7 +22,7 @@ import colorConfigs from '../../configs/colorConfigs';
 
 import PlaylistItem from './PlaylistItem';
 
-//TODO lista virtual
+//TODO lista virtual ?
 
 const playlists = [
   {

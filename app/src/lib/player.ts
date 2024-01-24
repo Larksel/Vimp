@@ -8,6 +8,7 @@ import {
   setPlaybackRate,
 } from '../features/playerSlice';
 import queue from './queue';
+import { Track } from '../../shared/types/vimp';
 
 interface PlayerOptions {
   playbackRate?: number;
@@ -141,10 +142,9 @@ class Player {
 
   setTrack(track: string) {
     if (!track) return;
-    
-    //! Remove this on production unless needed
+
     // If the path is a local file, ensure that it has the custom protocol
-    if (!track.startsWith('vimp://') && !track.startsWith('/')) {
+    if (!track.startsWith('vimp://')) {
       track = 'vimp://' + track
     }
 

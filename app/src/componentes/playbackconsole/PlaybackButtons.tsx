@@ -74,6 +74,7 @@ export default function PlaybackButtons() {
 
         <IconButton
           disableRipple
+          onClick={() => player.previous()}
           sx={{
             color: `${colors.unfocused}`,
             '&:hover': {
@@ -106,6 +107,7 @@ export default function PlaybackButtons() {
       >
         <IconButton
           disableRipple
+          onClick={() => player.next()}
           sx={{
             color: `${colors.unfocused}`,
             '&:hover': {

@@ -1,13 +1,13 @@
 import { Routes, Route } from 'react-router-dom';
 import ROUTES from './routes';
 //import loadable from '@loadable/component'
-import HomePage from '../paginas/Home/HomePage';
-import MusicLibrary from '../paginas/MusicLibrary/MusicLibrary';
+import HomePage from '../views/Home/HomePage';
+import MusicLibrary from '../views/MusicLibrary/MusicLibrary';
 
 // Load bundles asynchronously so that the initial render happens faster
 /*
   const HomePage = loadable(() =>
-    import('../paginas/Home/HomePage')
+    import('../views/Home/HomePage')
   );
 */
 

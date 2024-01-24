@@ -54,6 +54,7 @@ class Downloader:
 
         urllib.request.urlretrieve(image_url, self.thumbnail_path)
 
+    # TODO pegar vídeo com base na resolução passada
     # Downloads the highest (max 720p) resolution of the video.
     def get_video(self) -> None:
         print(f"Downloading: {self.title}")

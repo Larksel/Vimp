@@ -10,3 +10,7 @@ export interface Track {
   title: string,
   year: number,
 }
+
+export type TrackModel = PouchDB.Core.ExistingDocument<
+  Track & PouchDB.Core.AllDocsMeta
+>;
