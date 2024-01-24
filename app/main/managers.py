@@ -18,7 +18,7 @@ class FileManager:
     # Removes every non-supported character from the filename
     @staticmethod
     def format_filename(filename):
-        blacklist = set(".'?*,<;>|:\/" + '"')
+        blacklist = set("?*<>|:\/" + '"')
         for ch in filename:
             if ch in blacklist:
                 filename = filename.replace(ch, "")

@@ -70,16 +70,16 @@ class Downloader:
         print(f"Downloading: {self.title}")
         dirmanager.make_dir(dirmanager.tempfolder)
 
+        mp4_file = dirmanager.tempfolder + f"{self.formatted_title}.mp4"
+        mp3_file = dirmanager.musicfolder + f"{self.formatted_title}.mp3"
+
         self.get_thumbnail()
 
         video = self.yt.streams.get_lowest_resolution()
-        video.download(dirmanager.tempfolder)
+        video.download(dirmanager.tempfolder, filename=mp4_file)
 
         # Convert to mp3
         dirmanager.make_dir(dirmanager.musicfolder)
-
-        mp4_file = dirmanager.tempfolder + f"{self.formatted_title}.mp4"
-        mp3_file = dirmanager.musicfolder + f"{self.formatted_title}.mp3"
         
         Converter.video_to_audio(mp4_file, mp3_file)
         FileManager.set_audio_metadata(mp3_file, self.title, self.thumbnail_path)
