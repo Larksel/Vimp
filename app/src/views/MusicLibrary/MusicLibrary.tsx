@@ -17,7 +17,7 @@ export default function MusicLibrary() {
   const [tracks, setTracks] = useState<Track[]>();
 
   const getTracks = async () => {
-    const result = await window.VimpAPI.pickFile();
+    const result = await window.VimpAPI.app.pickFile();
 
     console.log(result);
     setTracks(result);

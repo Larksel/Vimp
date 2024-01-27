@@ -114,7 +114,8 @@ class Player {
   }
 
   getTrack() {
-    return this.track;
+    const track = this.track?.replace('vimp://', '')
+    return track;
   }
 
   getTrackDuration() {

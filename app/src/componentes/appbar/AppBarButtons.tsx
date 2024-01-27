@@ -17,13 +17,13 @@ export default function AppBarButtons() {
   const [isMaximized, setIsMaximized] = useState<boolean>();
 
   useEffect(() => {
-    window.VimpAPI.onWindowResize((value: boolean) => setIsMaximized(value))
+    window.VimpAPI.window.onWindowResize((value: boolean) => setIsMaximized(value))
   }, [])
 
   const buttons = [
     {
       label: <HorizontalRuleSharpIcon sx={{ fontSize: '18px' }} />,
-      action: () => window.VimpAPI.minimize(),
+      action: () => window.VimpAPI.window.minimize(),
     },
     {
       label: isMaximized ? (
@@ -31,11 +31,11 @@ export default function AppBarButtons() {
       ) : (
         <CropSquareSharpIcon sx={{ fontSize: '17px' }} />
       ),
-      action: () => window.VimpAPI.maximizeOrRestore(),
+      action: () => window.VimpAPI.window.maximizeOrRestore(),
     },
     {
       label: <CloseSharpIcon sx={{ fontSize: '18px' }} />,
-      action: () => window.VimpAPI.close(),
+      action: () => window.VimpAPI.window.close(),
     },
   ];
 

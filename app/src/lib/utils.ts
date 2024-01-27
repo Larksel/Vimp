@@ -1,7 +1,7 @@
 /**
  * Format seconds to a readable string
  */
-export const formatDuration = (value: number) => {
+export const formatDuration = (value: number | undefined) => {
   if (value && value !== 0) {
     const hours = Math.trunc(value / 3600);
     const minutes = Math.trunc((value % 3600) / 60);
