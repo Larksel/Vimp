@@ -3,6 +3,8 @@ import path from 'path';
 import MenuBuilder from './modules/menu';
 import { getMetadata } from './modules/metadataHandler';
 import { setupVimpProtocol } from './modules/protocol';
+import setupIPCDatabase from './modules/IPCDatabase';
+import setupIPCTracks from './modules/IPCTracks';
 
 //TODO Separar código em módulos
 
@@ -122,6 +124,8 @@ app.whenReady().then(() => {
   // tray = new Tray(icon);
 
   setupVimpProtocol()
+  setupIPCDatabase()
+  setupIPCTracks()
 
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {

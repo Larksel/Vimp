@@ -1,14 +1,15 @@
 export type RepeatMode = 'off' | 'all' | 'one';
 
 export interface Track {
-  album: string,
-  artist: string,
-  duration: number,
-  genre: string,
-  path: string,
-  playCount: number,
-  title: string,
-  year: number,
+  title: string;
+  album: string;
+  artist: string[];
+  genre: string[];
+  duration: number;
+  playCount: number;
+  favorite: boolean;
+  lastPlayed: Date;
+  path: string;
 }
 
 export type TrackModel = PouchDB.Core.ExistingDocument<

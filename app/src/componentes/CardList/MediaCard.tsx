@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react';
+
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
@@ -8,29 +10,45 @@ import Typography from '@mui/material/Typography';
 import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded';
 
 import placeholder from '../../assets/images/placeholder.png';
+import { Track } from '../../../shared/types/vimp';
+import player from '../../lib/player';
 
-interface CardProps {
-  title: string;
-  desc: string;
-  action: () => void;
+interface MediaCardProps {
+  item: Track;
 }
 
-export default function MediaCard({ title, desc, action }: CardProps) {
+export default function MediaCard({ item }: MediaCardProps) {
+  const [cover, setCover] = useState();
+
+  useEffect(() => {
+    async function getCover() {
+      const coverData = await window.VimpAPI.app.getCover(item.path);
+      setCover(coverData);
+    }
+
+    getCover();
+  }, [item.path]);
+
+  const playTrack = () => {
+    player.setTrack(item.path);
+    player.play();
+  };
+
   return (
     <Card
-      onClick={action}
+      onClick={playTrack}
       sx={{
         bgcolor: '#181818',
         boxShadow: 0,
-        width: '201px',
-        height: '284px',
+        minWidth: '201px',
+        minHeight: '284px',
         borderRadius: '8px',
         p: '16px',
         display: 'flex',
         alignItems: 'flex-start',
         justifyContent: 'center',
         backgroundImage: 'none',
-        overflow: 'visible',
+        overflow: 'hidden',
         transition: 'background-color .3s ease',
         '&:hover': {
           bgcolor: '#292929',
@@ -62,7 +80,7 @@ export default function MediaCard({ title, desc, action }: CardProps) {
           </IconButton>
           <CardMedia
             component='img'
-            image={placeholder}
+            image={cover || placeholder}
             sx={{
               height: '170px',
               width: '170px',
@@ -84,11 +102,26 @@ export default function MediaCard({ title, desc, action }: CardProps) {
             },
           }}
         >
-          <Typography variant='body1' component='div'>
-            {title}
+          <Typography
+            variant='body2'
+            sx={{
+              overflow: 'hidden',
+              whiteSpace: 'nowrap',
+              maxWidth: '170px',
+            }}
+          >
+            {item.title}
           </Typography>
-          <Typography variant='caption' color='text.secondary'>
-            {desc}
+          <Typography
+            variant='caption'
+            color='text.secondary'
+            sx={{
+              overflow: 'hidden',
+              whiteSpace: 'nowrap',
+              maxWidth: '170px',
+            }}
+          >
+            {item.artist}
           </Typography>
         </CardContent>
       </Box>

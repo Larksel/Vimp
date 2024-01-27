@@ -1,7 +1,6 @@
 import * as mmd from 'music-metadata';
 import path from 'path';
-
-//TODO resolver problema de valores undefined. Ex: artist: undefined (deveria ser Unknown Artist)
+import { formatDate } from '../lib/utils';
 
 export async function getMetadata(trackPath: string) {
   const defaultMetadata = getMetadataDefaults()
@@ -43,15 +42,14 @@ function formatMusicMetadata(
   const { common, format } = data;
 
   const metadata = {
+    title: common.title || path.parse(trackPath).base,
     album: common.album,
     artist:
       common.artists ||
       (common.artist && [common.artist]) ||
-      (common.albumartist && [common.albumartist]),
+      (common.albumartist && [common.albumartist]) || ['Unknown artist'],
+    genre: common.genre || ['Unknown'],
     duration: format.duration,
-    genre: common.genre,
-    title: common.title || path.parse(trackPath).base,
-    year: common.year,
   };
 
   return metadata;
@@ -62,13 +60,31 @@ function formatMusicMetadata(
  */
 function getMetadataDefaults() {
   return {
-    album: 'Unknown',
-    artist: ['Unknown artist'],
-    duration: 0,
-    genre: [],
-    path: '',
-    playCount: 0,
     title: '',
-    year: null,
+    album: '',
+    artist: ['Unknown artist'],
+    genre: ['Unknown'],
+    duration: 0,
+    playCount: 0,
+    lastPlayed: new Date(formatDate(new Date())),
+    favorite: false,
+    path: '',
   };
+}
+
+const parseBase64 = (format: string, data: string): string => {
+  return `data:${format};base64,${data}`;
+};
+
+export async function getCover(trackPath: string) {
+  if (!trackPath) {
+    return null;
+  }
+
+  const data = await mmd.parseFile(trackPath);
+  const picture = data.common.picture && data.common.picture[0];
+
+  if (picture) {
+    return parseBase64(picture.format, picture.data.toString('base64'));
+  }
 }

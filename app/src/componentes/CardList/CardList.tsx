@@ -4,12 +4,10 @@ import MediaCard from './MediaCard';
 
 import sizeConfigs from '../../configs/sizeConfigs';
 import colorConfigs from '../../configs/colorConfigs';
+import { Track } from '../../../shared/types/vimp';
 
-interface CardListProps {
-  data: {
-    title: string;
-    desc: string;
-  }[]
+type CardListProps = {
+  data: Track[];
 }
 
 export default function CardList({ data }: CardListProps) {
@@ -37,12 +35,10 @@ export default function CardList({ data }: CardListProps) {
         },
       }}
     >
-      {data.map(({ title, desc }, index) => (
+      {data.map((item, index) => (
         <MediaCard
           key={index}
-          title={title}
-          desc={desc}
-          action={() => console.log(title)}
+          item={item}
         />
       ))}
     </Box>
