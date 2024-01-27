@@ -25,6 +25,7 @@ export default function MusicLibrary() {
 
   const playTracks = () => {
     console.log('add to playlist')
+
     tracks?.map((track) => {
       if (!queue.getQueue().some(existingTrack => existingTrack.title === track.title)) {
         queue.add(track);
@@ -32,10 +33,8 @@ export default function MusicLibrary() {
         console.log(`${track.title} ja existe na lista`)
       }
     })
-    console.log(queue.getQueue())
-    console.log(queue.getQueueLength())
-    console.log(queue.getQueuePosition())
-    player.play()
+
+    queue.play()
     //player.setTrack('')
     //player.play()
   }
