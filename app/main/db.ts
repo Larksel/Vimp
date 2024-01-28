@@ -104,6 +104,7 @@ const TracksDB = {
   /**
    * Increments `playCount` attribute for the given track
    */
+  //TODO implementar sistema de treshold para incrementar automaticamente
   async incrementPlayCount(track: TrackModel) {
     const doc = await Tracks.get(track._id);
     await Tracks.put({

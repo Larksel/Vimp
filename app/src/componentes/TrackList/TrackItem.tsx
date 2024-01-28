@@ -19,7 +19,7 @@ interface TrackProps {
 
 export default function TrackItem({ track }: TrackProps) {
   const playTrack = () => {
-    player.setTrack(track.path)
+    player.setTrack(track)
     player.play()
   }
 

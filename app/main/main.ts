@@ -103,8 +103,8 @@ const createWindow = () => {
   });
 
   mainWindow.on('resize', () => {
-    mainWindow?.webContents.send('window-resized', mainWindow?.isMaximized())
-  })
+    mainWindow?.webContents.send('window-resized', mainWindow?.isMaximized());
+  });
 };
 
 /**
@@ -123,9 +123,9 @@ app.whenReady().then(() => {
   //TODO verificar por que o tray não some junto com o app
   // tray = new Tray(icon);
 
-  setupVimpProtocol()
-  setupIPCDatabase()
-  setupIPCTracks()
+  setupVimpProtocol();
+  setupIPCDatabase();
+  setupIPCTracks();
 
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {
@@ -138,19 +138,23 @@ app.whenReady().then(() => {
  * File picker
  */
 ipcMain.handle('pick-files', async () => {
-  const result = await dialog.showOpenDialog({
+  const { canceled, filePaths } = await dialog.showOpenDialog({
     properties: ['multiSelections', 'openFile'],
     filters: [{ name: 'Audio Files', extensions: ['mp3', 'wav', 'ogg'] }],
   });
 
-  const scanned = await Promise.all(
-    result.filePaths.map(async (path) => {
-      const track = await getMetadata(path);
-      return track;
-    })
-  );
+  if (!canceled) {
+    const files = await Promise.all(
+      filePaths.map(async (path) => {
+        const track = await getMetadata(path);
+        return track;
+      })
+    );
 
-  return scanned;
+    return files;
+  }
+
+  return null;
 });
 
 ipcMain.handle('open-file', async () => {
@@ -160,6 +164,11 @@ ipcMain.handle('open-file', async () => {
   });
 
   if (!canceled) {
-    return filePaths[0];
+    const path = filePaths[0];
+
+    const track = await getMetadata(path);
+    return track;
   }
+
+  return null;
 });

@@ -30,7 +30,7 @@ export default function MediaCard({ item }: MediaCardProps) {
   }, [item.path]);
 
   const playTrack = () => {
-    player.setTrack(item.path);
+    player.setTrack(item);
     player.play();
   };
 

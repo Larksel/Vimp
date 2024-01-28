@@ -21,7 +21,7 @@ const state = store.getState().player;
 //TODO integrar classe Queue
 class Player {
   private audio: HTMLAudioElement;
-  private track: string | null;
+  private track: Track | null;
 
   constructor(options?: PlayerOptions) {
     const defaultOptions = {
@@ -114,8 +114,7 @@ class Player {
   }
 
   getTrack() {
-    const track = this.track?.replace('vimp://', '')
-    return track;
+    return this.track;
   }
 
   getTrackDuration() {
@@ -141,16 +140,18 @@ class Player {
     store.dispatch(setSongProgress(currentTime));
   }
 
-  setTrack(track: string) {
+  setTrack(track: Track) {
     if (!track) return;
 
+    let path = track.path;
+
     // If the path is a local file, ensure that it has the custom protocol
-    if (!track.startsWith('vimp://')) {
-      track = 'vimp://' + track
+    if (!path.startsWith('vimp://')) {
+      path = 'vimp://' + path
     }
 
     this.track = track;
-    this.audio.src = track;
+    this.audio.src = path;
   }
 }
 

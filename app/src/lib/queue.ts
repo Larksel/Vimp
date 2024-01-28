@@ -45,7 +45,7 @@ class Queue {
   play() {
     const currentSong = this.queue[this.queuePosition];
     if (currentSong) {
-      player.setTrack(currentSong.path);
+      player.setTrack(currentSong);
       player.play();
     }
   }
@@ -61,7 +61,7 @@ class Queue {
   
     this.queuePosition = nextTrack;
   
-    player.setTrack(this.queue[nextTrack].path);
+    player.setTrack(this.queue[nextTrack]);
     player.play();
   };
   
@@ -76,7 +76,7 @@ class Queue {
   
     this.queuePosition = prevTrack;
   
-    player.setTrack(this.queue[prevTrack].path);
+    player.setTrack(this.queue[prevTrack]);
     player.play();
   };
 
