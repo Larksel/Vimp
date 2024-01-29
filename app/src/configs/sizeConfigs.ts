@@ -7,7 +7,7 @@ const sizeConfigs = {
       width: '50px',
       height: '35px',
     },
-    logo: '32px',
+    logo: '24px',
   },
   sidebar: {
     minWidth: '300px',

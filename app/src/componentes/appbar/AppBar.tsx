@@ -2,20 +2,16 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
 import sizeConfigs from '../../configs/sizeConfigs';
-import colorConfigs from '../../configs/colorConfigs';
 
 import AppBarButtons from './AppBarButtons';
 import logo from '../../assets/images/logo.png';
 
 const sizes = sizeConfigs.appBar;
-const colors = colorConfigs.appBar;
 
-// Definição de cada parte da aplicação
 export default function AppBar() {
   return (
     <Box
       sx={{
-        backgroundColor: `${colors.bg}`,
         height: `${sizes.height}`,
         width: `${sizes.width}`,
         display: 'flex',
@@ -45,11 +41,14 @@ export default function AppBar() {
             width: `${sizes.logo}`,
           }}
         />
-        <Typography component='h1' sx={{
-          fontWeight: 'bold',
-          color: '#ff6077',
-          textAlign: 'center',
-        }}>
+        <Typography
+          component='h1'
+          sx={{
+            fontWeight: 'bold',
+            color: '#ff6077',
+            textAlign: 'center',
+          }}
+        >
           Vimp
         </Typography>
       </Box>
@@ -57,6 +56,7 @@ export default function AppBar() {
       <Box
         sx={{
           WebkitAppRegion: 'no-drag',
+          zIndex: 99,
         }}
       >
         <AppBarButtons />

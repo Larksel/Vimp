@@ -1,6 +1,5 @@
 const colorConfigs = {
   appBar: {
-    bg: '#000',
     buttons: {
       text: '#fff',
       defaultHoverBg: 'rgba(255, 255, 255, 0.3)',
