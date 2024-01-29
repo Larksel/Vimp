@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Track } from '../../../shared/types/vimp';
 
 import Box from '@mui/material/Box';
@@ -16,6 +16,16 @@ import queue from '../../lib/queue'
 export default function MusicLibrary() {
   const [tracks, setTracks] = useState<Track[]>();
 
+  useEffect(() => {
+    async function getTracks() {
+      const res: Track[] = await window.VimpAPI.db.getTracks();
+
+      setTracks(res)
+    }
+
+    getTracks()
+  }, [])
+
   const getTracks = async () => {
     const result = await window.VimpAPI.app.pickFile();
 
@@ -27,10 +37,8 @@ export default function MusicLibrary() {
     console.log('add to playlist')
 
     tracks?.map((track) => {
-      if (!queue.getQueue().some(existingTrack => existingTrack.title === track.title)) {
+      if (!queue.getQueue().some(existingTrack => existingTrack.path === track.path)) {
         queue.add(track);
-      } else {
-        console.log(`${track.title} ja existe na lista`)
       }
     })
 

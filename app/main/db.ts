@@ -2,7 +2,7 @@ import path from 'path';
 import { app } from 'electron';
 import PouchDB from 'pouchdb';
 import PouchDBFind from 'pouchdb-find';
-import { formatDate } from './lib/utils';
+import { formatDate } from '../shared/lib/utils';
 import { Track, TrackModel } from '../shared/types/vimp';
 
 PouchDB.plugin(PouchDBFind);
@@ -25,22 +25,10 @@ const TracksDB = {
 
   //TODO tiro no pé - como descobrir a musica pelo id gerado?
   async insertMany(tracks: Track[]) {
-    const tracksWithIds = tracks.map((track, index, array) => {
-      const sameTitleTracks = array.filter(
-        (t, i) => i !== index && t.title === track.title
-      );
-
-      if (sameTitleTracks.length > 0) {
-        const filename = path.parse(track.path).base;
-        return {
-          ...track,
-          _id: filename,
-        };
-      }
-
+    const tracksWithIds = tracks.map((track) => {
       return {
         ...track,
-        _id: track.title,
+        _id: path.parse(track.path).base,
       };
     });
 
@@ -82,6 +70,7 @@ const TracksDB = {
 
   // * Getter functions
 
+  //TODO fazer com que essa função realmente use o id
   async getById(trackID: string) {
     const { docs } = await Tracks.find({
       selector: { _id: trackID },
@@ -127,11 +116,12 @@ const TracksDB = {
   /**
    * Update `lastPlayed` to current time for the given track
    */
+  //TODO chamar função ao reproduzir uma música
   async updateLastPlayed(track: TrackModel) {
     const doc = await Tracks.get(track._id);
     await Tracks.put({
       ...doc,
-      lastPlayed: new Date(formatDate(new Date())),
+      lastPlayed: formatDate(new Date()),
     });
   },
 

@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { RepeatMode } from '../../shared/types/vimp';
+import { RepeatMode, Track } from '../../shared/types/vimp';
 
 type PlayerState = {
   player: {
@@ -11,12 +11,14 @@ type PlayerState = {
     volume: number;
     isMuted: boolean;
     playbackRate: number;
+    currentTrack: Track;
   };
 };
 
 export const playerSlice = createSlice({
   name: 'player',
   initialState: {
+    currentTrack: {},
     shuffle: false,
     isPlaying: false,
     repeat: 'off',
@@ -27,6 +29,9 @@ export const playerSlice = createSlice({
     playbackRate: 1,
   },
   reducers: {
+    setCurrentTrack: (state, action) => {
+      state.currentTrack = action.payload;
+    },
     setShuffle: (state, action) => {
       state.shuffle = action.payload;
     },
@@ -70,6 +75,7 @@ export const playerSlice = createSlice({
 });
 
 export const {
+  setCurrentTrack,
   setShuffle,
   setIsPlaying,
   changeRepeat,
@@ -81,6 +87,7 @@ export const {
 } = playerSlice.actions;
 
 //TODO encontrar um jeito melhor de fazer isso
+export const selectCurrentTrack = (state: PlayerState) => state.player.currentTrack;
 export const selectShuffle = (state: PlayerState) => state.player.shuffle;
 export const selectIsPlaying = (state: PlayerState) => state.player.isPlaying;
 export const selectRepeat = (state: PlayerState) => state.player.repeat;

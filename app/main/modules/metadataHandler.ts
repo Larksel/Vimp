@@ -1,6 +1,5 @@
 import * as mmd from 'music-metadata';
 import path from 'path';
-import { formatDate } from '../lib/utils';
 
 export async function getMetadata(trackPath: string) {
   const defaultMetadata = getMetadataDefaults()
@@ -66,7 +65,7 @@ function getMetadataDefaults() {
     genre: ['Unknown'],
     duration: 0,
     playCount: 0,
-    lastPlayed: new Date(formatDate(new Date())),
+    lastPlayed: null,
     favorite: false,
     path: '',
   };

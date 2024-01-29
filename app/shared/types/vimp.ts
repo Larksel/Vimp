@@ -8,7 +8,7 @@ export interface Track {
   duration: number;
   playCount: number;
   favorite: boolean;
-  lastPlayed: Date;
+  lastPlayed: string | null;
   path: string;
 }
 

@@ -1,15 +1,24 @@
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
 import placeholderImage from '../../assets/images/placeholder.png';
+import { selectCurrentTrack } from '../../features/playerSlice';
 
-interface MusicInfoProps {
-  title: string;
-  artist: string;
-  // img?: any;
-}
+export default function MusicInfo() {
+  const [cover, setCover] = useState();
+  const track = useSelector(selectCurrentTrack)
 
-export default function MusicInfo({ title, artist }: MusicInfoProps) {
+  useEffect(() => {
+    async function getCover() {
+      const coverData = await window.VimpAPI.app.getCover(track.path);
+      setCover(coverData);
+    }
+
+    getCover();
+  }, [track.path]);
+
   return (
     <Box
       sx={{
@@ -27,7 +36,7 @@ export default function MusicInfo({ title, artist }: MusicInfoProps) {
       <Box>
         <Box
           component='img'
-          src={placeholderImage}
+          src={cover || placeholderImage}
           sx={{
             height: '60px',
             width: '60px',
@@ -51,9 +60,9 @@ export default function MusicInfo({ title, artist }: MusicInfoProps) {
           whiteSpace: 'nowrap',
         }}
       >
-        <Typography variant='body1'>{title}</Typography>
+        <Typography variant='body1'>{track.title}</Typography>
         <Typography variant='caption' color='text.secondary'>
-          {artist}
+          {track.artist}
         </Typography>
       </Box>
     </Box>

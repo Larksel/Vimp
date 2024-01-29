@@ -1,5 +1,6 @@
 import store from '../store';
 import {
+  setCurrentTrack,
   setVolume,
   setIsMuted,
   setIsPlaying,
@@ -152,6 +153,7 @@ class Player {
 
     this.track = track;
     this.audio.src = path;
+    store.dispatch(setCurrentTrack(track))
   }
 }
 
