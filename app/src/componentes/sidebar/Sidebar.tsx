@@ -149,7 +149,7 @@ export default function Sidebar() {
         flexDirection: 'column',
         height: '100%',
         gap: '8px',
-        transition: 'all .3s ease',
+        transition: 'all .15s ease',
       }}
     >
       <Box
@@ -175,7 +175,7 @@ export default function Sidebar() {
         >
           <MenuRoundedIcon
             sx={{
-              transition: 'all .3s ease-out',
+              transition: 'all .15s ease-out',
               opacity: collapsed ? 1 : 0,
               position: 'absolute',
               right: '18px',
@@ -183,7 +183,7 @@ export default function Sidebar() {
           />
           <ChevronLeftRoundedIcon
             sx={{
-              transition: 'all .3s ease-out',
+              transition: 'all .15s ease-out',
               rotate: collapsed ? '0deg' : '720deg',
               opacity: collapsed ? 0 : 1,
               position: 'absolute',
@@ -222,7 +222,7 @@ export default function Sidebar() {
               <Typography
                 variant='body1'
                 sx={{
-                  transition: 'all .3s ease-out',
+                  transition: 'all .15s ease-out',
                   opacity: collapsed ? 0 : 1,
                   translate: collapsed ? '-5px' : 0,
                 }}
@@ -283,7 +283,7 @@ export default function Sidebar() {
             <Typography
               variant='body1'
               sx={{
-                transition: 'all .3s ease-out',
+                transition: 'all .15s ease-out',
                 opacity: collapsed ? 0 : 1,
                 translate: collapsed ? '-5px' : 0,
               }}

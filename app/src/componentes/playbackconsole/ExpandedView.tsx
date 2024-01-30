@@ -44,7 +44,7 @@ export default function ExpandedView({ visible }: ExpandedViewProps) {
         sx={{
           height: '100%',
           width: '100%',
-          bgcolor: '#000c',
+          bgcolor: '#222c',
           backdropFilter: 'blur(10px)',
         }}
       />

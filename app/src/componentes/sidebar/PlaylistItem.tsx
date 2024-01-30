@@ -60,7 +60,7 @@ export default function PlaylistItem({
           sx={{
             ml: '16px',
             whiteSpace: 'nowrap',
-            transition: 'all .3s ease-out',
+            transition: 'all .15s ease-out',
             opacity: collapsed ? 0 : 1,
             translate: collapsed ? '-5px' : 0,
           }}
