@@ -5,7 +5,6 @@ import CardList from '../../componentes/CardList/CardList';
 
 import { Track } from '../../../shared/types/vimp';
 
-//TODO Criar componente para o cabeçalho das páginas
 const skeleton: Track[] = [
   {
     album: 'Album',
@@ -71,10 +70,9 @@ export default function HomePage() {
         sx={{
           display: 'flex',
           flexDirection: 'column',
-          p: '16px 4px 16px 16px',
+          p: '8px 16px',
         }}
       >
-        <Box>Header</Box>
         <Box>
           <Typography>Músicas recentes</Typography>
           <CardList data={skeleton} />

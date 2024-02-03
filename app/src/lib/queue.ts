@@ -2,15 +2,10 @@ import { RepeatMode, Track } from '../../shared/types/vimp';
 import player from './player';
 
 interface QueueOptions {
-  queue: [];
-  originalQueue: [];
-  queuePosition: number;
   repeat: RepeatMode;
   shuffle: boolean;
 }
 
-//TODO usar ids para identificar cada arquivo
-//? a queue deve saber de todas as informações do track ou somente o caminho?
 class Queue {
   private queue: Track[];
   private originalQueue: Track[];
