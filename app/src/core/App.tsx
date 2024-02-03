@@ -1,13 +1,15 @@
 import { HashRouter } from 'react-router-dom';
+import CustomScroll from 'react-custom-scroll';
 import Box from '@mui/material/Box';
 
 import AppBar from '../componentes/AppBar/AppBar';
 import Sidebar from '../componentes/Sidebar/Sidebar';
+import Header from '../componentes/Header/Header';
 import Rotas from './Rotas';
 import PlaybackConsole from '../componentes/PlaybackConsole/PlaybackConsole';
 
 import sizeConfigs from '../configs/sizeConfigs';
-import colorConfigs from '../configs/colorConfigs';
+import { scrollbarStyle } from './scrollbarStyle';
 
 export default function App() {
   return (
@@ -36,26 +38,18 @@ export default function App() {
         >
           <Sidebar />
           <Box
-            sx={{
+            sx={[{
               bgcolor: '#121212',
               borderRadius: '8px',
               width: '100%',
+              position: 'relative',
               overflow: 'hidden',
-              overflowY: 'auto',
-              '&::-webkit-scrollbar': {
-                width: `${sizeConfigs.scrollbarSize}`,
-              },
-              '&::-webkit-scrollbar-thumb': {
-                backgroundColor: `${colorConfigs.scrollbar.thumb}`,
-                borderRadius: `${sizeConfigs.scrollbarRadius}`,
-              },
-              '&::-webkit-scrollbar-track': {
-                backgroundColor: `${colorConfigs.scrollbar.track}`,
-                borderRadius: `${sizeConfigs.scrollbarRadius}`,
-              },
-            }}
+            }, scrollbarStyle]}
           >
-            <Rotas />
+            <CustomScroll heightRelativeToParent='100%'>
+              <Header />
+              <Rotas />
+            </CustomScroll>
           </Box>
         </Box>
         <PlaybackConsole />

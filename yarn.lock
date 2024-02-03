@@ -1389,6 +1389,13 @@
   resolved "https://registry.yarnpkg.com/@types/range-parser/-/range-parser-1.2.7.tgz#50ae4353eaaddc04044279812f52c8c65857dbcb"
   integrity sha512-hKormJbkJqzQGhziax5PItDUTMAM9uE2XXQmM37dyd4hVM+5aVl7oVxMVUiVQn2oCQFN/LKCZdvSM0pFRqbSmQ==
 
+"@types/react-custom-scroll@^5.0.3":
+  version "5.0.3"
+  resolved "https://registry.yarnpkg.com/@types/react-custom-scroll/-/react-custom-scroll-5.0.3.tgz#850059c82f49602a8cb94b35fd5a2f8cf9963789"
+  integrity sha512-GlPotI1/YMqXtvNt/MKOB9j4bVtBIZywGlJla0SMgHf50yqQO5yM9jNg4cOiZ13C9yHoNPOexgxLn52viqTaxg==
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-dom@^18.2.15":
   version "18.2.18"
   resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-18.2.18.tgz#16946e6cd43971256d874bc3d0a72074bb8571dd"
@@ -6520,6 +6527,11 @@ rcedit@^3.0.1:
   integrity sha512-WRlRdY1qZbu1L11DklT07KuHfRk42l0NFFJdaExELEu4fEQ982bP5Z6OWGPj/wLLIuKRQDCxZJGAwoFsxhZhNA==
   dependencies:
     cross-spawn-windows-exe "^1.1.0"
+
+react-custom-scroll@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/react-custom-scroll/-/react-custom-scroll-5.0.0.tgz#15c10ee270d9182d2c4568593bbfd7424fe59cfb"
+  integrity sha512-WJ6xdw5lBNScAvYiDJQXtSXktZjaf8K9CMDfS/3UuCTU3MYSr7XSwDnYW1T0ZqxAaOnbvB5U1D922+0ZVVSJ8Q==
 
 react-dom@^18.2.0:
   version "18.2.0"

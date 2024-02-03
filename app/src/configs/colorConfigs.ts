@@ -23,8 +23,8 @@ const colorConfigs = {
   },
 
   scrollbar: {
-    thumb: 'rgba(255,255,255, 0.3)',
-    track: 'rgba(50,50,50, 0)',
+    thumb: '#5A5A5A',
+    track: '#0000',
   },
 };
 
