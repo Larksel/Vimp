@@ -17,42 +17,11 @@ export default function AppBar() {
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-between',
+        justifyContent: 'flex-end',
         WebkitUserSelection: 'none',
         WebkitAppRegion: 'drag',
       }}
     >
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'row',
-          gap: '8px',
-          ml: '24px',
-          height: '100%',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        <Box
-          component='img'
-          src={logo}
-          sx={{
-            height: `${sizes.logo}`,
-            width: `${sizes.logo}`,
-          }}
-        />
-        <Typography
-          component='h1'
-          sx={{
-            fontWeight: 'bold',
-            color: '#ff6077',
-            textAlign: 'center',
-          }}
-        >
-          Vimp
-        </Typography>
-      </Box>
-
       <Box
         sx={{
           WebkitAppRegion: 'no-drag',

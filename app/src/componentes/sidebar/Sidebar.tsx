@@ -19,10 +19,9 @@ import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import ROUTES from '../../core/routes';
 import sizeConfigs from '../../configs/sizeConfigs';
 import colorConfigs from '../../configs/colorConfigs';
+import logo from '../../assets/images/logo.png';
 
 import PlaylistItem from './PlaylistItem';
-
-//TODO lista virtual ?
 
 const playlists = [
   {
@@ -168,23 +167,54 @@ export default function Sidebar() {
           sx={{
             height: sizes.navButton.height,
             borderRadius: '8px',
+            paddingX: '15px',
             borderBottomRightRadius: 0,
             borderBottomLeftRadius: 0,
             textTransform: 'none',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            position: 'relative',
           }}
         >
-          <MenuRoundedIcon
-            sx={{
-              transition: 'all .15s ease-out',
-              opacity: collapsed ? 1 : 0,
-              position: 'absolute',
-              right: '18px',
-            }}
-          />
+          <Box sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            gap: '8px',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+            <Box
+              component='img'
+              src={logo}
+              sx={{
+                height: '32px',
+                width: '32px',
+                overflow: 'hidden',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                objectFit: 'cover',
+                userSelect: 'none',
+              }}
+            />
+            <Typography
+              variant='body1'
+              sx={{
+                transition: 'all .15s ease-out',
+                opacity: collapsed ? 0 : 1,
+                translate: collapsed ? '-5px' : 0,
+                fontWeight: 'bold',
+                color: '#ff6077',
+                textAlign: 'center',
+              }}
+            >
+              Vimp
+            </Typography>
+          </Box>
           <ChevronLeftRoundedIcon
             sx={{
               transition: 'all .15s ease-out',
-              rotate: collapsed ? '0deg' : '720deg',
               opacity: collapsed ? 0 : 1,
               position: 'absolute',
               right: '18px',
