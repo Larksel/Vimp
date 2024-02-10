@@ -4,9 +4,10 @@ import { useSelector } from 'react-redux';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
-import ExpandedView from './ExpandedView';
-import placeholderImage from '../../assets/images/placeholder.png';
-import { selectCurrentTrack } from '../../features/playerSlice';
+import ExpandedView from '../ExpandedView';
+import placeholderImage from '../../../assets/images/placeholder.png';
+import { selectCurrentTrack } from '../../../features/playerSlice';
+import InfoText from './InfoText';
 
 export default function MusicInfo() {
   const [visible, setVisible] = useState(false);
@@ -77,14 +78,20 @@ export default function MusicInfo() {
           sx={{
             display: 'flex',
             flexDirection: 'column',
+            width: '100%',
             overflow: 'hidden',
             whiteSpace: 'nowrap',
+            paddingX: '8px',
+            maskImage:
+              'linear-gradient(90deg,transparent 0,#000 8px,#000 calc(100% - 12px),transparent)',
           }}
         >
-          <Typography variant='body1'>{track.title}</Typography>
-          <Typography variant='caption' color='text.secondary'>
-            {track.artist}
-          </Typography>
+          <InfoText variant='body1' text={track.title} />
+          <InfoText
+            variant='caption'
+            color='text.secondary'
+            text={track.artist}
+          />
         </Box>
       </Box>
     </>
