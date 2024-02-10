@@ -39,7 +39,7 @@ const sizeConfigs = {
   },
 
   // Content
-  scrollbarSize: '8px',
+  scrollbarSize: '4px',
   scrollbarRadius: '8px',
 
   card: {

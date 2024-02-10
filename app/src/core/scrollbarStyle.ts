@@ -1,5 +1,5 @@
-import colorConfigs from "../configs/colorConfigs";
-import sizeConfigs from "../configs/sizeConfigs";
+import colorConfigs from '../configs/colorConfigs';
+import sizeConfigs from '../configs/sizeConfigs';
 
 export const scrollbarStyle = {
   '& .rcs-custom-scroll .rcs-inner-container': {
@@ -14,7 +14,7 @@ export const scrollbarStyle = {
   '& .rcs-custom-scroll .rcs-custom-scrollbar': {
     position: 'absolute',
     height: '100%',
-    width: '8px',
+    width: sizeConfigs.scrollbarSize,
     right: 0,
     opacity: 0,
     zIndex: 4,
@@ -31,4 +31,4 @@ export const scrollbarStyle = {
     backgroundColor: colorConfigs.scrollbar.thumb,
     borderRadius: sizeConfigs.scrollbarRadius,
   },
-}
+};

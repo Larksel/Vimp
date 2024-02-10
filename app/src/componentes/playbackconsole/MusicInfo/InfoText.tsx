@@ -9,6 +9,7 @@ interface InfoTextProps {
   text: string | string[];
 }
 
+//TODO componente possivelmente de nivel alto (usado em outros lugares)
 export default function InfoText({ variant, color, text }: InfoTextProps) {
   const [isOverflow, setIsOverflow] = useState<boolean>(false);
   const [contWidth, setContWidth] = useState<number>(0);
