@@ -44,7 +44,7 @@ export default function InfoText({ variant, color, text }: InfoTextProps) {
               transform: `translateX(calc(-100% + (${contWidth}px)))`,
             },
           },
-          animation: isOverflow ? 'slide 10s linear infinite alternate' : '',
+          animation: isOverflow ? 'slide 14s linear infinite alternate' : '',
         }}
       >
         {text}
