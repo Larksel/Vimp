@@ -37,6 +37,7 @@ export default function ListHeader({ collapsed }: ListHeaderProps) {
         sx={{
           display: 'flex',
           width: '100%',
+          gap: '4px',
         }}
       >
         <IconButton
