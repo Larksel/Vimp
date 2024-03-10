@@ -11,17 +11,12 @@ import InfoText from './InfoText';
 
 export default function MusicInfo() {
   const [visible, setVisible] = useState(false);
-  const [cover, setCover] = useState();
+  const [cover, setCover] = useState('');
   const track = useSelector(selectCurrentTrack);
 
   useEffect(() => {
-    async function getCover() {
-      const coverData = await window.VimpAPI.app.getCover(track.path);
-      setCover(coverData);
-    }
-
-    getCover();
-  }, [track.path]);
+    setCover(track.cover);
+  }, [track.cover]);
 
   const toggleVisible = () => {
     setVisible(!visible);

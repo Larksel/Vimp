@@ -1,5 +1,6 @@
 import * as mmd from 'music-metadata';
 import path from 'path';
+import { Track } from '../../shared/types/vimp';
 
 export async function getMetadata(trackPath: string) {
   const defaultMetadata = getMetadataDefaults()
@@ -11,7 +12,7 @@ export async function getMetadata(trackPath: string) {
 
   try {
     const data = await mmd.parseFile(trackPath, {
-      skipCovers: true,
+      skipCovers: false,
       duration: true,
     });
 
@@ -39,6 +40,7 @@ function formatMusicMetadata(
   trackPath: string,
 ) {
   const { common, format } = data;
+  const picture = common.picture && common.picture[0];
 
   const metadata = {
     title: common.title || path.parse(trackPath).base,
@@ -51,13 +53,20 @@ function formatMusicMetadata(
     duration: format.duration,
   };
 
+  if (picture) {
+    return {
+      ...metadata,
+      cover: parseBase64(picture.format, picture.data.toString('base64')),
+    }
+  }
+
   return metadata;
 }
 
 /**
  * Returns default values to blank fields in track's metadata
  */
-function getMetadataDefaults() {
+function getMetadataDefaults(): Track {
   return {
     title: '',
     album: '',
@@ -68,6 +77,7 @@ function getMetadataDefaults() {
     lastPlayed: null,
     favorite: false,
     path: '',
+    cover: '',
   };
 }
 

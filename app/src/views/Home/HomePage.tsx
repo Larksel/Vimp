@@ -16,6 +16,7 @@ const skeleton: Track[] = [
     path: '',
     playCount: 0,
     title: 'Título',
+    cover: '',
   },
   {
     album: 'Album',
@@ -27,6 +28,7 @@ const skeleton: Track[] = [
     path: '',
     playCount: 0,
     title: 'Título',
+    cover: '',
   },
   {
     album: 'Album',
@@ -38,6 +40,7 @@ const skeleton: Track[] = [
     path: '',
     playCount: 0,
     title: 'Título',
+    cover: '',
   },
   {
     album: 'Album',
@@ -49,6 +52,7 @@ const skeleton: Track[] = [
     path: '',
     playCount: 0,
     title: 'Título',
+    cover: '',
   },
   {
     album: 'Album',
@@ -60,6 +64,7 @@ const skeleton: Track[] = [
     path: '',
     playCount: 0,
     title: 'Título',
+    cover: '',
   },
 ]
 

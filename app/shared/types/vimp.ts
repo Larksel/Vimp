@@ -10,6 +10,7 @@ export interface Track {
   favorite: boolean;
   lastPlayed: string | null;
   path: string;
+  cover: string;
 }
 
 export type TrackModel = PouchDB.Core.ExistingDocument<

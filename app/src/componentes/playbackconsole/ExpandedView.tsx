@@ -12,17 +12,12 @@ interface ExpandedViewProps {
 }
 
 export default function ExpandedView({ visible }: ExpandedViewProps) {
-  const [cover, setCover] = useState();
+  const [cover, setCover] = useState('');
   const track = useSelector(selectCurrentTrack);
 
   useEffect(() => {
-    async function getCover() {
-      const res = await window.VimpAPI.app.getCover(track.path);
-      setCover(res);
-    }
-
-    getCover();
-  }, [track.path]);
+    setCover(track.cover);
+  }, [track.cover]);
 
   return (
     <Box

@@ -18,16 +18,11 @@ interface MediaCardProps {
 }
 
 export default function MediaCard({ item }: MediaCardProps) {
-  const [cover, setCover] = useState();
+  const [cover, setCover] = useState('');
 
   useEffect(() => {
-    async function getCover() {
-      const coverData = await window.VimpAPI.app.getCover(item.path);
-      setCover(coverData);
-    }
-
-    getCover();
-  }, [item.path]);
+    setCover(item.cover)
+  }, [item.cover]);
 
   const playTrack = () => {
     player.setTrack(item);
