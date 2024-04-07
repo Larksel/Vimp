@@ -1,5 +1,6 @@
 import { app, BrowserWindow, Menu, ipcMain, dialog, Tray } from 'electron';
-import path from 'path';
+import { electronApp, optimizer, is } from '@electron-toolkit/utils';
+import { join } from 'path';
 import MenuBuilder from './modules/menu';
 import { getMetadata } from './modules/metadataHandler';
 import { setupVimpProtocol } from './modules/protocol';
@@ -8,15 +9,11 @@ import setupIPCTracks from './modules/IPCTracks';
 
 //TODO Separar código em módulos
 
-declare const VIMP_WEBPACK_ENTRY: string;
-declare const VIMP_PRELOAD_WEBPACK_ENTRY: string;
-
 const isDebug =
   process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true';
 console.log('Debug:', isDebug);
 console.log('Platform:', process.platform, '\n\n');
 
-let mainWindow: BrowserWindow | null = null;
 
 const iconPath =
   process.platform === 'win32'
@@ -25,10 +22,12 @@ const iconPath =
 
 let icon = '';
 if (isDebug) {
-  icon = path.join(__dirname, iconPath);
+  icon = join(__dirname, iconPath);
 } else {
   icon = iconPath;
 }
+
+let mainWindow: BrowserWindow | null = null;
 
 let tray: Tray | null = null;
 
@@ -53,9 +52,11 @@ const createWindow = () => {
     backgroundColor: '#000000',
     frame: false,
     show: false,
+    autoHideMenuBar: true,
+    ...(process.platform === 'linux' ? { icon } : {}),
     icon: icon,
     webPreferences: {
-      preload: VIMP_PRELOAD_WEBPACK_ENTRY,
+      preload: join(__dirname, '../preload/preload.js'),
       contextIsolation: true,
       nodeIntegration: false,
       devTools: isDebug,
@@ -77,7 +78,15 @@ const createWindow = () => {
     }
   });
 
-  mainWindow.loadURL(VIMP_WEBPACK_ENTRY);
+  mainWindow.webContents.setWindowOpenHandler(() => {
+    return { action: 'deny' };
+  })
+
+  if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
+    mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL']);
+  } else {
+    mainWindow.loadFile(join(__dirname, '../src/index.html'));
+  }
 
   /**
    * mainWindow event listeners
@@ -119,6 +128,12 @@ app.on('window-all-closed', () => {
 });
 
 app.whenReady().then(() => {
+  electronApp.setAppUserModelId('com.vimp.app');
+
+  app.on('browser-window-created', (_, window) => {
+    optimizer.watchWindowShortcuts(window);
+  })
+
   createWindow();
   //TODO verificar por que o tray não some junto com o app
   // tray = new Tray(icon);

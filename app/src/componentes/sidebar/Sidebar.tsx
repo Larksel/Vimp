@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import CustomScroll from 'react-custom-scroll';
 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -120,16 +119,12 @@ export default function Sidebar() {
             width: '100%',
             height: '100%',
             overflow: 'hidden',
+            overflowY: 'auto',
             position: 'relative',
-            '& .rcs-custom-scroll .rcs-custom-scrollbar': {
-              width: collapsed ? '2px' : '4px',
-            },
           },
         ]}
       >
-        <CustomScroll heightRelativeToParent='100%'>
-          <PlaylistList collapsed={collapsed} />
-        </CustomScroll>
+        <PlaylistList collapsed={collapsed} />
       </Box>
     </Box>
   );

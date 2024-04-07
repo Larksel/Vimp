@@ -2,3 +2,7 @@ node_modules
 dist
 .vscode
 build
+out
+dist
+tsconfig.json
+tsconfig.*.json

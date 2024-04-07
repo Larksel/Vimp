@@ -1,5 +1,4 @@
 import { HashRouter } from 'react-router-dom';
-import CustomScroll from 'react-custom-scroll';
 import Box from '@mui/material/Box';
 
 import AppBar from '../componentes/AppBar/AppBar';
@@ -44,12 +43,11 @@ export default function App() {
               width: '100%',
               position: 'relative',
               overflow: 'hidden',
+              overflowY: 'auto',
             }, scrollbarStyle]}
           >
-            <CustomScroll heightRelativeToParent='100%'>
               <Header />
               <Rotas />
-            </CustomScroll>
           </Box>
         </Box>
         <PlaybackConsole />

@@ -16,7 +16,9 @@
     "plugin:react/jsx-runtime",
     "plugin:react-hooks/recommended",
     "plugin:react-redux/recommended",
-    "prettier"
+    "prettier",
+    "@electron-toolkit/eslint-config-ts/recommended",
+    "@electron-toolkit/eslint-config-prettier"
   ],
   "parser": "@typescript-eslint/parser",
   "plugins": [
