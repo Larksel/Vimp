@@ -4,7 +4,6 @@ import react from '@vitejs/plugin-react'
 const minify = process.env.NODE_ENV === 'production';
 const commonConfig = {
   minify,
-  target: 'node18',
   emptyOutDir: true,
 }
 
