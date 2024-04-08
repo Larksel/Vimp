@@ -6,7 +6,7 @@ import Button from '@mui/material/Button';
 
 import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded';
 
-import TrackList from '../../componentes/tracklist/TrackList';
+import TrackList from '../../componentes/TrackList/TrackList';
 import player from '../../lib/player';
 import queue from '../../lib/queue'
 

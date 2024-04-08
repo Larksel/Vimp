@@ -1,13 +1,13 @@
 import { HashRouter } from 'react-router-dom';
 import Box from '@mui/material/Box';
 
-import AppBar from '../componentes/appbar/AppBar';
-import Sidebar from '../componentes/sidebar/Sidebar';
-import Header from '../componentes/header/Header';
+import AppBar from '../componentes/AppBar/AppBar';
+import SideBar from '../componentes/SideBar/SideBar';
+import Header from '../componentes/Header/Header';
 import Rotas from './Rotas';
-import PlaybackConsole from '../componentes/playbackconsole/PlaybackConsole';
+import PlaybackConsole from '../componentes/PlaybackConsole/PlaybackConsole';
 
-import Scrollbar from '../componentes/scrollbar/Scrollbar';
+import Scrollbar from '../componentes/ScrollBar/Scrollbar';
 
 import * as ScrollArea from '@radix-ui/react-scroll-area';
 
@@ -39,7 +39,7 @@ export default function App() {
             height: `${sizeConfigs.mainContent.height}`,
           }}
         >
-          <Sidebar />
+          <SideBar />
           <Scrollbar>
             <div
               style={{

@@ -17,7 +17,7 @@ import PlaylistList from './PlaylistList';
 const colors = colorConfigs.sidebar;
 const sizes = sizeConfigs.sidebar;
 
-export default function Sidebar() {
+export default function SideBar() {
   const [collapsed, setCollapsed] = useState(false);
 
   return (
