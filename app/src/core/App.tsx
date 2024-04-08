@@ -1,11 +1,11 @@
 import { HashRouter } from 'react-router-dom';
 import Box from '@mui/material/Box';
 
-import AppBar from '../componentes/AppBar/AppBar';
-import Sidebar from '../componentes/Sidebar/Sidebar';
-import Header from '../componentes/Header/Header';
+import AppBar from '../componentes/appbar/AppBar';
+import Sidebar from '../componentes/sidebar/Sidebar';
+import Header from '../componentes/header/Header';
 import Rotas from './Rotas';
-import PlaybackConsole from '../componentes/PlaybackConsole/PlaybackConsole';
+import PlaybackConsole from '../componentes/playbackconsole/PlaybackConsole';
 
 import sizeConfigs from '../configs/sizeConfigs';
 import { scrollbarStyle } from './scrollbarStyle';

@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
-import CardList from '../../componentes/CardList/CardList';
+import CardList from '../../componentes/cardlist/CardList';
 
 import { Track } from '../../../shared/types/vimp';
 
