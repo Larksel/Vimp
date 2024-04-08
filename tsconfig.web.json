@@ -9,5 +9,6 @@
     "composite": true,
     "jsx": "react-jsx",
     "baseUrl": ".",
+    "noUnusedLocals": false,
   }
 }
