@@ -5,7 +5,8 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { Provider } from 'react-redux';
 
 import App from './core/App';
-import store from './store'
+import store from './store';
+import './index.css';
 import { tema } from './configs/tema';
 
 const root = createRoot(document.getElementById('root') as HTMLElement);
