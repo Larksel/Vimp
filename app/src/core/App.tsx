@@ -7,6 +7,8 @@ import Header from '../componentes/header/Header';
 import Rotas from './Rotas';
 import PlaybackConsole from '../componentes/playbackconsole/PlaybackConsole';
 
+import * as ScrollArea from '@radix-ui/react-scroll-area';
+
 import sizeConfigs from '../configs/sizeConfigs';
 import { scrollbarStyle } from './scrollbarStyle';
 
@@ -36,19 +38,16 @@ export default function App() {
           }}
         >
           <Sidebar />
-          <Box
-            sx={[{
-              bgcolor: '#121212',
-              borderRadius: '8px',
-              width: '100%',
-              position: 'relative',
-              overflow: 'hidden',
-              overflowY: 'auto',
-            }, scrollbarStyle]}
-          >
+          <ScrollArea.Root className='w-full h-full overflow-hidden'>
+            <ScrollArea.Viewport className='rounded-lg h-full bg-neutral-900'>
               <Header />
               <Rotas />
-          </Box>
+            </ScrollArea.Viewport>
+            <ScrollArea.Scrollbar orientation='vertical'>
+              <ScrollArea.Thumb />
+            </ScrollArea.Scrollbar>
+            <ScrollArea.Corner />
+          </ScrollArea.Root>
         </Box>
         <PlaybackConsole />
       </Box>
