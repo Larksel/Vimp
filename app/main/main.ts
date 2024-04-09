@@ -51,6 +51,12 @@ const createWindow = () => {
     minHeight: 560,
     backgroundColor: '#000000',
     frame: false,
+    titleBarStyle: 'hidden',
+    titleBarOverlay: {
+      color: '#000',
+      symbolColor: '#fff',
+      height: 35
+    },
     show: false,
     autoHideMenuBar: true,
     ...(process.platform === 'linux' ? { icon } : {}),
