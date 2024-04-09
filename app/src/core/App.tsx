@@ -7,7 +7,7 @@ import Header from '../componentes/Header/Header';
 import Rotas from './Rotas';
 import PlaybackConsole from '../componentes/PlaybackConsole/PlaybackConsole';
 
-import Scrollbar from '../componentes/ScrollBar/Scrollbar';
+import Scrollbar from '../componentes/ScrollBar/ScrollBar';
 
 import * as ScrollArea from '@radix-ui/react-scroll-area';
 
