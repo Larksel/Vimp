@@ -54,6 +54,7 @@
     "@emotion/styled": "^11.11.5",
     "@mui/icons-material": "^5.15.15",
     "@mui/material": "^5.15.15",
+    "@phosphor-icons/react": "^2.1.4",
     "@radix-ui/react-scroll-area": "^1.0.5",
     "@reduxjs/toolkit": "^2.2.3",
     "electron-squirrel-startup": "^1.0.0",
