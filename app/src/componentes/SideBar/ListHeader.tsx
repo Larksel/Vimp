@@ -19,7 +19,6 @@ export default function ListHeader({ collapsed }: ListHeaderProps) {
     <Box
       sx={{
         position: 'sticky',
-        bgcolor: '#121212',
         top: 0,
         width: '100%',
         height: collapsed ? 0 : '42px',
