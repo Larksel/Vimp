@@ -71,31 +71,58 @@ const skeleton: Track[] = [
 export default function HomePage() {
   return (
     <>
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          p: '8px 16px',
-        }}
-      >
-        <Box>
-          <Typography>Músicas recentes</Typography>
-          <CardList data={skeleton} />
+      <div className='flex flex-col bg-red-500 w-fit'>
+        <div className='w-fit'>
+          <h1>Músicas recentes</h1>
+          {/* <CardList data={skeleton} /> */}
 
           <br />
 
-          <Typography>Favoritas</Typography>
-          <CardList data={skeleton} />
+          <h1>Favoritas</h1>
+          {/* <CardList data={skeleton} /> */}
           <br />
 
-          <Typography>Playlists</Typography>
-          <CardList data={skeleton} />
+          <h1>Playlists</h1>
+          {/* <CardList data={skeleton} /> */}
           <br />
 
-          <Typography>Mais tocadas</Typography>
-          <CardList data={skeleton} />
-        </Box>
-      </Box>
+          <h1>Mais tocadas</h1>
+          <h1>Mais tocadas</h1>
+          <h1>Mais tocadas</h1>
+          <h1>Mais tocadas</h1>
+          <h1>Mais tocadas</h1>
+          <h1>Mais tocadas</h1>
+          <h1>Mais tocadas</h1>
+          <h1>Mais tocadas</h1>
+          <h1>Mais tocadas</h1>
+          <h1>Mais tocadas</h1>
+          <h1>Mais tocadas</h1>
+          <h1>Mais tocadas</h1>
+          <h1>Mais tocadas</h1>
+          <h1>Mais tocadas</h1>
+          <h1>Mais tocadas</h1>
+          <h1>Mais tocadas</h1>
+          <h1>Mais tocadas</h1>
+          <h1>Mais tocadas</h1>
+          <h1>Mais tocadas</h1>
+          <h1>Mais tocadas</h1>
+          <h1>Mais tocadas</h1>
+          <h1>Mais tocadas</h1>
+          <h1>Mais tocadas</h1>
+          <h1>Mais tocadas</h1>
+          <h1>Mais tocadas</h1>
+          <h1>Mais tocadas</h1>
+          <h1>Mais tocadas</h1>
+          <h1>Mais tocadas</h1>
+          <h1>Mais tocadas</h1>
+          <h1>Mais tocadas</h1>
+          <h1>Mais tocadas</h1>
+          <h1>Mais tocadas</h1>
+          <h1>Mais tocadas</h1>
+          <h1>Mais tocadas</h1>
+          {/* <CardList data={skeleton} /> */}
+        </div>
+      </div>
     </>
   );
 }
