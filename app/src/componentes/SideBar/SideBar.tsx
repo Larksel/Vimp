@@ -30,15 +30,12 @@ export default function SideBar() {
         flexDirection: 'column',
         overflow: 'hidden',
         height: '100%',
-        gap: '8px',
         transition: 'all .15s ease',
       }}
     >
       <Box
         sx={{
           width: '100%',
-          bgcolor: colors.bg,
-          borderRadius: '8px',
         }}
       >
         {/* Main list */}
@@ -49,10 +46,7 @@ export default function SideBar() {
           onClick={() => setCollapsed(!collapsed)}
           sx={{
             height: sizes.navButton.height,
-            borderRadius: '8px',
             paddingX: '15px',
-            borderBottomRightRadius: 0,
-            borderBottomLeftRadius: 0,
             textTransform: 'none',
             display: 'flex',
             justifyContent: 'space-between',
@@ -114,8 +108,6 @@ export default function SideBar() {
         sx={[
           scrollbarStyle,
           {
-            bgcolor: colors.bg,
-            borderRadius: '8px',
             width: '100%',
             height: '100%',
             overflow: 'hidden',
