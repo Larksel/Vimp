@@ -1,5 +1,4 @@
 import { HashRouter } from 'react-router-dom';
-import Box from '@mui/material/Box';
 
 import AppBar from '../componentes/AppBar/AppBar';
 import SideBar from '../componentes/SideBar/SideBar';
@@ -7,52 +6,103 @@ import Header from '../componentes/Header/Header';
 import Rotas from './Rotas';
 import PlaybackConsole from '../componentes/PlaybackConsole/PlaybackConsole';
 
-import Scrollbar from '../componentes/ScrollBar/ScrollBar';
-
-import * as ScrollArea from '@radix-ui/react-scroll-area';
-
-import sizeConfigs from '../configs/sizeConfigs';
-import { scrollbarStyle } from './scrollbarStyle';
+import ScrollBar from '../componentes/ScrollBar/ScrollBar';
 
 export default function App() {
   return (
     <HashRouter>
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          flexWrap: 'nowrap',
-          width: '100%',
-          height: '100vh',
-          overflow: 'hidden',
-          bgcolor: '#000',
-        }}
-      >
+      <div className='flex flex-col h-screen w-screen overflow-hidden bg-black'>
         <AppBar />
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'row',
-            width: '100%',
-            p: '8px 8px 0',
-            gap: '8px',
-            height: `${sizeConfigs.mainContent.height}`,
-          }}
-        >
+        <div className='flex flex-row flex-1 overflow-hidden bg-slate-500'>
           <SideBar />
-          <Scrollbar>
-            <div
-              style={{
-                maxWidth: 'calc(100vw - 316px)',
-              }}
-            >
-              <Header />
-              <Rotas />
+          <ScrollBar>
+            <Header />
+
+            <div className='flex-1 bg-purple-500 p-6'>
+              <div className='grid grid-cols-5 gap-2 justify-items-center'>
+
+                <div className='bg-zinc-800 rounded-lg w-48 flex flex-col p-2 items-center justify-center'>
+                  <div className='h-44 w-44 bg-red-400'/>
+                  <h1>Titulo</h1>
+                  <h6>artista</h6>
+                </div>
+                <div className='bg-zinc-800 rounded-lg w-48 flex flex-col p-2 items-center justify-center'>
+                  <div className='h-44 w-44 bg-red-400'/>
+                  <h1>Titulo</h1>
+                  <h6>artista</h6>
+                </div>
+                <div className='bg-zinc-800 rounded-lg w-48 flex flex-col p-2 items-center justify-center'>
+                  <div className='h-44 w-44 bg-red-400'/>
+                  <h1>Titulo</h1>
+                  <h6>artista</h6>
+                </div>
+                <div className='bg-zinc-800 rounded-lg w-48 flex flex-col p-2 items-center justify-center'>
+                  <div className='h-44 w-44 bg-red-400'/>
+                  <h1>Titulo</h1>
+                  <h6>artista</h6>
+                </div>
+                <div className='bg-zinc-800 rounded-lg w-48 flex flex-col p-2 items-center justify-center'>
+                  <div className='h-44 w-44 bg-red-400'/>
+                  <h1>Titulo</h1>
+                  <h6>artista</h6>
+                </div>
+                <div className='bg-zinc-800 rounded-lg w-48 flex flex-col p-2 items-center justify-center'>
+                  <div className='h-44 w-44 bg-red-400'/>
+                  <h1>Titulo</h1>
+                  <h6>artista</h6>
+                </div>
+                <div className='bg-zinc-800 rounded-lg w-48 flex flex-col p-2 items-center justify-center'>
+                  <div className='h-44 w-44 bg-red-400'/>
+                  <h1>Titulo</h1>
+                  <h6>artista</h6>
+                </div>
+              </div>
             </div>
+            {
+              /** <div className='bg-purple-500 h-full w-full p-2'>
+              <h1>esquerda</h1>
+              <h1>direita</h1>
+              <h1>direita</h1>
+              <h1>direita</h1>
+              <h1>direita</h1>
+              <h1>direita</h1>
+              <h1>direita</h1>
+              <h1>direita</h1>
+              <h1>direita</h1>
+              <h1>direita</h1>
+              <h1>direita</h1>
+              <h1>direita</h1>
+              <h1>direita</h1>
+              <h1>direita</h1>
+              <h1>direita</h1>
+              <h1>direita</h1>
+              <h1>direita</h1>
+              <h1>direita</h1>
+              <h1>direita</h1>
+              <h1>direita</h1>
+              <h1>direita</h1>
+              <h1>direita</h1>
+              <h1>direita</h1>
+              <h1>direita</h1>
+              <h1>direita</h1>
+              <h1>direita</h1>
+              <h1>direita</h1>
+            </div>*/
+            }
+          </ScrollBar>
+          {/*<SideBar />
+          <Scrollbar>
+            <Header />
+            <Rotas />
           </Scrollbar>
-        </Box>
-        <PlaybackConsole />
-      </Box>
+          */}
+        </div>
+        <div className='h-24 bg-red-500'>
+          {
+            //<PlaybackConsole />
+          }
+        </div>
+      </div>
     </HashRouter>
   );
 }

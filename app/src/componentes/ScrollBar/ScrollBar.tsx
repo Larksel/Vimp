@@ -1,9 +1,9 @@
 import * as ScrollArea from '@radix-ui/react-scroll-area';
 
-export default function Scrollbar({ children }) {
+export default function ScrollBar({ children }) {
   return (
-    <ScrollArea.Root className='h-full w-full overflow-hidden'>
-      <ScrollArea.Viewport className='relative h-full rounded-lg bg-neutral-900'>
+    <ScrollArea.Root className='h-full w-full'>
+      <ScrollArea.Viewport className='relative h-full bg-lime-500'>
         {children}
       </ScrollArea.Viewport>
       <ScrollArea.Scrollbar orientation='vertical'>
