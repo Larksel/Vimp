@@ -15,7 +15,6 @@ export default function Header() {
     }}>
       <Box
         sx={{
-          bgcolor: '#121212cc',
           top: 0,
           width: '100%',
           display: 'flex',
