@@ -1,23 +1,20 @@
-import Box from '@mui/material/Box';
-
-import sizeConfigs from '../../configs/sizeConfigs';
-
-const sizes = sizeConfigs.appBar;
+declare module 'csstype' {
+  interface Properties {
+    WebkitAppRegion?: 'drag' | 'no-drag';
+  }
+}
 
 export default function AppBar() {
   return (
-    <Box
-      sx={{
-        height: `${sizes.height}`,
-        width: `${sizes.width}`,
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'flex-end',
-        WebkitUserSelection: 'none',
+    <div
+      className='w-full h-9 select-none'
+      style={{
         WebkitAppRegion: 'drag',
       }}
     >
-    </Box>
+      {
+        //TODO to be decided
+      }
+    </div>
   );
 }
