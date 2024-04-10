@@ -13,10 +13,10 @@ export default function App() {
     <HashRouter>
       <div className='flex flex-col h-screen w-screen overflow-clip bg-black'>
         <AppBar />
-        <div className='flex flex-row flex-1 overflow-clip'>
+        <div className='flex flex-row flex-1 overflow-clip bg-slate-500'>
           <SideBar />
           <ScrollBar>
-            <div className='flex flex-col flex-1 overflow-clip'>
+            <div className='flex flex-col flex-1 overflow-clip bg-purple-500'>
               <Header />
               <Rotas />
             </div>
