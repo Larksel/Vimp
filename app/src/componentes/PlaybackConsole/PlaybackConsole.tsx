@@ -14,14 +14,13 @@ const colors = colorConfigs.playbackConsole;
 export default function PlaybackConsole() {
   return (
     <Box
+      className='h-24 w-full'
       sx={{
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
         bgcolor: `${colors.bg}`,
         paddingX: '8px',
-        height: `${sizes.height}`,
-        width: `${sizes.width}`,
         minWidth: `${sizes.minWidth}`,
         zIndex: 6,
       }}
