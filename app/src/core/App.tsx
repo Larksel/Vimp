@@ -11,16 +11,33 @@ import ScrollBar from '../componentes/ScrollBar/ScrollBar';
 export default function App() {
   return (
     <HashRouter>
-      <div className='flex flex-col h-screen w-screen overflow-clip bg-black'>
+      {
+        //TODO testar grid
+      }
+      <div className='flex h-screen w-screen flex-col overflow-hidden bg-black'>
         <AppBar />
-        <div className='flex flex-row flex-1 overflow-clip bg-slate-500'>
+        <div
+          className='flex flex-1 flex-row overflow-clip bg-red-500'
+          style={{
+            maxHeight: 'calc(100vh - 36px - 96px)',
+          }}
+        >
           <SideBar />
-          <ScrollBar>
-            <div className='flex flex-col flex-1 overflow-clip bg-purple-500'>
-              <Header />
+          <div
+            className='relative flex flex-1 basis-0'
+            style={{
+              maxWidth: 'calc(100vw - 320px)',
+            }}
+          >
+            {
+              // ! Revisar estrutura DOM e definir quais elementos
+              // ! dão overflow em quem
+            }
+            <Header />
+            <ScrollBar>
               <Rotas />
-            </div>
-          </ScrollBar>
+            </ScrollBar>
+          </div>
         </div>
         <PlaybackConsole />
       </div>

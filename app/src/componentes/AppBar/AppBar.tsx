@@ -7,7 +7,7 @@ declare module 'csstype' {
 export default function AppBar() {
   return (
     <div
-      className='w-full h-9 select-none'
+      className='w-full h-9 select-none shrink-0'
       style={{
         WebkitAppRegion: 'drag',
       }}

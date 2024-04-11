@@ -14,7 +14,7 @@ const colors = colorConfigs.playbackConsole;
 export default function PlaybackConsole() {
   return (
     <Box
-      className='h-24 w-full'
+      className='h-24 w-full shrink-0'
       sx={{
         display: 'flex',
         alignItems: 'center',

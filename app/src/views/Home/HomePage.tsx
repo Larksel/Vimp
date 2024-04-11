@@ -66,62 +66,13 @@ const skeleton: Track[] = [
     title: 'Título',
     cover: '',
   },
-]
+];
 
 export default function HomePage() {
   return (
     <>
-      <div className='flex flex-col bg-red-500 w-fit'>
-        <div className='w-fit'>
-          <h1>Músicas recentes</h1>
-          {/* <CardList data={skeleton} /> */}
-
-          <br />
-
-          <h1>Favoritas</h1>
-          {/* <CardList data={skeleton} /> */}
-          <br />
-
-          <h1>Playlists</h1>
-          {/* <CardList data={skeleton} /> */}
-          <br />
-
-          <h1>Mais tocadas</h1>
-          <h1>Mais tocadas</h1>
-          <h1>Mais tocadas</h1>
-          <h1>Mais tocadas</h1>
-          <h1>Mais tocadas</h1>
-          <h1>Mais tocadas</h1>
-          <h1>Mais tocadas</h1>
-          <h1>Mais tocadas</h1>
-          <h1>Mais tocadas</h1>
-          <h1>Mais tocadas</h1>
-          <h1>Mais tocadas</h1>
-          <h1>Mais tocadas</h1>
-          <h1>Mais tocadas</h1>
-          <h1>Mais tocadas</h1>
-          <h1>Mais tocadas</h1>
-          <h1>Mais tocadas</h1>
-          <h1>Mais tocadas</h1>
-          <h1>Mais tocadas</h1>
-          <h1>Mais tocadas</h1>
-          <h1>Mais tocadas</h1>
-          <h1>Mais tocadas</h1>
-          <h1>Mais tocadas</h1>
-          <h1>Mais tocadas</h1>
-          <h1>Mais tocadas</h1>
-          <h1>Mais tocadas</h1>
-          <h1>Mais tocadas</h1>
-          <h1>Mais tocadas</h1>
-          <h1>Mais tocadas</h1>
-          <h1>Mais tocadas</h1>
-          <h1>Mais tocadas</h1>
-          <h1>Mais tocadas</h1>
-          <h1>Mais tocadas</h1>
-          <h1>Mais tocadas</h1>
-          <h1>Mais tocadas</h1>
-          {/* <CardList data={skeleton} /> */}
-        </div>
+      <div className='flex h-full flex-col bg-neutral-800 pt-16'>
+        Home
       </div>
     </>
   );

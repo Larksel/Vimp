@@ -15,7 +15,7 @@ export default function SideBar() {
   const [collapsed, setCollapsed] = useState(false);
 
   return (
-    <div className={`w-full ${collapsed ? 'max-w-16' : 'max-w-80'} flex flex-col overflow-clip transition-all`}>
+    <div className={`w-full ${collapsed ? 'max-w-16' : 'max-w-80'} flex flex-col overflow-clip transition-all shrink-0`}>
       <button onClick={() => setCollapsed(!collapsed)}>
         Toggle Menu
       </button>

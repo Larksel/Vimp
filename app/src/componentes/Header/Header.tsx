@@ -7,11 +7,12 @@ import SettingsSharpIcon from '@mui/icons-material/SettingsSharp';
 //TODO cor de fundo sólida após scroll <- Fade in
 export default function Header() {
   return (
-    <Box sx={{
-      height: '64px',
-      width: '100%',
-      position: 'relative', //absolute
-      zIndex: 1,
+    <Box 
+      sx={{
+        height: '64px',
+        width: '100%',
+        position: 'absolute', //absolute
+        zIndex: 1,
     }}>
       <Box
         sx={{
