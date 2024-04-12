@@ -17,7 +17,7 @@ export default function App() {
       <div className='grid h-screen w-full grid-cols-1 grid-rows-[36px,auto,96px] overflow-hidden bg-black'>
         <AppBar />
         <div
-          className={`grid grid-rows-1 ${collapsed ? 'grid-cols-[80px,auto]' : 'grid-cols-[320px,auto]'} overflow-clip bg-red-500 transition-all`}
+          className={`grid grid-rows-1 ${collapsed ? 'grid-cols-[80px,auto]' : 'grid-cols-[320px,auto]'} overflow-clip transition-all`}
           style={{
             maxHeight: 'calc(100vh - 36px - 96px)',
           }}
