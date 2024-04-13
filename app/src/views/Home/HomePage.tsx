@@ -1,6 +1,3 @@
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-
 import CardList from '../../componentes/CardList/CardList';
 
 import { Track } from '../../../shared/types/vimp';
@@ -70,10 +67,8 @@ const skeleton: Track[] = [
 
 export default function HomePage() {
   return (
-    <>
-      <div className='flex h-full flex-col bg-neutral-800 pt-16'>
-        Home
-      </div>
-    </>
+    <div className='h-full bg-neutral-800 p-4 pt-16'>
+      Home
+    </div>
   );
 }

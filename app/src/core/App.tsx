@@ -12,21 +12,25 @@ import { useState } from 'react';
 export default function App() {
   const [collapsed, setCollapsed] = useState(false);
 
+  const contentCols = collapsed
+    ? 'grid-cols-[64px,repeat(3,minmax(0,1fr))]'
+    : 'grid-cols-[256px,repeat(3,minmax(0,1fr))]';
+
   return (
     <HashRouter>
-      <div className='grid h-screen w-full grid-cols-1 grid-rows-[36px,auto,96px] overflow-hidden bg-black'>
+      <div className='grid h-screen w-full grid-cols-1 grid-rows-[36px,1fr,96px] overflow-hidden bg-black'>
         <AppBar />
         <div
-          className={`grid grid-rows-1 ${collapsed ? 'grid-cols-[80px,auto]' : 'grid-cols-[320px,auto]'} overflow-clip transition-all`}
-          style={{
-            maxHeight: 'calc(100vh - 36px - 96px)',
-          }}
+          className={`grid grid-rows-2 ${contentCols} row-[2/2] max-h-[calc(100vh-36px-96px)] overflow-clip transition-all`}
         >
           <SideBar
+            className={
+              'row-[1/3] flex w-full flex-col items-center overflow-clip bg-neutral-900 transition-all'
+            }
             collapsed={collapsed}
             toggle={() => setCollapsed(!collapsed)}
           />
-          <div className='relative'>
+          <div className='relative col-[2/5] row-[1/3] overflow-clip'>
             <Header />
             <ScrollBar>
               <Rotas />
