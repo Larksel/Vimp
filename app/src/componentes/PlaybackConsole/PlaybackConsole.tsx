@@ -11,19 +11,10 @@ import colorConfigs from '../../configs/colorConfigs';
 const sizes = sizeConfigs.playbackConsole;
 const colors = colorConfigs.playbackConsole;
 
-export default function PlaybackConsole() {
+export default function PlaybackConsole({ className }) {
   return (
     <Box
-      className='h-full w-full shrink-0'
-      sx={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        bgcolor: `${colors.bg}`,
-        paddingX: '8px',
-        minWidth: `${sizes.minWidth}`,
-        zIndex: 6,
-      }}
+      className={className}
     >
       <MusicInfo />
 

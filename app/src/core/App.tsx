@@ -2,26 +2,34 @@ import { HashRouter } from 'react-router-dom';
 
 import AppBar from '../componentes/AppBar/AppBar';
 import SideBar from '../componentes/SideBar/SideBar';
-import Header from '../componentes/Header/Header';
 import Rotas from './Rotas';
 import PlaybackConsole from '../componentes/PlaybackConsole/PlaybackConsole';
 
-import ScrollBar from '../componentes/ScrollBar/ScrollBar';
 import { useState } from 'react';
 
 export default function App() {
   const [collapsed, setCollapsed] = useState(false);
 
+  const appBarHeight = 36;
+  const pbConsoleHeight = 96; // TODO Broken: changing this breaks the layout
+
+  const windowRows = `grid-rows-[${appBarHeight}px,1fr,${pbConsoleHeight}px]`;
+
   const contentCols = collapsed
     ? 'grid-cols-[64px,repeat(3,minmax(0,1fr))]'
     : 'grid-cols-[256px,repeat(3,minmax(0,1fr))]';
+  const contentHeight = `max-h-[calc(100vh-${appBarHeight}px-${pbConsoleHeight}px)]`;
 
   return (
     <HashRouter>
-      <div className='grid h-screen w-full grid-cols-1 grid-rows-[36px,1fr,96px] overflow-hidden bg-black'>
-        <AppBar />
+      <div
+        className={`grid h-screen w-full ${windowRows} overflow-hidden bg-black`}
+      >
+        <AppBar
+          className={'col-[1/5] row-[1/2] h-full w-full select-none bg-black'}
+        />
         <div
-          className={`grid grid-rows-2 ${contentCols} row-[2/2] max-h-[calc(100vh-36px-96px)] overflow-clip transition-all`}
+          className={`grid grid-rows-2 ${contentCols} col-[1/5] row-[2/3] ${contentHeight} overflow-clip transition-all`}
         >
           <SideBar
             toggle={() => setCollapsed(!collapsed)}
@@ -32,7 +40,12 @@ export default function App() {
           />
           <Rotas className='relative col-[2/5] row-[1/3] overflow-clip' />
         </div>
-        <PlaybackConsole />
+
+        <PlaybackConsole
+          className={
+            'z-10 col-[1/5] row-[3/4] flex h-full w-full items-center justify-between bg-black px-2'
+          }
+        />
       </div>
     </HashRouter>
   );
