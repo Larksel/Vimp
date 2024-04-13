@@ -1,3 +1,4 @@
+import { CSSProperties, useState } from 'react';
 import { HashRouter } from 'react-router-dom';
 
 import AppBar from '../componentes/AppBar/AppBar';
@@ -5,25 +6,29 @@ import SideBar from '../componentes/SideBar/SideBar';
 import Rotas from './Rotas';
 import PlaybackConsole from '../componentes/PlaybackConsole/PlaybackConsole';
 
-import { useState } from 'react';
-
 export default function App() {
   const [collapsed, setCollapsed] = useState(false);
 
   const appBarHeight = 36;
-  const pbConsoleHeight = 96; // TODO Broken: changing this breaks the layout
-
-  const windowRows = `grid-rows-[${appBarHeight}px,1fr,${pbConsoleHeight}px]`;
+  const playConsoleHeight = 96;
 
   const contentCols = collapsed
     ? 'grid-cols-[64px,repeat(3,minmax(0,1fr))]'
     : 'grid-cols-[256px,repeat(3,minmax(0,1fr))]';
-  const contentHeight = `max-h-[calc(100vh-${appBarHeight}px-${pbConsoleHeight}px)]`;
+
+  const contentHeight =
+    'max-h-[calc(100vh-var(--appbar-height)-var(--playconsole-height))]';
 
   return (
     <HashRouter>
       <div
-        className={`grid h-screen w-full ${windowRows} overflow-hidden bg-black`}
+        className={`grid h-screen w-full grid-rows-[var(--appbar-height),1fr,var(--playconsole-height)] overflow-hidden bg-black`}
+        style={
+          {
+            '--appbar-height': `${appBarHeight}px`,
+            '--playconsole-height': `${playConsoleHeight}px`,
+          } as CSSProperties
+        }
       >
         <AppBar
           className={'col-[1/5] row-[1/2] h-full w-full select-none bg-black'}
