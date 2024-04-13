@@ -1,3 +1,5 @@
+import { CaretLeft, CaretRight } from '@phosphor-icons/react';
+
 import logo from '../../assets/images/logo.png';
 
 import NavButtons from './NavButtons';
@@ -6,9 +8,22 @@ import PlaylistList from './PlaylistList';
 export default function SideBar({ className, toggle, collapsed }) {
   return (
     <div className={className}>
-      <div className='w-full p-2'>
-        <button onClick={toggle} className='flex h-12 w-full justify-center'>
-          <img src={logo} className='size-12' />
+      <div className='flex w-full flex-col items-center justify-center'>
+        <button
+          onClick={toggle}
+          className={`relative flex h-14 w-full items-center justify-center px-2 transition-all hover:bg-[#fff1]`}
+        >
+          <img src={logo} className='max-h-8 select-none' />
+          <div className='absolute left-4 right-4 flex items-center justify-between'>
+            <CaretRight
+              weight='bold'
+              className={`absolute ${collapsed ? 'left-[-100%] opacity-0' : 'w-5 opacity-100'} left-4 h-5 transition-all`}
+            />
+            <CaretLeft
+              weight='bold'
+              className={`absolute ${collapsed ? 'right-[-100%] opacity-0' : 'w-5 opacity-100'} right-4 h-5 transition-all`}
+            />
+          </div>
         </button>
       </div>
 
