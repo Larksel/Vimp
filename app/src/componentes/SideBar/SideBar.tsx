@@ -14,14 +14,14 @@ export default function SideBar({ className, toggle, collapsed }) {
           className={`relative flex h-14 w-full items-center justify-center px-2 transition-all hover:bg-[#fff1]`}
         >
           <img src={logo} className='max-h-8 select-none' />
-          <div className='absolute left-4 right-4 flex items-center justify-between'>
+          <div className='absolute left-0 right-0 flex items-center justify-between'>
             <CaretRight
               weight='bold'
-              className={`absolute ${collapsed ? 'left-[-100%] opacity-0' : 'w-5 opacity-100'} left-4 h-5 transition-all`}
+              className={`absolute ${collapsed ? 'left-[-100%] opacity-0' : 'left-4 w-5 opacity-100'}  h-5 transition-all`}
             />
             <CaretLeft
               weight='bold'
-              className={`absolute ${collapsed ? 'right-[-100%] opacity-0' : 'w-5 opacity-100'} right-4 h-5 transition-all`}
+              className={`absolute ${collapsed ? 'right-[-100%] opacity-0' : 'right-4 w-5 opacity-100'}  h-5 transition-all`}
             />
           </div>
         </button>
