@@ -34,16 +34,16 @@ export default function App() {
           className={'col-[1/5] row-[1/2] h-full w-full select-none bg-black'}
         />
         <div
-          className={`grid grid-rows-2 ${contentCols} col-[1/5] row-[2/3] ${contentHeight} overflow-clip transition-all`}
+          className={`grid grid-rows-2 ${contentCols} col-[1/5] row-[2/3] ${contentHeight} overflow-clip transition-all mx-2 gap-2`}
         >
           <SideBar
             toggle={() => setCollapsed(!collapsed)}
             collapsed={collapsed}
             className={
-              'row-[1/3] flex w-full flex-col items-center overflow-clip bg-zinc-900 transition-all'
+              'row-[1/3] flex w-full flex-col items-center overflow-clip bg-zinc-900 transition-all rounded-lg'
             }
           />
-          <Rotas className='relative col-[2/5] row-[1/3] overflow-clip bg-zinc-800' />
+          <Rotas className='relative col-[2/5] row-[1/3] rounded-lg overflow-clip bg-zinc-800' />
         </div>
 
         <PlaybackConsole
