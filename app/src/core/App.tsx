@@ -40,10 +40,10 @@ export default function App() {
             toggle={() => setCollapsed(!collapsed)}
             collapsed={collapsed}
             className={
-              'row-[1/3] flex w-full flex-col items-center overflow-clip bg-neutral-900 transition-all'
+              'row-[1/3] flex w-full flex-col items-center overflow-clip bg-zinc-900 transition-all'
             }
           />
-          <Rotas className='relative col-[2/5] row-[1/3] overflow-clip' />
+          <Rotas className='relative col-[2/5] row-[1/3] overflow-clip bg-zinc-800' />
         </div>
 
         <PlaybackConsole

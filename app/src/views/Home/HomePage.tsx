@@ -67,7 +67,7 @@ const skeleton: Track[] = [
 
 export default function HomePage() {
   return (
-    <div className='h-full bg-neutral-800 p-4 pt-16'>
+    <div className='h-full p-4 pt-16'>
       Home
     </div>
   );
