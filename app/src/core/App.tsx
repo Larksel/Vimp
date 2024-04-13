@@ -24,18 +24,13 @@ export default function App() {
           className={`grid grid-rows-2 ${contentCols} row-[2/2] max-h-[calc(100vh-36px-96px)] overflow-clip transition-all`}
         >
           <SideBar
+            toggle={() => setCollapsed(!collapsed)}
+            collapsed={collapsed}
             className={
               'row-[1/3] flex w-full flex-col items-center overflow-clip bg-neutral-900 transition-all'
             }
-            collapsed={collapsed}
-            toggle={() => setCollapsed(!collapsed)}
           />
-          <div className='relative col-[2/5] row-[1/3] overflow-clip'>
-            <Header />
-            <ScrollBar>
-              <Rotas />
-            </ScrollBar>
-          </div>
+          <Rotas className='relative col-[2/5] row-[1/3] overflow-clip' />
         </div>
         <PlaybackConsole />
       </div>
