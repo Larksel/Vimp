@@ -9,6 +9,9 @@
     "composite": true,
     "jsx": "react-jsx",
     "noUnusedLocals": false,
-    "noUnusedParameters": false
+    "noUnusedParameters": false,
+    "paths": {
+      "@/*": ["./app/src/*"],
+    }
   }
 }

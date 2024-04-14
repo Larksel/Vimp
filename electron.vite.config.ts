@@ -1,5 +1,6 @@
 import { defineConfig, externalizeDepsPlugin } from 'electron-vite'
 import react from '@vitejs/plugin-react'
+import path from 'path';
 
 const minify = process.env.NODE_ENV === 'production';
 const commonConfig = {
@@ -30,6 +31,11 @@ export default defineConfig({
   },
   renderer: {
     plugins: [react()],
+    resolve: {
+      alias: {
+        "@": path.resolve(__dirname, './app/src')
+      }
+    },
     appType: 'spa',
     root: 'app/src',
     build: {
