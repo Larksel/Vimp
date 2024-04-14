@@ -10,7 +10,7 @@ export default function App() {
   const [collapsed, setCollapsed] = useState(false);
 
   const appBarHeight = 36;
-  const playConsoleHeight = 96;
+  const playConsoleHeight = 88;
   const sidebarSmall = 64;
   const sidebarLarge = 256;
 
@@ -30,7 +30,7 @@ export default function App() {
           className={'col-span-4 row-span-1 h-full w-full select-none bg-black'}
         />
 
-        <div className='col-span-4 row-span-1 mx-2 grid max-h-[calc(100vh-var(--appbar-height)-var(--playconsole-height))] grid-cols-[var(--sidebar-width),repeat(3,1fr)] grid-rows-2 gap-2 overflow-clip transition-all'>
+        <div className='col-span-4 row-span-1 px-2 grid max-h-[calc(100vh-var(--appbar-height)-var(--playconsole-height))] grid-cols-[var(--sidebar-width),repeat(3,1fr)] grid-rows-2 gap-2 overflow-clip transition-all'>
           <SideBar
             toggle={() => setCollapsed(!collapsed)}
             collapsed={collapsed}
