@@ -6,8 +6,8 @@ export default function ScrollBar({ children }) {
       <ScrollArea.Viewport className='h-full *:h-full'>
         {children}
       </ScrollArea.Viewport>
-      <ScrollArea.Scrollbar className='h-full w-2' orientation='vertical'>
-        <ScrollArea.Thumb className='w-2 bg-neutral-200 opacity-30' />
+      <ScrollArea.Scrollbar className='h-full w-1' orientation='vertical'>
+        <ScrollArea.Thumb className='w-1 bg-neutral-200 opacity-30' />
       </ScrollArea.Scrollbar>
       <ScrollArea.Corner />
     </ScrollArea.Root>
