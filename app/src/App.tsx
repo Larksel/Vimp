@@ -1,10 +1,10 @@
 import { CSSProperties, useState } from 'react';
 import { HashRouter } from 'react-router-dom';
 
-import AppBar from '../componentes/AppBar/AppBar';
-import SideBar from '../componentes/SideBar/SideBar';
+import AppBar from './componentes/AppBar/AppBar';
+import SideBar from './componentes/SideBar/SideBar';
 import Rotas from './Rotas';
-import PlaybackConsole from '../componentes/PlaybackConsole/PlaybackConsole';
+import PlaybackConsole from './componentes/PlaybackConsole/PlaybackConsole';
 
 export default function App() {
   const [collapsed, setCollapsed] = useState(false);

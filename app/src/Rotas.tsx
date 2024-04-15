@@ -1,8 +1,8 @@
 import { Routes, Route } from 'react-router-dom';
-import HomePage from '../views/Home/HomePage';
-import MusicLibrary from '../views/MusicLibrary/MusicLibrary';
-import ScrollBar from '../componentes/ScrollBar/ScrollBar';
-import Header from '../componentes/Header/Header';
+import HomePage from './views/Home/HomePage';
+import MusicLibrary from './views/MusicLibrary/MusicLibrary';
+import ScrollBar from './componentes/ScrollBar/ScrollBar';
+import Header from './componentes/Header/Header';
 
 export const ROUTES = {
   HOME: '/home',

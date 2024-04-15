@@ -8,7 +8,7 @@ import {
 } from '@phosphor-icons/react';
 import { Button } from '../ui/button';
 
-import { ROUTES } from '../../core/Rotas';
+import { ROUTES } from '../../Rotas';
 
 const navButtons = [
   {
