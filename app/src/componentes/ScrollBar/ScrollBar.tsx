@@ -1,9 +1,15 @@
 import * as ScrollArea from '@radix-ui/react-scroll-area';
+import { ReactNode } from 'react';
 
-export default function ScrollBar({ children }) {
+interface ScrollBarProps {
+  children: ReactNode;
+  className?: string;
+}
+
+export default function ScrollBar({ children, className }: ScrollBarProps) {
   return (
     <ScrollArea.Root className='h-full w-full'>
-      <ScrollArea.Viewport className='h-full *:h-full'>
+      <ScrollArea.Viewport className={'h-full *:h-full ' + className}>
         {children}
       </ScrollArea.Viewport>
       <ScrollArea.Scrollbar className='h-full w-1' orientation='vertical'>

@@ -4,6 +4,7 @@ import placeholderImage from '../../assets/images/placeholder.png';
 
 import { Button } from '../ui/button';
 import ScrollBar from '../ScrollBar/ScrollBar';
+import ListHeader from './ListHeader';
 
 interface PlaylistListProps {
   collapsed: boolean;
@@ -16,8 +17,9 @@ export default function PlaylistList({ collapsed }: PlaylistListProps) {
   const navigate = useNavigate();
 
   return (
-    <div className='h-full w-full overflow-clip rounded-lg bg-zinc-900'>
-      <ScrollBar>
+    <div className='relative h-full w-full overflow-clip rounded-lg bg-zinc-900'>
+      <ListHeader collapsed={collapsed} />
+      <ScrollBar className='pt-11'>
         {Array.from({ length: 10 }).map((_, index) => (
           <Button
             key={index}

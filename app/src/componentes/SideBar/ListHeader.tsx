@@ -1,11 +1,8 @@
-import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
-import Autocomplete from '@mui/material/Autocomplete';
-import TextField from '@mui/material/TextField';
+import { useState } from 'react';
 
-import AddRoundedIcon from '@mui/icons-material/AddRounded';
-import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
-import FormatListBulletedRoundedIcon from '@mui/icons-material/FormatListBulletedRounded';
+import { Plus, MagnifyingGlass, ListBullets } from '@phosphor-icons/react';
+import { Button } from '../ui/button';
+import { Input } from '../ui/input';
 
 interface ListHeaderProps {
   collapsed: boolean;
@@ -15,68 +12,54 @@ interface ListHeaderProps {
 //TODO ordem
 
 export default function ListHeader({ collapsed }: ListHeaderProps) {
-  return (
-    <Box
-      sx={{
-        position: 'sticky',
-        top: 0,
-        width: '100%',
-        height: collapsed ? 0 : '42px',
-        paddingX: '8px',
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        opacity: collapsed ? 0 : 1,
-        overflow: 'hidden',
-        transition: 'all .15s ease',
-        zIndex: 4,
-      }}
-    >
-      <Box
-        sx={{
-          display: 'flex',
-          width: '100%',
-          gap: '4px',
-        }}
-      >
-        <IconButton
-          color='inherit'
-          sx={{
-            display: 'flex',
-            minWidth: 0,
-            minHeight: 0,
-            height: '32px',
-            width: '32px',
-          }}
-        >
-          <AddRoundedIcon fontSize='small' />
-        </IconButton>
+  const [inputVisible, setInputVisible] = useState(false);
+  const [search, setSearch] = useState('');
 
-        <IconButton
-          color='inherit'
-          sx={{
-            display: 'flex',
-            minWidth: 0,
-            minHeight: 0,
-            height: '32px',
-            width: '32px',
-          }}
-        >
-          <SearchRoundedIcon fontSize='small' />
-        </IconButton>
-      </Box>
-      <IconButton
-        color='inherit'
-        sx={{
-          display: 'flex',
-          minWidth: 0,
-          minHeight: 0,
-          height: '32px',
-          width: '32px',
-        }}
+  const toggleVisibility = () => {
+    if (inputVisible) {
+      setSearch('');
+    }
+
+    setInputVisible(!inputVisible);
+  };
+
+  return (
+    <div
+      className={`absolute flex w-full items-center px-2 py-1 ${!collapsed ? 'justify-between gap-1' : 'justify-center'} z-10 bg-zinc-900 transition-all`}
+    >
+      <Button
+        variant='ghost'
+        className='flex aspect-square rounded-full p-0 text-zinc-400 transition-all hover:scale-110 hover:bg-transparent hover:text-white'
       >
-        <FormatListBulletedRoundedIcon fontSize='small' />
-      </IconButton>
-    </Box>
+        <Plus size={20} />
+      </Button>
+
+      <div
+        className={`flex w-full gap-1 ${collapsed ? 'w-0 overflow-clip' : 'opacity-100'}`}
+      >
+        <Button
+          variant='ghost'
+          onClick={toggleVisibility}
+          className='flex aspect-square rounded-full p-0 text-zinc-400 transition-all hover:scale-110 hover:bg-transparent hover:text-white'
+        >
+          <MagnifyingGlass size={20} />
+        </Button>
+
+        <Input
+          type='text'
+          value={search}
+          onChange={({ target }) => setSearch(target.value)}
+          placeholder='Buscar'
+          className={`${!inputVisible ? 'invisible w-0' : ''} transition-all`}
+        />
+      </div>
+
+      <Button
+        variant='ghost'
+        className={`flex aspect-square rounded-full p-0 text-zinc-400 transition-all hover:scale-110 hover:bg-transparent hover:text-white ${collapsed ? 'w-0 overflow-clip' : ''}`}
+      >
+        <ListBullets size={20} />
+      </Button>
+    </div>
   );
 }
