@@ -17,11 +17,13 @@ export default function Rotas({ className }) {
     <div className={className}>
       <Header />
       <ScrollBar>
-        <Routes>
-          <Route path='/' element={<HomePage />} />
-          <Route path={ROUTES.HOME} element={<HomePage />} />
-          <Route path={ROUTES.MUSIC_LIBRARY} element={<MusicLibrary />} />
-        </Routes>
+        <div className='p-4 pt-16 h-full'>
+          <Routes>
+            <Route path='/' element={<HomePage />} />
+            <Route path={ROUTES.HOME} element={<HomePage />} />
+            <Route path={ROUTES.MUSIC_LIBRARY} element={<MusicLibrary />} />
+          </Routes>
+        </div>
       </ScrollBar>
     </div>
   );

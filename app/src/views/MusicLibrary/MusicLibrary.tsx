@@ -52,7 +52,6 @@ export default function MusicLibrary() {
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        p: '16px 4px 16px 16px',
         alignItems: 'center',
       }}
     >
