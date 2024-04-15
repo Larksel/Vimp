@@ -35,7 +35,7 @@ export default function App() {
             toggle={() => setCollapsed(!collapsed)}
             collapsed={collapsed}
             className={
-              'row-span-2 flex w-full flex-col items-center overflow-clip rounded-lg bg-zinc-900 transition-all'
+              'row-span-2 flex w-full flex-col items-center overflow-clip rounded-lg transition-all gap-2'
             }
           />
           <Rotas className='relative col-span-3 row-span-2 overflow-clip rounded-lg bg-zinc-800' />

@@ -8,7 +8,7 @@ import PlaylistList from './PlaylistList';
 export default function SideBar({ className, toggle, collapsed }) {
   return (
     <div className={className}>
-      <div className='flex w-full flex-col items-center justify-center'>
+      <div className='flex h-full w-full flex-col items-center justify-center space-y-1 overflow-clip rounded-lg bg-zinc-900'>
         <button
           onClick={toggle}
           className='relative flex h-14 w-full items-center justify-center px-2 transition-all hover:bg-accent focus-visible:outline-none active:bg-[#fff3]'
@@ -29,7 +29,7 @@ export default function SideBar({ className, toggle, collapsed }) {
         <NavButtons collapsed={collapsed} />
       </div>
 
-      {/* PlaylistList */}
+      <PlaylistList collapsed={collapsed} />
     </div>
   );
 }
