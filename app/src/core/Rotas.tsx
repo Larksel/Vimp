@@ -1,9 +1,16 @@
 import { Routes, Route } from 'react-router-dom';
-import ROUTES from './routes';
 import HomePage from '../views/Home/HomePage';
 import MusicLibrary from '../views/MusicLibrary/MusicLibrary';
 import ScrollBar from '../componentes/ScrollBar/ScrollBar';
 import Header from '../componentes/Header/Header';
+
+export const ROUTES = {
+  HOME: '/home',
+  QUEUE: '/queue',
+  SEARCH: '/search',
+  MUSIC_LIBRARY: '/music_library',
+  VIDEO_LIBRARY: '/video_library',
+}
 
 export default function Rotas({ className }) {
   return (

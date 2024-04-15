@@ -10,7 +10,7 @@ import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import LibraryMusicRoundedIcon from '@mui/icons-material/LibraryMusicRounded';
 import VideoLibraryRoundedIcon from '@mui/icons-material/VideoLibraryRounded';
 
-import ROUTES from '../../core/routes';
+import { ROUTES } from '../../core/Rotas';
 import sizeConfigs from '../../configs/sizeConfigs';
 
 const navButtons = [
