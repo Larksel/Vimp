@@ -6,7 +6,6 @@ import Typography from '@mui/material/Typography';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import ToggleButton from '@mui/material/ToggleButton';
 
-import sizeConfigs from '../../configs/sizeConfigs';
 import placeholderImage from '../../assets/images/placeholder.png';
 
 import ListHeader from './ListHeader';
@@ -74,8 +73,6 @@ const playlists = [
   },
 ];
 
-const sizes = sizeConfigs.sidebar;
-
 interface PlaylistListProps {
   collapsed: boolean;
 }
@@ -117,7 +114,7 @@ export default function PlaylistList({ collapsed }: PlaylistListProps) {
             onClick={() => navigate(playlist.nome)}
             sx={{
               display: 'flex',
-              height: sizes.playlistItem.height,
+              height: '64px',
               textTransform: 'capitalize',
               border: 0,
               borderRadius: 0,
@@ -133,8 +130,8 @@ export default function PlaylistList({ collapsed }: PlaylistListProps) {
                 src={playlist.imgPath}
                 onError={handleImageError}
                 sx={{
-                  height: `${sizes.playlistItem.img}`,
-                  width: `${sizes.playlistItem.img}`,
+                  height: '48px',
+                  width: '48px',
                   overflow: 'hidden',
                   bgcolor: '#EB1E79',
                   display: 'flex',

@@ -2,8 +2,6 @@ import Box from '@mui/material/Box';
 
 import MediaCard from './MediaCard';
 
-import sizeConfigs from '../../configs/sizeConfigs';
-import colorConfigs from '../../configs/colorConfigs';
 import { Track } from '../../../shared/types/vimp';
 
 type CardListProps = {
@@ -24,15 +22,15 @@ export default function CardList({ data }: CardListProps) {
         overflowY: 'hidden',
         overflowX: 'auto',
         '&::-webkit-scrollbar': {
-          height: `${sizeConfigs.scrollbarSize}`,
+          height: '4px',
         },
         '&::-webkit-scrollbar-thumb': {
-          backgroundColor: `${colorConfigs.scrollbar.thumb}`,
-          borderRadius: `${sizeConfigs.scrollbarRadius}`,
+          backgroundColor: '#5A5A5A',
+          borderRadius: '8px',
         },
         '&::-webkit-scrollbar-track': {
-          backgroundColor: `${colorConfigs.scrollbar.track}`,
-          borderRadius: `${sizeConfigs.scrollbarRadius}`,
+          backgroundColor: '#0000',
+          borderRadius: '8px',
         },
       }}
     >

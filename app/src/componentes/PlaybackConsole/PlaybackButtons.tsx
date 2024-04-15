@@ -20,8 +20,6 @@ import {
 } from '../../features/playerSlice';
 
 import player from '../../lib/player';
-import colorConfigs from '../../configs/colorConfigs';
-const colors = colorConfigs.playbackConsole.playbackControl;
 
 export default function PlaybackButtons() {
   const shuffle = useSelector(selectShuffle);
@@ -63,7 +61,7 @@ export default function PlaybackButtons() {
           disableRipple
           onClick={() => dispatch(setShuffle(!shuffle))}
           sx={{
-            color: `${colors.unfocused}`,
+            color: '#aaa',
             '&:hover': {
               color: '#fff',
             },
@@ -76,7 +74,7 @@ export default function PlaybackButtons() {
           disableRipple
           onClick={() => player.previous()}
           sx={{
-            color: `${colors.unfocused}`,
+            color: '#aaa',
             '&:hover': {
               color: '#fff',
             },
@@ -109,7 +107,7 @@ export default function PlaybackButtons() {
           disableRipple
           onClick={() => player.next()}
           sx={{
-            color: `${colors.unfocused}`,
+            color: '#aaa',
             '&:hover': {
               color: '#fff',
             },
@@ -122,7 +120,7 @@ export default function PlaybackButtons() {
           disableRipple
           onClick={() => dispatch(changeRepeat())}
           sx={{
-            color: `${colors.unfocused}`,
+            color: '#aaa',
             '&:hover': {
               color: '#fff',
             },

@@ -5,12 +5,6 @@ import PlaybackButtons from './PlaybackButtons';
 import PlaybackTrack from './PlaybackTrack';
 import MoreOptions from './MoreOptions';
 
-import sizeConfigs from '../../configs/sizeConfigs';
-import colorConfigs from '../../configs/colorConfigs';
-
-const sizes = sizeConfigs.playbackConsole;
-const colors = colorConfigs.playbackConsole;
-
 export default function PlaybackConsole({ className }) {
   return (
     <Box
@@ -20,8 +14,8 @@ export default function PlaybackConsole({ className }) {
 
       <Box
         sx={{
-          width: `${sizes.playbackControl.width}`,
-          maxWidth: `${sizes.playbackControl.maxWidth}`,
+          width: '40%',
+          maxWidth: '722px',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',

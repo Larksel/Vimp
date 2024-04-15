@@ -5,7 +5,6 @@ import { selectCurrentTrack } from '../../features/playerSlice';
 import Box from '@mui/material/Box';
 
 import placeholder from '../../assets/images/placeholder.png';
-import sizeConfigs from '../../configs/sizeConfigs';
 
 interface ExpandedViewProps {
   visible: boolean;
@@ -27,7 +26,7 @@ export default function ExpandedView({ visible }: ExpandedViewProps) {
         top: visible ? 0 : '100%',
         right: 0,
         left: 0,
-        bottom: sizeConfigs.playbackConsole.height,
+        bottom: '88px',
         backgroundImage: `url(${cover || placeholder})`,
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center',
