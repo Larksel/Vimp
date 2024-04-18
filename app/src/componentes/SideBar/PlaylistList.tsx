@@ -38,7 +38,7 @@ export default function PlaylistList({ collapsed }: PlaylistListProps) {
                 transitionDelay: !collapsed ? `${(index + 1) * 75}ms` : '',
               }}
             >
-              <p className='w-fit'>Playlist {index + 1}</p>
+              <p className='w-fit text-base'>Playlist {index + 1}</p>
               <p className='w-fit text-sm tracking-normal text-zinc-400'>
                 Playlist
               </p>
