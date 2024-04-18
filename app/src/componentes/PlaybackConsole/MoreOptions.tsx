@@ -1,76 +1,31 @@
-import { useState } from 'react';
-
-import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
-
-import OpenInFullSharpIcon from '@mui/icons-material/OpenInFullSharp';
-import CloseFullscreenSharpIcon from '@mui/icons-material/CloseFullscreenSharp';
-import QueueMusicRoundedIcon from '@mui/icons-material/QueueMusicRounded';
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import { Playlist, Info } from '@phosphor-icons/react';
 
 import VolumeControl from './VolumeControl';
 
 export default function MoreOptions() {
-  const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
-
   const buttons = [
     {
-      icon: isFullscreen ? (
-        <CloseFullscreenSharpIcon />
-      ) : (
-        <OpenInFullSharpIcon />
-      ),
-      action: () => handleToggleFullscreen(),
-    },
-    {
-      icon: <QueueMusicRoundedIcon />,
+      icon: <Playlist size={24} />,
       action: () => console.log('Open queue'),
     },
     {
-      icon: <InfoOutlinedIcon />,
+      icon: <Info size={24} />,
       action: () => console.log('Show extended music info'),
     },
   ];
 
-  const handleToggleFullscreen = () => {
-    setIsFullscreen(!isFullscreen);
-  };
-
   return (
-    <Box
-      sx={{
-        height: '100%',
-        width: '30%',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'flex-end',
-        flexDirection: 'row',
-        borderRadius: '8px',
-        padding: '0 8px',
-        overflow: 'hidden',
-        gap: '8px',
-      }}
-    >
+    <div className='flex h-full w-[30%] flex-row items-center justify-end gap-2 px-2'>
       {buttons.map((button, index) => (
-        <IconButton
+        <button
           key={index}
-          disableRipple
           onClick={button.action}
-          sx={{
-            color: '#aaa',
-            p: 0,
-            '& svg': {
-              fontSize: '24px',
-            },
-            '&:hover': {
-              color: '#fff',
-            },
-          }}
+          className='text-zinc-400 transition-colors hover:text-zinc-100'
         >
           {button.icon}
-        </IconButton>
+        </button>
       ))}
       <VolumeControl />
-    </Box>
+    </div>
   );
 }

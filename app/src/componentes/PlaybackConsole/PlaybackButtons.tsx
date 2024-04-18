@@ -62,7 +62,11 @@ export default function PlaybackButtons() {
         onClick={handlePlayPause}
         className='flex h-9 w-9 items-center justify-center rounded-full bg-white text-black'
       >
-        {isPlaying ? <Pause weight='fill' size={20} /> : <Play weight='fill' size={20} />}
+        {isPlaying ? (
+          <Pause weight='fill' size={20} />
+        ) : (
+          <Play weight='fill' size={20} />
+        )}
       </button>
 
       <div className='flex flex-1 gap-4'>
