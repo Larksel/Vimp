@@ -1,19 +1,18 @@
 import { useSelector, useDispatch } from 'react-redux';
 
-import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
-
-import ShuffleRoundedIcon from '@mui/icons-material/ShuffleRounded';
-import SkipPreviousRoundedIcon from '@mui/icons-material/SkipPreviousRounded';
-import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded';
-import PauseRoundedIcon from '@mui/icons-material/PauseRounded';
-import SkipNextRoundedIcon from '@mui/icons-material/SkipNextRounded';
-import RepeatRoundedIcon from '@mui/icons-material/RepeatRounded';
-import RepeatOneRoundedIcon from '@mui/icons-material/RepeatOneRounded';
+import {
+  Shuffle,
+  SkipBack,
+  Play,
+  Pause,
+  SkipForward,
+  Repeat,
+  RepeatOnce,
+} from '@phosphor-icons/react';
 
 import {
-  setShuffle, // Mover para Queue
-  changeRepeat, // Mover para Queue
+  setShuffle,
+  changeRepeat,
   selectShuffle,
   selectIsPlaying,
   selectRepeat,
@@ -36,99 +35,51 @@ export default function PlaybackButtons() {
   };
 
   const repeatIcons = {
-    off: <RepeatRoundedIcon />,
-    all: <RepeatRoundedIcon sx={{ color: 'secondary.main' }} />,
-    one: <RepeatOneRoundedIcon sx={{ color: 'secondary.main' }} />,
+    off: <Repeat size={24} />,
+    all: <Repeat size={24} className='text-green-500' />,
+    one: <RepeatOnce size={24} className='text-green-500' />,
   };
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        width: '100%',
-        alignItems: 'center',
-        gap: '16px',
-      }}
-    >
-      <Box
-        sx={{
-          display: 'flex',
-          flex: 1,
-          justifyContent: 'flex-end',
-        }}
-      >
-        <IconButton
-          disableRipple
+    <div className='flex w-full items-center gap-4'>
+      <div className='flex flex-1 justify-end gap-4'>
+        <button
+          className='text-zinc-400 transition-colors hover:text-zinc-100'
           onClick={() => dispatch(setShuffle(!shuffle))}
-          sx={{
-            color: '#aaa',
-            '&:hover': {
-              color: '#fff',
-            },
-          }}
         >
-          <ShuffleRoundedIcon sx={shuffle ? { color: 'secondary.main' } : {}} />
-        </IconButton>
+          <Shuffle size={24} className={`${shuffle ? 'text-green-500' : ''}`} />
+        </button>
 
-        <IconButton
-          disableRipple
+        <button
+          className='text-zinc-400 transition-colors hover:text-zinc-100'
           onClick={() => player.previous()}
-          sx={{
-            color: '#aaa',
-            '&:hover': {
-              color: '#fff',
-            },
-          }}
         >
-          <SkipPreviousRoundedIcon />
-        </IconButton>
-      </Box>
+          <SkipBack size={24} />
+        </button>
+      </div>
 
-      <IconButton
-        disableRipple
+      <button
         onClick={handlePlayPause}
-        sx={{
-          height: '35px',
-          width: '35px',
-          bgcolor: '#fff',
-          color: '#000',
-        }}
+        className='flex h-9 w-9 items-center justify-center rounded-full bg-white text-black'
       >
-        {isPlaying ? <PauseRoundedIcon /> : <PlayArrowRoundedIcon />}
-      </IconButton>
+        {isPlaying ? <Pause weight='fill' size={20} /> : <Play weight='fill' size={20} />}
+      </button>
 
-      <Box
-        sx={{
-          display: 'flex',
-          flex: 1,
-        }}
-      >
-        <IconButton
-          disableRipple
+      <div className='flex flex-1 gap-4'>
+        <button
+          className='text-zinc-400 transition-colors hover:text-zinc-100'
           onClick={() => player.next()}
-          sx={{
-            color: '#aaa',
-            '&:hover': {
-              color: '#fff',
-            },
-          }}
         >
-          <SkipNextRoundedIcon />
-        </IconButton>
+          <SkipForward size={24} />
+        </button>
 
-        <IconButton
-          disableRipple
+        <button
+          className='text-zinc-400 transition-colors hover:text-zinc-100'
           onClick={() => dispatch(changeRepeat())}
-          sx={{
-            color: '#aaa',
-            '&:hover': {
-              color: '#fff',
-            },
-          }}
         >
           {repeatIcons[repeat]}
-        </IconButton>
-      </Box>
-    </Box>
+        </button>
+      </div>
+    </div>
   );
 }
