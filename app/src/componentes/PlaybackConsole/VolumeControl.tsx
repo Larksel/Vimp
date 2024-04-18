@@ -1,26 +1,16 @@
 import { useSelector } from 'react-redux';
 
-import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
-import Slider from '@mui/material/Slider';
-
-import VolumeOffRoundedIcon from '@mui/icons-material/VolumeOffRounded';
-import VolumeMuteRoundedIcon from '@mui/icons-material/VolumeMuteRounded';
-import VolumeDownRoundedIcon from '@mui/icons-material/VolumeDownRounded';
-import VolumeUpRoundedIcon from '@mui/icons-material/VolumeUpRounded';
-
 import {
-  selectVolume,
-  selectIsMuted,
-} from '../../features/playerSlice';
-import player from '../../lib/player'
+  SpeakerSimpleHigh,
+  SpeakerSimpleLow,
+  SpeakerSimpleNone,
+  SpeakerSimpleX,
+} from '@phosphor-icons/react';
 
-const volumeIconStyle = {
-  color: '#aaa',
-  '&:hover': {
-    color: '#fff',
-  },
-};
+import { Slider } from '../ui/slider';
+
+import { selectVolume, selectIsMuted } from '../../features/playerSlice';
+import player from '../../lib/player';
 
 export default function VolumeControl() {
   const volume = useSelector(selectVolume);
@@ -43,93 +33,33 @@ export default function VolumeControl() {
 
   const volumeIcons = () => {
     if (volume === 0 || isMuted) {
-      return <VolumeOffRoundedIcon sx={volumeIconStyle} />;
+      return <SpeakerSimpleX size={24} />;
     } else if (volume >= 1 && volume <= 33) {
-      return <VolumeMuteRoundedIcon sx={volumeIconStyle} />;
+      return <SpeakerSimpleNone size={24} />;
     } else if (volume >= 34 && volume <= 66) {
-      return <VolumeDownRoundedIcon sx={volumeIconStyle} />;
+      return <SpeakerSimpleLow size={24} />;
     } else {
-      return <VolumeUpRoundedIcon sx={volumeIconStyle} />;
+      return <SpeakerSimpleHigh size={24} />;
     }
   };
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: '8px',
-      }}
-    >
-      <IconButton
-        disableRipple
+    <div className='flex flex-row items-center justify-center gap-2'>
+      <button
         onClick={handleMute}
-        sx={{
-          p: 0,
-          '& svg': {
-            fontSize: '24px',
-          },
-        }}
+        className='text-zinc-400 transition-colors hover:text-zinc-100'
       >
         {volumeIcons()}
-      </IconButton>
+      </button>
 
       <Slider
-        value={volume}
-        onChange={(_, value) => handleVolumeChange(value as number)}
-        size='small'
-        valueLabelDisplay='auto'
+        value={[volume]}
+        onValueChange={(value) => handleVolumeChange(value[0])}
         min={0}
         max={100}
         step={1}
-        sx={{
-          color: '#fff',
-          height: 4,
-          width: '100%',
-          pt: 1,
-          pb: 1,
-          minWidth: '90px',
-          maxWidth: '100px',
-          '& .MuiSlider-rail': {
-            opacity: 0.28,
-          },
-          '& .MuiSlider-thumb': {
-            width: 0,
-            height: 0,
-            '&:hover, &.Mui-focusVisible, &.Mui-active': {
-              boxShadow: 0,
-            },
-          },
-          '&:hover .MuiSlider-track': {
-            color: 'secondary.main',
-          },
-          '&:hover .MuiSlider-thumb, & .MuiSlider-thumb.Mui-active': {
-            width: 16,
-            height: 16,
-          },
-          '& .MuiSlider-valueLabel': {
-            lineHeight: 1.2,
-            fontSize: 12,
-            background: 'unset',
-            padding: 0,
-            width: 20,
-            height: 20,
-            borderRadius: '50% 50% 50% 0',
-            backgroundColor: 'secondary.dark',
-            transformOrigin: 'bottom left',
-            transform: 'translate(50%, -100%) rotate(-45deg) scale(0)',
-            '&::before': { display: 'none' },
-            '&.MuiSlider-valueLabelOpen': {
-              transform: 'translate(50%, -100%) rotate(-45deg) scale(1)',
-            },
-            '& > *': {
-              transform: 'rotate(45deg)',
-            },
-          },
-        }}
+        className='w-[100px]'
       />
-    </Box>
+    </div>
   );
 }
