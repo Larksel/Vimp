@@ -12,6 +12,8 @@ import { Slider } from '../ui/slider';
 import { selectVolume, selectIsMuted } from '../../features/playerSlice';
 import player from '../../lib/player';
 
+//TODO indicador com o volume atual
+
 export default function VolumeControl() {
   const volume = useSelector(selectVolume);
   const isMuted = useSelector(selectIsMuted);
