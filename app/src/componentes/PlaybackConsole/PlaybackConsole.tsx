@@ -5,12 +5,10 @@ import MoreOptions from './MoreOptions';
 
 export default function PlaybackConsole({ className }) {
   return (
-    <div
-      className={className}
-    >
+    <div className={className}>
       <MusicInfo />
 
-      <div className='w-[40%] flex flex-col items-center'>
+      <div className='w-[40%] flex flex-col items-center gap-2'>
         <PlaybackButtons />
         <PlaybackTrack />
       </div>
