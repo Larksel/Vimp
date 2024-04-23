@@ -18,11 +18,11 @@ export default function ExpandedView({ visible }: ExpandedViewProps) {
 
   return (
     <div
-      className={`${visible ? 'top-0 opacity-100' : 'top-full opacity-0'} absolute bottom-[88px] left-0 right-0 transition-all`}
+      className={`${visible ? 'top-0 opacity-100' : 'top-full opacity-0'} absolute bottom-[88px] left-0 right-0 transition-all bg-black`}
     >
       <img
         src={cover || placeholder}
-        className='absolute inset-0 size-full object-cover blur'
+        className='absolute inset-0 size-full object-cover blur opacity-30'
       />
       <img
         src={cover || placeholder}
