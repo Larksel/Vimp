@@ -5,7 +5,7 @@ import placeholderImage from '../../../assets/images/placeholder.png';
 import { selectCurrentTrack } from '../../../features/playerSlice';
 
 import ExpandedView from '../ExpandedView';
-import InfoText from './InfoText';
+import InfoText from '../../InfoText/InfoText';
 
 export default function MusicInfo() {
   const [visible, setVisible] = useState(false);
