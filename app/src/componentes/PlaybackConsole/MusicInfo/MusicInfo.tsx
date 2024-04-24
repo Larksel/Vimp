@@ -1,12 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-
-import ExpandedView from '../ExpandedView';
 import placeholderImage from '../../../assets/images/placeholder.png';
 import { selectCurrentTrack } from '../../../features/playerSlice';
+
+import ExpandedView from '../ExpandedView';
 import InfoText from './InfoText';
 
 export default function MusicInfo() {
@@ -25,58 +23,18 @@ export default function MusicInfo() {
   return (
     <>
       <ExpandedView visible={visible} />
-      <Box
+      <div
         onClick={toggleVisible}
-        sx={{
-          width: '30%',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'flex-start',
-          flexDirection: 'row',
-          borderRadius: '8px',
-          padding: '8px',
-          gap: '8px',
-          userSelect: 'none',
-          transition: 'all .15s ease',
-          '&:hover': {
-            bgcolor: '#292929',
-          },
-        }}
+        className={`flex w-[30%] select-none items-center ${visible ? 'gap-0': 'gap-2'} rounded-lg p-2 transition-all hover:bg-accent`}
       >
-        <Box
-          sx={{
-            height: '60px',
-            width: visible ? '0' : '60px',
-            transition: 'all .15s ease',
-            opacity: visible ? 0 : 1,
-          }}
-        >
-          <Box
-            component='img'
-            src={cover || placeholderImage}
-            sx={{
-              height: '60px',
-              width: '60px',
-              overflow: 'hidden',
-              bgcolor: '#EB1E79',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              borderRadius: '4px',
-              objectFit: 'cover',
-              userSelect: 'none',
-            }}
-          />
-        </Box>
+        <img
+          src={cover || placeholderImage}
+          className={`size-16 rounded object-cover transition-all ${visible ? 'w-0 opacity-0' : ''}`}
+        />
 
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            width: '100%',
-            overflow: 'hidden',
-            whiteSpace: 'nowrap',
-            paddingX: '8px',
+        <div
+          className='flex w-full flex-col overflow-hidden whitespace-nowrap px-2'
+          style={{
             maskImage:
               'linear-gradient(90deg,transparent 0,#000 8px,#000 calc(100% - 12px),transparent)',
           }}
@@ -87,8 +45,8 @@ export default function MusicInfo() {
             color='text.secondary'
             text={track.artist}
           />
-        </Box>
-      </Box>
+        </div>
+      </div>
     </>
   );
 }
