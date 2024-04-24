@@ -1,4 +1,4 @@
-import MusicInfo from './MusicInfo/MusicInfo';
+import MusicInfo from './MusicInfo';
 import PlaybackButtons from './PlaybackButtons';
 import PlaybackTrack from './PlaybackTrack';
 import MoreOptions from './MoreOptions';

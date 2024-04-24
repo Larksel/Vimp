@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import placeholderImage from '../../../assets/images/placeholder.png';
-import { selectCurrentTrack } from '../../../features/playerSlice';
+import placeholderImage from '../../assets/images/placeholder.png';
+import { selectCurrentTrack } from '../../features/playerSlice';
 
-import ExpandedView from '../ExpandedView';
-import InfoText from '../../InfoText/InfoText';
+import ExpandedView from './ExpandedView';
+import InfoText from '../InfoText/InfoText';
 
 export default function MusicInfo() {
   const [visible, setVisible] = useState(false);
@@ -39,10 +39,12 @@ export default function MusicInfo() {
               'linear-gradient(90deg,transparent 0,#000 8px,#000 calc(100% - 12px),transparent)',
           }}
         >
-          <InfoText variant='body1' text={track.title} />
+          <InfoText 
+            variant='primary' 
+            text={track.title} 
+          />
           <InfoText
-            variant='caption'
-            color='text.secondary'
+            variant='secondary'
             text={track.artist}
           />
         </div>
