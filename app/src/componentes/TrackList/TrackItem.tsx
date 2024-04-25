@@ -1,79 +1,33 @@
 import { Track } from '../../../shared/types/vimp';
 import { formatDuration } from '../../lib/utils';
 
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button'
-
-import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded';
-
 import player from '../../lib/player';
 
-//? TrackRow ?
-//? TrackBlock ?
-
-//TODO table
 interface TrackProps {
   track: Track;
 }
 
 export default function TrackItem({ track }: TrackProps) {
   const playTrack = () => {
-    player.setTrack(track)
-    player.play()
-  }
+    player.setTrack(track);
+    player.play();
+  };
 
   return (
-    <Box
-      sx={{
-        width: '100%',
-        display: 'flex',
-        alignItems: 'center',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        gap: '12px'
-      }}
+    <div
+      className='flex w-52 cursor-pointer select-none flex-col overflow-clip rounded-md bg-neutral-900 p-4 transition-colors hover:bg-black/70'
+      onClick={playTrack}
     >
-      <Button
-        variant='contained'
-        onClick={playTrack}
-        sx={{
-          minWidth: '32px',
-          minHeight: '32px',
-          p: 0,
-          whiteSpace: 'nowrap',
-          textTransform: 'none',
-          display: 'flex',
-          alignItems: 'center',
-        }}
-      >
-        <PlayArrowRoundedIcon />
-      </Button>
-      <Typography
-        variant='caption'
-        sx={{ 
-          width: '100%', 
-          whiteSpace: 'nowrap',
-        }}
-      >
-        {track.title}
-      </Typography>
-      <Typography
-        variant='caption'
-        sx={{
-          whiteSpace: 'nowrap',
-        }}
-      >
-        {track.artist}
-      </Typography>
-      <Typography
-        variant='caption'
-        sx={{ 
-          whiteSpace: 'nowrap',
-        }}
-      >
+      <div className='mb-2 flex items-center justify-center'>
+        <img
+          src={track.cover}
+          className='size-40 shrink-0 rounded object-cover'
+        />
+      </div>
+      <p className='flex-1 text-base'>{track.title}</p>
+      <p className='text-right text-sm text-zinc-400'>
         {formatDuration(track.duration)}
-      </Typography>
-    </Box>
+      </p>
+    </div>
   );
 }
