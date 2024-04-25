@@ -1,12 +1,24 @@
 import { useRef, useEffect, useState } from 'react';
+import { cva, type VariantProps } from 'class-variance-authority';
+import { cn } from '@/lib/utils';
 
-interface InfoTextProps {
-  variant: 'primary' | 'secondary';
+const textVariants = cva('w-fit', {
+  variants: {
+    variant: {
+      primary: 'text-base text-white',
+      secondary: 'text-sm tracking-normal text-zinc-400',
+    },
+  },
+});
+
+interface InfoTextProps
+  extends React.HTMLProps<HTMLParagraphElement>,
+    VariantProps<typeof textVariants> {
   text: string | string[];
 }
 
 //TODO componente possivelmente de nivel alto (usado em outros lugares)
-export default function InfoText({ text, variant }: InfoTextProps) {
+export default function InfoText({ text, variant, className }: InfoTextProps) {
   const [isOverflow, setIsOverflow] = useState<boolean>(false);
   const [contWidth, setContWidth] = useState<number>(0);
   const ref = useRef<HTMLDivElement>(null);
@@ -29,10 +41,8 @@ export default function InfoText({ text, variant }: InfoTextProps) {
   }, [text]);
 
   return (
-    <div ref={ref}>
-      <p className='w-fit'>
-        {text}
-      </p>
-    </div>
+    <p ref={ref} className={cn(textVariants({ variant, className}))}>
+      {text}
+    </p>
   );
 }

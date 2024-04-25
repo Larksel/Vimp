@@ -5,6 +5,7 @@ import placeholderImage from '../../assets/images/placeholder.png';
 import { Button } from '../ui/button';
 import ScrollBar from '../ScrollBar/ScrollBar';
 import ListHeader from './ListHeader';
+import InfoText from '../InfoText/InfoText';
 
 interface PlaylistListProps {
   collapsed: boolean;
@@ -38,10 +39,8 @@ export default function PlaylistList({ collapsed }: PlaylistListProps) {
                 transitionDelay: !collapsed ? `${(index + 1) * 75}ms` : '',
               }}
             >
-              <p className='w-fit text-base'>Playlist {index + 1}</p>
-              <p className='w-fit text-sm tracking-normal text-zinc-400'>
-                Playlist
-              </p>
+              <InfoText variant='primary' text={`Playlist ${index + 1}`}/>
+              <InfoText variant='secondary' text={'Playlist'} />
             </div>
           </Button>
         ))}
