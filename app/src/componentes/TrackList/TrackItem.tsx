@@ -2,6 +2,7 @@ import { Track } from '../../../shared/types/vimp';
 import { formatDuration } from '../../lib/utils';
 
 import player from '../../lib/player';
+import placeholder from '@/assets/images/placeholder.png';
 
 interface TrackProps {
   track: Track;
@@ -20,7 +21,7 @@ export default function TrackItem({ track }: TrackProps) {
     >
       <div className='mb-2 flex items-center justify-center'>
         <img
-          src={track.cover}
+          src={track.cover || placeholder}
           className='size-40 shrink-0 rounded object-cover'
         />
       </div>
