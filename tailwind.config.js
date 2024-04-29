@@ -9,6 +9,9 @@ export default {
   ],
   prefix: "",
   theme: {
+    fontFamily: {
+      'sans': 'Roboto'
+    },
     container: {
       center: true,
       padding: "2rem",
