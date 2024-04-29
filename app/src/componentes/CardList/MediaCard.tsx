@@ -1,22 +1,9 @@
 import { useEffect, useState } from 'react';
 
-import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import CardMedia from '@mui/material/CardMedia';
-import CardContent from '@mui/material/CardContent';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-/*import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/componentes/ui/card';*/
+import { Card, CardContent, CardHeader } from '@/componentes/ui/card';
 import InfoText from '../InfoText/InfoText';
 
-import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded';
+import { Play } from '@phosphor-icons/react';
 
 import placeholder from '../../assets/images/placeholder.png';
 import { Track } from '../../../shared/types/vimp';
@@ -41,75 +28,21 @@ export default function MediaCard({ item }: MediaCardProps) {
   return (
     <Card
       onClick={playTrack}
-      sx={{
-        bgcolor: '#181818',
-        boxShadow: 0,
-        minWidth: '201px',
-        minHeight: '284px',
-        borderRadius: '8px',
-        p: '16px',
-        display: 'flex',
-        alignItems: 'flex-start',
-        justifyContent: 'center',
-        backgroundImage: 'none',
-        overflow: 'hidden',
-        transition: 'background-color .3s ease',
-        '&:hover': {
-          bgcolor: '#292929',
-          cursor: 'pointer',
-        },
-        '&:hover .MuiButtonBase-root': {
-          opacity: 1,
-          transform: 'translateY(0)',
-        },
-      }}
+      className='group flex h-72 w-52 flex-col space-y-2 overflow-hidden p-4 transition-all duration-300 hover:cursor-pointer hover:bg-neutral-700/70'
     >
-      <Box>
-        <Box sx={{ position: 'relative' }}>
-          <IconButton
-            disableRipple
-            sx={{
-              position: 'absolute',
-              opacity: 0,
-              bgcolor: 'secondary.dark',
-              transition: 'all .3s ease',
-              pointerEvents: 'none',
-              bottom: '8px',
-              right: '8px',
-              transform: 'translateY(8px)',
-              boxShadow: '0 8px 8px rgba(0,0,0,0.3)',
-            }}
-          >
-            <PlayArrowRoundedIcon />
-          </IconButton>
-          <CardMedia
-            component='img'
-            image={cover || placeholder}
-            sx={{
-              height: '170px',
-              width: '170px',
-              borderRadius: '8px',
-              mb: '16px',
-              userSelect: 'none',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              objectFit: 'cover',
-            }}
-          />
-        </Box>
-        <CardContent
-          sx={{
-            p: '0px',
-            '&:last-child': {
-              pb: '0px',
-            },
-          }}
-        >
-          <InfoText variant='primary'>{item.title}</InfoText>
-          <InfoText variant='secondary'>{item.artist}</InfoText>
-        </CardContent>
-      </Box>
+      <CardHeader className='relative space-y-0 p-0'>
+        <button className='absolute bottom-0 right-2 flex size-10 items-center justify-center rounded-full bg-green-500 opacity-0 shadow-sm transition-all duration-300 group-hover:bottom-2 group-hover:opacity-100'>
+          <Play weight='fill' size={20} />
+        </button>
+        <img
+          src={cover || placeholder}
+          className='w-full select-none rounded object-cover'
+        />
+      </CardHeader>
+      <CardContent className='p-0'>
+        <InfoText variant='primary'>{item.title}</InfoText>
+        <InfoText variant='secondary'>{item.artist}</InfoText>
+      </CardContent>
     </Card>
   );
 }
