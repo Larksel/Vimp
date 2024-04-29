@@ -1,5 +1,3 @@
-import Box from '@mui/material/Box';
-
 import MediaCard from './MediaCard';
 
 import { Track } from '../../../shared/types/vimp';
