@@ -6,6 +6,15 @@ import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
+/*import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/componentes/ui/card';*/
+import InfoText from '../InfoText/InfoText';
 
 import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded';
 
@@ -21,7 +30,7 @@ export default function MediaCard({ item }: MediaCardProps) {
   const [cover, setCover] = useState('');
 
   useEffect(() => {
-    setCover(item.cover)
+    setCover(item.cover);
   }, [item.cover]);
 
   const playTrack = () => {
@@ -97,27 +106,8 @@ export default function MediaCard({ item }: MediaCardProps) {
             },
           }}
         >
-          <Typography
-            variant='body2'
-            sx={{
-              overflow: 'hidden',
-              whiteSpace: 'nowrap',
-              maxWidth: '170px',
-            }}
-          >
-            {item.title}
-          </Typography>
-          <Typography
-            variant='caption'
-            color='text.secondary'
-            sx={{
-              overflow: 'hidden',
-              whiteSpace: 'nowrap',
-              maxWidth: '170px',
-            }}
-          >
-            {item.artist}
-          </Typography>
+          <InfoText variant='primary'>{item.title}</InfoText>
+          <InfoText variant='secondary'>{item.artist}</InfoText>
         </CardContent>
       </Box>
     </Card>

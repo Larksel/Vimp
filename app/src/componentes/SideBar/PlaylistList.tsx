@@ -39,8 +39,8 @@ export default function PlaylistList({ collapsed }: PlaylistListProps) {
                 transitionDelay: !collapsed ? `${(index + 1) * 75}ms` : '',
               }}
             >
-              <InfoText variant='primary' text={`Playlist ${index + 1}`}/>
-              <InfoText variant='secondary' text={'Playlist'} />
+              <InfoText variant='primary'>{`Playlist ${index + 1}`}</InfoText>
+              <InfoText variant='secondary'>Playlist</InfoText>
             </div>
           </Button>
         ))}

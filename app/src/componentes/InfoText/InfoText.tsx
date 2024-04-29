@@ -14,11 +14,14 @@ const textVariants = cva('w-fit', {
 interface InfoTextProps
   extends React.HTMLProps<HTMLParagraphElement>,
     VariantProps<typeof textVariants> {
-  text: string | string[];
+  children: any;
 }
 
-//TODO componente possivelmente de nivel alto (usado em outros lugares)
-export default function InfoText({ text, variant, className }: InfoTextProps) {
+export default function InfoText({
+  children,
+  variant,
+  className,
+}: InfoTextProps) {
   const [isOverflow, setIsOverflow] = useState<boolean>(false);
   const [contWidth, setContWidth] = useState<number>(0);
   const ref = useRef<HTMLDivElement>(null);
@@ -38,11 +41,11 @@ export default function InfoText({ text, variant, className }: InfoTextProps) {
     return () => {
       observer.disconnect();
     };
-  }, [text]);
+  }, [children]);
 
   return (
-    <p ref={ref} className={cn(textVariants({ variant, className}))}>
-      {text}
+    <p ref={ref} className={cn(textVariants({ variant, className }))}>
+      {children}
     </p>
   );
 }
