@@ -2,7 +2,7 @@ import { useRef, useEffect, useState } from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
 
-const textVariants = cva('w-fit', {
+const textVariants = cva('w-fit whitespace-nowrap', {
   variants: {
     variant: {
       primary: 'text-base text-white',

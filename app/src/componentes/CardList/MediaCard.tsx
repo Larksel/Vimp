@@ -8,6 +8,7 @@ import { Play } from '@phosphor-icons/react';
 import placeholder from '../../assets/images/placeholder.png';
 import { Track } from '../../../shared/types/vimp';
 import player from '../../lib/player';
+import { formatDuration } from '@/lib/utils';
 
 interface MediaCardProps {
   item: Track;
@@ -36,13 +37,16 @@ export default function MediaCard({ item }: MediaCardProps) {
         </button>
         <img
           src={cover || placeholder}
-          className='w-full select-none rounded object-cover'
+          className='aspect-square w-full select-none rounded object-cover'
         />
       </CardHeader>
-      <CardContent className='p-0'>
+      <CardContent className='overflow-hidden p-0'>
         <InfoText variant='primary'>{item.title}</InfoText>
         <InfoText variant='secondary'>{item.artist}</InfoText>
       </CardContent>
+      <p className='text-right text-sm text-zinc-400'>
+        {formatDuration(item.duration)}
+      </p>
     </Card>
   );
 }
