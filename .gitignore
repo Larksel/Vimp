@@ -94,3 +94,4 @@ out/
 .vscode/
 app/src/test/
 todo/
+dist/

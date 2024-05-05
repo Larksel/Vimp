@@ -128,7 +128,7 @@ app.on('window-all-closed', () => {
 });
 
 app.whenReady().then(() => {
-  electronApp.setAppUserModelId('com.vimp.app');
+  electronApp.setAppUserModelId('com.electron.vimp');
 
   app.on('browser-window-created', (_, window) => {
     optimizer.watchWindowShortcuts(window);

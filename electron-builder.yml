@@ -1,32 +1,35 @@
-appId: com.vimp.app
+appId: com.electron.vimp
 directories:
   buildResources: build
 files:
   - '!**/.vscode/*'
   - '!app/*'
   - '!electron.vite.config.{js,ts,mjs,cjs}'
-  - '!{.eslintignore,.eslintrc.cjs,.prettierignore,.prettierrc.yaml,dev-app-update.yml,CHANGELOG.md,README.md}'
+  - '!{.eslintignore,.eslintrc.json,.prettierignore,.prettierrc,dev-app-update.yml,CHANGELOG.md,README.md}'
   - '!{.env,.env.*,.npmrc,pnpm-lock.yaml}'
   - '!{tsconfig.json,tsconfig.node.json,tsconfig.web.json}'
 asarUnpack:
   - resources/**
 win:
   executableName: Vimp
+  icon: resources/icons/icon.ico
 nsis:
   artifactName: ${name}-${version}-setup.${ext}
   shortcutName: ${productName}
   uninstallDisplayName: ${productName}
-  createDesktopShortcut: always
+  createDesktopShortcut: false
 mac:
   entitlementsInherit: build/entitlements.mac.plist
   extendInfo:
-    - NSCameraUsageDescription: Application requests access to the device's camera.
-    - NSMicrophoneUsageDescription: Application requests access to the device's microphone.
-    - NSDocumentsFolderUsageDescription: Application requests access to the user's Documents folder.
-    - NSDownloadsFolderUsageDescription: Application requests access to the user's Downloads folder.
+    - NSCameraUsageDescription: Vimp requests access to the device's camera.
+    - NSMicrophoneUsageDescription: Vimp requests access to the device's microphone.
+    - NSDocumentsFolderUsageDescription: Vimp requests access to the user's Documents folder.
+    - NSDownloadsFolderUsageDescription: Vimp requests access to the user's Downloads folder.
   notarize: false
+  icon: resources/icons/icon.icns
 dmg:
   artifactName: ${name}-${version}.${ext}
+  icon: resources/icons/icon.icns
 linux:
   target:
     - AppImage
@@ -34,6 +37,7 @@ linux:
     - deb
   maintainer: electronjs.org
   category: Utility
+  icon: resources/icons/512x512.png
 appImage:
   artifactName: ${name}-${version}.${ext}
 npmRebuild: false

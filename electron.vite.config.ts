@@ -36,8 +36,7 @@ export default defineConfig({
         "@": path.resolve(__dirname, './app/src')
       }
     },
-    appType: 'spa',
-    root: 'app/src',
+    root: path.resolve(__dirname, './app/src'),
     build: {
       minify,
       emptyOutDir: true,
