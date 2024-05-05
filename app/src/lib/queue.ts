@@ -47,7 +47,7 @@ class Queue {
   
   //TODO player ou queue?
   next() {
-    let nextTrack = null
+    let nextTrack: number | null = null
     if (!(this.queuePosition == this.queue.length - 1)) {
       nextTrack = this.queuePosition + 1;
     } else {
@@ -62,7 +62,7 @@ class Queue {
   
   //TODO player ou queue?
   previous() {
-    let prevTrack = null
+    let prevTrack: number | null = null
     if (!(this.queuePosition == 0)) {
       prevTrack = this.queuePosition - 1;
     } else {

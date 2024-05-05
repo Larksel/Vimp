@@ -96,4 +96,6 @@ export async function getCover(trackPath: string) {
   if (picture) {
     return parseBase64(picture.format, picture.data.toString('base64'));
   }
+
+  return null;
 }
