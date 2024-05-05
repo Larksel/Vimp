@@ -14,18 +14,12 @@ const isDebug =
 console.log('Debug:', isDebug);
 console.log('Platform:', process.platform, '\n\n');
 
-
 const iconPath =
   process.platform === 'win32'
     ? '../../resources/icons/icon.ico'
     : '../../resources/icons/icon.png';
 
-let icon = '';
-if (isDebug) {
-  icon = join(__dirname, iconPath);
-} else {
-  icon = iconPath;
-}
+const icon = join(__dirname, iconPath);
 
 let mainWindow: BrowserWindow | null = null;
 
