@@ -10,14 +10,14 @@ export const ROUTES = {
   SEARCH: '/search',
   MUSIC_LIBRARY: '/music_library',
   VIDEO_LIBRARY: '/video_library',
-}
+};
 
 export default function Rotas({ className }) {
   return (
     <div className={className}>
       <Header />
       <ScrollBar>
-        <div className='p-4 pt-16 h-full'>
+        <div className='h-full w-[calc(100vw-24px-var(--sidebar-width))] p-4 pt-16 transition-all'>
           <Routes>
             <Route path='/' element={<HomePage />} />
             <Route path={ROUTES.HOME} element={<HomePage />} />
