@@ -11,7 +11,7 @@ export default function SideBar({ className, toggle, collapsed }) {
       <div className='flex h-auto w-full shrink-0 flex-col items-center justify-center overflow-clip rounded-lg bg-zinc-900'>
         <button
           onClick={toggle}
-          className='relative flex h-14 w-full items-center justify-center px-2 transition-all hover:bg-accent focus-visible:outline-none active:bg-[#fff3]'
+          className='relative flex h-14 w-full items-center justify-center px-2 transition-all hover:bg-neutral-800/90 focus-visible:outline-none active:bg-[#fff3]'
         >
           <img src={logo} className='max-h-8 select-none' />
           <div className='absolute left-0 right-0 flex items-center justify-between'>

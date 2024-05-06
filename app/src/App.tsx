@@ -30,15 +30,15 @@ export default function App() {
           className={'col-span-4 row-span-1 h-full w-full select-none bg-black'}
         />
 
-        <div className='col-span-4 row-span-1 px-2 grid max-h-[calc(100vh-var(--appbar-height)-var(--playconsole-height))] grid-cols-[var(--sidebar-width),repeat(3,1fr)] grid-rows-2 gap-2 overflow-clip transition-all'>
+        <div className='col-span-4 row-span-1 grid max-h-[calc(100vh-var(--appbar-height)-var(--playconsole-height))] grid-cols-[var(--sidebar-width),repeat(3,1fr)] grid-rows-2 gap-2 overflow-clip px-2 transition-all'>
           <SideBar
             toggle={() => setCollapsed(!collapsed)}
             collapsed={collapsed}
             className={
-              'row-span-2 flex w-full flex-col items-center overflow-clip rounded-lg transition-all gap-2'
+              'row-span-2 flex w-full flex-col items-center gap-2 overflow-clip rounded-lg transition-all'
             }
           />
-          <Rotas className='relative col-span-3 row-span-2 overflow-clip rounded-lg bg-zinc-800' />
+          <Rotas className='relative col-span-3 row-span-2 overflow-clip rounded-lg bg-neutral-800' />
         </div>
 
         <PlaybackConsole

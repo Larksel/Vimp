@@ -45,9 +45,9 @@ export default function NavButtons({ collapsed }: NavButtonsProps) {
       {navButtons.map(({ text, icon, page }, index) => (
         <Button
           key={text}
-          variant='ghost'
+          variant='default'
           onClick={() => navigate(page)}
-          className='text-md h-14 w-full justify-start gap-3 rounded-none px-[18px] hover:bg-accent active:bg-[#fff3]'
+          className='text-md h-14 w-full justify-start gap-3 rounded-none px-[18px]'
         >
           {icon}
           <p

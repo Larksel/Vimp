@@ -24,7 +24,7 @@ export default function PlaylistList({ collapsed }: PlaylistListProps) {
         {Array.from({ length: 10 }).map((_, index) => (
           <Button
             key={index}
-            variant='ghost'
+            variant='default'
             onClick={() => console.log(`Playlist ${index + 1}`)}
             className='flex h-16 w-full justify-start gap-4 rounded-none p-2 active:bg-[#fff3]'
           >

@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Track } from '../../../shared/types/vimp';
 
+import { Button } from '@/componentes/ui/button';
+
 import TrackList from '../../componentes/TrackList/TrackList';
 import queue from '../../lib/queue';
 
@@ -38,12 +40,13 @@ export default function MusicLibrary() {
 
   return (
     <div className='flex flex-col items-center'>
-      <button
+      <Button
         onClick={playTracks}
-        className='my-4 w-auto whitespace-nowrap rounded bg-violet-500 p-2'
+        variant='default'
+        className='my-4 bg-purple-500 hover:bg-purple-500/80'
       >
         Play all
-      </button>
+      </Button>
       {tracks ? <TrackList data={tracks} /> : ''}
     </div>
   );

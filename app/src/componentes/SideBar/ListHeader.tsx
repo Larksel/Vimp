@@ -24,18 +24,16 @@ export default function ListHeader({ collapsed }: ListHeaderProps) {
   };
 
   return (
-    <div
-      className='absolute flex w-full items-center justify-between gap-1 px-2 py-1 z-10 bg-zinc-900 transition-all'
-    >
+    <div className='absolute z-10 flex w-full items-center justify-between gap-1 bg-zinc-900 px-2 py-1 transition-all'>
       <Button
         variant='ghost'
-        className={`flex aspect-square rounded-full p-0 text-zinc-400 transition-all hover:scale-110 hover:bg-transparent hover:text-white ${collapsed ? 'mx-1.5' : ''}`}
+        className={`flex aspect-square rounded-full p-0 text-zinc-400 transition-all hover:scale-110 hover:bg-transparent hover:text-white ${collapsed ? 'mx-1' : ''}`}
       >
         <Plus size={20} />
       </Button>
 
       <div
-        className={`flex ${collapsed ? 'w-0 overflow-clip' : 'w-full'}`}
+        className={`flex items-center ${collapsed ? 'w-0 overflow-clip' : 'w-full'}`}
       >
         <Button
           variant='ghost'
@@ -50,7 +48,7 @@ export default function ListHeader({ collapsed }: ListHeaderProps) {
           value={search}
           onChange={({ target }) => setSearch(target.value)}
           placeholder='Buscar'
-          className={`${!inputVisible ? 'invisible w-0' : ''} transition-all`}
+          className={`${!inputVisible ? 'invisible w-0 p-0' : 'w-full opacity-100'} transition-all`}
         />
       </div>
 
