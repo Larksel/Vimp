@@ -25,7 +25,7 @@ export default function MusicInfo() {
       <ExpandedView visible={visible} />
       <div
         onClick={toggleVisible}
-        className={`flex w-[30%] select-none items-center ${visible ? 'gap-0' : 'gap-2'} rounded-lg p-2 transition-all hover:bg-accent`}
+        className={`flex w-[30%] select-none items-center ${visible ? 'gap-0' : 'gap-2'} rounded-lg p-2 transition-all hover:bg-white/20`}
       >
         <img
           src={cover || placeholderImage}
