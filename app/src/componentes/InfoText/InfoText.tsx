@@ -6,7 +6,7 @@ const textVariants = cva('w-fit whitespace-nowrap font-normal', {
   variants: {
     variant: {
       primary: 'text-base text-white',
-      secondary: 'text-sm tracking-normal text-zinc-400',
+      secondary: 'text-sm tracking-normal text-neutral-400',
     },
   },
 });

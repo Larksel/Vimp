@@ -18,7 +18,7 @@ export default function PlaylistList({ collapsed }: PlaylistListProps) {
   const navigate = useNavigate();
 
   return (
-    <div className='relative h-full w-full overflow-clip rounded-lg bg-zinc-900'>
+    <div className='relative h-full w-full overflow-clip rounded-lg bg-neutral-900'>
       <ListHeader collapsed={collapsed} />
       <ScrollBar className='pt-11'>
         {Array.from({ length: 10 }).map((_, index) => (
@@ -30,7 +30,7 @@ export default function PlaylistList({ collapsed }: PlaylistListProps) {
           >
             <img
               src={'' || placeholderImage}
-              className='h-12 w-12 shrink-0 rounded-sm bg-zinc-800 object-cover'
+              className='h-12 w-12 shrink-0 rounded-sm bg-neutral-800 object-cover'
             />
 
             <div

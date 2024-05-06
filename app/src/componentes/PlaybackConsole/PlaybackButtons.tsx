@@ -44,14 +44,14 @@ export default function PlaybackButtons() {
     <div className='flex w-full items-center gap-4'>
       <div className='flex flex-1 justify-end gap-2'>
         <button
-          className='relative flex size-8 items-center justify-center text-zinc-400 transition-colors hover:text-zinc-100'
+          className='relative flex size-8 items-center justify-center text-neutral-400 transition-colors hover:text-neutral-100'
           onClick={() => dispatch(setShuffle(!shuffle))}
         >
           <Shuffle size={20} className={`${shuffle ? 'text-green-500' : ''}`} />
         </button>
 
         <button
-          className='relative flex size-8 items-center justify-center text-zinc-400 transition-colors hover:text-zinc-100'
+          className='relative flex size-8 items-center justify-center text-neutral-400 transition-colors hover:text-neutral-100'
           onClick={() => player.previous()}
         >
           <SkipBack size={20} />
@@ -71,14 +71,14 @@ export default function PlaybackButtons() {
 
       <div className='flex flex-1 gap-2'>
         <button
-          className='relative flex size-8 items-center justify-center text-zinc-400 transition-colors hover:text-zinc-100'
+          className='relative flex size-8 items-center justify-center text-neutral-400 transition-colors hover:text-neutral-100'
           onClick={() => player.next()}
         >
           <SkipForward size={20} />
         </button>
 
         <button
-          className='relative flex size-8 items-center justify-center text-zinc-400 transition-colors hover:text-zinc-100'
+          className='relative flex size-8 items-center justify-center text-neutral-400 transition-colors hover:text-neutral-100'
           onClick={() => dispatch(changeRepeat())}
         >
           {repeatIcons[repeat]}

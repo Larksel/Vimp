@@ -9,13 +9,13 @@ export default function Header() {
       <div className='flex flex-row gap-2'>
         <Button
           variant='ghost'
-          className='aspect-square rounded-full bg-[#0009] p-0 text-zinc-400 hover:scale-110 hover:bg-[#0009] hover:text-white active:bg-[#fff3]'
+          className='aspect-square rounded-full bg-[#0009] p-0 text-neutral-400 hover:scale-110 hover:bg-[#0009] hover:text-white active:bg-[#fff3]'
         >
           <CaretLeft size={20} />
         </Button>
         <Button
           variant='ghost'
-          className='aspect-square rounded-full bg-[#0009] p-0 text-zinc-400 hover:scale-110 hover:bg-[#0009] hover:text-white active:bg-[#fff3]'
+          className='aspect-square rounded-full bg-[#0009] p-0 text-neutral-400 hover:scale-110 hover:bg-[#0009] hover:text-white active:bg-[#fff3]'
         >
           <CaretRight size={20} />
         </Button>
@@ -23,13 +23,13 @@ export default function Header() {
       <div className='flex flex-row gap-2'>
         <Button
           variant='ghost'
-          className='aspect-square rounded-full bg-[#0009] p-0 text-zinc-400 hover:scale-110 hover:bg-[#0009] hover:text-white active:bg-[#fff3]'
+          className='aspect-square rounded-full bg-[#0009] p-0 text-neutral-400 hover:scale-110 hover:bg-[#0009] hover:text-white active:bg-[#fff3]'
         >
           <Bell size={20} />
         </Button>
         <Button
           variant='ghost'
-          className='aspect-square rounded-full bg-[#0009] p-0 text-zinc-400 hover:scale-110 hover:bg-[#0009] hover:text-white active:bg-[#fff3]'
+          className='aspect-square rounded-full bg-[#0009] p-0 text-neutral-400 hover:scale-110 hover:bg-[#0009] hover:text-white active:bg-[#fff3]'
         >
           <Gear size={20} />
         </Button>

@@ -24,10 +24,10 @@ export default function ListHeader({ collapsed }: ListHeaderProps) {
   };
 
   return (
-    <div className='absolute z-10 flex w-full items-center justify-between gap-1 bg-zinc-900 px-2 py-1 transition-all'>
+    <div className='absolute z-10 flex w-full items-center justify-between gap-1 bg-neutral-900 px-2 py-1 transition-all'>
       <Button
         variant='ghost'
-        className={`flex aspect-square rounded-full p-0 text-zinc-400 transition-all hover:scale-110 hover:bg-transparent hover:text-white ${collapsed ? 'mx-1' : ''}`}
+        className={`flex aspect-square rounded-full p-0 text-neutral-400 transition-all hover:scale-110 hover:bg-transparent hover:text-white ${collapsed ? 'mx-1' : ''}`}
       >
         <Plus size={20} />
       </Button>
@@ -38,7 +38,7 @@ export default function ListHeader({ collapsed }: ListHeaderProps) {
         <Button
           variant='ghost'
           onClick={toggleVisibility}
-          className='flex aspect-square rounded-full p-0 text-zinc-400 transition-all hover:scale-110 hover:bg-transparent hover:text-white'
+          className='flex aspect-square rounded-full p-0 text-neutral-400 transition-all hover:scale-110 hover:bg-transparent hover:text-white'
         >
           <MagnifyingGlass size={20} />
         </Button>
@@ -54,7 +54,7 @@ export default function ListHeader({ collapsed }: ListHeaderProps) {
 
       <Button
         variant='ghost'
-        className={`flex aspect-square rounded-full p-0 text-zinc-400 transition-all hover:scale-110 hover:bg-transparent hover:text-white ${collapsed ? 'w-0 overflow-clip' : ''}`}
+        className={`flex aspect-square rounded-full p-0 text-neutral-400 transition-all hover:scale-110 hover:bg-transparent hover:text-white ${collapsed ? 'w-0 overflow-clip' : ''}`}
       >
         <ListBullets size={20} />
       </Button>

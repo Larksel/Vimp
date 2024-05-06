@@ -8,7 +8,7 @@ import PlaylistList from './PlaylistList';
 export default function SideBar({ className, toggle, collapsed }) {
   return (
     <div className={className}>
-      <div className='flex h-auto w-full shrink-0 flex-col items-center justify-center overflow-clip rounded-lg bg-zinc-900'>
+      <div className='flex h-auto w-full shrink-0 flex-col items-center justify-center overflow-clip rounded-lg bg-neutral-900'>
         <button
           onClick={toggle}
           className='relative flex h-14 w-full items-center justify-center px-2 transition-all hover:bg-neutral-800/90 focus-visible:outline-none active:bg-[#fff3]'

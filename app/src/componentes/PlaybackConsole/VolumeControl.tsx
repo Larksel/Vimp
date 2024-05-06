@@ -49,7 +49,7 @@ export default function VolumeControl() {
     <div className='flex flex-row items-center justify-center gap-2'>
       <button
         onClick={handleMute}
-        className='text-zinc-400 transition-colors hover:text-zinc-100'
+        className='text-neutral-400 transition-colors hover:text-neutral-100'
       >
         {volumeIcons()}
       </button>

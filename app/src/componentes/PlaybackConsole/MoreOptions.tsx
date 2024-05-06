@@ -20,7 +20,7 @@ export default function MoreOptions() {
         <button
           key={index}
           onClick={button.action}
-          className='text-zinc-400 transition-colors hover:text-zinc-100'
+          className='text-neutral-400 transition-colors hover:text-neutral-100'
         >
           {button.icon}
         </button>

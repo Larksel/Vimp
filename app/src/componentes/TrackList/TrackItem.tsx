@@ -26,7 +26,7 @@ export default function TrackItem({ track }: TrackProps) {
         />
       </div>
       <p className='flex-1 text-base'>{track.title}</p>
-      <p className='text-right text-sm text-zinc-400'>
+      <p className='text-right text-sm text-neutral-400'>
         {formatDuration(track.duration)}
       </p>
     </div>

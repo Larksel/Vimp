@@ -44,7 +44,7 @@ export default function MediaCard({ item }: MediaCardProps) {
         <InfoText variant='primary'>{item.title}</InfoText>
         <InfoText variant='secondary'>{item.artist}</InfoText>
       </CardContent>
-      <p className='text-right text-sm text-zinc-400'>
+      <p className='text-right text-sm text-neutral-400'>
         {formatDuration(item.duration)}
       </p>
     </Card>
