@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import placeholderImage from '../../assets/images/placeholder.png';
 
 import { Button } from '../ui/button';
-import ScrollBar from '../ScrollBar/ScrollBar';
+import { ScrollArea, ScrollBar } from '../ui/scroll-area';
 import ListHeader from './ListHeader';
 import InfoText from '../InfoText/InfoText';
 
@@ -18,9 +18,9 @@ export default function PlaylistList({ collapsed }: PlaylistListProps) {
   const navigate = useNavigate();
 
   return (
-    <div className='relative h-full w-full overflow-clip rounded-lg bg-neutral-900'>
+    <ScrollArea className='relative h-full w-full rounded-lg bg-neutral-900'>
       <ListHeader collapsed={collapsed} />
-      <ScrollBar className='pt-11'>
+      <div className='pt-11'>
         {Array.from({ length: 10 }).map((_, index) => (
           <Button
             key={index}
@@ -44,7 +44,8 @@ export default function PlaylistList({ collapsed }: PlaylistListProps) {
             </div>
           </Button>
         ))}
-      </ScrollBar>
-    </div>
+      </div>
+      <ScrollBar orientation='vertical' />
+    </ScrollArea>
   );
 }
