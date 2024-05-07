@@ -43,7 +43,7 @@ export default function App() {
 
         <PlaybackConsole
           className={
-            'z-10 col-span-4 row-span-1 flex h-full w-full items-center justify-between bg-black px-2'
+            'z-10 overflow-hidden col-span-4 row-span-1 flex h-full w-full items-center justify-between bg-black px-2'
           }
         />
       </div>
