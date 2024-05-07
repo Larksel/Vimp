@@ -47,7 +47,7 @@ export default function NavButtons({ collapsed }: NavButtonsProps) {
           key={text}
           variant='default'
           onClick={() => navigate(page)}
-          className='text-md h-14 w-full justify-start gap-3 rounded-none px-[18px]'
+          className='text-md h-14 w-full justify-start gap-3 rounded-none bg-transparent px-[18px]'
         >
           {icon}
           <p
