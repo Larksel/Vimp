@@ -5,6 +5,8 @@ import PouchDBFind from 'pouchdb-find';
 import { formatDate } from '../shared/lib/utils';
 import { Track, TrackModel } from '../shared/types/vimp';
 
+//TODO verificar motivo de algumas músicas não serem salvas
+
 PouchDB.plugin(PouchDBFind);
 
 const userDataPath = app.getPath('userData');
