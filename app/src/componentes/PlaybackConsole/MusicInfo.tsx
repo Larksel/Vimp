@@ -9,12 +9,7 @@ import InfoText from '../InfoText/InfoText';
 
 export default function MusicInfo() {
   const [visible, setVisible] = useState(false);
-  const [cover, setCover] = useState('');
   const track = useSelector(selectCurrentTrack);
-
-  useEffect(() => {
-    setCover(track.cover);
-  }, [track.cover]);
 
   const toggleVisible = () => {
     setVisible(!visible);
@@ -28,7 +23,7 @@ export default function MusicInfo() {
         className={`flex w-[30%] select-none items-center ${visible ? 'gap-0' : 'gap-2'} rounded-lg p-2 transition-all hover:bg-white/20`}
       >
         <img
-          src={cover || placeholderImage}
+          src={track.cover || placeholderImage}
           className={`size-16 rounded object-cover transition-all ${visible ? 'w-0 opacity-0' : ''}`}
         />
 

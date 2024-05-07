@@ -15,12 +15,6 @@ interface MediaCardProps {
 }
 
 export default function MediaCard({ item }: MediaCardProps) {
-  const [cover, setCover] = useState('');
-
-  useEffect(() => {
-    setCover(item.cover);
-  }, [item.cover]);
-
   const playTrack = () => {
     player.setTrack(item);
     player.play();
@@ -36,7 +30,7 @@ export default function MediaCard({ item }: MediaCardProps) {
           <Play weight='fill' size={20} />
         </button>
         <img
-          src={cover || placeholder}
+          src={item.cover || placeholder}
           className='aspect-square w-full select-none rounded object-cover'
         />
       </CardHeader>

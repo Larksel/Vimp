@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { selectCurrentTrack } from '../../features/playerSlice';
 
@@ -9,23 +8,18 @@ interface ExpandedViewProps {
 }
 
 export default function ExpandedView({ visible }: ExpandedViewProps) {
-  const [cover, setCover] = useState('');
   const track = useSelector(selectCurrentTrack);
-
-  useEffect(() => {
-    setCover(track.cover);
-  }, [track.cover]);
 
   return (
     <div
       className={`${visible ? 'top-0 opacity-100' : 'top-full opacity-0'} absolute bottom-[88px] left-0 right-0 transition-all bg-black`}
     >
       <img
-        src={cover || placeholder}
+        src={track.cover || placeholder}
         className='absolute inset-0 size-full object-cover blur opacity-30'
       />
       <img
-        src={cover || placeholder}
+        src={track.cover || placeholder}
         className={`absolute left-4 size-64 rounded-lg border border-black/30 object-cover shadow-md transition-all ${visible ? 'visible bottom-4' : 'invisible bottom-0'}`}
       />
     </div>
