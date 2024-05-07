@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { Track } from '../../../shared/types/vimp';
 
 import { Button } from '@/componentes/ui/button';
+import MediaCard from '@/componentes/MediaCard/MediaCard';
 
-import TrackList from '../../componentes/TrackList/TrackList';
 import queue from '../../lib/queue';
 
 //TODO estado da lista de música reseta ao mudar de página
@@ -47,7 +47,10 @@ export default function MusicLibrary() {
       >
         Play all
       </Button>
-      {tracks ? <TrackList data={tracks} /> : ''}
+      <div className='grid w-full grid-cols-3 justify-items-center gap-6 xl:grid-cols-4'>
+        {tracks &&
+          tracks.map((track, index) => <MediaCard key={index} item={track} />)}
+      </div>
     </div>
   );
 }

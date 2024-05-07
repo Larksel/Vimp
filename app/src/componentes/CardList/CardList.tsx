@@ -1,5 +1,5 @@
 import { ScrollArea, ScrollBar } from '../ui/scroll-area';
-import MediaCard from './MediaCard';
+import MediaCard from '../MediaCard/MediaCard';
 
 import { Track } from '../../../shared/types/vimp';
 
