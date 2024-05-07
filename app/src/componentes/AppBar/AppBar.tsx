@@ -4,10 +4,10 @@ declare module 'csstype' {
   }
 }
 
-export default function AppBar({ className }) {
+export default function AppBar() {
   return (
     <div
-      className={className}
+      className='col-span-4 row-span-1 h-full w-full select-none bg-black'
       style={{
         WebkitAppRegion: 'drag',
       }}

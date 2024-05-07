@@ -5,9 +5,9 @@ import logo from '../../assets/images/logo.png';
 import NavButtons from './NavButtons';
 import PlaylistList from './PlaylistList';
 
-export default function SideBar({ className, toggle, collapsed }) {
+export default function SideBar({ toggle, collapsed }) {
   return (
-    <div className={className}>
+    <div className='row-span-2 flex w-full flex-col items-center gap-2 overflow-clip rounded-lg transition-all'>
       <div className='flex h-auto w-full shrink-0 flex-col items-center justify-center overflow-clip rounded-lg bg-neutral-900'>
         <button
           onClick={toggle}

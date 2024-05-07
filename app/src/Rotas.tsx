@@ -12,9 +12,9 @@ export const ROUTES = {
   VIDEO_LIBRARY: '/video_library',
 };
 
-export default function Rotas({ className }) {
+export default function Rotas() {
   return (
-    <div className={className}>
+    <div className='relative col-span-3 row-span-2 overflow-clip rounded-lg bg-neutral-800'>
       <Header />
       <ScrollBar>
         <div className='h-full w-[calc(100vw-24px-var(--sidebar-width))] p-4 pt-16 transition-all'>

@@ -26,26 +26,17 @@ export default function App() {
         className='grid h-screen w-full grid-cols-4 grid-rows-[var(--appbar-height),1fr,var(--playconsole-height)] overflow-hidden bg-black transition-all'
         style={cssVars}
       >
-        <AppBar
-          className={'col-span-4 row-span-1 h-full w-full select-none bg-black'}
-        />
+        <AppBar />
 
         <div className='col-span-4 row-span-1 grid max-h-[calc(100vh-var(--appbar-height)-var(--playconsole-height))] grid-cols-[var(--sidebar-width),repeat(3,1fr)] grid-rows-2 gap-2 overflow-clip px-2 transition-all'>
           <SideBar
             toggle={() => setCollapsed(!collapsed)}
             collapsed={collapsed}
-            className={
-              'row-span-2 flex w-full flex-col items-center gap-2 overflow-clip rounded-lg transition-all'
-            }
           />
-          <Rotas className='relative col-span-3 row-span-2 overflow-clip rounded-lg bg-neutral-800' />
+          <Rotas />
         </div>
 
-        <PlaybackConsole
-          className={
-            'z-10 overflow-hidden col-span-4 row-span-1 flex h-full w-full items-center justify-between bg-black px-2'
-          }
-        />
+        <PlaybackConsole />
       </div>
     </HashRouter>
   );
