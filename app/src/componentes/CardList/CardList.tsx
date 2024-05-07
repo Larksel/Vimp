@@ -7,11 +7,10 @@ type CardListProps = {
   data: Track[];
 };
 
-//TODO Grid
 export default function CardList({ data }: CardListProps) {
   return (
     <ScrollArea className='rounded-lg'>
-      <div className='flex space-x-6 pb-1'>
+      <div className='flex gap-6 pb-1'>
         {data.map((item, index) => (
           <MediaCard key={index} item={item} />
         ))}
