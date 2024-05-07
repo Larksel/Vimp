@@ -30,7 +30,7 @@ export default function PlaylistList({ collapsed }: PlaylistListProps) {
           >
             <img
               src={'' || placeholderImage}
-              className='h-12 w-12 shrink-0 rounded-sm bg-neutral-800 object-cover'
+              className='h-12 w-12 shrink-0 rounded bg-neutral-800 object-cover'
             />
 
             <div
