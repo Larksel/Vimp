@@ -49,7 +49,7 @@ const createWindow = () => {
     titleBarOverlay: {
       color: '#000',
       symbolColor: '#fff',
-      height: 36
+      height: 36,
     },
     show: false,
     autoHideMenuBar: true,
@@ -80,7 +80,7 @@ const createWindow = () => {
 
   mainWindow.webContents.setWindowOpenHandler(() => {
     return { action: 'deny' };
-  })
+  });
 
   if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
     mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL']);
@@ -132,7 +132,7 @@ app.whenReady().then(() => {
 
   app.on('browser-window-created', (_, window) => {
     optimizer.watchWindowShortcuts(window);
-  })
+  });
 
   createWindow();
   //TODO verificar por que o tray não some junto com o app
@@ -163,7 +163,7 @@ ipcMain.handle('pick-files', async () => {
       filePaths.map(async (path) => {
         const track = await getMetadata(path);
         return track;
-      })
+      }),
     );
 
     return files;

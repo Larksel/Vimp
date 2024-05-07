@@ -3,12 +3,12 @@ import path from 'path';
 import { Track } from '../../shared/types/vimp';
 
 export async function getMetadata(trackPath: string) {
-  const defaultMetadata = getMetadataDefaults()
+  const defaultMetadata = getMetadataDefaults();
 
   const basicMetadata = {
     ...defaultMetadata,
     path: trackPath,
-  }
+  };
 
   try {
     const data = await mmd.parseFile(trackPath, {
@@ -35,18 +35,14 @@ export async function getMetadata(trackPath: string) {
 /**
  * Returns an object with only the needed data from the file
  */
-function formatMusicMetadata(
-  data: mmd.IAudioMetadata,
-  trackPath: string,
-) {
+function formatMusicMetadata(data: mmd.IAudioMetadata, trackPath: string) {
   const { common, format } = data;
   const picture = common.picture && common.picture[0];
 
   const metadata = {
     title: common.title || path.parse(trackPath).base,
     album: common.album,
-    artist:
-      common.artists ||
+    artist: common.artists ||
       (common.artist && [common.artist]) ||
       (common.albumartist && [common.albumartist]) || ['Unknown artist'],
     genre: common.genre || ['Unknown'],
@@ -57,7 +53,7 @@ function formatMusicMetadata(
     return {
       ...metadata,
       cover: parseBase64(picture.format, picture.data.toString('base64')),
-    }
+    };
   }
 
   return metadata;

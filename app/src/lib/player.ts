@@ -44,8 +44,10 @@ class Player {
      * Audio element events
      */
     //TODO Implementar reprodução constante em listas
-    this.audio.onplay = () => store.dispatch(store.dispatch(setIsPlaying(true)))
-    this.audio.onpause = () => store.dispatch(store.dispatch(setIsPlaying(false)))
+    this.audio.onplay = () =>
+      store.dispatch(store.dispatch(setIsPlaying(true)));
+    this.audio.onpause = () =>
+      store.dispatch(store.dispatch(setIsPlaying(false)));
     this.audio.onended = () => this.pause();
 
     this.audio.ondurationchange = () => {
@@ -61,15 +63,15 @@ class Player {
    */
   async play() {
     if (!this.audio.src) {
-      this.stop()
-      console.log('No audio source defined')
+      this.stop();
+      console.log('No audio source defined');
       return;
     }
     try {
       await this.audio.play();
     } catch (err) {
-      this.stop()
-      console.log('Player error:\n', err)
+      this.stop();
+      console.log('Player error:\n', err);
     }
   }
 
@@ -133,7 +135,7 @@ class Player {
   setPlaybackRate(playbackRate: number) {
     this.audio.playbackRate = playbackRate;
     this.audio.defaultPlaybackRate = playbackRate;
-    store.dispatch(setPlaybackRate(playbackRate))
+    store.dispatch(setPlaybackRate(playbackRate));
   }
 
   setCurrentTime(currentTime: number) {
@@ -148,12 +150,12 @@ class Player {
 
     // If the path is a local file, ensure that it has the custom protocol
     if (!path.startsWith('vimp://')) {
-      path = 'vimp://' + path
+      path = 'vimp://' + path;
     }
 
     this.track = track;
     this.audio.src = path;
-    store.dispatch(setCurrentTrack(track))
+    store.dispatch(setCurrentTrack(track));
   }
 }
 

@@ -7,48 +7,48 @@ export default function setupIPCDatabase() {
   // * CRUD operations
 
   ipcMain.handle('insertMany', async (_, tracks: Track[]) => {
-    await TracksDB.insertMany(tracks)
-  })
-  
+    await TracksDB.insertMany(tracks);
+  });
+
   ipcMain.handle('getTracks', async () => {
-    return TracksDB.getAll()
-  })
+    return TracksDB.getAll();
+  });
 
   ipcMain.handle('updateTrack', async (_, track: TrackModel) => {
-    return TracksDB.update(track)
-  })
+    return TracksDB.update(track);
+  });
 
   ipcMain.handle('deleteTrack', async (_, trackID: string) => {
-    await TracksDB.delete(trackID)
-  })
+    await TracksDB.delete(trackID);
+  });
 
   // * Getter functions
 
   ipcMain.handle('getById', async (_, trackID: string) => {
-    return TracksDB.getById(trackID)
-  })
+    return TracksDB.getById(trackID);
+  });
 
   ipcMain.handle('getByPath', async (_, trackPath: string) => {
-    return TracksDB.getByPath(trackPath)
-  })
+    return TracksDB.getByPath(trackPath);
+  });
 
   // * Features
-  
+
   ipcMain.handle('incrementPlayCount', async (_, track: TrackModel) => {
-    await TracksDB.incrementPlayCount(track)
-  })
+    await TracksDB.incrementPlayCount(track);
+  });
 
   ipcMain.handle('updateFavorite', async (_, track: TrackModel) => {
-    await TracksDB.updateFavorite(track)
-  })
+    await TracksDB.updateFavorite(track);
+  });
 
   ipcMain.handle('updateLastPlayed', async (_, track: TrackModel) => {
-    await TracksDB.updateLastPlayed(track)
-  })
-  
-  // * Helpers 
-  
+    await TracksDB.updateLastPlayed(track);
+  });
+
+  // * Helpers
+
   ipcMain.handle('clearTracks', async () => {
-    await TracksDB.clear()
-  })
+    await TracksDB.clear();
+  });
 }

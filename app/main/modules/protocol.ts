@@ -6,4 +6,4 @@ export const setupVimpProtocol = () => {
     const filePath = decodeURIComponent(req.url.slice('vimp://'.length));
     callback({ path: filePath });
   });
-}
+};

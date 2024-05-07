@@ -11,10 +11,12 @@ const db = {
   getById: (trackID: string) => ipcRenderer.invoke('getById', trackID),
   getByPath: (trackPath: string) => ipcRenderer.invoke('getByPath', trackPath),
   // * Features
-  incrementPlayCount: (track: Track) => ipcRenderer.invoke('incrementPlayCount', track),
+  incrementPlayCount: (track: Track) =>
+    ipcRenderer.invoke('incrementPlayCount', track),
   updateFavorite: (track: Track) => ipcRenderer.invoke('updateFavorite', track),
-  updateLastPlayed: (track: Track) => ipcRenderer.invoke('updateLastPlayed', track),
-  // * Helpers 
+  updateLastPlayed: (track: Track) =>
+    ipcRenderer.invoke('updateLastPlayed', track),
+  // * Helpers
   clearTracks: () => ipcRenderer.invoke('clearTracks'),
 };
 

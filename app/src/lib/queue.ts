@@ -17,8 +17,8 @@ class Queue {
     const defaultState = {
       repeat: 'off',
       shuffle: false,
-      ...options
-    }
+      ...options,
+    };
 
     this.queue = [];
     this.originalQueue = [];
@@ -28,7 +28,7 @@ class Queue {
   }
 
   add(track: Track) {
-    this.queue.push(track)
+    this.queue.push(track);
   }
 
   remove(index: number) {
@@ -44,36 +44,36 @@ class Queue {
       player.play();
     }
   }
-  
+
   //TODO player ou queue?
   next() {
-    let nextTrack: number | null = null
+    let nextTrack: number | null = null;
     if (!(this.queuePosition == this.queue.length - 1)) {
       nextTrack = this.queuePosition + 1;
     } else {
       nextTrack = 0;
     }
-  
+
     this.queuePosition = nextTrack;
-  
+
     player.setTrack(this.queue[nextTrack]);
     player.play();
-  };
-  
+  }
+
   //TODO player ou queue?
   previous() {
-    let prevTrack: number | null = null
+    let prevTrack: number | null = null;
     if (!(this.queuePosition == 0)) {
       prevTrack = this.queuePosition - 1;
     } else {
       prevTrack = this.queue.length - 1;
     }
-  
+
     this.queuePosition = prevTrack;
-  
+
     player.setTrack(this.queue[prevTrack]);
     player.play();
-  };
+  }
 
   /**
    * Get queue info
