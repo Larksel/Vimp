@@ -87,7 +87,8 @@ export const {
 } = playerSlice.actions;
 
 //TODO encontrar um jeito melhor de fazer isso
-export const selectCurrentTrack = (state: PlayerState) => state.player.currentTrack;
+export const selectCurrentTrack = (state: PlayerState) =>
+  state.player.currentTrack;
 export const selectShuffle = (state: PlayerState) => state.player.shuffle;
 export const selectIsPlaying = (state: PlayerState) => state.player.isPlaying;
 export const selectRepeat = (state: PlayerState) => state.player.repeat;

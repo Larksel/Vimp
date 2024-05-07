@@ -1,14 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Track } from '../../../shared/types/vimp';
 
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
+import { Button } from '@/componentes/ui/button';
+import MediaCard from '@/componentes/MediaCard/MediaCard';
 
-import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded';
-
-import TrackList from '../../componentes/TrackList/TrackList';
-import player from '../../lib/player';
-import queue from '../../lib/queue'
+import queue from '../../lib/queue';
 
 //TODO estado da lista de música reseta ao mudar de página
 //TODO lista virtual
@@ -20,80 +16,41 @@ export default function MusicLibrary() {
     async function getTracks() {
       const res: Track[] = await window.VimpAPI.db.getTracks();
 
-      setTracks(res)
+      setTracks(res);
     }
 
-    getTracks()
-  }, [])
-
-  const getTracks = async () => {
-    const result = await window.VimpAPI.app.pickFile();
-
-    console.log(result);
-    setTracks(result);
-  };
+    getTracks();
+  }, []);
 
   const playTracks = () => {
-    console.log('add to playlist')
+    console.log('add to playlist');
 
     tracks?.map((track) => {
-      if (!queue.getQueue().some(existingTrack => existingTrack.path === track.path)) {
+      if (
+        !queue
+          .getQueue()
+          .some((existingTrack) => existingTrack.path === track.path)
+      ) {
         queue.add(track);
       }
-    })
+    });
 
-    queue.play()
-    //player.setTrack('')
-    //player.play()
-  }
+    queue.play();
+  };
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        p: '16px 4px 16px 16px',
-        alignItems: 'center',
-      }}
-    >
-      <Box sx={{
-        display: 'flex',
-        flexDirection: 'row',
-        gap: '8px',
-      }}>
-        <Button
-          variant='contained'
-          onClick={playTracks}
-          sx={{
-            minWidth: '48px',
-            minHeight: '48px',
-            p: 0,
-            whiteSpace: 'nowrap',
-            textTransform: 'none',
-            display: 'flex',
-            alignItems: 'center',
-            borderRadius: '50%',
-            bgcolor: 'secondary.main',
-            '& svg': {
-              color: 'black',
-              fontSize: '2rem',
-            }
-          }}
-        >
-          <PlayArrowRoundedIcon />
-        </Button>
-        <Button
-          onClick={getTracks}
-          color='info'
-          variant='contained'
-          sx={{
-            maxWidth: '120px',
-          }}
-        >
-          Selecionar
-        </Button>
-      </Box>
-      {tracks ? <TrackList data={tracks} /> : ''}
-    </Box>
+    <div className='flex flex-col items-center'>
+      <Button
+        onClick={playTracks}
+        variant='default'
+        className='my-4 bg-purple-500 hover:bg-purple-500/80'
+      >
+        Play all
+      </Button>
+      <div className='grid w-full grid-cols-3 justify-items-center gap-6 xl:grid-cols-4'>
+        {tracks &&
+          tracks.map((track, index) => <MediaCard key={index} item={track} />)}
+      </div>
+    </div>
   );
 }

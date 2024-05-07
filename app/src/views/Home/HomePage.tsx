@@ -1,101 +1,33 @@
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-
-import CardList from '../../componentes/CardList/CardList';
-
+import CardList from '@/componentes/CardList/CardList';
 import { Track } from '../../../shared/types/vimp';
 
-const skeleton: Track[] = [
-  {
-    album: 'Album',
-    artist: ['Artista'],
-    duration: 0,
-    favorite: false,
-    genre: ['Gênero'],
-    lastPlayed: null,
-    path: '',
-    playCount: 0,
-    title: 'Título',
-    cover: '',
-  },
-  {
-    album: 'Album',
-    artist: ['Artista'],
-    duration: 0,
-    favorite: false,
-    genre: ['Gênero'],
-    lastPlayed: null,
-    path: '',
-    playCount: 0,
-    title: 'Título',
-    cover: '',
-  },
-  {
-    album: 'Album',
-    artist: ['Artista'],
-    duration: 0,
-    favorite: false,
-    genre: ['Gênero'],
-    lastPlayed: null,
-    path: '',
-    playCount: 0,
-    title: 'Título',
-    cover: '',
-  },
-  {
-    album: 'Album',
-    artist: ['Artista'],
-    duration: 0,
-    favorite: false,
-    genre: ['Gênero'],
-    lastPlayed: null,
-    path: '',
-    playCount: 0,
-    title: 'Título',
-    cover: '',
-  },
-  {
-    album: 'Album',
-    artist: ['Artista'],
-    duration: 0,
-    favorite: false,
-    genre: ['Gênero'],
-    lastPlayed: null,
-    path: '',
-    playCount: 0,
-    title: 'Título',
-    cover: '',
-  },
-]
+const exemplo: Track[] = Array.from({ length: 7 }, () => ({
+  title: 'titulo',
+  album: 'album',
+  artist: ['artista'],
+  genre: ['genero'],
+  duration: 375,
+  playCount: 0,
+  favorite: false,
+  lastPlayed: null,
+  path: '',
+  cover: '',
+}));
 
 export default function HomePage() {
   return (
-    <>
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          p: '8px 16px',
-        }}
-      >
-        <Box>
-          <Typography>Músicas recentes</Typography>
-          <CardList data={skeleton} />
+    <div>
+      <h1>Músicas recentes</h1>
+      <CardList data={exemplo} />
 
-          <br />
+      <h1 className='mt-10'>Favoritas</h1>
+      <CardList data={exemplo} />
 
-          <Typography>Favoritas</Typography>
-          <CardList data={skeleton} />
-          <br />
+      <h1 className='mt-10'>Playlists</h1>
+      <CardList data={exemplo} />
 
-          <Typography>Playlists</Typography>
-          <CardList data={skeleton} />
-          <br />
-
-          <Typography>Mais tocadas</Typography>
-          <CardList data={skeleton} />
-        </Box>
-      </Box>
-    </>
+      <h1 className='mt-10'>Mais tocadas</h1>
+      <CardList data={exemplo} />
+    </div>
   );
 }

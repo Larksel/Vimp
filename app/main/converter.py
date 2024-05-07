@@ -1,10 +1,16 @@
-from os import system
+import ffmpeg
 
 
 class Converter:
     @staticmethod
     def video_to_audio(videofile, audiofile):
-        system(f'ffmpeg -y -i "{videofile}" "{audiofile}" -loglevel quiet -stats')
+        (
+            ffmpeg
+            .input(videofile)
+            .output(audiofile)
+            .overwrite_output()
+            .run(quiet=True)
+        )
 
     @staticmethod
     def merge(videofile, audiofile):

@@ -1,0 +1,11 @@
+@import url('assets/fonts/Roboto.css');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    color: white;
+  }
+}

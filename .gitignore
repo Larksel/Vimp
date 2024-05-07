@@ -91,5 +91,7 @@ typings/
 # Electron-Forge
 out/
 
+.vscode/
 app/src/test/
 todo/
+dist/

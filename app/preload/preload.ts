@@ -5,7 +5,7 @@ const VimpAPI = {
   app: {
     pickFile: () => ipcRenderer.invoke('pick-files'),
     openFile: () => ipcRenderer.invoke('open-file'),
-    getCover: (trackPath: string) => ipcRenderer.invoke('getCover', trackPath)
+    getCover: (trackPath: string) => ipcRenderer.invoke('getCover', trackPath),
   },
   window: {
     minimize: () => ipcRenderer.send('minimizeApp'),
