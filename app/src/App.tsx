@@ -28,7 +28,7 @@ export default function App() {
       >
         <AppBar />
 
-        <div className='col-span-4 row-span-1 grid max-h-[calc(100vh-var(--appbar-height)-var(--playconsole-height))] grid-cols-[var(--sidebar-width),repeat(3,1fr)] grid-rows-2 gap-2 overflow-clip px-2 transition-all'>
+        <div className='col-span-4 row-span-1 grid max-h-[calc(100vh-var(--appbar-height)-var(--playconsole-height))] grid-cols-[var(--sidebar-width),repeat(3,1fr)] grid-rows-2 gap-2 overflow-clip p-2 transition-all'>
           <SideBar
             toggle={() => setCollapsed(!collapsed)}
             collapsed={collapsed}
