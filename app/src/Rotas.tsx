@@ -14,6 +14,9 @@ export const ROUTES = {
   CONFIG: '/config',
 };
 
+//TODO Revisar a maneira com que as rotas estão sendo feitas de acordo com a documentação
+//TODO Verificar novas formas de organizar as rotas, como separar o layout das páginas.
+
 export default function Rotas() {
   return (
     <div className='relative col-span-3 row-span-2 overflow-clip rounded-lg bg-neutral-900'>
