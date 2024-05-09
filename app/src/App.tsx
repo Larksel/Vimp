@@ -10,7 +10,7 @@ export default function App() {
   const [collapsed, setCollapsed] = useState(false);
 
   const appBarHeight = 36;
-  const playConsoleHeight = 88;
+  const playConsoleHeight = 80;
   const sidebarSmall = 64;
   const sidebarLarge = 256;
 
