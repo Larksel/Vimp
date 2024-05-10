@@ -38,7 +38,7 @@ class Downloader:
         #     V                X        Video Unico
         #     V                V          Playlist
 
-    # Downloads the video's thumbnail image
+
     def get_thumbnail(self) -> None:
         opener = urllib.request.build_opener()
         opener.addheaders = [
@@ -64,9 +64,8 @@ class Downloader:
         video = self.yt.streams.get_highest_resolution()
         video.download(dirmanager.videofolder)
 
-    # Downloads and converts the video in music with album art.
+
     def get_music(self) -> None:
-        # Download the video and the thumbnail to a temp file
         print(f"Downloading: {self.title}")
         dirmanager.make_dir(dirmanager.tempfolder)
 
@@ -75,7 +74,7 @@ class Downloader:
 
         self.get_thumbnail()
 
-        video = self.yt.streams.get_lowest_resolution()
+        video = self.yt.streams.get_audio_only()
         video.download(dirmanager.tempfolder, filename=mp4_file)
 
         # Convert to mp3

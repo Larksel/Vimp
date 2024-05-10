@@ -1,16 +1,12 @@
-import ffmpeg
+from moviepy.editor import AudioFileClip
 
 
 class Converter:
     @staticmethod
     def video_to_audio(videofile, audiofile):
-        (
-            ffmpeg
-            .input(videofile)
-            .output(audiofile)
-            .overwrite_output()
-            .run(quiet=True)
-        )
+        mp4 = AudioFileClip(videofile)
+        mp4.write_audiofile(audiofile)
+        mp4.close()
 
     @staticmethod
     def merge(videofile, audiofile):
