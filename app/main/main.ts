@@ -2,10 +2,10 @@ import { app, BrowserWindow, Menu, ipcMain, dialog, Tray } from 'electron';
 import { electronApp, optimizer, is } from '@electron-toolkit/utils';
 import { join } from 'path';
 import MenuBuilder from './modules/menu';
-import { getMetadata } from './modules/metadataHandler';
 import { setupVimpProtocol } from './modules/protocol';
 import setupIPCDatabase from './modules/IPCDatabase';
 import setupIPCTracks from './modules/IPCTracks';
+import setupIPCDialog from './modules/Dialog';
 
 //TODO Separar código em módulos
 
@@ -112,7 +112,7 @@ const createWindow = () => {
   });
 
   mainWindow.on('resize', () => {
-    mainWindow?.webContents.send('window-resized', mainWindow?.isMaximized());
+    mainWindow?.webContents.send('window-resized', mainWindow?.isFullScreen());
   });
 };
 
@@ -141,49 +141,11 @@ app.whenReady().then(() => {
   setupVimpProtocol();
   setupIPCDatabase();
   setupIPCTracks();
+  setupIPCDialog();
 
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {
       createWindow();
     }
   });
-});
-
-/**
- * File picker
- */
-ipcMain.handle('pick-files', async () => {
-  const { canceled, filePaths } = await dialog.showOpenDialog({
-    properties: ['multiSelections', 'openFile'],
-    filters: [{ name: 'Audio Files', extensions: ['mp3', 'wav', 'ogg'] }],
-  });
-
-  if (!canceled) {
-    const files = await Promise.all(
-      filePaths.map(async (path) => {
-        const track = await getMetadata(path);
-        return track;
-      }),
-    );
-
-    return files;
-  }
-
-  return null;
-});
-
-ipcMain.handle('open-file', async () => {
-  const { canceled, filePaths } = await dialog.showOpenDialog({
-    properties: ['openFile'],
-    filters: [{ name: 'Audio Files', extensions: ['mp3', 'wav', 'ogg'] }],
-  });
-
-  if (!canceled) {
-    const path = filePaths[0];
-
-    const track = await getMetadata(path);
-    return track;
-  }
-
-  return null;
 });

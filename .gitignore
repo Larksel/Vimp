@@ -95,3 +95,5 @@ out/
 app/src/test/
 todo/
 dist/
+
+__pycache__
