@@ -1,5 +1,5 @@
-import { app, BrowserWindow, Menu, ipcMain, Tray } from 'electron';
-import { electronApp, optimizer, is } from '@electron-toolkit/utils';
+import { app, BrowserWindow } from 'electron';
+import { electronApp, optimizer } from '@electron-toolkit/utils';
 import { join } from 'path';
 import MenuBuilder from './modules/MenuBuilder';
 import { setupVimpProtocol } from './modules/Protocol';
@@ -7,53 +7,49 @@ import setupIPCDatabase from './modules/IPCDatabase';
 import setupIPCTracks from './modules/IPCTracks';
 import setupIPCDialog from './modules/Dialog';
 
-//TODO Separar código em módulos
-
 const isDebug =
   process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true';
-console.log('Debug:', isDebug);
-console.log('Platform:', process.platform, '\n\n');
 
 const iconPath =
   process.platform === 'win32'
     ? '../../resources/icons/icon.ico'
     : '../../resources/icons/icon.png';
-
+    
 const icon = join(__dirname, iconPath);
-
 let mainWindow: BrowserWindow | null = null;
 
-let tray: Tray | null = null;
+console.log('Debug:', isDebug);
+console.log('Platform:', process.platform, '\n\n');
 
-if (require('electron-squirrel-startup')) {
-  app.quit();
-}
+app.on('window-all-closed', () => {
+  if (process.platform !== 'darwin') {
+    app.quit();
+  }
+});
 
-/**
- * Prevent default menu from loading
- */
-Menu.setApplicationMenu(null);
+app.whenReady().then(() => {
+  electronApp.setAppUserModelId('com.electron.vimp');
 
-const createWindow = () => {
-  /**
-   * Main window configuration
-   */
+  app.on('browser-window-created', (_, window) => {
+    optimizer.watchWindowShortcuts(window);
+  });
+
   mainWindow = new BrowserWindow({
+    title: 'Vimp',
     width: 1024,
     height: 670,
     minWidth: 940,
     minHeight: 560,
-    backgroundColor: '#000000',
+    backgroundColor: 'black',
     frame: false,
+    autoHideMenuBar: true,
     titleBarStyle: 'hidden',
     titleBarOverlay: {
-      color: '#000',
-      symbolColor: '#fff',
+      color: 'black',
+      symbolColor: 'white',
       height: 36,
     },
     show: false,
-    autoHideMenuBar: true,
-    ...(process.platform === 'linux' ? { icon } : {}),
     icon: icon,
     webPreferences: {
       preload: join(__dirname, '../preload/preload.js'),
@@ -63,9 +59,19 @@ const createWindow = () => {
     },
   });
 
-  mainWindow.on('closed', () => {
-    mainWindow = null;
+  if (process.argv.includes('--devtools')) {
+    mainWindow.webContents.openDevTools({ mode: 'detach' });
+  }
+
+  mainWindow.webContents.setWindowOpenHandler(() => {
+    return { action: 'deny' };
   });
+
+  if (!app.isPackaged && process.env['ELECTRON_RENDERER_URL']) {
+    mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL']);
+  } else {
+    mainWindow.loadFile(join(__dirname, '../renderer/index.html'));
+  }
 
   mainWindow.once('ready-to-show', () => {
     if (!mainWindow) {
@@ -78,74 +84,15 @@ const createWindow = () => {
     }
   });
 
-  mainWindow.webContents.setWindowOpenHandler(() => {
-    return { action: 'deny' };
+  mainWindow.on('closed', () => {
+    mainWindow = null;
   });
-
-  if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
-    mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL']);
-  } else {
-    mainWindow.loadFile(join(__dirname, '../renderer/index.html'));
-  }
-
-  /**
-   * mainWindow event listeners
-   */
 
   const menuBuilder = new MenuBuilder(mainWindow);
   menuBuilder.buildMenu();
-
-  ipcMain.on('minimizeApp', () => {
-    mainWindow?.minimize();
-  });
-
-  ipcMain.on('maximizeOrRestoreApp', () => {
-    if (mainWindow?.isMaximized()) {
-      mainWindow.restore();
-    } else {
-      mainWindow?.maximize();
-    }
-  });
-
-  ipcMain.on('closeApp', () => {
-    mainWindow?.close();
-  });
-
-  mainWindow.on('resize', () => {
-    mainWindow?.webContents.send('window-resized', mainWindow?.isFullScreen());
-  });
-};
-
-/**
- * App event listeners
- */
-
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    tray = null;
-    app.quit();
-  }
-});
-
-app.whenReady().then(() => {
-  electronApp.setAppUserModelId('com.electron.vimp');
-
-  app.on('browser-window-created', (_, window) => {
-    optimizer.watchWindowShortcuts(window);
-  });
-
-  createWindow();
-  //TODO verificar por que o tray não some junto com o app
-  // tray = new Tray(icon);
 
   setupVimpProtocol();
   setupIPCDatabase();
   setupIPCTracks();
   setupIPCDialog();
-
-  app.on('activate', () => {
-    if (BrowserWindow.getAllWindows().length === 0) {
-      createWindow();
-    }
-  });
 });
