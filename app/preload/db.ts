@@ -1,23 +1,33 @@
 import { Track } from '../shared/types/vimp';
 import { ipcRenderer } from 'electron';
+import channels from '../shared/lib/ipc-channels';
 
 const db = {
   // * CRUD operations
-  insertMany: (tracks: Track[]) => ipcRenderer.invoke('insertMany', tracks),
-  getTracks: () => ipcRenderer.invoke('getTracks'),
-  updateTrack: (track: Track) => ipcRenderer.invoke('updateTrack', track),
-  delete: (trackID: string) => ipcRenderer.invoke('deleteTrack', trackID),
+  insertMany: (tracks: Track[]) =>
+    ipcRenderer.invoke(channels.INSERT_TRACKS, tracks),
+  getTracks: () => ipcRenderer.invoke(channels.GET_TRACKS),
+  updateTrack: (track: Track) =>
+    ipcRenderer.invoke(channels.UPDATE_TRACK, track),
+  delete: (trackID: string) =>
+    ipcRenderer.invoke(channels.DELETE_TRACK, trackID),
+
   // * Getter functions
-  getById: (trackID: string) => ipcRenderer.invoke('getById', trackID),
-  getByPath: (trackPath: string) => ipcRenderer.invoke('getByPath', trackPath),
+  getById: (trackID: string) =>
+    ipcRenderer.invoke(channels.GET_TRACK_BY_ID, trackID),
+  getByPath: (trackPath: string) =>
+    ipcRenderer.invoke(channels.GET_TRACK_BY_PATH, trackPath),
+
   // * Features
   incrementPlayCount: (track: Track) =>
-    ipcRenderer.invoke('incrementPlayCount', track),
-  updateFavorite: (track: Track) => ipcRenderer.invoke('updateFavorite', track),
+    ipcRenderer.invoke(channels.INCREMENT_PLAY_COUNT, track),
+  updateFavorite: (track: Track) =>
+    ipcRenderer.invoke(channels.TOGGLE_FAVORITE, track),
   updateLastPlayed: (track: Track) =>
-    ipcRenderer.invoke('updateLastPlayed', track),
+    ipcRenderer.invoke(channels.UPDATE_LAST_PLAYED, track),
+
   // * Helpers
-  clearTracks: () => ipcRenderer.invoke('clearTracks'),
+  clearTracks: () => ipcRenderer.invoke(channels.CLEAR_TRACKS),
 };
 
 export default db;

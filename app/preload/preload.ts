@@ -1,19 +1,13 @@
 import { contextBridge, ipcRenderer } from 'electron';
+import channels from '../shared/lib/ipc-channels';
 import db from './db';
 
 const VimpAPI = {
   app: {
-    pickFile: () => ipcRenderer.invoke('pick-files'),
-    openFile: () => ipcRenderer.invoke('open-file'),
-    getCover: (trackPath: string) => ipcRenderer.invoke('getCover', trackPath),
-  },
-  window: {
-    minimize: () => ipcRenderer.send('minimizeApp'),
-    maximizeOrRestore: () => ipcRenderer.send('maximizeOrRestoreApp'),
-    close: () => ipcRenderer.send('closeApp'),
-    onWindowResize: (callback: (value: boolean) => void) => {
-      ipcRenderer.on('window-resized', (_event, value) => callback(value));
-    },
+    pickFile: () => ipcRenderer.invoke(channels.PICK_FILES),
+    openFile: () => ipcRenderer.invoke(channels.OPEN_FILE),
+    getCover: (trackPath: string) =>
+      ipcRenderer.invoke(channels.GET_COVER, trackPath),
   },
   db,
 };

@@ -2,53 +2,58 @@ import { ipcMain } from 'electron';
 import { TracksDB } from '../db';
 import { Track, TrackModel } from '../../shared/types/vimp';
 
+import channels from '../../shared/lib/ipc-channels';
+
 //TODO canais ipc em constantes em um arquivo
 export default function setupIPCDatabase() {
   // * CRUD operations
 
-  ipcMain.handle('insertMany', async (_, tracks: Track[]) => {
+  ipcMain.handle(channels.INSERT_TRACKS, async (_, tracks: Track[]) => {
     await TracksDB.insertMany(tracks);
   });
 
-  ipcMain.handle('getTracks', async () => {
+  ipcMain.handle(channels.GET_TRACKS, async () => {
     return TracksDB.getAll();
   });
 
-  ipcMain.handle('updateTrack', async (_, track: TrackModel) => {
+  ipcMain.handle(channels.UPDATE_TRACK, async (_, track: TrackModel) => {
     return TracksDB.update(track);
   });
 
-  ipcMain.handle('deleteTrack', async (_, trackID: string) => {
+  ipcMain.handle(channels.DELETE_TRACK, async (_, trackID: string) => {
     await TracksDB.delete(trackID);
   });
 
   // * Getter functions
 
-  ipcMain.handle('getById', async (_, trackID: string) => {
+  ipcMain.handle(channels.GET_TRACK_BY_ID, async (_, trackID: string) => {
     return TracksDB.getById(trackID);
   });
 
-  ipcMain.handle('getByPath', async (_, trackPath: string) => {
+  ipcMain.handle(channels.GET_TRACK_BY_PATH, async (_, trackPath: string) => {
     return TracksDB.getByPath(trackPath);
   });
 
   // * Features
 
-  ipcMain.handle('incrementPlayCount', async (_, track: TrackModel) => {
-    await TracksDB.incrementPlayCount(track);
-  });
+  ipcMain.handle(
+    channels.INCREMENT_PLAY_COUNT,
+    async (_, track: TrackModel) => {
+      await TracksDB.incrementPlayCount(track);
+    },
+  );
 
-  ipcMain.handle('updateFavorite', async (_, track: TrackModel) => {
+  ipcMain.handle(channels.TOGGLE_FAVORITE, async (_, track: TrackModel) => {
     await TracksDB.updateFavorite(track);
   });
 
-  ipcMain.handle('updateLastPlayed', async (_, track: TrackModel) => {
+  ipcMain.handle(channels.UPDATE_LAST_PLAYED, async (_, track: TrackModel) => {
     await TracksDB.updateLastPlayed(track);
   });
 
   // * Helpers
 
-  ipcMain.handle('clearTracks', async () => {
+  ipcMain.handle(channels.CLEAR_TRACKS, async () => {
     await TracksDB.clear();
   });
 }

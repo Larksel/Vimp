@@ -1,8 +1,11 @@
 import { ipcMain, dialog } from 'electron';
 import { getMetadata } from './Metadata';
 
+import channels from '../../shared/lib/ipc-channels';
+
+//TODO Dialogs genéricos
 export default function setupIPCDialog() {
-  ipcMain.handle('pick-files', async () => {
+  ipcMain.handle(channels.PICK_FILES, async () => {
     const { canceled, filePaths } = await dialog.showOpenDialog({
       properties: ['multiSelections', 'openFile'],
       filters: [{ name: 'Audio Files', extensions: ['mp3', 'wav', 'ogg'] }],
@@ -22,7 +25,7 @@ export default function setupIPCDialog() {
     return null;
   });
 
-  ipcMain.handle('open-file', async () => {
+  ipcMain.handle(channels.OPEN_FILE, async () => {
     const { canceled, filePaths } = await dialog.showOpenDialog({
       properties: ['openFile'],
       filters: [{ name: 'Audio Files', extensions: ['mp3', 'wav', 'ogg'] }],
