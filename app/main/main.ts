@@ -2,7 +2,7 @@ import { app, BrowserWindow, Menu, ipcMain, Tray } from 'electron';
 import { electronApp, optimizer, is } from '@electron-toolkit/utils';
 import { join } from 'path';
 import MenuBuilder from './modules/MenuBuilder';
-import { setupVimpProtocol } from './modules/protocol';
+import { setupVimpProtocol } from './modules/Protocol';
 import setupIPCDatabase from './modules/IPCDatabase';
 import setupIPCTracks from './modules/IPCTracks';
 import setupIPCDialog from './modules/Dialog';
