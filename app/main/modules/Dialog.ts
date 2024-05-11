@@ -1,5 +1,5 @@
 import { ipcMain, dialog } from 'electron';
-import { getMetadata } from './metadataHandler';
+import { getMetadata } from './Metadata';
 
 export default function setupIPCDialog() {
   ipcMain.handle('pick-files', async () => {
