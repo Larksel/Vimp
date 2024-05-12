@@ -44,7 +44,7 @@ const createWindow = () => {
       preload: join(__dirname, '../preload/preload.js'),
       contextIsolation: true,
       nodeIntegration: false,
-      devTools: isDebug,
+      devTools: true,
     },
   });
 
