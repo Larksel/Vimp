@@ -37,6 +37,7 @@ const TracksDB = {
     return Tracks.bulkDocs(tracksWithIds);
   },
 
+  //TODO pegar pedaços ao invés de tudo direto
   async getAll() {
     const [firstResponse, secondResponse] = await Promise.all([
       Tracks.allDocs({ include_docs: true, endkey: '_design' }),
