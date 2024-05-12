@@ -20,6 +20,10 @@ const channels = {
 
   // Tracks
   GET_COVER: 'GET_COVER',
+
+  // LIBRARY
+  LIBRARY_IMPORT_TRACKS: 'LIBRARY_IMPORT_TRACKS',
+  LIBRARY_SCAN_TRACKS: 'LIBRARY_SCAN_TRACKS',
 };
 
 export default channels;

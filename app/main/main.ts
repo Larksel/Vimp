@@ -6,6 +6,7 @@ import { setupVimpProtocol } from './modules/Protocol';
 import setupIPCDatabase from './modules/IPCDatabase';
 import setupIPCTracks from './modules/IPCTracks';
 import setupIPCDialog from './modules/Dialog';
+import Library from './modules/Library';
 
 const isDebug =
   process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true';
@@ -14,26 +15,14 @@ const iconPath =
   process.platform === 'win32'
     ? '../../resources/icons/icon.ico'
     : '../../resources/icons/icon.png';
-    
+
 const icon = join(__dirname, iconPath);
 let mainWindow: BrowserWindow | null = null;
 
 console.log('Debug:', isDebug);
 console.log('Platform:', process.platform, '\n\n');
 
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    app.quit();
-  }
-});
-
-app.whenReady().then(() => {
-  electronApp.setAppUserModelId('com.electron.vimp');
-
-  app.on('browser-window-created', (_, window) => {
-    optimizer.watchWindowShortcuts(window);
-  });
-
+const createWindow = () => {
   mainWindow = new BrowserWindow({
     title: 'Vimp',
     width: 1024,
@@ -88,11 +77,28 @@ app.whenReady().then(() => {
     mainWindow = null;
   });
 
-  const menuBuilder = new MenuBuilder(mainWindow);
-  menuBuilder.buildMenu();
+  new MenuBuilder(mainWindow).buildMenu();
+};
+
+app.on('window-all-closed', () => {
+  if (process.platform !== 'darwin') {
+    app.quit();
+  }
+});
+
+app.whenReady().then(() => {
+  electronApp.setAppUserModelId('com.electron.vimp');
+
+  app.on('browser-window-created', (_, window) => {
+    optimizer.watchWindowShortcuts(window);
+  });
+
+  createWindow();
 
   setupVimpProtocol();
   setupIPCDatabase();
   setupIPCTracks();
   setupIPCDialog();
+
+  new Library().init()
 });

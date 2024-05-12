@@ -2,6 +2,7 @@ import { defineConfig, externalizeDepsPlugin } from 'electron-vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
 
+const externals = ['globby', 'queue']
 const minify = process.env.NODE_ENV === 'production';
 const commonConfig = {
   minify,
@@ -10,7 +11,7 @@ const commonConfig = {
 
 export default defineConfig({
   main: {
-    plugins: [externalizeDepsPlugin()],
+    plugins: [externalizeDepsPlugin({ exclude: externals })],
     build: {
       ...commonConfig,
       outDir: '.vite/main',
@@ -20,7 +21,7 @@ export default defineConfig({
     },
   },
   preload: {
-    plugins: [externalizeDepsPlugin()],
+    plugins: [externalizeDepsPlugin({ exclude: externals })],
     build: {
       ...commonConfig,
       outDir: '.vite/preload',

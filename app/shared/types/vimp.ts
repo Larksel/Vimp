@@ -2,10 +2,10 @@ export type RepeatMode = 'off' | 'all' | 'one';
 
 export interface Track {
   title: string;
-  album: string;
+  album: string | undefined;
   artist: string[];
   genre: string[];
-  duration: number;
+  duration: number | undefined;
   playCount: number;
   favorite: boolean;
   lastPlayed: string | null;
