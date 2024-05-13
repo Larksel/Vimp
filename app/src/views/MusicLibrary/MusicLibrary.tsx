@@ -39,7 +39,7 @@ export default function MusicLibrary() {
       >
         Play all
       </Button>
-      <div className='grid w-full grid-cols-3 justify-items-center gap-6 xl:grid-cols-4'>
+      <div className='grid w-full grid-cols-3 justify-items-center gap-6 xl:grid-cols-4 2xl:grid-cols-5'>
         {tracks &&
           tracks.map((track, index) => <MediaCard key={index} item={track} />)}
       </div>
