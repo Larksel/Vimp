@@ -28,6 +28,26 @@ class Queue {
     this.shuffle = defaultState.shuffle;
   }
 
+  async start(_id?: number) {
+    if (this.queue.length === 0) return;
+
+    const trackID = _id || this.queue[0]._id;
+    this.queuePosition = this.queue.findIndex(track => track._id === trackID)
+
+    if (this.queuePosition > -1) {
+      const track = this.queue[this.queuePosition];
+
+      player.setTrack(track);
+      await player.play();
+
+      //TODO estado global
+    } else {
+      player.stop();
+      this.clear();
+    }
+
+  }
+
   async add(track: TrackModel) {
     this.queue.push(track)
   }

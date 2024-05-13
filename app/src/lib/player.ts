@@ -77,12 +77,8 @@ class Player {
     }
   }
 
-  async startFromQueue() {
-    const list = queue.getQueue();
-    const currentSong = list[5]; //! em testes
-
-    this.setTrack(currentSong);
-    await this.play();
+  async startFromQueue(_id?: number) {
+    await queue.start(_id);
   }
 
   pause() {
