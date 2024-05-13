@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { CaretLeft, CaretRight, Bell, Gear } from '@phosphor-icons/react';
 import { Button } from '../ui/button';
 
-import { ROUTES } from '@/Rotas';
+import routes from '@/routes';
 
 //TODO cor de fundo sólida após scroll <- Fade in
 //TODO implementar métodos de navegação
@@ -37,7 +37,7 @@ export default function Header() {
         </Button>
         <Button
           variant='ghost'
-          onClick={() => navigate(ROUTES.CONFIG)}
+          onClick={() => navigate(routes.CONFIG)}
           className='aspect-square rounded-full bg-[#0009] p-0 text-neutral-400 hover:scale-110 hover:bg-[#0009] hover:text-white active:bg-[#fff3]'
         >
           <Gear size={20} />

@@ -8,28 +8,28 @@ import {
 } from '@phosphor-icons/react';
 import { Button } from '../ui/button';
 
-import { ROUTES } from '../../Rotas';
+import routes from '@/routes';
 
 const navButtons = [
   {
     text: 'Home',
     icon: <House size={28} className='shrink-0' />,
-    page: ROUTES.HOME,
+    page: routes.HOME,
   },
   {
     text: 'Search',
     icon: <MagnifyingGlass size={28} className='shrink-0' />,
-    page: ROUTES.SEARCH,
+    page: routes.SEARCH,
   },
   {
     text: 'Music Library',
     icon: <MusicNote size={28} className='shrink-0' />,
-    page: ROUTES.MUSIC_LIBRARY,
+    page: routes.MUSIC_LIBRARY,
   },
   {
     text: 'Video Library',
     icon: <MonitorPlay size={28} className='shrink-0' />,
-    page: ROUTES.VIDEO_LIBRARY,
+    page: routes.VIDEO_LIBRARY,
   },
 ];
 
