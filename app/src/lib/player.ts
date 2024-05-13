@@ -107,6 +107,10 @@ class Player {
     store.dispatch(setIsMuted(false));
   }
 
+  async changeRepeat() {
+    await queue.toggleRepeat();
+  }
+
   /**
    * Get player info
    */

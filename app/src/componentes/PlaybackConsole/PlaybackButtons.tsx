@@ -79,7 +79,7 @@ export default function PlaybackButtons() {
 
         <button
           className='relative flex size-8 items-center justify-center text-neutral-400 transition-colors hover:text-neutral-100'
-          onClick={() => dispatch(changeRepeat())}
+          onClick={() => player.changeRepeat()}
         >
           {repeatIcons[repeat]}
         </button>

@@ -38,23 +38,8 @@ export const playerSlice = createSlice({
     setIsPlaying: (state, action) => {
       state.isPlaying = action.payload;
     },
-    changeRepeat: (state) => {
-      switch (state.repeat) {
-        case RepeatMode.OFF: {
-          state.repeat = RepeatMode.ALL;
-          break;
-        }
-        case RepeatMode.ALL: {
-          state.repeat = RepeatMode.ONE;
-          break;
-        }
-        case RepeatMode.ONE: {
-          state.repeat = RepeatMode.OFF;
-          break;
-        }
-        default:
-          break;
-      }
+    changeRepeat: (state, action) => {
+      state.repeat = action.payload;
     },
     setSongDuration: (state, action) => {
       state.songDuration = action.payload;

@@ -1,4 +1,5 @@
 import { RepeatMode, TrackModel } from '../../shared/types/vimp';
+import { changeRepeat } from '@/features/playerSlice';
 import player from './player';
 import store from '../store';
 
@@ -35,7 +36,7 @@ class Queue {
     if (this.queue.length === 0) return;
 
     const trackID = _id || this.queue[0]._id;
-    this.queuePosition = this.queue.findIndex(track => track._id === trackID)
+    this.queuePosition = this.queue.findIndex((track) => track._id === trackID);
 
     if (this.queuePosition > -1) {
       const track = this.queue[this.queuePosition];
@@ -48,11 +49,10 @@ class Queue {
       player.stop();
       this.clear();
     }
-
   }
 
   async add(track: TrackModel) {
-    this.queue.push(track)
+    this.queue.push(track);
   }
 
   remove(index: number) {
@@ -92,7 +92,7 @@ class Queue {
     const currentTime = player.getCurrentTime();
 
     if (this.queuePosition !== null) {
-      if (currentTime < 5) {
+      if (currentTime < 5 && this.queuePosition > 0) {
         this.queuePosition -= 1;
       }
 
@@ -112,6 +112,27 @@ class Queue {
 
   //TODO toggleShufle
   //TODO toggleRepeat
+  async toggleRepeat() {
+    switch (this.repeat) {
+      case RepeatMode.OFF: {
+        this.repeat = RepeatMode.ALL;
+        store.dispatch(changeRepeat(RepeatMode.ALL));
+        break;
+      }
+      case RepeatMode.ALL: {
+        this.repeat = RepeatMode.ONE;
+        store.dispatch(changeRepeat(RepeatMode.ONE));
+        break;
+      }
+      case RepeatMode.ONE: {
+        this.repeat = RepeatMode.OFF;
+        store.dispatch(changeRepeat(RepeatMode.OFF));
+        break;
+      }
+      default:
+        break;
+    }
+  }
 
   /**
    * Get queue info
