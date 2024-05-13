@@ -65,15 +65,20 @@ class Queue {
 
   async next() {
     let track: TrackModel | null;
+    console.log('Next Track');
 
     if (this.queuePosition !== null) {
       if (this.repeat === RepeatMode.ONE) {
+        console.log('repeat one')
         track = this.queue[this.queuePosition];
       } else {
+        console.log('to the next')
         track = this.getNextTrack();
       }
 
       if (track) {
+        console.log('track', track);
+        
         player.setTrack(track);
         await player.play();
 
@@ -87,16 +92,13 @@ class Queue {
 
   async previous() {
     const currentTime = player.getCurrentTime();
-    let newPosition: number;
 
     if (this.queuePosition !== null) {
       if (currentTime < 5) {
-        newPosition = this.queuePosition - 1;
-      } else {
-        newPosition = this.queuePosition;
+        this.queuePosition -= 1;
       }
 
-      const newTrack = this.queue[newPosition];
+      const newTrack = this.queue[this.queuePosition];
 
       if (newTrack) {
         player.setTrack(newTrack);
@@ -117,19 +119,17 @@ class Queue {
    * Get queue info
    */
   getNextTrack(): TrackModel | null {
-    let newPosition: number;
-
     if (this.queuePosition !== null) {
       if (
         this.repeat === RepeatMode.ALL &&
         this.queuePosition === this.queue.length - 1
       ) {
-        newPosition = 0;
+        this.queuePosition = 0;
       } else {
-        newPosition = this.queuePosition + 1; //! pode quebrar
+        this.queuePosition += 1; //! pode quebrar
       }
 
-      return this.queue[newPosition];
+      return this.queue[this.queuePosition];
     } else {
       return null;
     }
