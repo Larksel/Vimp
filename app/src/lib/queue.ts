@@ -1,10 +1,13 @@
 import { RepeatMode, TrackModel } from '../../shared/types/vimp';
 import player from './player';
+import store from '../store';
 
 interface QueueOptions {
   repeat: RepeatMode;
   shuffle: boolean;
 }
+
+const state = store.getState().player;
 
 //TODO usar estado global
 class Queue {
@@ -65,20 +68,15 @@ class Queue {
 
   async next() {
     let track: TrackModel | null;
-    console.log('Next Track');
 
     if (this.queuePosition !== null) {
       if (this.repeat === RepeatMode.ONE) {
-        console.log('repeat one')
         track = this.queue[this.queuePosition];
       } else {
-        console.log('to the next')
         track = this.getNextTrack();
       }
 
       if (track) {
-        console.log('track', track);
-        
         player.setTrack(track);
         await player.play();
 
@@ -171,4 +169,7 @@ class Queue {
 }
 
 //TODO inicializar queue a partir do estado salvo
-export default new Queue();
+export default new Queue({
+  repeat: state.repeat,
+  shuffle: state.shuffle,
+});

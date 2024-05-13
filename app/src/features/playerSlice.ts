@@ -21,7 +21,7 @@ export const playerSlice = createSlice({
     currentTrack: {},
     shuffle: false,
     isPlaying: false,
-    repeat: 'off',
+    repeat: RepeatMode.OFF,
     songDuration: 0,
     songProgress: 0,
     volume: 67,
@@ -40,16 +40,16 @@ export const playerSlice = createSlice({
     },
     changeRepeat: (state) => {
       switch (state.repeat) {
-        case 'off': {
-          state.repeat = 'all';
+        case RepeatMode.OFF: {
+          state.repeat = RepeatMode.ALL;
           break;
         }
-        case 'all': {
-          state.repeat = 'one';
+        case RepeatMode.ALL: {
+          state.repeat = RepeatMode.ONE;
           break;
         }
-        case 'one': {
-          state.repeat = 'off';
+        case RepeatMode.ONE: {
+          state.repeat = RepeatMode.OFF;
           break;
         }
         default:
