@@ -8,8 +8,10 @@ import {
   setSongDuration,
   setPlaybackRate,
 } from '../features/playerSlice';
+
+import { TrackModel } from '../../shared/types/vimp';
+
 import queue from './queue';
-import { Track } from '../../shared/types/vimp';
 
 interface PlayerOptions {
   playbackRate?: number;
@@ -22,7 +24,7 @@ const state = store.getState().player;
 //TODO integrar classe Queue
 class Player {
   private audio: HTMLAudioElement;
-  private track: Track | null;
+  private track: TrackModel | null;
 
   constructor(options?: PlayerOptions) {
     const defaultOptions = {
@@ -48,7 +50,7 @@ class Player {
       store.dispatch(store.dispatch(setIsPlaying(true)));
     this.audio.onpause = () =>
       store.dispatch(store.dispatch(setIsPlaying(false)));
-    this.audio.onended = () => this.pause();
+    this.audio.onended = () => this.next();
 
     this.audio.ondurationchange = () => {
       store.dispatch(setSongDuration(this.audio.duration));
@@ -73,6 +75,14 @@ class Player {
       this.stop();
       console.log('Player error:\n', err);
     }
+  }
+
+  async startFromQueue() {
+    const list = queue.getQueue();
+    const currentSong = list[5]; //! em testes
+
+    this.setTrack(currentSong);
+    await this.play();
   }
 
   pause() {
@@ -143,7 +153,7 @@ class Player {
     store.dispatch(setSongProgress(currentTime));
   }
 
-  setTrack(track: Track) {
+  setTrack(track: TrackModel) {
     if (!track) return;
 
     let path = track.path;

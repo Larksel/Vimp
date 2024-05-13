@@ -1,4 +1,8 @@
-export type RepeatMode = 'off' | 'all' | 'one';
+export enum RepeatMode {
+  OFF = 'off',
+  ALL = 'all',
+  ONE = 'one',
+}
 
 export interface Track {
   title: string;

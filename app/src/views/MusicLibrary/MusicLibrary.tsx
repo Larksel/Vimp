@@ -1,20 +1,21 @@
 import { useEffect, useState } from 'react';
-import { Track } from '../../../shared/types/vimp';
+import { TrackModel } from '../../../shared/types/vimp';
 
 import { Button } from '@/componentes/ui/button';
 import MediaCard from '@/componentes/MediaCard/MediaCard';
 
-import queue from '../../lib/queue';
+import queue from '@/lib/queue';
+import player from '@/lib/player';
 
 //TODO estado da lista de música reseta ao mudar de página
 //TODO lista virtual
 
 export default function MusicLibrary() {
-  const [tracks, setTracks] = useState<Track[]>();
+  const [tracks, setTracks] = useState<TrackModel[]>();
 
   useEffect(() => {
     async function getTracks() {
-      const res: Track[] = await window.VimpAPI.db.getTracks();
+      const res: TrackModel[] = await window.VimpAPI.db.getTracks();
 
       setTracks(res);
     }
@@ -25,17 +26,8 @@ export default function MusicLibrary() {
   const playTracks = () => {
     console.log('add to playlist');
 
-    tracks?.map((track) => {
-      if (
-        !queue
-          .getQueue()
-          .some((existingTrack) => existingTrack.path === track.path)
-      ) {
-        queue.add(track);
-      }
-    });
-
-    queue.play();
+    tracks?.map((track) => queue.add(track));
+    player.startFromQueue();
   };
 
   return (

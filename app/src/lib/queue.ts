@@ -1,4 +1,4 @@
-import { RepeatMode, Track } from '../../shared/types/vimp';
+import { RepeatMode, TrackModel } from '../../shared/types/vimp';
 import player from './player';
 
 interface QueueOptions {
@@ -6,29 +6,30 @@ interface QueueOptions {
   shuffle: boolean;
 }
 
+//TODO usar estado global
 class Queue {
-  private queue: Track[];
-  private originalQueue: Track[];
-  private queuePosition: number;
-  private repeat: string;
+  private queue: TrackModel[];
+  private originalQueue: TrackModel[];
+  private queuePosition: number | null;
+  private repeat: RepeatMode;
   private shuffle: boolean;
 
   constructor(options?: QueueOptions) {
     const defaultState = {
-      repeat: 'off',
+      repeat: RepeatMode.OFF,
       shuffle: false,
       ...options,
     };
 
     this.queue = [];
     this.originalQueue = [];
-    this.queuePosition = 0;
+    this.queuePosition = null;
     this.repeat = defaultState.repeat;
     this.shuffle = defaultState.shuffle;
   }
 
-  add(track: Track) {
-    this.queue.push(track);
+  async add(track: TrackModel) {
+    this.queue.push(track)
   }
 
   remove(index: number) {
@@ -37,49 +38,97 @@ class Queue {
     }
   }
 
-  play() {
-    const currentSong = this.queue[this.queuePosition];
-    if (currentSong) {
-      player.setTrack(currentSong);
-      player.play();
+  clear() {
+    this.queue = [];
+    this.queuePosition = null;
+  }
+
+  async next() {
+    let track: TrackModel | null;
+
+    if (this.queuePosition !== null) {
+      if (this.repeat === RepeatMode.ONE) {
+        track = this.queue[this.queuePosition];
+      } else {
+        track = this.getNextTrack();
+      }
+
+      if (track) {
+        player.setTrack(track);
+        await player.play();
+
+        //TODO atualizar queuePosition no estado global
+      } else {
+        player.stop();
+        this.clear();
+      }
     }
   }
 
-  //TODO player ou queue?
-  next() {
-    let nextTrack: number | null = null;
-    if (!(this.queuePosition == this.queue.length - 1)) {
-      nextTrack = this.queuePosition + 1;
-    } else {
-      nextTrack = 0;
+  async previous() {
+    const currentTime = player.getCurrentTime();
+    let newPosition: number;
+
+    if (this.queuePosition !== null) {
+      if (currentTime < 5) {
+        newPosition = this.queuePosition - 1;
+      } else {
+        newPosition = this.queuePosition;
+      }
+
+      const newTrack = this.queue[newPosition];
+
+      if (newTrack) {
+        player.setTrack(newTrack);
+        await player.play();
+
+        //TODO atualizar queuePosition no estado global
+      } else {
+        player.stop();
+        this.clear();
+      }
     }
-
-    this.queuePosition = nextTrack;
-
-    player.setTrack(this.queue[nextTrack]);
-    player.play();
   }
 
-  //TODO player ou queue?
-  previous() {
-    let prevTrack: number | null = null;
-    if (!(this.queuePosition == 0)) {
-      prevTrack = this.queuePosition - 1;
-    } else {
-      prevTrack = this.queue.length - 1;
-    }
-
-    this.queuePosition = prevTrack;
-
-    player.setTrack(this.queue[prevTrack]);
-    player.play();
-  }
+  //TODO toggleShufle
+  //TODO toggleRepeat
 
   /**
    * Get queue info
    */
-  //TODO getNextTrack
-  //TODO getPreviousTrack
+  getNextTrack(): TrackModel | null {
+    let newPosition: number;
+
+    if (this.queuePosition !== null) {
+      if (
+        this.repeat === RepeatMode.ALL &&
+        this.queuePosition === this.queue.length - 1
+      ) {
+        newPosition = 0;
+      } else {
+        newPosition = this.queuePosition + 1; //! pode quebrar
+      }
+
+      return this.queue[newPosition];
+    } else {
+      return null;
+    }
+  }
+
+  getPrevTrack(): TrackModel | null {
+    if (this.queuePosition !== null) {
+      if (this.queuePosition > 0) {
+        return this.queue[this.queuePosition - 1];
+      } else if (this.queuePosition === 0 && this.repeat === RepeatMode.ALL) {
+        return this.queue[this.queue.length - 1];
+      } else {
+        return null;
+      }
+    } else {
+      return null;
+    }
+  }
+
   getQueue() {
     return this.queue;
   }
