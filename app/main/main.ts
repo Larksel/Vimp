@@ -1,5 +1,6 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, session } from 'electron';
 import { electronApp, optimizer } from '@electron-toolkit/utils';
+import os from 'os';
 import { join } from 'path';
 import MenuBuilder from './modules/MenuBuilder';
 import { setupVimpProtocol } from './modules/Protocol';
@@ -15,6 +16,11 @@ const iconPath =
   process.platform === 'win32'
     ? '../../resources/icons/icon.ico'
     : '../../resources/icons/icon.png';
+
+const reactDevToolsPath = join(
+  os.homedir(),
+  '/AppData/Local/Google/Chrome/User Data/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/5.2.0_0',
+);
 
 const icon = join(__dirname, iconPath);
 let mainWindow: BrowserWindow | null = null;
@@ -86,8 +92,14 @@ app.on('window-all-closed', () => {
   }
 });
 
-app.whenReady().then(() => {
+app.whenReady().then(async () => {
   electronApp.setAppUserModelId('com.electron.vimp');
+  
+  if (isDebug) {
+    await session.defaultSession.loadExtension(reactDevToolsPath)
+      .then((ext) => console.log('Extensao carregada:', ext.name))
+      .catch((err) => console.log('Erro ao carregar a extensao:', err))
+  }
 
   app.on('browser-window-created', (_, window) => {
     optimizer.watchWindowShortcuts(window);
@@ -100,5 +112,5 @@ app.whenReady().then(() => {
   setupIPCTracks();
   setupIPCDialog();
 
-  new Library().init()
+  new Library().init();
 });
