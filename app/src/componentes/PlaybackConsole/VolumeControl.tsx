@@ -1,5 +1,3 @@
-import { useSelector } from 'react-redux';
-
 import {
   SpeakerSimpleHigh,
   SpeakerSimpleLow,
@@ -9,28 +7,20 @@ import {
 
 import { Slider } from '../ui/slider';
 
-import { selectVolume, selectIsMuted } from '../../features/playerSlice';
-import player from '../../lib/player';
+import usePlayerStore, { usePlayerAPI } from '@/stores/usePlayerStore';
 
 //TODO indicador com o volume atual
 
 export default function VolumeControl() {
-  const volume = useSelector(selectVolume);
-  const isMuted = useSelector(selectIsMuted);
-
-  const handleMute = () => {
-    if (!isMuted) {
-      player.mute();
-    } else {
-      player.unmute();
-    }
-  };
+  const playerAPI = usePlayerAPI();
+  const volume = usePlayerStore((state) => state.volume);
+  const isMuted = usePlayerStore((state) => state.isMuted);
 
   const handleVolumeChange = (value: number) => {
     if (isMuted) {
-      player.unmute();
+      playerAPI.setIsMuted(false);
     }
-    player.setVolume(value);
+    playerAPI.setVolume(value);
   };
 
   const volumeIcons = () => {
@@ -48,7 +38,7 @@ export default function VolumeControl() {
   return (
     <div className='flex flex-row items-center justify-center gap-2'>
       <button
-        onClick={handleMute}
+        onClick={() => playerAPI.setIsMuted(!isMuted)}
         className='text-neutral-400 transition-colors hover:text-neutral-100'
       >
         {volumeIcons()}
