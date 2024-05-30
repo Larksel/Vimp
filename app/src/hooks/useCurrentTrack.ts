@@ -1,6 +1,8 @@
 import usePlayerStore from "@/stores/usePlayerStore";
 import { Track, TrackModel } from "../../shared/types/vimp";
 
+
+//TODO retornar null
 export default function useCurrentTrack(): TrackModel | Track {
   return usePlayerStore((state) => {
     if (state.queue.length > 0 && state.queuePosition !== null) {
