@@ -27,7 +27,7 @@ type PlayerState = {
     previous: () => Promise<void>;
     next: () => Promise<void>;
     setVolume: (volume: number) => void;
-    toggleMuted: () => void;
+    setIsMuted: (muted?: boolean) => void;
     toggleShuffle: () => void;
     toggleRepeat: () => void;
     setSongDuration: (duration: number) => void;
@@ -164,15 +164,13 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => ({
       player.setVolume(volume);
       set({ volume: volume });
     },
-    toggleMuted: async () => {
-      const { isMuted } = get();
-      if (isMuted) {
-        player.unmute();
-        set({ isMuted: false });
-      } else {
+    setIsMuted: async (muted = false) => {
+      if (muted) {
         player.mute();
-        set({ isMuted: true });
+      } else {
+        player.unmute();
       }
+      set({ isMuted: muted });
     },
     toggleShuffle: async () => {
       const { shuffle } = get();
