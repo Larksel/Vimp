@@ -4,13 +4,13 @@ import { TrackModel } from '../../../shared/types/vimp';
 import { Button } from '@/componentes/ui/button';
 import MediaCard from '@/componentes/MediaCard/MediaCard';
 
-import queue from '@/lib/queue';
-import player from '@/lib/player';
+import { usePlayerAPI } from '@/stores/usePlayerStore';
 
 //TODO estado da lista de música reseta ao mudar de página
 //TODO lista virtual
 
 export default function MusicLibrary() {
+  const playerAPI = usePlayerAPI();
   const [tracks, setTracks] = useState<TrackModel[]>();
 
   useEffect(() => {
@@ -24,10 +24,8 @@ export default function MusicLibrary() {
   }, []);
 
   const playTracks = () => {
-    console.log('add to playlist');
-
-    tracks?.map((track) => queue.add(track));
-    player.startFromQueue();
+    if (tracks)
+      playerAPI.start(tracks);
   };
 
   return (
