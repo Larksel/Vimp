@@ -1,15 +1,14 @@
-import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useState } from 'react';
 
 import placeholderImage from '../../assets/images/placeholder.png';
-import { selectCurrentTrack } from '../../features/playerSlice';
+import useCurrentTrack from '@/hooks/useCurrentTrack';
 
 import ExpandedView from './ExpandedView';
 import InfoText from '../InfoText/InfoText';
 
 export default function MusicInfo() {
   const [visible, setVisible] = useState(false);
-  const track = useSelector(selectCurrentTrack);
+  const track = useCurrentTrack();
 
   const toggleVisible = () => {
     setVisible(!visible);
