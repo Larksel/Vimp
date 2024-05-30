@@ -1,23 +1,22 @@
-import { useEffect, useState } from 'react';
-
 import { Card, CardContent, CardHeader } from '@/componentes/ui/card';
 import InfoText from '../InfoText/InfoText';
 
 import { Play } from '@phosphor-icons/react';
 
 import placeholder from '../../assets/images/placeholder.png';
-import { Track } from '../../../shared/types/vimp';
-import player from '../../lib/player';
+import { TrackModel } from '../../../shared/types/vimp';
 import { formatDuration } from '@/lib/utils';
+import { usePlayerAPI } from '@/stores/usePlayerStore';
 
 interface MediaCardProps {
-  item: Track;
+  item: TrackModel;
 }
 
 export default function MediaCard({ item }: MediaCardProps) {
+  const playerAPI = usePlayerAPI();
+
   const playTrack = () => {
-    player.setTrack(item);
-    player.play();
+    playerAPI.start([item]);
   };
 
   return (
