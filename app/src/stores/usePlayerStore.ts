@@ -220,40 +220,5 @@ export function usePlayerAPI() {
 }
 
 function createPlayerStore<T extends PlayerState>(store: StateCreator<T>) {
-  return createStore(
-    persist(store, {
-      name: 'vimp-player',
-      onRehydrateStorage: () => {
-        console.log('Player store is being hydrated');
-        return (state, error) => {
-          if (error || state == null) {
-            console.log('Error on hydration', error);
-          } else {
-            const { queue, queuePosition } = state;
-            if (queue && queuePosition) {
-              const track = queue[queuePosition];
-              player.setTrack(track);
-            }
-          }
-        };
-      },
-      merge(persistedState, currentState) {
-        if (persistedState == null) {
-          persistedState = {
-            playerStatus: PlayerStatus.STOP,
-          };
-        }
-
-        return {
-          ...currentState,
-          ...(persistedState as Partial<PlayerState>),
-          api: currentState.api,
-          playerStatus:
-            (persistedState as PlayerState).playerStatus === PlayerStatus.PLAY
-              ? PlayerStatus.PAUSE
-              : (persistedState as PlayerState).playerStatus,
-        };
-      },
-    }),
-  );
+  return createStore(store);
 }
