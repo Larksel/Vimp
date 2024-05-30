@@ -10,13 +10,15 @@ import { usePlayerAPI } from '@/stores/usePlayerStore';
 
 interface MediaCardProps {
   item: TrackModel;
+  queue: TrackModel[];
 }
 
-export default function MediaCard({ item }: MediaCardProps) {
+export default function MediaCard(props: MediaCardProps) {
+  const { item, queue } = props;
   const playerAPI = usePlayerAPI();
 
   const playTrack = () => {
-    playerAPI.start([item]);
+    playerAPI.start(queue, item._id);
   };
 
   return (

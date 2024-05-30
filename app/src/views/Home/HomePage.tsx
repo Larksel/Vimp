@@ -1,7 +1,8 @@
 import CardList from '@/componentes/CardList/CardList';
-import { Track } from '../../../shared/types/vimp';
+import { TrackModel } from '../../../shared/types/vimp';
+import { useEffect, useState } from 'react';
 
-const exemplo: Track[] = Array.from({ length: 7 }, () => ({
+const exemplo: TrackModel[] = Array.from({ length: 5 }, () => ({
   title: 'titulo',
   album: 'album',
   artist: ['artista'],
@@ -12,22 +13,39 @@ const exemplo: Track[] = Array.from({ length: 7 }, () => ({
   lastPlayed: null,
   path: '',
   cover: '',
+  _id: '',
+  _rev: '',
 }));
 
 export default function HomePage() {
+  const [mostPlayed, setMostPlayed] = useState<TrackModel[]>(exemplo);
+  const [favorites, setFavorites] = useState<TrackModel[]>(exemplo);
+  const [recents, setRecents] = useState<TrackModel[]>(exemplo);
+
+  useEffect(() => {
+    async function getTracks() {
+      const res: TrackModel[] = await window.VimpAPI.db.getTracks();
+
+      if (res.length > 0) {
+        setRecents(res.slice(0, 5));
+        setFavorites(res.slice(5, 10));
+        setMostPlayed(res.slice(10, 15));
+      }
+    }
+
+    getTracks();
+  }, []);
+
   return (
     <div>
       <h1>Músicas recentes</h1>
-      <CardList data={exemplo} />
+      <CardList data={recents} />
 
       <h1 className='mt-10'>Favoritas</h1>
-      <CardList data={exemplo} />
-
-      <h1 className='mt-10'>Playlists</h1>
-      <CardList data={exemplo} />
+      <CardList data={favorites} />
 
       <h1 className='mt-10'>Mais tocadas</h1>
-      <CardList data={exemplo} />
+      <CardList data={mostPlayed} />
     </div>
   );
 }

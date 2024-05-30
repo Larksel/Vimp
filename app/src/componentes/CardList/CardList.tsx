@@ -1,10 +1,10 @@
 import { ScrollArea, ScrollBar } from '../ui/scroll-area';
 import MediaCard from '../MediaCard/MediaCard';
 
-import { Track } from '../../../shared/types/vimp';
+import { TrackModel } from '../../../shared/types/vimp';
 
 type CardListProps = {
-  data: Track[];
+  data: TrackModel[];
 };
 
 export default function CardList({ data }: CardListProps) {
@@ -12,7 +12,7 @@ export default function CardList({ data }: CardListProps) {
     <ScrollArea className='rounded-lg'>
       <div className='flex gap-6 pb-1'>
         {data.map((item, index) => (
-          <MediaCard key={index} item={item} />
+          <MediaCard key={index} item={item} queue={data} />
         ))}
       </div>
       <ScrollBar orientation='horizontal' />
