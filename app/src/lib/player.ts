@@ -1,17 +1,4 @@
-import store from '../store';
-import {
-  setCurrentTrack,
-  setVolume,
-  setIsMuted,
-  setIsPlaying,
-  setSongProgress,
-  setSongDuration,
-  setPlaybackRate,
-} from '../features/playerSlice';
-
 import { TrackModel } from '../../shared/types/vimp';
-
-import queue from './queue';
 
 interface PlayerOptions {
   playbackRate?: number;
@@ -19,9 +6,6 @@ interface PlayerOptions {
   muted?: boolean;
 }
 
-const state = store.getState().player;
-
-//TODO integrar classe Queue
 class Player {
   private audio: HTMLAudioElement;
   private track: TrackModel | null;
@@ -42,15 +26,13 @@ class Player {
     this.audio.volume = defaultOptions.volume;
     this.audio.muted = defaultOptions.muted;
 
-    /**
-     * Audio element events
-     */
-    //TODO Implementar reprodução constante em listas
+    //TODO colocar isso em outro lugar
+    /* 
     this.audio.onplay = () =>
       store.dispatch(store.dispatch(setIsPlaying(true)));
     this.audio.onpause = () =>
       store.dispatch(store.dispatch(setIsPlaying(false)));
-    this.audio.onended = () => this.next();
+    this.audio.onended = () => this.stop();
 
     this.audio.ondurationchange = () => {
       store.dispatch(setSongDuration(this.audio.duration));
@@ -58,6 +40,7 @@ class Player {
     this.audio.ontimeupdate = () => {
       store.dispatch(setSongProgress(this.audio.currentTime));
     };
+    */
   }
 
   /**
@@ -77,10 +60,6 @@ class Player {
     }
   }
 
-  async startFromQueue(_id?: number) {
-    await queue.start(_id);
-  }
-
   pause() {
     this.audio.pause();
   }
@@ -89,26 +68,12 @@ class Player {
     this.audio.pause();
   }
 
-  next() {
-    queue.next();
-  }
-
-  previous() {
-    queue.previous();
-  }
-
   mute() {
     this.audio.muted = true;
-    store.dispatch(setIsMuted(true));
   }
 
   unmute() {
     this.audio.muted = false;
-    store.dispatch(setIsMuted(false));
-  }
-
-  async changeRepeat() {
-    await queue.toggleRepeat();
   }
 
   /**
@@ -139,18 +104,15 @@ class Player {
    */
   setVolume(volume: number) {
     this.audio.volume = volume / 100;
-    store.dispatch(setVolume(volume));
   }
 
   setPlaybackRate(playbackRate: number) {
     this.audio.playbackRate = playbackRate;
     this.audio.defaultPlaybackRate = playbackRate;
-    store.dispatch(setPlaybackRate(playbackRate));
   }
 
   setCurrentTime(currentTime: number) {
     this.audio.currentTime = currentTime;
-    store.dispatch(setSongProgress(currentTime));
   }
 
   setTrack(track: TrackModel) {
@@ -165,12 +127,11 @@ class Player {
 
     this.track = track;
     this.audio.src = path;
-    store.dispatch(setCurrentTrack(track));
   }
 }
 
 export default new Player({
-  playbackRate: state.playbackRate,
-  muted: state.isMuted,
-  volume: state.volume / 100,
+  playbackRate: 1,
+  muted: false,
+  volume: 0.67,
 });
