@@ -4,6 +4,12 @@ export enum RepeatMode {
   ONE = 'one',
 }
 
+export enum PlayerStatus {
+  PLAY = 'play',
+  PAUSE = 'pause',
+  STOP = 'stop',
+}
+
 export interface Track {
   title: string;
   album: string | undefined;
