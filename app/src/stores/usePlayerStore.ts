@@ -203,6 +203,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => ({
       set({ songDuration: duration });
     },
     setSongProgress: (progress) => {
+      player.setCurrentTime(progress);
       set({ songProgress: progress });
     },
     setPlaybackRate: (playbackRate) => {
