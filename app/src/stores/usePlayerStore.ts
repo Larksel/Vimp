@@ -90,6 +90,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => ({
     },
     stop: () => {
       player.stop();
+      get().api.setSongProgress(0);
 
       set({
         queue: [],
@@ -141,6 +142,9 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => ({
           queuePosition === queue.length - 1
         ) {
           newPosition = 0;
+        } else if (queuePosition === queue.length - 1) {
+          get().api.stop();
+          return;
         } else {
           newPosition = queuePosition + 1;
         }
