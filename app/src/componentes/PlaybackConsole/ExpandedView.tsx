@@ -1,14 +1,12 @@
-import { useSelector } from 'react-redux';
-import { selectCurrentTrack } from '../../features/playerSlice';
-
 import placeholder from '../../assets/images/placeholder.png';
+import useCurrentTrack from '@/hooks/useCurrentTrack';
 
 interface ExpandedViewProps {
   visible: boolean;
 }
 
 export default function ExpandedView({ visible }: ExpandedViewProps) {
-  const track = useSelector(selectCurrentTrack);
+  const track = useCurrentTrack();
 
   return (
     <div
