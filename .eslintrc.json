@@ -15,13 +15,12 @@
     "plugin:react/recommended",
     "plugin:react/jsx-runtime",
     "plugin:react-hooks/recommended",
-    "plugin:react-redux/recommended",
     "prettier",
     "@electron-toolkit/eslint-config-ts/recommended",
     "@electron-toolkit/eslint-config-prettier"
   ],
   "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint", "react-redux", "import"],
+  "plugins": ["@typescript-eslint", "import"],
   "rules": {
     "no-unused-vars": "off",
     "@typescript-eslint/no-unused-vars": "off"
