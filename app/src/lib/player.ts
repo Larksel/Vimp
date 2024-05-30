@@ -25,22 +25,6 @@ class Player {
     this.audio.playbackRate = defaultOptions.playbackRate;
     this.audio.volume = defaultOptions.volume;
     this.audio.muted = defaultOptions.muted;
-
-    //TODO colocar isso em outro lugar
-    /* 
-    this.audio.onplay = () =>
-      store.dispatch(store.dispatch(setIsPlaying(true)));
-    this.audio.onpause = () =>
-      store.dispatch(store.dispatch(setIsPlaying(false)));
-    this.audio.onended = () => this.stop();
-
-    this.audio.ondurationchange = () => {
-      store.dispatch(setSongDuration(this.audio.duration));
-    };
-    this.audio.ontimeupdate = () => {
-      store.dispatch(setSongProgress(this.audio.currentTime));
-    };
-    */
   }
 
   /**
