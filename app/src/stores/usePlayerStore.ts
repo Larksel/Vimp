@@ -28,6 +28,8 @@ type PlayerState = {
     next: () => Promise<void>;
     setVolume: (volume: number) => void;
     toggleMuted: () => void;
+    toggleShuffle: () => void;
+    toggleRepeat: () => void;
     setSongDuration: (duration: number) => void;
     setSongProgress: (progress: number) => void;
     setPlaybackRate: (playbackRate: number) => void;
@@ -102,14 +104,15 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => ({
       let newPosition: number;
 
       if (queuePosition !== null) {
-        if (currentTime < 5) {
+        if (currentTime > 5) {
+          newPosition = queuePosition;
+        } else if (queuePosition === 0 && repeat === RepeatMode.ALL) {
+          newPosition = queue.length - 1;
+        } else if (queuePosition !== 0) {
           newPosition = queuePosition - 1;
         } else {
           newPosition = queuePosition;
         }
-
-        //TODO selecionar última track da fila quando
-        //TODO RepeatMode.ALL e queuePosition == 0
 
         const track = queue[newPosition];
 
@@ -169,6 +172,31 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => ({
       } else {
         player.mute();
         set({ isMuted: true });
+      }
+    },
+    toggleShuffle: async () => {
+      const { shuffle } = get();
+
+      //TODO implementar lógica do shuffle
+      set({ shuffle: !shuffle });
+    },
+    toggleRepeat: async () => {
+      const { repeat } = get();
+      switch (repeat) {
+        case RepeatMode.OFF: {
+          set({ repeat: RepeatMode.ALL });
+          break;
+        }
+        case RepeatMode.ALL: {
+          set({ repeat: RepeatMode.ONE });
+          break;
+        }
+        case RepeatMode.ONE: {
+          set({ repeat: RepeatMode.OFF });
+          break;
+        }
+        default:
+          break;
       }
     },
     setSongDuration: (duration) => {
