@@ -1,5 +1,3 @@
-import { useSelector, useDispatch } from 'react-redux';
-
 import {
   Shuffle,
   SkipBack,
@@ -10,28 +8,27 @@ import {
   RepeatOnce,
 } from '@phosphor-icons/react';
 
-import {
-  setShuffle,
-  changeRepeat,
-  selectShuffle,
-  selectIsPlaying,
-  selectRepeat,
-} from '../../features/playerSlice';
-
-import player from '../../lib/player';
+import usePlayerStore, { usePlayerAPI } from '@/stores/usePlayerStore';
+import { PlayerStatus } from '../../../shared/types/vimp';
 
 export default function PlaybackButtons() {
-  const shuffle = useSelector(selectShuffle);
-  const isPlaying = useSelector(selectIsPlaying);
-  const repeat = useSelector(selectRepeat);
-  const dispatch = useDispatch();
+  const playerAPI = usePlayerAPI();
+  const playerStatus = usePlayerStore((state) => state.playerStatus);
+  const shuffle = usePlayerStore((state) => state.shuffle);
+  const repeat = usePlayerStore((state) => state.repeat);
 
-  const handlePlayPause = () => {
-    if (isPlaying) {
-      player.pause();
-    } else {
-      player.play();
+  const isPlaying = () => {
+    switch (playerStatus) {
+      case PlayerStatus.PAUSE:
+        return false;
+      case PlayerStatus.STOP:
+        return false;
+      case PlayerStatus.PLAY:
+        return true;
+      default:
+        break;
     }
+    return;
   };
 
   const repeatIcons = {
@@ -45,24 +42,24 @@ export default function PlaybackButtons() {
       <div className='flex flex-1 justify-end gap-2'>
         <button
           className='relative flex size-8 items-center justify-center text-neutral-400 transition-colors hover:text-neutral-100'
-          onClick={() => dispatch(setShuffle(!shuffle))}
+          onClick={() => playerAPI.toggleShuffle()}
         >
           <Shuffle size={20} className={`${shuffle ? 'text-green-500' : ''}`} />
         </button>
 
         <button
           className='relative flex size-8 items-center justify-center text-neutral-400 transition-colors hover:text-neutral-100'
-          onClick={() => player.previous()}
+          onClick={() => playerAPI.previous()}
         >
           <SkipBack size={20} />
         </button>
       </div>
 
       <button
-        onClick={handlePlayPause}
+        onClick={() => playerAPI.playPause()}
         className='flex size-8 items-center justify-center rounded-full bg-white text-black'
       >
-        {isPlaying ? (
+        {isPlaying() ? (
           <Pause weight='fill' size={16} />
         ) : (
           <Play weight='fill' size={16} />
@@ -72,14 +69,14 @@ export default function PlaybackButtons() {
       <div className='flex flex-1 gap-2'>
         <button
           className='relative flex size-8 items-center justify-center text-neutral-400 transition-colors hover:text-neutral-100'
-          onClick={() => player.next()}
+          onClick={() => playerAPI.next()}
         >
           <SkipForward size={20} />
         </button>
 
         <button
           className='relative flex size-8 items-center justify-center text-neutral-400 transition-colors hover:text-neutral-100'
-          onClick={() => player.changeRepeat()}
+          onClick={() => playerAPI.toggleRepeat()}
         >
           {repeatIcons[repeat]}
         </button>
