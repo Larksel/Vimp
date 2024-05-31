@@ -24,6 +24,7 @@ type PlayerState = {
     stop: () => void;
     previous: () => Promise<void>;
     next: () => Promise<void>;
+    jumpToTrack: (_id: string) => Promise<void>;
     setVolume: (volume: number) => void;
     setIsMuted: (muted?: boolean) => void;
     toggleShuffle: () => void;
@@ -155,6 +156,22 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => ({
           get().api.pause();
           get().api.setSongProgress(0);
         }
+      }
+    },
+    jumpToTrack: async (_id) => {
+      const { queue } = get()
+      const queuePosition = queue.findIndex((track) => track._id === _id);
+
+      if (queuePosition > -1) {
+        const track = queue[queuePosition];
+
+        player.setTrack(track);
+        await player.play();
+
+        set({
+          queuePosition: queuePosition,
+          playerStatus: PlayerStatus.PLAY,
+        });
       }
     },
     setVolume: (volume) => {
