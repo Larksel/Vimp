@@ -1,12 +1,16 @@
 import { Playlist, Info } from '@phosphor-icons/react';
 
 import VolumeControl from './VolumeControl';
+import { useNavigate } from 'react-router-dom';
+import routes from '@/routes';
 
 export default function MoreOptions() {
+  const navigate = useNavigate();
+
   const buttons = [
     {
       icon: <Playlist size={24} />,
-      action: () => console.log('Open queue'),
+      action: () => navigate(routes.QUEUE),
     },
     {
       icon: <Info size={24} />,

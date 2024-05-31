@@ -1,5 +1,6 @@
 import { createHashRouter, useNavigate } from 'react-router-dom';
 import HomePage from './views/Home/HomePage';
+import Queue from './views/Queue/Queue';
 import MusicLibrary from './views/MusicLibrary/MusicLibrary';
 import Config from './views/Config/ConfigPage';
 import Root from './Root';
@@ -25,6 +26,11 @@ const router = createHashRouter([
         path: routes.MUSIC_LIBRARY,
         id: routes.MUSIC_LIBRARY,
         element: <MusicLibrary />,
+      },
+      {
+        path: routes.QUEUE,
+        id: routes.QUEUE,
+        element: <Queue />,
       },
       {
         path: routes.CONFIG,
