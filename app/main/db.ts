@@ -39,12 +39,7 @@ const TracksDB = {
 
     const tracks = [...firstResponse.rows, ...secondResponse.rows]
       .map((record) => record.doc)
-      .filter(Boolean)
-      .sort((a, b) => {
-        if (!a) return 1;
-        if (!b) return -1;
-        return a.title.localeCompare(b.title)
-      });
+      .filter(Boolean);
 
     return tracks;
   },
@@ -71,7 +66,6 @@ const TracksDB = {
 
   // * Getter functions
 
-  //TODO fazer com que essa função realmente use o id
   async getById(trackID: string) {
     const { docs } = await Tracks.find({
       selector: { _id: trackID },
@@ -94,7 +88,7 @@ const TracksDB = {
   /**
    * Increments `playCount` attribute for the given track
    */
-  //TODO implementar sistema de treshold para incrementar automaticamente
+  //TODO implementar sistema de threshold para incrementar automaticamente
   async incrementPlayCount(track: TrackModel) {
     const doc = await Tracks.get(track._id);
     await Tracks.put({
