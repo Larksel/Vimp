@@ -13,7 +13,6 @@ type PlayerState = {
   shuffle: boolean;
   repeat: RepeatMode;
   playerStatus: PlayerStatus;
-  songProgress: number;
   volume: number;
   isMuted: boolean;
   playbackRate: number;
@@ -42,8 +41,6 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => ({
   shuffle: false,
   repeat: RepeatMode.OFF,
   playerStatus: PlayerStatus.STOP,
-  songDuration: 0,
-  songProgress: 0,
   volume: 67,
   isMuted: false,
   playbackRate: 1,
@@ -198,7 +195,6 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => ({
     },
     setSongProgress: (progress) => {
       player.setCurrentTime(progress);
-      set({ songProgress: progress });
     },
     setPlaybackRate: (playbackRate) => {
       if (playbackRate >= 0.5 && playbackRate <= 5) {
