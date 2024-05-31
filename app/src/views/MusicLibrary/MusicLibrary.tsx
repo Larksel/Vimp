@@ -13,7 +13,21 @@ export default function MusicLibrary() {
     async function getTracks() {
       const res: TrackModel[] = await window.VimpAPI.db.getTracks();
 
-      setTracks(res);
+      const orderedTracks = res.sort((a, b) => {
+        if (!a) return 1;
+        if (!b) return -1;
+
+        const titleA = a.title
+          .normalize('NFKD')
+          .replace(/[^a-zA-Z0-9-\u00C0-\u024F\u4E00-\u9FFF]/g, '');
+        const titleB = b.title
+          .normalize('NFKD')
+          .replace(/[^a-zA-Z0-9-\u00C0-\u024F\u4E00-\u9FFF]/g, '');
+
+        return titleA.localeCompare(titleB);
+      });
+
+      setTracks(orderedTracks);
     }
 
     getTracks();
