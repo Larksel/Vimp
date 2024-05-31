@@ -13,7 +13,6 @@ type PlayerState = {
   shuffle: boolean;
   repeat: RepeatMode;
   playerStatus: PlayerStatus;
-  songDuration: number;
   songProgress: number;
   volume: number;
   isMuted: boolean;
@@ -30,7 +29,6 @@ type PlayerState = {
     setIsMuted: (muted?: boolean) => void;
     toggleShuffle: () => void;
     toggleRepeat: () => void;
-    setSongDuration: (duration: number) => void;
     setSongProgress: (progress: number) => void;
     setPlaybackRate: (playbackRate: number) => void;
   };
@@ -142,9 +140,6 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => ({
           queuePosition === queue.length - 1
         ) {
           newPosition = 0;
-        } else if (queuePosition === queue.length - 1) {
-          get().api.stop();
-          return;
         } else {
           newPosition = queuePosition + 1;
         }
@@ -200,9 +195,6 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => ({
         default:
           break;
       }
-    },
-    setSongDuration: (duration) => {
-      set({ songDuration: duration });
     },
     setSongProgress: (progress) => {
       player.setCurrentTime(progress);
