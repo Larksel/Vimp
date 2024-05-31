@@ -27,14 +27,7 @@ const TracksDB = {
 
   //TODO tiro no pé - como descobrir a musica pelo id gerado?
   async insertMany(tracks: Track[]) {
-    const tracksWithIds = tracks.map((track) => {
-      return {
-        ...track,
-        _id: path.parse(track.path).base,
-      };
-    });
-
-    return Tracks.bulkDocs(tracksWithIds);
+    return Tracks.bulkDocs(tracks);
   },
 
   //TODO pegar pedaços ao invés de tudo direto
@@ -46,7 +39,12 @@ const TracksDB = {
 
     const tracks = [...firstResponse.rows, ...secondResponse.rows]
       .map((record) => record.doc)
-      .filter(Boolean);
+      .filter(Boolean)
+      .sort((a, b) => {
+        if (!a) return 1;
+        if (!b) return -1;
+        return a.title.localeCompare(b.title)
+      });
 
     return tracks;
   },

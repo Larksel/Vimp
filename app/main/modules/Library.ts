@@ -128,6 +128,7 @@ class Library extends Module {
 
         await scanQueue.start();
 
+        console.log('Inserting in database');
         await TracksDB.insertMany(scannedFiles);
       } catch (err) {
         reject(err);
