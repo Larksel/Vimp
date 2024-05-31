@@ -152,7 +152,8 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => ({
             queuePosition: newPosition,
           });
         } else {
-          get().api.stop();
+          get().api.pause();
+          get().api.setSongProgress(0);
         }
       }
     },
