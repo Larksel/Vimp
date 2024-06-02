@@ -5,6 +5,9 @@ import Module from './BaseModule';
 import electron from 'electron';
 import channels from '../../shared/lib/ipc-channels';
 
+const userFolder = app.getPath('home');
+const vimpMusicFolder = userFolder + '\\Desktop\\Vimp Music'
+
 export default class ConfigModule extends Module {
   private workArea: Electron.Rectangle;
   private config: Store<Config>;
@@ -56,7 +59,7 @@ export default class ConfigModule extends Module {
       audioRepeatMode: RepeatMode.OFF,
       audioGaplessPlayback: true,
       audioCrossfadeDuration: 300,
-      musicFolders: [app.getPath('music')],
+      musicFolders: [app.getPath('music'), vimpMusicFolder],
     
       displayNotifications: true,
     
