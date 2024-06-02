@@ -1,4 +1,4 @@
-import { createHashRouter, useNavigate } from 'react-router-dom';
+import { LoaderFunctionArgs, createHashRouter, useNavigate } from 'react-router-dom';
 import HomePage from './views/Home/HomePage';
 import Queue from './views/Queue/Queue';
 import MusicLibrary from './views/MusicLibrary/MusicLibrary';
@@ -14,6 +14,7 @@ const router = createHashRouter([
     path: '',
     id: 'root',
     element: <Root />,
+    loader: Root.loader,
     ErrorBoundary: GlobalErrorBoundary,
     children: [
       {
@@ -60,3 +61,9 @@ function GlobalErrorBoundary() {
     </div>
   );
 }
+
+export type LoaderData<T> = T extends (
+  args: LoaderFunctionArgs,
+) => Promise<infer U>
+  ? Exclude<U, Response>
+  : never;

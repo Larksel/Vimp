@@ -1,39 +1,15 @@
-import { useEffect, useState } from 'react';
-import { TrackModel } from '../../../shared/types/vimp';
+import { useState } from 'react';
 
 import MediaCard from '@/componentes/MediaCard/MediaCard';
 import { Input } from '@/componentes/ui/input';
+import { useRouteLoaderData } from 'react-router-dom';
+import { RootLoaderData } from '@/Root';
 
-//TODO estado da lista de música reseta ao mudar de página
 //TODO lista virtual
 
 export default function MusicLibrary() {
-  const [tracks, setTracks] = useState<TrackModel[]>();
+  const { tracks } = useRouteLoaderData('root') as RootLoaderData;
   const [search, setSearch] = useState('');
-
-  useEffect(() => {
-    async function getTracks() {
-      const res: TrackModel[] = await window.VimpAPI.db.getTracks();
-
-      const orderedTracks = res.sort((a, b) => {
-        if (!a) return 1;
-        if (!b) return -1;
-
-        const titleA = a.title
-          .normalize('NFKD')
-          .replace(/[^a-zA-Z0-9-\u00C0-\u024F\u4E00-\u9FFF]/g, '');
-        const titleB = b.title
-          .normalize('NFKD')
-          .replace(/[^a-zA-Z0-9-\u00C0-\u024F\u4E00-\u9FFF]/g, '');
-
-        return titleA.localeCompare(titleB);
-      });
-
-      setTracks(orderedTracks);
-    }
-
-    getTracks();
-  }, []);
 
   const filteredTracks =
     tracks &&
@@ -56,12 +32,17 @@ export default function MusicLibrary() {
         }}
         className='mb-4 max-w-[300px]'
       />
-      
+
       <div className='grid w-full grid-cols-3 justify-items-center gap-6 xl:grid-cols-4 2xl:grid-cols-5'>
-        {filteredTracks &&
+        {filteredTracks.length > 0 ? (
           filteredTracks.map((track, index) => (
             <MediaCard key={index} item={track} queue={filteredTracks} />
-          ))}
+          ))
+        ) : (
+          <div className='flex h-80 items-center justify-center text-neutral-400 col-span-4'>
+            Sua biblioteca está vazia
+          </div>
+        )}
       </div>
     </div>
   );

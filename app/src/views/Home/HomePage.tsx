@@ -1,51 +1,48 @@
 import CardList from '@/componentes/CardList/CardList';
-import { TrackModel } from '../../../shared/types/vimp';
-import { useEffect, useState } from 'react';
-
-const exemplo: TrackModel[] = Array.from({ length: 5 }, () => ({
-  title: 'titulo',
-  album: 'album',
-  artist: ['artista'],
-  genre: ['genero'],
-  duration: 375,
-  playCount: 0,
-  favorite: false,
-  lastPlayed: null,
-  path: '',
-  cover: '',
-  _id: '',
-  _rev: '',
-}));
+import { useRouteLoaderData } from 'react-router-dom';
+import { RootLoaderData } from '@/Root';
 
 export default function HomePage() {
-  const [mostPlayed, setMostPlayed] = useState<TrackModel[]>(exemplo);
-  const [favorites, setFavorites] = useState<TrackModel[]>(exemplo);
-  const [recents, setRecents] = useState<TrackModel[]>(exemplo);
+  const { tracks } = useRouteLoaderData('root') as RootLoaderData;
 
-  useEffect(() => {
-    async function getTracks() {
-      const res: TrackModel[] = await window.VimpAPI.db.getTracks();
-
-      if (res.length > 0) {
-        setRecents(res.slice(0, 5));
-        setFavorites(res.slice(5, 10));
-        setMostPlayed(res.slice(10, 15));
-      }
-    }
-
-    getTracks();
-  }, []);
+  const recents = tracks //TODO ordenar por data
+    .filter((track) => track.lastPlayed !== null)
+    .slice(0, 7);
+  const favorites = tracks
+    .filter((track) => track.favorite === true)
+    .slice(0, 7);
+  const mostPlayed = tracks
+    .filter((track) => track.playCount > 0)
+    .sort((a, b) => b.playCount - a.playCount)
+    .slice(0, 7);
 
   return (
-    <div>
-      <h1>Músicas recentes</h1>
-      <CardList data={recents} />
-
-      <h1 className='mt-10'>Favoritas</h1>
-      <CardList data={favorites} />
-
-      <h1 className='mt-10'>Mais tocadas</h1>
-      <CardList data={mostPlayed} />
+    <div className='space-y-10'>
+      {recents.length > 0 && (
+        <div>
+          <h1>Músicas recentes</h1>
+          <CardList data={recents} />
+        </div>
+      )}
+      {favorites.length > 0 && (
+        <div>
+          <h1>Favoritas</h1>
+          <CardList data={favorites} />
+        </div>
+      )}
+      {mostPlayed.length > 0 && (
+        <div>
+          <h1>Mais tocadas</h1>
+          <CardList data={mostPlayed} />
+        </div>
+      )}
+      {recents.length === 0 &&
+        favorites.length === 0 &&
+        mostPlayed.length === 0 && (
+          <div className='flex h-80 items-center justify-center text-neutral-400'>
+            Sua biblioteca está vazia
+          </div>
+        )}
     </div>
   );
 }

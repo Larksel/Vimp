@@ -1,6 +1,8 @@
 import { CSSProperties, useState } from 'react';
 import { Outlet } from 'react-router-dom';
+import { LoaderData } from './router';
 
+import { TrackModel } from '../shared/types/vimp';
 import AppBar from './componentes/AppBar/AppBar';
 import SideBar from './componentes/SideBar/SideBar';
 import ScrollBar from './componentes/ScrollBar/ScrollBar';
@@ -47,4 +49,27 @@ export default function Root() {
       <PlaybackConsole />
     </div>
   );
+}
+
+export type RootLoaderData = LoaderData<typeof Root.loader>;
+
+Root.loader = async () => {
+  console.log('Trigger Root loader')
+  const res: TrackModel[] = await window.VimpAPI.db.getTracks();
+
+  const tracks = res.sort((a, b) => {
+    if (!a) return 1;
+    if (!b) return -1;
+
+    const titleA = a.title
+      .normalize('NFKD')
+      .replace(/[^a-zA-Z0-9-\u00C0-\u024F\u4E00-\u9FFF]/g, '');
+    const titleB = b.title
+      .normalize('NFKD')
+      .replace(/[^a-zA-Z0-9-\u00C0-\u024F\u4E00-\u9FFF]/g, '');
+
+    return titleA.localeCompare(titleB);
+  });
+
+  return { tracks };
 }
