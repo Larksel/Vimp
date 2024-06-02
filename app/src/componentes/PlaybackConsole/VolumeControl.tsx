@@ -10,7 +10,7 @@ import { Slider } from '../ui/slider';
 import usePlayerStore, { usePlayerAPI } from '@/stores/usePlayerStore';
 
 //TODO indicador com o volume atual
-
+//TODO https://www.dr-lex.be/info-stuff/volumecontrols.html#about
 export default function VolumeControl() {
   const playerAPI = usePlayerAPI();
   const volume = usePlayerStore((state) => state.volume);

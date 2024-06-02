@@ -34,6 +34,8 @@ type PlayerState = {
   };
 };
 
+//TODO crossfade
+//TODO gapless playback sem silencio entre as tracks
 const usePlayerStore = createPlayerStore<PlayerState>((set, get) => ({
   queue: [],
   originalQueue: [],
