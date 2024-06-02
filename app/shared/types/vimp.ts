@@ -26,3 +26,16 @@ export interface Track {
 export type TrackModel = PouchDB.Core.ExistingDocument<
   Track & PouchDB.Core.AllDocsMeta
 >;
+
+export interface Config {
+  audioVolume: number,
+  audioPlaybackRate: number,
+  audioMuted: boolean,
+  audioShuffle: boolean,
+  audioRepeatMode: RepeatMode,
+  audioGaplessPlayback: boolean,
+  audioCrossfadeDuration: number,
+  musicFolders: string[],
+
+  displayNotifications: boolean,
+}

@@ -1,4 +1,5 @@
 import { StateCreator } from 'zustand';
+import debounce from 'lodash/debounce';
 import { persist } from 'zustand/middleware';
 
 import { PlayerStatus, RepeatMode, TrackModel } from '../../shared/types/vimp';
@@ -13,9 +14,9 @@ type PlayerState = {
   shuffle: boolean;
   repeat: RepeatMode;
   playerStatus: PlayerStatus;
-  volume: number;
   isMuted: boolean;
-  playbackRate: number;
+  gaplessPlayback: boolean;
+  crossfadeDuration: number;
   api: {
     start: (queue: TrackModel[], _id?: string) => Promise<void>;
     play: () => Promise<void>;
@@ -34,6 +35,8 @@ type PlayerState = {
   };
 };
 
+const { config } = window.VimpAPI;
+
 //TODO crossfade
 //TODO gapless playback sem silencio entre as tracks
 const usePlayerStore = createPlayerStore<PlayerState>((set, get) => ({
@@ -41,12 +44,12 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => ({
   originalQueue: [],
   queuePosition: null,
   queueOrigin: null,
-  shuffle: false,
-  repeat: RepeatMode.OFF,
+  shuffle: config.__initialConfig['audioShuffle'],
+  repeat: config.__initialConfig['audioRepeatMode'],
   playerStatus: PlayerStatus.STOP,
-  volume: 67,
-  isMuted: false,
-  playbackRate: 1,
+  isMuted: config.__initialConfig['audioMuted'],
+  gaplessPlayback: config.__initialConfig['audioGaplessPlayback'],
+  crossfadeDuration: config.__initialConfig['audioCrossfadeDuration'],
   api: {
     start: async (queue, _id) => {
       if (queue.length === 0) return;
@@ -178,7 +181,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => ({
     },
     setVolume: (volume) => {
       player.setVolume(volume);
-      set({ volume: volume });
+      saveVolume(volume);
     },
     setIsMuted: async (muted = false) => {
       if (muted) {
@@ -233,3 +236,7 @@ export function usePlayerAPI() {
 function createPlayerStore<T extends PlayerState>(store: StateCreator<T>) {
   return createStore(store);
 }
+
+const saveVolume = debounce(async (volume: number) => {
+  await config.set('audioVolume', volume);
+}, 500);

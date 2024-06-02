@@ -8,19 +8,24 @@ import {
 import { Slider } from '../ui/slider';
 
 import usePlayerStore, { usePlayerAPI } from '@/stores/usePlayerStore';
+import { useState } from 'react';
+import player from '@/lib/player';
 
 //TODO indicador com o volume atual
 //TODO https://www.dr-lex.be/info-stuff/volumecontrols.html#about
 export default function VolumeControl() {
   const playerAPI = usePlayerAPI();
-  const volume = usePlayerStore((state) => state.volume);
+  const audio = player.getAudio();
+
   const isMuted = usePlayerStore((state) => state.isMuted);
+  const [volume, setVolume] = useState(audio.volume);
 
   const handleVolumeChange = (value: number) => {
     if (isMuted) {
       playerAPI.setIsMuted(false);
     }
     playerAPI.setVolume(value);
+    setVolume(value);
   };
 
   const volumeIcons = () => {
@@ -46,8 +51,8 @@ export default function VolumeControl() {
         value={[volume]}
         onValueChange={(value) => handleVolumeChange(value[0])}
         min={0}
-        max={100}
-        step={1}
+        max={1}
+        step={0.01}
         className='w-[100px]'
       />
     </div>

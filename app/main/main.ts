@@ -8,6 +8,7 @@ import setupIPCDatabase from './modules/IPCDatabase';
 import setupIPCTracks from './modules/IPCTracks';
 import setupIPCDialog from './modules/Dialog';
 import Library from './modules/Library';
+import ConfigModule from './modules/ConfigModule';
 
 const isDebug =
   process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true';
@@ -94,11 +95,13 @@ app.on('window-all-closed', () => {
 
 app.whenReady().then(async () => {
   electronApp.setAppUserModelId('com.electron.vimp');
+  const configModule = new ConfigModule();
+  await configModule.init();
   
   if (isDebug) {
     await session.defaultSession.loadExtension(reactDevToolsPath)
-      .then((ext) => console.log('Extensao carregada:', ext.name))
-      .catch((err) => console.log('Erro ao carregar a extensao:', err))
+      .then((ext) => console.log('Loaded Extension:', ext.name))
+      .catch((err) => console.log('Error on extension loading:', err))
   }
 
   app.on('browser-window-created', (_, window) => {

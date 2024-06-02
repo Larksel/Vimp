@@ -114,8 +114,10 @@ class Player {
   }
 }
 
+const { config } = window.VimpAPI;
+
 export default new Player({
-  playbackRate: 1,
-  muted: false,
-  volume: 0.67,
+  volume: config.__initialConfig['audioVolume'],
+  playbackRate: config.__initialConfig['audioPlaybackRate'],
+  muted: config.__initialConfig['audioMuted'],
 });
