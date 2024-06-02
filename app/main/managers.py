@@ -35,7 +35,7 @@ class DirManager:
         self.USER_FOLDER = os.path.expanduser("~")
         self.tempfolder = self.USER_FOLDER + "/Documents/Vimp Temp/"
         self.musicfolder = self.USER_FOLDER + "/Desktop/Vimp Music/"
-        self.videofolder = self.USER_FOLDER + "/Desktop/Videos"
+        self.videofolder = self.USER_FOLDER + "/Desktop/Vimp Videos/"
 
     @staticmethod
     def make_dir(dir):
