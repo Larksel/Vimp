@@ -54,7 +54,6 @@ export default function Root() {
 export type RootLoaderData = LoaderData<typeof Root.loader>;
 
 Root.loader = async () => {
-  console.log('Trigger Root loader')
   const res: TrackModel[] = await window.VimpAPI.db.getTracks();
 
   const tracks = res.sort((a, b) => {
