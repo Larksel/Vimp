@@ -2,12 +2,14 @@ import { useEffect, useState } from 'react';
 import { TrackModel } from '../../../shared/types/vimp';
 
 import MediaCard from '@/componentes/MediaCard/MediaCard';
+import { Input } from '@/componentes/ui/input';
 
 //TODO estado da lista de música reseta ao mudar de página
 //TODO lista virtual
 
 export default function MusicLibrary() {
   const [tracks, setTracks] = useState<TrackModel[]>();
+  const [search, setSearch] = useState('');
 
   useEffect(() => {
     async function getTracks() {
@@ -33,12 +35,32 @@ export default function MusicLibrary() {
     getTracks();
   }, []);
 
+  const filteredTracks =
+    tracks &&
+    (search.length > 0
+      ? tracks.filter((track) =>
+          track.title.toLowerCase().includes(search.toLowerCase()),
+        )
+      : tracks);
+
   return (
     <div className='flex flex-col items-center'>
+      <Input
+        type='search'
+        name='search'
+        id='search'
+        placeholder='Buscar música'
+        value={search}
+        onChange={(e) => {
+          setSearch(e.target.value);
+        }}
+        className='mb-4 max-w-[300px]'
+      />
+      
       <div className='grid w-full grid-cols-3 justify-items-center gap-6 xl:grid-cols-4 2xl:grid-cols-5'>
-        {tracks &&
-          tracks.map((track, index) => (
-            <MediaCard key={index} item={track} queue={tracks} />
+        {filteredTracks &&
+          filteredTracks.map((track, index) => (
+            <MediaCard key={index} item={track} queue={filteredTracks} />
           ))}
       </div>
     </div>
