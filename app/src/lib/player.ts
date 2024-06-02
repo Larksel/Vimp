@@ -87,7 +87,7 @@ class Player {
    * Set player options
    */
   setVolume(volume: number) {
-    this.audio.volume = volume / 100;
+    this.audio.volume = volume;
   }
 
   setPlaybackRate(playbackRate: number) {
