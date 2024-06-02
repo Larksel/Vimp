@@ -6,6 +6,7 @@ interface TrackListProps {
   queuePosition: number | null;
 }
 
+//TODO opção de remover track da lista
 export default function TrackList(props: TrackListProps) {
   const { queue, queuePosition } = props;
 
