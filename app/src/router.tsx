@@ -2,7 +2,7 @@ import { createHashRouter, useNavigate } from 'react-router-dom';
 import HomePage from './views/Home/HomePage';
 import Queue from './views/Queue/Queue';
 import MusicLibrary from './views/MusicLibrary/MusicLibrary';
-import Config from './views/Config/ConfigPage';
+import Settings from './views/Settings/Settings';
 import Root from './Root';
 
 import routes from './routes';
@@ -33,9 +33,9 @@ const router = createHashRouter([
         element: <Queue />,
       },
       {
-        path: routes.CONFIG,
-        id: routes.CONFIG,
-        element: <Config />,
+        path: routes.SETTINGS,
+        id: routes.SETTINGS,
+        element: <Settings />,
       },
     ],
   },

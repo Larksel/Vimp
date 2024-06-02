@@ -4,7 +4,7 @@ const routes = {
   SEARCH: 'search',
   MUSIC_LIBRARY: 'music_library',
   VIDEO_LIBRARY: 'video_library',
-  CONFIG: 'config',
+  SETTINGS: 'settings',
 };
 
 export default routes;
