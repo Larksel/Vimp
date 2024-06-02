@@ -28,6 +28,7 @@
   "license": "MIT",
   "devDependencies": {
     "@electron-toolkit/tsconfig": "^1.0.1",
+    "@types/lodash": "^4.17.4",
     "@types/node": "^20.10.3",
     "@types/pouchdb": "^6.4.2",
     "@types/react": "^18.2.48",
@@ -58,8 +59,9 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "electron-squirrel-startup": "^1.0.0",
-    "electron-store": "^9.0.0",
+    "electron-store": "8.2.0",
     "globby": "^14.0.1",
+    "lodash": "^4.17.21",
     "music-metadata": "^7.14.0",
     "pouchdb": "^8.0.1",
     "pouchdb-find": "^8.0.1",
