@@ -26,9 +26,7 @@ export default function VolumeControl() {
   const volumeIcons = () => {
     if (volume === 0 || isMuted) {
       return <SpeakerSimpleX size={24} />;
-    } else if (volume >= 1 && volume <= 33) {
-      return <SpeakerSimpleNone size={24} />;
-    } else if (volume >= 34 && volume <= 66) {
+    } else if (volume < 50) {
       return <SpeakerSimpleLow size={24} />;
     } else {
       return <SpeakerSimpleHigh size={24} />;
