@@ -58,6 +58,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "electron-squirrel-startup": "^1.0.0",
+    "electron-store": "^9.0.0",
     "globby": "^14.0.1",
     "music-metadata": "^7.14.0",
     "pouchdb": "^8.0.1",
