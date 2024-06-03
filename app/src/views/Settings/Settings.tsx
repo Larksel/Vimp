@@ -1,4 +1,5 @@
 import { Input } from "@/componentes/ui/input";
+import { LoaderData } from "@/router";
 
 export default function Settings() {
   return (
@@ -7,4 +8,12 @@ export default function Settings() {
       <Input type="text" name="musicPaths" />
     </div>
   );
+}
+
+export type SettingsLoaderData = LoaderData<typeof Settings.loader>;
+
+Settings.loader = async () => {
+  const config = await window.VimpAPI.config.getAll();
+
+  return { config };
 }

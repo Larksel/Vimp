@@ -37,6 +37,7 @@ const router = createHashRouter([
         path: routes.SETTINGS,
         id: routes.SETTINGS,
         element: <Settings />,
+        loader: Settings.loader
       },
     ],
   },
