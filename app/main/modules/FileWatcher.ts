@@ -21,6 +21,7 @@ export default class FileWatcher extends Module {
     // TODO verificar se ja existe no banco. Se não existir, adicione
     // TODO como saber se um arquivo foi movido ou renomeado?
     // TODO onde ficarão os handlers para esses casos?
+    // TODO filtrar para incluir apenas os arquivos suportados (globals.SUPPORTED_TRACKS_EXTENSIONS)
     // TODO ignorar arquivos desconhecidos
     watcher
       .on('add', path => console.log(`File ${path} has been added`))
