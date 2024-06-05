@@ -9,6 +9,7 @@ import setupIPCTracks from './modules/IPCTracks';
 import setupIPCDialog from './modules/Dialog';
 import Library from './modules/Library';
 import ConfigModule from './modules/ConfigModule';
+import FileWatcher from './modules/FileWatcher';
 
 const isDebug =
   process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true';
@@ -97,6 +98,7 @@ app.whenReady().then(async () => {
   electronApp.setAppUserModelId('com.electron.vimp');
   const configModule = new ConfigModule();
   await configModule.init();
+  const config = configModule.getConfig();
   
   if (isDebug) {
     await session.defaultSession.loadExtension(reactDevToolsPath)
@@ -116,4 +118,5 @@ app.whenReady().then(async () => {
   setupIPCDialog();
 
   new Library().init();
+  new FileWatcher(config).init();
 });
