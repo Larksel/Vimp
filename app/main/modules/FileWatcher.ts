@@ -17,6 +17,9 @@ export default class FileWatcher extends Module {
       persistent: true,
       awaitWriteFinish: true,
     })
+    // TODO fazer o mais facil e depois melhorar
+
+    // TODO eu deveria apenas verificar ao iniciar e em resposta a um input do usuario?
     
     // TODO verificar se ja existe no banco. Se não existir, adicione
     // TODO como saber se um arquivo foi movido ou renomeado?
