@@ -2,6 +2,11 @@ import Module from "./BaseModule";
 import type Store from 'electron-store';
 import { Config } from "../../shared/types/vimp";
 import chokidar from 'chokidar';
+import globals from "../../shared/lib/globals";
+
+const ignoredExtensions = globals.SUPPORTED_TRACKS_EXTENSIONS.map(ext => `**/*${ext}`).map(ext => `!${ext}`);
+
+ignoredExtensions.push('**/*');
 
 export default class FileWatcher extends Module {
   protected config: Store<Config>;
@@ -16,6 +21,7 @@ export default class FileWatcher extends Module {
     const watcher = chokidar.watch(this.config.get('musicFolders'), {
       persistent: true,
       awaitWriteFinish: true,
+      ignored: ignoredExtensions
     })
     // TODO fazer o mais facil e depois melhorar
 
