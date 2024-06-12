@@ -37,7 +37,7 @@ export default function Header() {
         </Button>
         <Button
           variant='ghost'
-          onClick={() => navigate(routes.CONFIG)}
+          onClick={() => navigate(routes.SETTINGS)}
           className='aspect-square rounded-full bg-[#0009] p-0 text-neutral-400 hover:scale-110 hover:bg-[#0009] hover:text-white active:bg-[#fff3]'
         >
           <Gear size={20} />
