@@ -51,6 +51,7 @@ export default class ConfigModule extends Module {
   }
 
   getDefaultConfig(): Config {
+    // TODO audio pitch
     const defaultConfig: Config = {
       audioVolume: 0.5,
       audioPlaybackRate: 1,
