@@ -17,7 +17,7 @@ export default function Root() {
   window.VimpAPI.db.onTracksDBChanged(debounce(() => {
     console.log('TracksDB changed')
     revalidator.revalidate();
-  }, 5000));
+  }, 500));
 
   const appBarHeight = 36;
   const playConsoleHeight = 80;
