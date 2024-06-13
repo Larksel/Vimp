@@ -1,9 +1,9 @@
 import usePlayerStore from "@/stores/usePlayerStore";
-import { Track, TrackModel } from "../../shared/types/vimp";
+import { TrackModel } from "../../shared/types/vimp";
 
 
 //TODO retornar null
-export default function useCurrentTrack(): TrackModel | Track {
+export default function useCurrentTrack(): TrackModel {
   return usePlayerStore((state) => {
     if (state.queue.length > 0 && state.queuePosition !== null) {
       return state.queue[state.queuePosition];
@@ -20,6 +20,8 @@ export default function useCurrentTrack(): TrackModel | Track {
       lastPlayed: null,
       path: '',
       cover: '',
+      _id: '',
+      _rev: '',
     };
   })
 }
