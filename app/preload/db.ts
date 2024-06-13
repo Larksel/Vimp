@@ -3,6 +3,9 @@ import { ipcRenderer } from 'electron';
 import channels from '../shared/lib/ipc-channels';
 
 const db = {
+  onTracksDBChanged: (callback: () => void) =>
+    ipcRenderer.on(channels.TRACKS_DB_CHANGED, () => callback()),
+
   // * CRUD operations
   insertMany: (tracks: Track[]) =>
     ipcRenderer.invoke(channels.INSERT_TRACKS, tracks),

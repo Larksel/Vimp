@@ -1,6 +1,7 @@
 import { CSSProperties, useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useRevalidator } from 'react-router-dom';
 import { LoaderData } from './router';
+import debounce from 'lodash/debounce';
 
 import { TrackModel } from '../shared/types/vimp';
 import AppBar from './componentes/AppBar/AppBar';
@@ -10,7 +11,13 @@ import Header from './componentes/Header/Header';
 import PlaybackConsole from './componentes/PlaybackConsole/PlaybackConsole';
 
 export default function Root() {
+  const revalidator = useRevalidator();
   const [collapsed, setCollapsed] = useState(false);
+
+  window.VimpAPI.db.onTracksDBChanged(debounce(() => {
+    console.log('TracksDB changed')
+    revalidator.revalidate();
+  }, 5000));
 
   const appBarHeight = 36;
   const playConsoleHeight = 80;
