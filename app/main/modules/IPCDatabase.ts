@@ -43,8 +43,8 @@ export default function setupIPCDatabase() {
     },
   );
 
-  ipcMain.handle(channels.TOGGLE_FAVORITE, async (_, track: TrackModel) => {
-    await TracksDB.updateFavorite(track);
+  ipcMain.handle(channels.TOGGLE_FAVORITE, async (_, trackID: string) => {
+    await TracksDB.updateFavorite(trackID);
   });
 
   ipcMain.handle(channels.UPDATE_LAST_PLAYED, async (_, track: TrackModel) => {

@@ -97,8 +97,8 @@ const TracksDB = {
   /**
    * Changes `favorite` for the given track
    */
-  async updateFavorite(track: TrackModel) {
-    const doc = await Tracks.get(track._id);
+  async updateFavorite(trackID: string) {
+    const doc = await Tracks.get(trackID);
     await Tracks.put({
       ...doc,
       favorite: !doc.favorite,

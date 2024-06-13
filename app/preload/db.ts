@@ -24,8 +24,8 @@ const db = {
   // * Features
   incrementPlayCount: (track: Track) =>
     ipcRenderer.invoke(channels.INCREMENT_PLAY_COUNT, track),
-  updateFavorite: (track: Track) =>
-    ipcRenderer.invoke(channels.TOGGLE_FAVORITE, track),
+  updateFavorite: (trackID: string) => 
+    ipcRenderer.invoke(channels.TOGGLE_FAVORITE, trackID),
   updateLastPlayed: (track: Track) =>
     ipcRenderer.invoke(channels.UPDATE_LAST_PLAYED, track),
 
