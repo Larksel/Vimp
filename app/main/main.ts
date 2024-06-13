@@ -118,5 +118,5 @@ app.whenReady().then(async () => {
   setupIPCDialog();
 
   new Library().init();
-  new FileWatcher(config).init();
+  new FileWatcher(mainWindow!, config).init();
 });
