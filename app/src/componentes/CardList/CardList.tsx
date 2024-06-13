@@ -5,13 +5,14 @@ import { TrackModel } from '../../../shared/types/vimp';
 
 type CardListProps = {
   data: TrackModel[];
+  max: number
 };
 
-export default function CardList({ data }: CardListProps) {
+export default function CardList({ data, max }: CardListProps) {
   return (
     <ScrollArea className='rounded-lg'>
       <div className='flex gap-6 pb-1'>
-        {data.map((item, index) => (
+        {data.slice(0, max).map((item, index) => (
           <MediaCard key={index} item={item} queue={data} />
         ))}
       </div>
