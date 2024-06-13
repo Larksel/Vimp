@@ -9,6 +9,7 @@ const VimpAPI = {
     openFile: () => ipcRenderer.invoke(channels.OPEN_FILE),
     getCover: (trackPath: string) =>
       ipcRenderer.invoke(channels.GET_COVER, trackPath),
+    removeAllListeners: (channel: string) => ipcRenderer.removeAllListeners(channel)
   },
   library: {
     scanTracks: (paths: string[]) =>

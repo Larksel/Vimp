@@ -1,4 +1,4 @@
-import { CSSProperties, useState } from 'react';
+import { CSSProperties, useEffect, useState } from 'react';
 import { Outlet, useRevalidator } from 'react-router-dom';
 import { LoaderData } from './router';
 import debounce from 'lodash/debounce';
@@ -9,15 +9,21 @@ import SideBar from './componentes/SideBar/SideBar';
 import ScrollBar from './componentes/ScrollBar/ScrollBar';
 import Header from './componentes/Header/Header';
 import PlaybackConsole from './componentes/PlaybackConsole/PlaybackConsole';
+import channels from '../shared/lib/ipc-channels';
 
 export default function Root() {
   const revalidator = useRevalidator();
   const [collapsed, setCollapsed] = useState(false);
 
-  window.VimpAPI.db.onTracksDBChanged(debounce(() => {
-    console.log('TracksDB changed')
-    revalidator.revalidate();
-  }, 500));
+  useEffect(() => {
+    window.VimpAPI.db.onTracksDBChanged(debounce(() => {
+      console.log('TracksDB changed')
+      revalidator.revalidate();
+    }, 500));
+    return function cleanup() {
+      window.VimpAPI.app.removeAllListeners(channels.TRACKS_DB_CHANGED)
+    }
+  }, [])
 
   const appBarHeight = 36;
   const playConsoleHeight = 80;
