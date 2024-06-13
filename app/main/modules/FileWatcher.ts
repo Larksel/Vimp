@@ -40,7 +40,8 @@ export default class FileWatcher extends ModuleWindow {
       });
   }
 
-  // TODO definir um intervalo para decidir se irá adicionar um por um ou deixará a library encarregada disso
+  // TODO Criar uma lista baseada em um intervalo de 1000ms e após esse tempo passar sem nenhuma nova remoção, excluir em massa https://pouchdb.com/guides/bulk-operations.html
+  // TODO se basear na library
   async handleAddedFile(filePath: string) {
     console.log(`DETECTED: ${filePath}`);
     const resolvedPath = path.resolve(filePath);
@@ -58,6 +59,8 @@ export default class FileWatcher extends ModuleWindow {
     }
   }
 
+  // TODO Criar uma lista baseada em um intervalo de 1000ms e após esse tempo passar sem nenhuma nova remoção, excluir em massa https://pouchdb.com/guides/bulk-operations.html
+  // TODO se basear na library
   async handleRemovedFile(filePath: string) {
     console.log(`LOST: ${filePath}`);
 
