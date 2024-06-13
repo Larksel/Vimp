@@ -33,9 +33,8 @@ export default class FileWatcher extends ModuleWindow {
     // TODO como saber se um arquivo foi movido ou renomeado? (Watcher)
     watcher
       .on('add', (path) => this.handleAddedFile(path))
-      .on('change', (path) => console.log(`File ${path} has been changed`))
       .on('unlink', (path) => this.handleRemovedFile(path))
-      .on('error', (error) => console.log(`Watcher error ${error}`))
+      .on('error', (error) => console.log(`Watcher error: ${error}`))
       .on('ready', () => {
         console.log('Initial scan complete. Ready for changes.');
       });
@@ -50,7 +49,7 @@ export default class FileWatcher extends ModuleWindow {
 
     if (!existingDoc) {
       const track: Track = await getMetadata(resolvedPath);
-      TracksDB.insertMany([track]);
+      await TracksDB.insertMany([track]);
       console.log(`ADDED: ${filePath}`);
 
       this.window.webContents.send(channels.TRACKS_DB_CHANGED);
@@ -59,7 +58,20 @@ export default class FileWatcher extends ModuleWindow {
     }
   }
 
-  handleRemovedFile(path: string) {
-    console.log(`REMOVED: ${path}`);
+  async handleRemovedFile(filePath: string) {
+    console.log(`LOST: ${filePath}`);
+
+    const resolvedPath = path.resolve(filePath);
+
+    const existingDoc = await TracksDB.getByPath(resolvedPath);
+
+    if (existingDoc) {
+      await TracksDB.delete(existingDoc._id);
+      console.log(`REMOVED: ${filePath}`);
+
+      this.window.webContents.send(channels.TRACKS_DB_CHANGED);
+    } else {
+      console.log(`Track Not Found: ${filePath}`)
+    }
   }
 }
