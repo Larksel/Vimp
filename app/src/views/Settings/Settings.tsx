@@ -3,13 +3,15 @@ import { Input } from '@/componentes/ui/input';
 import { Switch } from '@/componentes/ui/switch';
 import { LoaderData } from '@/router';
 import { useState } from 'react';
-import { useLoaderData } from 'react-router-dom';
+import { useLoaderData, useRevalidator } from 'react-router-dom';
 import { Config } from '../../../shared/types/vimp';
 
 export default function Settings() {
   const { config } = useLoaderData() as SettingsLoaderData;
   const [configData, setConfigData] = useState<Config>(config);
   const [changed, setChanged] = useState(false);
+  const [scanning, setScanning] = useState(false);
+  const revalidator = useRevalidator();
 
   const saveChanges = async () => {
     setChanged(false);
@@ -17,8 +19,20 @@ export default function Settings() {
     if (configData === config) return;
 
     for (const key in configData) {
-      await window.VimpAPI.config.set(key as keyof Config, configData[key])
+      await window.VimpAPI.config.set(key as keyof Config, configData[key]);
     }
+  };
+
+  const rescanTracks = async () => {
+    setScanning((s) => (s = true));
+    const pathsToScan = await window.VimpAPI.config.get('musicFolders');
+    const trackPaths = await window.VimpAPI.library.scanTracks(pathsToScan);
+
+    const tracksDB = await window.VimpAPI.library.importTracks(trackPaths);
+    console.log(tracksDB);
+
+    revalidator.revalidate();
+    setScanning((s) => (s = false));
   };
 
   return (
@@ -38,6 +52,19 @@ export default function Settings() {
               setChanged(true);
             }}
           />
+        </div>
+        <div className='mt-2 flex items-center justify-between'>
+          <h6>Rescan Tracks</h6>
+          {!scanning && (
+            <Button className='bg-neutral-800' onClick={rescanTracks}>
+              Rescan Now
+            </Button>
+          )}
+          {scanning && (
+            <Button className='bg-neutral-800'>
+              Rescanning...
+            </Button>
+          )}
         </div>
       </div>
       <div>
@@ -66,7 +93,9 @@ export default function Settings() {
         </div>
 
         <div className='flex items-center justify-between'>
-          <h6 className='whitespace-nowrap'>Crossfade Duration (Coming soon)</h6>
+          <h6 className='whitespace-nowrap'>
+            Crossfade Duration (Coming soon)
+          </h6>
           <Input
             className='max-w-16'
             value={configData.audioCrossfadeDuration}
@@ -81,7 +110,10 @@ export default function Settings() {
         </div>
       </div>
       {changed && (
-        <Button onClick={saveChanges} className='max-w-40 self-center bg-green-600 transition-colors hover:bg-green-500'>
+        <Button
+          onClick={saveChanges}
+          className='max-w-40 self-center bg-green-600 transition-colors hover:bg-green-500'
+        >
           Save Changes
         </Button>
       )}
