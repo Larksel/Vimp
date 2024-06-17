@@ -86,8 +86,8 @@ const TracksDB = {
    * Increments `playCount` attribute for the given track
    */
   //TODO implementar sistema de threshold para incrementar automaticamente
-  async incrementPlayCount(track: TrackModel) {
-    const doc = await Tracks.get(track._id);
+  async incrementPlayCount(trackID: string) {
+    const doc = await Tracks.get(trackID);
     await Tracks.put({
       ...doc,
       playCount: doc.playCount + 1,
@@ -108,9 +108,8 @@ const TracksDB = {
   /**
    * Update `lastPlayed` to current time for the given track
    */
-  //TODO chamar função ao reproduzir uma música
-  async updateLastPlayed(track: TrackModel) {
-    const doc = await Tracks.get(track._id);
+  async updateLastPlayed(trackID: string) {
+    const doc = await Tracks.get(trackID);
     await Tracks.put({
       ...doc,
       lastPlayed: formatDate(new Date()),
