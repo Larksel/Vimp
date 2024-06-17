@@ -8,8 +8,14 @@ export default function HomePage() {
   const revalidator = useRevalidator();
   const { tracks } = useRouteLoaderData('root') as RootLoaderData;
 
-  const recents = tracks //TODO ordenar por data
+  const recents = tracks
     .filter((track) => track.lastPlayed !== null)
+    .sort((a, b) => {
+      if (a.lastPlayed && b.lastPlayed) {
+        return new Date(b.lastPlayed).getTime() - new Date(a.lastPlayed).getTime()
+      }
+      return 0;
+    })
   const favorites = tracks
     .filter((track) => track.favorite === true)
   const mostPlayed = tracks
