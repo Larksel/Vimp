@@ -24,7 +24,7 @@ export default function MediaCard(props: MediaCardProps) {
   return (
     <Card
       onClick={playTrack}
-      className='group relative flex h-72 w-56 flex-col space-y-2 overflow-hidden border-neutral-700/50 bg-neutral-800 p-4 transition-all duration-300 hover:cursor-pointer hover:bg-neutral-700/70'
+      className='group relative flex h-72 w-56 flex-col space-y-2 overflow-hidden border-0 bg-neutral-800 p-4 transition-all duration-300 hover:cursor-pointer hover:bg-neutral-700/70'
     >
       <CardHeader className='relative space-y-0 p-0'>
         <button className='absolute bottom-0 right-2 flex size-10 items-center justify-center rounded-full bg-green-500 opacity-0 shadow-sm transition-all duration-300 group-hover:bottom-2 group-hover:opacity-100'>
