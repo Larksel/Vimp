@@ -10,10 +10,12 @@ import ScrollBar from './componentes/ScrollBar/ScrollBar';
 import Header from './componentes/Header/Header';
 import PlaybackConsole from './componentes/PlaybackConsole/PlaybackConsole';
 import channels from '../shared/lib/ipc-channels';
+import useCurrentTrack from './hooks/useCurrentTrack';
 
 export default function Root() {
   const revalidator = useRevalidator();
   const [collapsed, setCollapsed] = useState(false);
+  const track = useCurrentTrack();
 
   useEffect(() => {
     window.VimpAPI.db.onTracksDBChanged(debounce(() => {
@@ -26,7 +28,7 @@ export default function Root() {
   }, [])
 
   const appBarHeight = 36;
-  const playConsoleHeight = 80;
+  const playConsoleHeight = track.path === '' ? 0 : 80;
   const sidebarSmall = 64;
   const sidebarLarge = 256;
 
