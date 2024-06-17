@@ -27,7 +27,7 @@ export default function Settings() {
       <div>
         <h3 className='text-lg font-bold'>Geral</h3>
         <div className='flex items-center justify-between'>
-          <h6>Display Notifications</h6>
+          <h6>Display Notifications (Coming soon)</h6>
           <Switch
             checked={configData.displayNotifications}
             onCheckedChange={() => {
@@ -52,7 +52,7 @@ export default function Settings() {
         <h3 className='text-lg font-bold'>Audio</h3>
 
         <div className='flex items-center justify-between'>
-          <h6>Gapless Playback</h6>
+          <h6>Gapless Playback (Coming soon)</h6>
           <Switch
             checked={configData.audioGaplessPlayback}
             onCheckedChange={() => {
@@ -66,7 +66,7 @@ export default function Settings() {
         </div>
 
         <div className='flex items-center justify-between'>
-          <h6 className='whitespace-nowrap'>Crossfade Duration</h6>
+          <h6 className='whitespace-nowrap'>Crossfade Duration (Coming soon)</h6>
           <Input
             className='max-w-16'
             value={configData.audioCrossfadeDuration}
