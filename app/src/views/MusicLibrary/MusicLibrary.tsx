@@ -1,5 +1,6 @@
 import { useState, useCallback, useMemo } from 'react';
 import { debounce } from 'lodash';
+import { VirtuosoGrid } from 'react-virtuoso';
 
 import MediaCard from '@/componentes/MediaCard/MediaCard';
 import { Input } from '@/componentes/ui/input';
@@ -53,20 +54,29 @@ export default function MusicLibrary() {
         className='mb-4 max-w-[300px]'
       />
 
-      <div className='grid w-full grid-cols-3 justify-items-center gap-6 xl:grid-cols-4 2xl:grid-cols-5'>
-        {filteredTracks.length > 0 ? (
-          filteredTracks.map((track, index) => (
-            <MediaCard key={index} item={track} queue={filteredTracks} />
-          ))
-        ) : (
-          <div className='col-span-4 flex h-80 flex-col items-center justify-center space-y-4 text-neutral-400'>
+      <div className='flex h-full w-full items-center justify-center'>
+        {filteredTracks.length > 0 && (
+          <VirtuosoGrid
+            className='w-full overflow-clip'
+            listClassName='grid w-full grid-cols-3 justify-items-center gap-6 xl:grid-cols-4 2xl:grid-cols-5'
+            data={filteredTracks}
+            overscan={10}
+            itemContent={(index, track) => (
+              <MediaCard key={index} item={track} queue={filteredTracks} />
+            )}
+          />
+        )}
+      </div>
+      {filteredTracks.length === 0 && (
+        <div className='flex h-full w-full items-center justify-center'>
+          <div className='flex h-80 flex-col items-center justify-center space-y-4 text-neutral-400'>
             <h1>Sua biblioteca está vazia</h1>
             <Button variant={'outline'} onClick={forceScan}>
               Escanear arquivos
             </Button>
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 }
