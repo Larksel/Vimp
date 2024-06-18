@@ -54,6 +54,9 @@ export default function MusicLibrary() {
         className='mb-4 max-w-[300px]'
       />
 
+      {
+        // TODO tentar colocar a scrollarea aqui
+      }
       <div className='flex h-full w-full items-center justify-center'>
         {filteredTracks.length > 0 && (
           <VirtuosoGrid
