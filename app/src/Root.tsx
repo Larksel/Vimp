@@ -54,7 +54,7 @@ export default function Root() {
         <div className='relative col-span-3 row-span-2 overflow-clip rounded-lg bg-neutral-900'>
           <Header />
           <ScrollArea className='relative h-full w-full'>
-            <div className='h-full w-[calc(100vw-24px-var(--sidebar-width))] bg-gradient-to-b from-white/5 to-[16rem] p-4 pt-16 transition-all'>
+            <div className='h-full *:h-full w-[calc(100vw-24px-var(--sidebar-width))] bg-gradient-to-b from-white/5 to-[16rem] p-4 pt-16 transition-all'>
               <Outlet />
             </div>
             <ScrollBar orientation='vertical' />
