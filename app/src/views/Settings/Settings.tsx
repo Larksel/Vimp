@@ -35,6 +35,12 @@ export default function Settings() {
     setScanning((s) => (s = false));
   };
 
+  const clearTracksDB = async () => {
+    await window.VimpAPI.db.clearTracks();
+    console.log('TracksDB limpo');
+    revalidator.revalidate();
+  }
+
   return (
     <div className='flex flex-col space-y-4 px-14'>
       <h1 className='text-2xl font-bold'>Settings</h1>
@@ -65,6 +71,12 @@ export default function Settings() {
               Rescanning...
             </Button>
           )}
+        </div>
+        <div className='mt-2 flex items-center justify-between'>
+          <h6>Clear Tracks Database</h6>
+          <Button variant={'destructive'} onClick={clearTracksDB}>
+            Clear Now
+          </Button>
         </div>
       </div>
       <div>
