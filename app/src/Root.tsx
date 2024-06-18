@@ -6,7 +6,7 @@ import debounce from 'lodash/debounce';
 import { TrackModel } from '../shared/types/vimp';
 import AppBar from './componentes/AppBar/AppBar';
 import SideBar from './componentes/SideBar/SideBar';
-import ScrollBar from './componentes/ScrollBar/ScrollBar';
+import { ScrollArea, ScrollBar } from './componentes/ui/scroll-area';
 import Header from './componentes/Header/Header';
 import PlaybackConsole from './componentes/PlaybackConsole/PlaybackConsole';
 import channels from '../shared/lib/ipc-channels';
@@ -53,11 +53,12 @@ export default function Root() {
 
         <div className='relative col-span-3 row-span-2 overflow-clip rounded-lg bg-neutral-900'>
           <Header />
-          <ScrollBar>
+          <ScrollArea className='relative h-full w-full'>
             <div className='h-full w-[calc(100vw-24px-var(--sidebar-width))] bg-gradient-to-b from-white/5 to-[16rem] p-4 pt-16 transition-all'>
               <Outlet />
             </div>
-          </ScrollBar>
+            <ScrollBar orientation='vertical' />
+          </ScrollArea>
         </div>
       </div>
 
