@@ -41,6 +41,7 @@ class Player {
 
       if (this.track && this.track._id && this.track._id !== '') {
         await window.VimpAPI.db.updateLastPlayed(this.track._id);
+        // TODO revalidar rotas
       }
     } catch (err) {
       this.stop();
