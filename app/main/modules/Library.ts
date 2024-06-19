@@ -41,8 +41,12 @@ class Library extends Module {
   ): Promise<string[]> {
     console.log('Scanning:', pathsScan);
 
+    const existingPaths = pathsScan.filter(
+      (folder) => fs.existsSync(folder) === true,
+    );
+
     const paths = await Promise.all(
-      pathsScan.map(async (folder) => ({
+      existingPaths.map(async (folder) => ({
         path: folder,
         stat: await fs.promises.stat(folder),
       })),
