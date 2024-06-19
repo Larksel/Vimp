@@ -57,8 +57,8 @@ export default function MusicLibrary() {
       {
         // TODO tentar colocar a scrollarea aqui
       }
-      <div className='flex h-full w-full items-center justify-center'>
-        {filteredTracks.length > 0 && (
+      {filteredTracks.length > 0 && (
+        <div className='flex h-full w-full items-center justify-center'>
           <VirtuosoGrid
             className='w-full overflow-clip'
             listClassName='grid w-full grid-cols-3 justify-items-center gap-6 xl:grid-cols-4 2xl:grid-cols-5'
@@ -68,8 +68,8 @@ export default function MusicLibrary() {
               <MediaCard key={index} item={track} queue={filteredTracks} />
             )}
           />
-        )}
-      </div>
+        </div>
+      )}
       {filteredTracks.length === 0 && (
         <div className='flex h-full w-full items-center justify-center'>
           <div className='flex h-80 flex-col items-center justify-center space-y-4 text-neutral-400'>
