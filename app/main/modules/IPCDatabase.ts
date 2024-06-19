@@ -38,8 +38,8 @@ export default function setupIPCDatabase() {
 
   ipcMain.handle(
     channels.INCREMENT_PLAY_COUNT,
-    async (_, track: TrackModel) => {
-      await TracksDB.incrementPlayCount(track);
+    async (_, trackID: string) => {
+      await TracksDB.incrementPlayCount(trackID);
     },
   );
 
@@ -47,8 +47,8 @@ export default function setupIPCDatabase() {
     await TracksDB.updateFavorite(trackID);
   });
 
-  ipcMain.handle(channels.UPDATE_LAST_PLAYED, async (_, track: TrackModel) => {
-    await TracksDB.updateLastPlayed(track);
+  ipcMain.handle(channels.UPDATE_LAST_PLAYED, async (_, trackID: string) => {
+    await TracksDB.updateLastPlayed(trackID);
   });
 
   // * Helpers
