@@ -8,4 +8,8 @@
   body {
     color: white;
   }
+
+  ::-webkit-scrollbar {
+    width: 0;
+  }
 }
