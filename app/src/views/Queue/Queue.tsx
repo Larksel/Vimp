@@ -1,14 +1,21 @@
-import usePlayerStore from '@/stores/usePlayerStore';
-
+import usePlayerStore, { usePlayerAPI } from '@/stores/usePlayerStore';
 import TrackList from '@/componentes/TrackList/TrackList';
 
 export default function Queue() {
+  const playerAPI = usePlayerAPI();
   const queue = usePlayerStore((state) => state.queue);
-  const queuePosition = usePlayerStore((state) => state.queuePosition);
+
+  const handleItemClick = (trackID: string) => {
+    if (queue.length > 0) {
+      playerAPI.jumpToTrack(trackID);
+    } else {
+      playerAPI.start(queue, trackID);
+    }
+  }
 
   return (
     <div>
-      <TrackList queue={queue} queuePosition={queuePosition} />
+      <TrackList queue={queue} onItemClick={handleItemClick} />
     </div>
   )
 }

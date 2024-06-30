@@ -2,31 +2,23 @@ import { formatDuration } from '@/lib/utils';
 import placeholder from '@/assets/images/placeholder.png';
 import { HeartStraight, PlayCircle } from '@phosphor-icons/react';
 import { TrackModel } from '../../../shared/types/vimp';
-import { usePlayerAPI } from '@/stores/usePlayerStore';
+import useCurrentTrack from '@/hooks/useCurrentTrack';
 
 interface TrackRowProps {
   track: TrackModel;
-  queue: TrackModel[];
-  queuePosition: number | null;
   index: number;
+  onClick: (trackID: string) => void;
 }
 
 export default function TrackRow(props: TrackRowProps) {
-  const playerAPI = usePlayerAPI();
-  const { track, queue, queuePosition, index } = props;
-
-  const play = () => {
-    if (queue.length > 0) {
-      playerAPI.jumpToTrack(track._id);
-    } else {
-      playerAPI.start(queue, track._id);
-    }
-  }
+  const { track, index, onClick } = props;
+  const { _id } = useCurrentTrack();
+  const isPlaying = track._id === _id;
 
   return (
     <div
-      onClick={play}
-      className={`grid h-16 w-full grid-cols-[16px,6fr,4fr,3fr,1fr] items-center gap-4 rounded-md px-4 text-sm tracking-normal hover:cursor-pointer hover:bg-neutral-700/70 ${queuePosition === index ? 'bg-white/10 text-green-500' : 'text-neutral-400'}`}
+      onClick={() => onClick(track._id)}
+      className={`grid h-16 w-full grid-cols-[16px,6fr,4fr,3fr,1fr] items-center gap-4 rounded-md px-4 text-sm tracking-normal hover:cursor-pointer hover:bg-neutral-700/70 ${isPlaying ? 'bg-white/10 text-green-500' : 'text-neutral-400'}`}
     >
       <span className='flex items-center justify-center'>{index + 1}</span>
 
@@ -38,7 +30,7 @@ export default function TrackRow(props: TrackRowProps) {
 
         <div className='flex h-full w-full flex-col justify-center truncate'>
           <span
-            className={`truncate ${queuePosition === index ? 'text-green-500' : 'text-white'}`}
+            className={`truncate ${isPlaying ? 'text-green-500' : 'text-white'}`}
           >
             {track.title}
           </span>

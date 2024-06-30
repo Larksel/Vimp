@@ -3,12 +3,12 @@ import TrackRow from './TrackRow';
 
 interface TrackListProps {
   queue: TrackModel[];
-  queuePosition: number | null;
+  onItemClick: (trackID: string) => void;
 }
 
 //TODO opção de remover track da lista
 export default function TrackList(props: TrackListProps) {
-  const { queue, queuePosition } = props;
+  const { queue, onItemClick } = props;
 
   return (
     <div className='flex h-full flex-col items-center justify-start'>
@@ -24,14 +24,13 @@ export default function TrackList(props: TrackListProps) {
         queue.map((track, index) => (
           <TrackRow
             key={`${index}-${track.title}`}
-            track={track}
-            queue={queue}
-            queuePosition={queuePosition}
             index={index}
+            track={track}
+            onClick={(trackID) => onItemClick(trackID)}
           />
         ))
       ) : (
-        <div className='flex h-80 items-center justify-center text-neutral-400'>
+        <div className='flex pt-40 items-center justify-center text-neutral-400'>
           Lista vazia
         </div>
       )}
