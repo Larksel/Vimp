@@ -1,4 +1,6 @@
+import { Virtuoso } from 'react-virtuoso';
 import { TrackModel } from '../../../shared/types/vimp';
+import { ScrollArea } from '../ui/scroll-area';
 import TrackRow from './TrackRow';
 
 interface TrackListProps {
@@ -21,16 +23,24 @@ export default function TrackList(props: TrackListProps) {
       </div>
       <div className='h-[1px] w-full bg-white/20' />
       {queue.length > 0 ? (
-        queue.map((track, index) => (
-          <TrackRow
-            key={`${index}-${track.title}`}
-            index={index}
-            track={track}
-            onClick={(trackID) => onItemClick(trackID)}
-          />
-        ))
+        <Virtuoso
+          components={{
+            Scroller: ScrollArea,
+          }}
+          data={queue}
+          className='w-full'
+          overscan={5}
+          itemContent={(index, track) => (
+            <TrackRow
+              key={`${index}-${track.title}`}
+              index={index}
+              track={track}
+              onClick={(trackID) => onItemClick(trackID)}
+            />
+          )}
+        />
       ) : (
-        <div className='flex pt-40 items-center justify-center text-neutral-400'>
+        <div className='flex items-center justify-center pt-40 text-neutral-400'>
           Lista vazia
         </div>
       )}
