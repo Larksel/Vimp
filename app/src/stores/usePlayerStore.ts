@@ -213,6 +213,8 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => ({
     toggleShuffle: async () => {
       const { shuffle } = get();
 
+      await config.set('audioShuffle', !shuffle);
+
       //TODO implementar lógica do shuffle
       set({ shuffle: !shuffle });
     },
@@ -220,14 +222,17 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => ({
       const { repeat } = get();
       switch (repeat) {
         case RepeatMode.OFF: {
+          await config.set('audioRepeatMode', RepeatMode.ALL);
           set({ repeat: RepeatMode.ALL });
           break;
         }
         case RepeatMode.ALL: {
+          await config.set('audioRepeatMode', RepeatMode.ONE);
           set({ repeat: RepeatMode.ONE });
           break;
         }
         case RepeatMode.ONE: {
+          await config.set('audioRepeatMode', RepeatMode.OFF);
           set({ repeat: RepeatMode.OFF });
           break;
         }
