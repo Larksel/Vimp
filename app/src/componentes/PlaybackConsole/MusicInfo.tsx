@@ -8,8 +8,10 @@ import ExpandedView from './ExpandedView';
 import InfoText from '../InfoText/InfoText';
 import { Button } from '../ui/button';
 import { useRevalidator } from 'react-router-dom';
+import { usePlayerAPI } from '@/stores/usePlayerStore';
 
 export default function MusicInfo() {
+  const playerAPI = usePlayerAPI();
   const revalidator = useRevalidator();
   const [visible, setVisible] = useState(false);
   const track = useCurrentTrack();
@@ -19,7 +21,7 @@ export default function MusicInfo() {
   };
 
   const toggleFavorite = async () => {
-    await window.VimpAPI.db.updateFavorite(track._id);
+    playerAPI.toggleFavorite(track._id);
     revalidator.revalidate();
   };
 

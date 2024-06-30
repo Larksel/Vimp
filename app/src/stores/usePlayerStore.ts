@@ -28,6 +28,7 @@ type PlayerState = {
     jumpToTrack: (_id: string) => Promise<void>;
     setVolume: (volume: number) => void;
     setIsMuted: (muted?: boolean) => void;
+    toggleFavorite: (_id: string) => Promise<void>;
     toggleShuffle: () => void;
     toggleRepeat: () => void;
     setSongProgress: (progress: number) => void;
@@ -190,6 +191,24 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => ({
         player.unmute();
       }
       set({ isMuted: muted });
+    },
+    toggleFavorite: async (_id) => {
+      if (!_id && _id === '') return;
+      
+      const { queue } = get()
+      const queuePosition = queue.findIndex((track) => track._id === _id);
+      
+      if (queuePosition > -1) {
+        const track = queue[queuePosition];
+        await window.VimpAPI.db.updateFavorite(track._id);
+
+        const newQueue = [...queue];
+        newQueue[queuePosition] = { ...track, favorite: !track.favorite}
+
+        set({
+          queue: newQueue
+        });
+      }
     },
     toggleShuffle: async () => {
       const { shuffle } = get();
