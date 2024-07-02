@@ -8,11 +8,10 @@ interface PlayerOptions {
 
 class Player {
   private audioContext: AudioContext;
-  private gainNode: GainNode;
+  private volumeNode: GainNode;
   private sourceNode: AudioBufferSourceNode | null;
   private track: TrackModel | null;
   private playbackRate: number;
-  private volume: number;
   private muted: boolean;
   // !TODO remove after transition to web audio api
   private audio: HTMLAudioElement;
@@ -26,22 +25,21 @@ class Player {
     };
 
     this.audioContext = new AudioContext();
-    this.gainNode = this.audioContext.createGain();
+    this.volumeNode = this.audioContext.createGain();
     this.sourceNode = null;
     this.track = null;
 
     this.playbackRate = defaultOptions.playbackRate;
-    this.volume = defaultOptions.volume;
     this.muted = defaultOptions.muted;
 
-    this.gainNode.connect(this.audioContext.destination);
-    this.gainNode.gain.value = this.muted ? 0 : this.volume;
+    this.volumeNode.connect(this.audioContext.destination);
+    this.volumeNode.gain.value = this.muted ? 0 : defaultOptions.volume;
 
     // !TODO remove after transition to web audio api
     this.audio = new Audio();
     this.audio.defaultPlaybackRate = this.playbackRate;
     this.audio.playbackRate = this.playbackRate;
-    this.audio.volume = this.volume;
+    this.audio.volume = defaultOptions.volume;
     this.audio.muted = this.muted;
   }
 
@@ -86,12 +84,13 @@ class Player {
   /**
    * Get player info
    */
+  // !TODO remove after transition to web audio api
   getAudio() {
     return this.audio;
   }
 
   getVolume() {
-    return this.audio.volume;
+    return this.volumeNode.gain.value;
   }
 
   getCurrentTime() {
@@ -110,6 +109,7 @@ class Player {
    * Set player options
    */
   setVolume(volume: number) {
+    this.volumeNode.gain.value = volume;
     this.audio.volume = volume;
   }
 
