@@ -21,6 +21,7 @@ class Player {
   private muted: boolean;
   // !TODO remove after transition to web audio api
   private audio: HTMLAudioElement;
+  private audioSource: MediaElementAudioSourceNode;
 
   constructor(options?: PlayerOptions) {
     const defaultOptions = {
@@ -46,8 +47,11 @@ class Player {
     this.audio = new Audio();
     this.audio.defaultPlaybackRate = this.playbackRate;
     this.audio.playbackRate = this.playbackRate;
-    this.audio.volume = defaultOptions.volume;
+    this.audio.volume = 1;
     this.audio.muted = this.muted;
+
+    this.audioSource = this.audioContext.createMediaElementSource(this.audio);
+    this.audioSource.connect(this.volumeNode);
   }
 
   /**
@@ -117,7 +121,6 @@ class Player {
    */
   setVolume(volume: number) {
     this.volumeNode.gain.value = volume;
-    this.audio.volume = volume;
   }
 
   setPlaybackRate(playbackRate: number) {
