@@ -7,8 +7,15 @@ interface PlayerOptions {
 }
 
 class Player {
-  private audio: HTMLAudioElement;
+  private audioContext: AudioContext;
+  private gainNode: GainNode;
+  private sourceNode: AudioBufferSourceNode | null;
   private track: TrackModel | null;
+  private playbackRate: number;
+  private volume: number;
+  private muted: boolean;
+  // !TODO remove after transition to web audio api
+  private audio: HTMLAudioElement;
 
   constructor(options?: PlayerOptions) {
     const defaultOptions = {
@@ -18,13 +25,24 @@ class Player {
       ...options,
     };
 
-    this.audio = new Audio();
+    this.audioContext = new AudioContext();
+    this.gainNode = this.audioContext.createGain();
+    this.sourceNode = null;
     this.track = null;
 
-    this.audio.defaultPlaybackRate = defaultOptions.playbackRate;
-    this.audio.playbackRate = defaultOptions.playbackRate;
-    this.audio.volume = defaultOptions.volume;
-    this.audio.muted = defaultOptions.muted;
+    this.playbackRate = defaultOptions.playbackRate;
+    this.volume = defaultOptions.volume;
+    this.muted = defaultOptions.muted;
+
+    this.gainNode.connect(this.audioContext.destination);
+    this.gainNode.gain.value = this.muted ? 0 : this.volume;
+
+    // !TODO remove after transition to web audio api
+    this.audio = new Audio();
+    this.audio.defaultPlaybackRate = this.playbackRate;
+    this.audio.playbackRate = this.playbackRate;
+    this.audio.volume = this.volume;
+    this.audio.muted = this.muted;
   }
 
   /**
