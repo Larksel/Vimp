@@ -137,18 +137,18 @@ class Player {
     this.audio.currentTime = currentTime;
   }
 
-  setTrack(track: TrackModel) {
+  async setTrack(track: TrackModel) {
     if (!track) return;
 
-    let path = track.path;
+    // Converts path to base64 to be used in the request
+    const encodedPath = btoa(track.path);
+    const url = `vimp-music://${encodedPath}`;
 
-    // If the path is a local file, ensure that it has the custom protocol
-    if (!path.startsWith('vimp://')) {
-      path = 'vimp://' + path;
-    }
+    const data = await fetch(url);
+    console.log(data);
 
     this.track = track;
-    this.audio.src = path;
+    this.audio.src = url;
   }
 }
 

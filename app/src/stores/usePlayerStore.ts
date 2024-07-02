@@ -61,7 +61,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => ({
       if (queuePosition > -1) {
         const track = queue[queuePosition];
 
-        player.setTrack(track);
+        await player.setTrack(track);
         await player.play();
 
         set({
@@ -120,7 +120,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => ({
         const track = queue[newPosition];
 
         if (track) {
-          player.setTrack(track);
+          await player.setTrack(track);
           await player.play();
 
           set({
@@ -151,7 +151,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => ({
         const track = queue[newPosition];
 
         if (track) {
-          player.setTrack(track);
+          await player.setTrack(track);
           await player.play();
 
           set({
@@ -171,7 +171,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => ({
       if (queuePosition > -1) {
         const track = queue[queuePosition];
 
-        player.setTrack(track);
+        await player.setTrack(track);
         await player.play();
 
         set({

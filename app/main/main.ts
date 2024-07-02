@@ -1,4 +1,4 @@
-import { app, BrowserWindow, session } from 'electron';
+import { app, BrowserWindow, protocol, session } from 'electron';
 import { electronApp, optimizer } from '@electron-toolkit/utils';
 import os from 'os';
 import { join } from 'path';
@@ -88,6 +88,18 @@ const createWindow = () => {
   new MenuBuilder(mainWindow).buildMenu();
 };
 
+protocol.registerSchemesAsPrivileged([
+  {
+    scheme: 'vimp-music',
+    privileges: {
+      secure: true,
+      bypassCSP: true,
+      supportFetchAPI: true,
+      stream: true,
+    },
+  },
+]);
+
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit();
@@ -99,11 +111,12 @@ app.whenReady().then(async () => {
   const configModule = new ConfigModule();
   await configModule.init();
   const config = configModule.getConfig();
-  
+
   if (isDebug) {
-    await session.defaultSession.loadExtension(reactDevToolsPath)
+    await session.defaultSession
+      .loadExtension(reactDevToolsPath)
       .then((ext) => console.log('Loaded Extension:', ext.name))
-      .catch((err) => console.log('Error on extension loading:', err))
+      .catch((err) => console.log('Error on extension loading:', err));
   }
 
   app.on('browser-window-created', (_, window) => {
