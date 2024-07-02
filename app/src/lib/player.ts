@@ -6,10 +6,16 @@ interface PlayerOptions {
   muted?: boolean;
 }
 
+interface SourceNode {
+  source: AudioBufferSourceNode;
+  gainNode: GainNode;
+}
+
 class Player {
   private audioContext: AudioContext;
   private volumeNode: GainNode;
-  private sourceNode: AudioBufferSourceNode | null;
+  private currentSourceNode: SourceNode | null;
+  private nextSourceNode: SourceNode | null;
   private track: TrackModel | null;
   private playbackRate: number;
   private muted: boolean;
@@ -26,7 +32,8 @@ class Player {
 
     this.audioContext = new AudioContext();
     this.volumeNode = this.audioContext.createGain();
-    this.sourceNode = null;
+    this.currentSourceNode = null;
+    this.nextSourceNode = null;
     this.track = null;
 
     this.playbackRate = defaultOptions.playbackRate;
