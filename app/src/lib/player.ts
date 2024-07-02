@@ -19,6 +19,7 @@ class Player {
   private track: TrackModel | null;
   private playbackRate: number;
   private muted: boolean;
+  private volume: number;
   // !TODO remove after transition to web audio api
   private audio: HTMLAudioElement;
   private audioSource: MediaElementAudioSourceNode;
@@ -39,9 +40,10 @@ class Player {
 
     this.playbackRate = defaultOptions.playbackRate;
     this.muted = defaultOptions.muted;
+    this.volume = defaultOptions.volume;
 
     this.volumeNode.connect(this.audioContext.destination);
-    this.volumeNode.gain.value = this.muted ? 0 : defaultOptions.volume;
+    this.volumeNode.gain.value = this.muted ? 0 : this.volume;
 
     // !TODO remove after transition to web audio api
     this.audio = new Audio();
@@ -85,11 +87,13 @@ class Player {
   }
 
   mute() {
-    this.audio.muted = true;
+    this.volumeNode.gain.value = 0;
+    this.muted = true;
   }
 
   unmute() {
-    this.audio.muted = false;
+    this.volumeNode.gain.value = this.volume;
+    this.muted = false;
   }
 
   /**
@@ -101,7 +105,7 @@ class Player {
   }
 
   getVolume() {
-    return this.volumeNode.gain.value;
+    return this.volume;
   }
 
   getCurrentTime() {
@@ -121,6 +125,7 @@ class Player {
    */
   setVolume(volume: number) {
     this.volumeNode.gain.value = volume;
+    this.volume = volume;
   }
 
   setPlaybackRate(playbackRate: number) {
