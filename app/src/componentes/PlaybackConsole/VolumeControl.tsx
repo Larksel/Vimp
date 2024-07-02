@@ -1,7 +1,6 @@
 import {
   SpeakerSimpleHigh,
   SpeakerSimpleLow,
-  SpeakerSimpleNone,
   SpeakerSimpleX,
 } from '@phosphor-icons/react';
 
@@ -15,10 +14,9 @@ import player from '@/lib/player';
 //TODO https://www.dr-lex.be/info-stuff/volumecontrols.html#about
 export default function VolumeControl() {
   const playerAPI = usePlayerAPI();
-  const audio = player.getAudio();
 
   const isMuted = usePlayerStore((state) => state.isMuted);
-  const [volume, setVolume] = useState(audio.volume);
+  const [volume, setVolume] = useState(player.getVolume());
 
   const handleVolumeChange = (value: number) => {
     if (isMuted) {
