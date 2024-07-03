@@ -10,10 +10,9 @@ export const setupVimpProtocol = () => {
   });
 
   protocol.handle('vimp-music', async (req) => {
-    const encodedPath = req.url.slice('vimp-music://'.length);
-    const decodedPath = atob(encodedPath);
-    const filePath = normalize(decodedPath);
+    const filePath = decodeURIComponent(req.url.slice('vimp-music:///'.length));
+    const normalizedPath = normalize(filePath);
 
-    return net.fetch(pathToFileURL(filePath).toString());
+    return net.fetch(pathToFileURL(normalizedPath).toString());
   });
 };

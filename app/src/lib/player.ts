@@ -134,9 +134,7 @@ class Player {
   async setTrack(track: TrackModel) {
     if (!track) return;
 
-    // Converts path to base64 to be used in the request
-    const encodedPath = btoa(track.path);
-    const url = `vimp-music://${encodedPath}`;
+    const url = `vimp-music:///${track.path}`;
 
     const res = await fetch(url);
     const audioBuffer = await this.decodeAudioStream(this.audioContext, res.body);
