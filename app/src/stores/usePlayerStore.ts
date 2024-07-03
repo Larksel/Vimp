@@ -220,25 +220,28 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => ({
     },
     toggleRepeat: async () => {
       const { repeat } = get();
+      let newRepeatMode = repeat;
+
       switch (repeat) {
         case RepeatMode.OFF: {
-          await config.set('audioRepeatMode', RepeatMode.ALL);
-          set({ repeat: RepeatMode.ALL });
+          newRepeatMode = RepeatMode.ALL;
           break;
         }
         case RepeatMode.ALL: {
-          await config.set('audioRepeatMode', RepeatMode.ONE);
-          set({ repeat: RepeatMode.ONE });
+          newRepeatMode = RepeatMode.ONE;
           break;
         }
         case RepeatMode.ONE: {
-          await config.set('audioRepeatMode', RepeatMode.OFF);
-          set({ repeat: RepeatMode.OFF });
+          newRepeatMode = RepeatMode.OFF;
           break;
         }
         default:
           break;
       }
+
+      player.toggleRepeat(newRepeatMode);
+      await config.set('audioRepeatMode', newRepeatMode);
+      set({ repeat: newRepeatMode })
     },
     setSongProgress: (progress) => {
       player.setCurrentTime(progress);

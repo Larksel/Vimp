@@ -1,3 +1,6 @@
+import usePlayerStore from "@/stores/usePlayerStore";
+import { RepeatMode } from "../../shared/types/vimp";
+
 interface TrackNodeType {
   src: AudioBufferSourceNode;
   gainNode: GainNode;
@@ -6,7 +9,6 @@ interface TrackNodeType {
 interface AudioOptions {
   buffer: AudioBuffer | null;
   detune?: number;
-  loop?: boolean;
   playbackRate?: number;
 }
 
@@ -39,10 +41,21 @@ class TrackNode {
   }
 
   loadAudio(options: AudioOptions) {
+    const { repeat } = usePlayerStore.getState();
+
     this.src.buffer = options.buffer;
-    this.src.detune.value = options.detune || 0;
-    this.src.loop = options.loop || true;
-    this.src.playbackRate.value = options.playbackRate || 1;
+    this.src.detune.value = options.detune !== undefined ? options.detune : 0;
+    this.src.loop = repeat === RepeatMode.ONE ? true : false;
+    this.src.playbackRate.value = 
+      options.playbackRate !== undefined ? options.playbackRate : 1;
+  }
+
+  toggleRepeat(repeat?: RepeatMode) {
+    if (repeat === RepeatMode.ONE) {
+      this.src.loop = true;
+    } else {
+      this.src.loop = false;
+    }
   }
 }
 

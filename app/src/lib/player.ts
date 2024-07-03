@@ -1,4 +1,4 @@
-import { TrackModel } from '../../shared/types/vimp';
+import { RepeatMode, TrackModel } from '../../shared/types/vimp';
 import TrackNode from './TrackNode';
 
 interface PlayerOptions {
@@ -90,6 +90,10 @@ class Player {
     this.muted = false;
   }
 
+  toggleRepeat(repeat: RepeatMode) {
+    this.currentTrackNode?.toggleRepeat(repeat)
+  }
+
   /**
    * Get player info
    */
@@ -153,7 +157,6 @@ class Player {
       
       this.currentTrackNode.loadAudio({
         buffer: audioBuffer,
-        loop: true,
         playbackRate: 1
       })
 
