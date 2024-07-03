@@ -60,13 +60,13 @@ class Player {
    * Basic player methods
    */
   async play() {
-    if (!this.audio.src) {
+    if (!this.track || !this.currentSourceNode) {
       this.stop();
       console.log('No audio source defined');
       return;
     }
     try {
-      await this.audio.play();
+      this.currentSourceNode.source.start(0);
 
       if (this.track && this.track._id && this.track._id !== '') {
         await window.VimpAPI.db.updateLastPlayed(this.track._id);
@@ -144,11 +144,63 @@ class Player {
     const encodedPath = btoa(track.path);
     const url = `vimp-music://${encodedPath}`;
 
-    const data = await fetch(url);
-    console.log(data);
+    const res = await fetch(url);
+    const audioBuffer = await this.decodeAudioStream(this.audioContext, res.body);
 
-    this.track = track;
-    this.audio.src = url;
+    if (audioBuffer) {
+      if (this.currentSourceNode !== null) {
+        this.currentSourceNode.gainNode.disconnect();
+        this.currentSourceNode.source.disconnect();
+        this.currentSourceNode = null;
+      }
+      
+      this.currentSourceNode = {
+        source: this.audioContext.createBufferSource(),
+        gainNode: this.audioContext.createGain()
+      }
+      
+      this.currentSourceNode.source.buffer = audioBuffer;
+      this.currentSourceNode.source.loop = true;
+      this.currentSourceNode.source.playbackRate.value = this.playbackRate;
+      this.currentSourceNode.gainNode.gain.value = 1;
+
+      this.currentSourceNode.source.connect(this.currentSourceNode.gainNode);
+      this.currentSourceNode.gainNode.connect(this.volumeNode);
+  
+      this.track = track;
+      // this.audio.src = url;
+    }
+  }
+
+  private async decodeAudioStream(
+    audioContext: AudioContext,
+    stream: ReadableStream<Uint8Array> | null,
+  ) {
+    if (!stream) return;
+
+    const reader = stream.getReader();
+    const chunks: Uint8Array[] = [];
+    let totalLength = 0;
+
+    while (true) {
+      const { done, value } = await reader?.read();
+      if (done) {
+        if (value) chunks.push(value);
+        break;
+      }
+
+      chunks.push(value);
+      totalLength += value.length;
+    }
+
+    const audioData = new Uint8Array(totalLength);
+    let offset = 0;
+    for (const chunk of chunks) {
+      audioData.set(chunk, offset);
+      offset += chunk.length;
+    }
+
+    return audioContext.decodeAudioData(audioData.buffer);
   }
 }
 
