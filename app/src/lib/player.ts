@@ -1,4 +1,5 @@
 import { TrackModel } from '../../shared/types/vimp';
+import TrackNode from './TrackNode';
 
 interface PlayerOptions {
   playbackRate?: number;
@@ -6,16 +7,10 @@ interface PlayerOptions {
   muted?: boolean;
 }
 
-interface SourceNode {
-  source: AudioBufferSourceNode;
-  gainNode: GainNode;
-}
-
 class Player {
   private audioContext: AudioContext;
   private volumeNode: GainNode;
-  private currentSourceNode: SourceNode | null;
-  private nextSourceNode: SourceNode | null;
+  private currentTrackNode: TrackNode | null;
   private track: TrackModel | null;
   private playbackRate: number;
   private muted: boolean;
@@ -34,8 +29,7 @@ class Player {
 
     this.audioContext = new AudioContext();
     this.volumeNode = this.audioContext.createGain();
-    this.currentSourceNode = null;
-    this.nextSourceNode = null;
+    this.currentTrackNode = null;
     this.track = null;
 
     this.playbackRate = defaultOptions.playbackRate;
@@ -60,13 +54,13 @@ class Player {
    * Basic player methods
    */
   async play() {
-    if (!this.track || !this.currentSourceNode) {
+    if (!this.track || !this.currentTrackNode) {
       this.stop();
       console.log('No audio source defined');
       return;
     }
     try {
-      this.currentSourceNode.source.start(0);
+      this.currentTrackNode.start(0);
 
       if (this.track && this.track._id && this.track._id !== '') {
         await window.VimpAPI.db.updateLastPlayed(this.track._id);
@@ -147,25 +141,25 @@ class Player {
     const res = await fetch(url);
     const audioBuffer = await this.decodeAudioStream(this.audioContext, res.body);
 
+    // TODO cancelar operação caso outra música for escolhida
     if (audioBuffer) {
-      if (this.currentSourceNode !== null) {
-        this.currentSourceNode.gainNode.disconnect();
-        this.currentSourceNode.source.disconnect();
-        this.currentSourceNode = null;
+      if (this.currentTrackNode !== null) {
+        this.currentTrackNode.disconnect();
+        this.currentTrackNode = null;
       }
       
-      this.currentSourceNode = {
-        source: this.audioContext.createBufferSource(),
+      this.currentTrackNode = new TrackNode({
+        src: this.audioContext.createBufferSource(),
         gainNode: this.audioContext.createGain()
-      }
+      })
       
-      this.currentSourceNode.source.buffer = audioBuffer;
-      this.currentSourceNode.source.loop = true;
-      this.currentSourceNode.source.playbackRate.value = this.playbackRate;
-      this.currentSourceNode.gainNode.gain.value = 1;
+      this.currentTrackNode.loadAudio({
+        buffer: audioBuffer,
+        loop: true,
+        playbackRate: 1
+      })
 
-      this.currentSourceNode.source.connect(this.currentSourceNode.gainNode);
-      this.currentSourceNode.gainNode.connect(this.volumeNode);
+      this.currentTrackNode.connect(this.volumeNode);
   
       this.track = track;
       // this.audio.src = url;
