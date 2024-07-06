@@ -81,8 +81,10 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => ({
     },
     playPause: async () => {
       const playerAPI = get().api;
-      const { queue } = get();
-      const { paused } = player.getAudio();
+      const { queue, playerStatus } = get();
+      const paused =
+        playerStatus === PlayerStatus.PAUSE ||
+        playerStatus === PlayerStatus.STOP;
 
       if (paused && queue.length > 0) {
         playerAPI.play();
@@ -165,7 +167,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => ({
       }
     },
     jumpToTrack: async (_id) => {
-      const { queue } = get()
+      const { queue } = get();
       const queuePosition = queue.findIndex((track) => track._id === _id);
 
       if (queuePosition > -1) {
@@ -194,19 +196,19 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => ({
     },
     toggleFavorite: async (_id) => {
       if (!_id && _id === '') return;
-      
-      const { queue } = get()
+
+      const { queue } = get();
       const queuePosition = queue.findIndex((track) => track._id === _id);
-      
+
       if (queuePosition > -1) {
         const track = queue[queuePosition];
         await window.VimpAPI.db.updateFavorite(track._id);
 
         const newQueue = [...queue];
-        newQueue[queuePosition] = { ...track, favorite: !track.favorite}
+        newQueue[queuePosition] = { ...track, favorite: !track.favorite };
 
         set({
-          queue: newQueue
+          queue: newQueue,
         });
       }
     },
@@ -241,7 +243,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => ({
 
       player.toggleRepeat(newRepeatMode);
       await config.set('audioRepeatMode', newRepeatMode);
-      set({ repeat: newRepeatMode })
+      set({ repeat: newRepeatMode });
     },
     setSongProgress: (progress) => {
       player.setCurrentTime(progress);

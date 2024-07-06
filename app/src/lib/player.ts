@@ -7,7 +7,7 @@ interface PlayerOptions {
   muted?: boolean;
 }
 
-//TODO criar controles
+
 class Player {
   private audioContext: AudioContext;
   private volumeNode: GainNode;
@@ -16,7 +16,6 @@ class Player {
   private playbackRate: number;
   private muted: boolean;
   private volume: number;
-  // !TODO remove after transition to web audio api
   private audio: HTMLAudioElement;
   private audioSource: MediaElementAudioSourceNode;
 
@@ -40,7 +39,6 @@ class Player {
     this.volumeNode.connect(this.audioContext.destination);
     this.volumeNode.gain.value = this.muted ? 0 : this.volume;
 
-    // !TODO remove after transition to web audio api
     this.audio = new Audio();
     this.audio.defaultPlaybackRate = this.playbackRate;
     this.audio.playbackRate = this.playbackRate;
@@ -61,7 +59,7 @@ class Player {
       return;
     }
     try {
-      this.currentTrackNode.start(0);
+      this.currentTrackNode.play();
 
       if (this.track && this.track._id && this.track._id !== '') {
         await window.VimpAPI.db.updateLastPlayed(this.track._id);
@@ -76,14 +74,15 @@ class Player {
   pause() {
     this.audio.pause();
     if (this.currentTrackNode) {
-      this.currentTrackNode.stop();
+      this.currentTrackNode.pause();
     }
   }
 
   stop() {
     this.audio.pause();
     if (this.currentTrackNode) {
-      this.currentTrackNode.stop(); // ? desconectar ou parar
+      this.currentTrackNode.stop(0);
+      this.currentTrackNode.disconnect();
       this.currentTrackNode = null;
     }
   }
@@ -105,7 +104,6 @@ class Player {
   /**
    * Get player info
    */
-  // !TODO remove after transition to web audio api
   getAudio() {
     return this.audio;
   }
@@ -158,16 +156,8 @@ class Player {
         this.currentTrackNode = null;
       }
       
-      this.currentTrackNode = new TrackNode({
-        src: this.audioContext.createBufferSource(),
-        gainNode: this.audioContext.createGain()
-      })
-      
-      this.currentTrackNode.loadAudio({
-        buffer: audioBuffer,
-        playbackRate: 1
-      })
-
+      this.currentTrackNode = new TrackNode(this.audioContext)
+      this.currentTrackNode.loadAudio(audioBuffer);
       this.currentTrackNode.connect(this.volumeNode);
   
       this.track = track;
