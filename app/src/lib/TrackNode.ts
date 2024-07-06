@@ -40,6 +40,10 @@ class TrackNode {
     this.src.start(when, offset, duration);
   }
 
+  stop(when?: number | undefined) {
+    this.src.stop(when);
+  }
+
   loadAudio(options: AudioOptions) {
     const { repeat } = usePlayerStore.getState();
 

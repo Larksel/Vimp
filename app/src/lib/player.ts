@@ -7,6 +7,7 @@ interface PlayerOptions {
   muted?: boolean;
 }
 
+//TODO criar controles
 class Player {
   private audioContext: AudioContext;
   private volumeNode: GainNode;
@@ -74,10 +75,17 @@ class Player {
 
   pause() {
     this.audio.pause();
+    if (this.currentTrackNode) {
+      this.currentTrackNode.stop();
+    }
   }
 
   stop() {
     this.audio.pause();
+    if (this.currentTrackNode) {
+      this.currentTrackNode.stop(); // ? desconectar ou parar
+      this.currentTrackNode = null;
+    }
   }
 
   mute() {
