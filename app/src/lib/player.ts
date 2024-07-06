@@ -116,14 +116,6 @@ class Player {
     return this.audio.currentTime;
   }
 
-  getTrack() {
-    return this.track;
-  }
-
-  getTrackDuration() {
-    return this.audio.duration;
-  }
-
   /**
    * Set player options
    */
