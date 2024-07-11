@@ -28,6 +28,7 @@
   "license": "MIT",
   "devDependencies": {
     "@electron-toolkit/tsconfig": "^1.0.1",
+    "@types/audioworklet": "^0.0.57",
     "@types/lodash": "^4.17.4",
     "@types/node": "^20.10.3",
     "@types/pouchdb": "^6.4.2",

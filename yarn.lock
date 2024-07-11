@@ -979,6 +979,11 @@
   resolved "https://registry.yarnpkg.com/@tootallnate/once/-/once-2.0.0.tgz#f544a148d3ab35801c1f633a7441fd87c2e484bf"
   integrity sha512-XCuKFP5PS55gnMVu3dty8KPatLqUoy/ZYzDzAGCQ8JNFCkLXzmI7vNHCR+XpbZaMWQK/vQubr7PkYq8g470J/A==
 
+"@types/audioworklet@^0.0.57":
+  version "0.0.57"
+  resolved "https://registry.yarnpkg.com/@types/audioworklet/-/audioworklet-0.0.57.tgz#e23fde72c18d53c3e6de1c60ce44ce91c02f2579"
+  integrity sha512-Qnza35nR2dXWeQO/O79QVaicqVtzGdnuy89ZkBqCUMQtYrYj+71MA2MWo65rsT1P7sNKHWHeQQHg5ILFaJjMxw==
+
 "@types/babel__core@^7.20.5":
   version "7.20.5"
   resolved "https://registry.yarnpkg.com/@types/babel__core/-/babel__core-7.20.5.tgz#3df15f27ba85319caa07ba08d0721889bb39c017"

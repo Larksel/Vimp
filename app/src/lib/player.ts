@@ -1,12 +1,13 @@
 import { RepeatMode, TrackModel } from '../../shared/types/vimp';
+import usePlayerStore from '@/stores/usePlayerStore';
 import TrackNode from './TrackNode';
+import debounce from 'lodash/debounce';
 
 interface PlayerOptions {
   playbackRate?: number;
   volume?: number;
   muted?: boolean;
 }
-
 
 class Player {
   private audioContext: AudioContext;
@@ -58,6 +59,10 @@ class Player {
       console.log('No audio source defined');
       return;
     }
+    if (this.audioContext.state === 'suspended') {
+      await this.audioContext.resume();
+      return;
+    }
     try {
       this.currentTrackNode.play();
 
@@ -71,10 +76,10 @@ class Player {
     }
   }
 
-  pause() {
+  async pause() {
     this.audio.pause();
-    if (this.currentTrackNode) {
-      this.currentTrackNode.pause();
+    if (this.audioContext.state === 'running') {
+      await this.audioContext.suspend();
     }
   }
 
@@ -98,7 +103,7 @@ class Player {
   }
 
   toggleRepeat(repeat: RepeatMode) {
-    this.currentTrackNode?.toggleRepeat(repeat)
+    this.currentTrackNode?.toggleRepeat(repeat);
   }
 
   /**
@@ -139,7 +144,10 @@ class Player {
     const url = `vimp-music:///${track.path}`;
 
     const res = await fetch(url);
-    const audioBuffer = await this.decodeAudioStream(this.audioContext, res.body);
+    const audioBuffer = await this.decodeAudioStream(
+      this.audioContext,
+      res.body,
+    );
 
     // TODO cancelar operação caso outra música for escolhida
     if (audioBuffer) {
@@ -147,15 +155,45 @@ class Player {
         this.currentTrackNode.disconnect();
         this.currentTrackNode = null;
       }
-      
-      this.currentTrackNode = new TrackNode(this.audioContext)
-      this.currentTrackNode.loadAudio(audioBuffer);
-      this.currentTrackNode.connect(this.volumeNode);
-  
+
+      const progressTracker = await this.createProgressTracker();
+
+      if (progressTracker) {
+        this.currentTrackNode = new TrackNode(this.audioContext);
+        this.currentTrackNode.loadAudio(audioBuffer);
+        this.currentTrackNode.connect(progressTracker);
+        progressTracker.connect(this.volumeNode);
+
+        progressTracker.port.onmessage = (event) => {
+          const position = event.data.position;
+          this.debouncedSetProgress(position);
+        };
+      }
+
       this.track = track;
       // this.audio.src = url;
     }
   }
+
+  private async createProgressTracker() {
+    try {
+      const url = new URL('./AudioProgressTracker.ts', import.meta.url)
+      await this.audioContext.audioWorklet.addModule(url);
+    } catch (e) {
+      console.log(e)
+      return null;
+    }
+
+    return new AudioWorkletNode(this.audioContext, 'AudioProgressTracker');
+  }
+
+  private debouncedSetProgress = debounce((progress: number) => {
+    if (!this.track?.duration) return;
+    if (progress > this.track.duration) {
+      progress = progress % this.track.duration;
+    }
+    usePlayerStore.setState((state) => ({ songProgress: progress }));
+  }, 50, { maxWait: 50 });
 
   private async decodeAudioStream(
     audioContext: AudioContext,

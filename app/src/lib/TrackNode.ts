@@ -24,6 +24,7 @@ class TrackNode {
 
     this.audioContext = audioContext;
     this.src = this.audioContext.createBufferSource();
+    this.src.onended = usePlayerStore.getState().api.next
     this.gainNode = this.audioContext.createGain();
 
     this.src.connect(this.gainNode);

@@ -13,6 +13,7 @@ type PlayerState = {
   queueOrigin: string | null;
   shuffle: boolean;
   repeat: RepeatMode;
+  songProgress: number;
   playerStatus: PlayerStatus;
   isMuted: boolean;
   gaplessPlayback: boolean;
@@ -47,6 +48,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => ({
   queueOrigin: null,
   shuffle: config.__initialConfig['audioShuffle'],
   repeat: config.__initialConfig['audioRepeatMode'],
+  songProgress: 0,
   playerStatus: PlayerStatus.STOP,
   isMuted: config.__initialConfig['audioMuted'],
   gaplessPlayback: config.__initialConfig['audioGaplessPlayback'],
