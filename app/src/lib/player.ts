@@ -144,10 +144,8 @@ class Player {
     const url = `vimp-music:///${track.path}`;
 
     const res = await fetch(url);
-    const audioBuffer = await this.decodeAudioStream(
-      this.audioContext,
-      res.body,
-    );
+    const arrayBuffer = await res.arrayBuffer();
+    const audioBuffer = await this.audioContext.decodeAudioData(arrayBuffer);
 
     // TODO cancelar operação caso outra música for escolhida
     if (audioBuffer) {
@@ -177,54 +175,27 @@ class Player {
 
   private async createProgressTracker() {
     try {
-      const url = new URL('./AudioProgressTracker.ts', import.meta.url)
+      const url = new URL('./AudioProgressTracker.ts', import.meta.url);
       await this.audioContext.audioWorklet.addModule(url);
     } catch (e) {
-      console.log(e)
+      console.log(e);
       return null;
     }
 
     return new AudioWorkletNode(this.audioContext, 'AudioProgressTracker');
   }
 
-  private debouncedSetProgress = debounce((progress: number) => {
-    if (!this.track?.duration) return;
-    if (progress > this.track.duration) {
-      progress = progress % this.track.duration;
-    }
-    usePlayerStore.setState((state) => ({ songProgress: progress }));
-  }, 50, { maxWait: 50 });
-
-  private async decodeAudioStream(
-    audioContext: AudioContext,
-    stream: ReadableStream<Uint8Array> | null,
-  ) {
-    if (!stream) return;
-
-    const reader = stream.getReader();
-    const chunks: Uint8Array[] = [];
-    let totalLength = 0;
-
-    while (true) {
-      const { done, value } = await reader?.read();
-      if (done) {
-        if (value) chunks.push(value);
-        break;
+  private debouncedSetProgress = debounce(
+    (progress: number) => {
+      if (!this.track?.duration) return;
+      if (progress > this.track.duration) {
+        progress = progress % this.track.duration;
       }
-
-      chunks.push(value);
-      totalLength += value.length;
-    }
-
-    const audioData = new Uint8Array(totalLength);
-    let offset = 0;
-    for (const chunk of chunks) {
-      audioData.set(chunk, offset);
-      offset += chunk.length;
-    }
-
-    return audioContext.decodeAudioData(audioData.buffer);
-  }
+      usePlayerStore.setState(() => ({ songProgress: progress }));
+    },
+    50,
+    { maxWait: 50 },
+  );
 }
 
 const { config } = window.VimpAPI;
