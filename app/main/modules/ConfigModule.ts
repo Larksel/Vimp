@@ -1,8 +1,7 @@
-import { app, ipcMain } from 'electron';
+import { app, ipcMain, screen } from 'electron';
 import Store from 'electron-store';
 import { Config, RepeatMode } from "../../shared/types/vimp";
 import Module from './BaseModule';
-import electron from 'electron';
 import channels from '../../shared/lib/ipc-channels';
 
 const userFolder = app.getPath('home');
@@ -17,7 +16,7 @@ export default class ConfigModule extends Module {
 
     console.log(`Config path:`, app.getPath('userData'));
 
-    this.workArea = electron.screen.getPrimaryDisplay().workArea;
+    this.workArea = screen.getPrimaryDisplay().workArea;
     this.config = new Store<Config>({
       name: 'config',
       defaults: this.getDefaultConfig(),
