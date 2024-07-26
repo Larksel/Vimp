@@ -18,7 +18,7 @@ export default function PlaylistList({ collapsed }: PlaylistListProps) {
   const navigate = useNavigate();
 
   return (
-    <ScrollArea className='relative h-full w-full rounded-lg bg-neutral-900'>
+    <ScrollArea className='relative h-full w-full rounded-lg bg-[#121212]'>
       <ListHeader collapsed={collapsed} />
       <div className='pt-11'>
         {Array.from({ length: 10 }).map((_, index) => (

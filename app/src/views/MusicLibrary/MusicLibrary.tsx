@@ -53,10 +53,6 @@ export default function MusicLibrary() {
         onChange={(e) => handleSearchChange(e.target.value)}
         className='mb-4 max-w-[300px]'
       />
-
-      {
-        // TODO tentar colocar a scrollarea aqui
-      }
       {filteredTracks.length > 0 && (
         <div className='flex h-full w-full items-center justify-center'>
           <VirtuosoGrid
