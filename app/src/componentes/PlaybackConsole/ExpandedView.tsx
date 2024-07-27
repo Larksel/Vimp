@@ -5,6 +5,8 @@ interface ExpandedViewProps {
   visible: boolean;
 }
 
+// TODO pagina separada
+
 export default function ExpandedView({ visible }: ExpandedViewProps) {
   const track = useCurrentTrack();
 

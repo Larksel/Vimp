@@ -5,7 +5,7 @@ import { Button } from '../ui/button';
 import routes from '@/routes';
 
 //TODO cor de fundo sólida após scroll <- Fade in
-//TODO implementar métodos de navegação
+//TODO Pesquisa global
 export default function Header() {
   const navigate = useNavigate();
 
