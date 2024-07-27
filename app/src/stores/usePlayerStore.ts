@@ -1,6 +1,5 @@
 import { StateCreator } from 'zustand';
 import debounce from 'lodash/debounce';
-import { persist } from 'zustand/middleware';
 
 import { PlayerStatus, RepeatMode, TrackModel } from '../../shared/types/vimp';
 import { createStore } from '@/lib/utils-store';
@@ -29,8 +28,8 @@ type PlayerState = {
     setVolume: (volume: number) => void;
     setIsMuted: (muted?: boolean) => void;
     toggleFavorite: (_id: string) => Promise<void>;
-    toggleShuffle: () => void;
-    toggleRepeat: () => void;
+    toggleShuffle: () => Promise<void>;
+    toggleRepeat: () => Promise<void>;
     setSongProgress: (progress: number) => void;
     setPlaybackRate: (playbackRate: number) => void;
   };
@@ -40,6 +39,7 @@ const { config } = window.VimpAPI;
 
 //TODO crossfade
 //TODO gapless playback sem silencio entre as tracks
+//TODO persistir partes importantes
 const usePlayerStore = createPlayerStore<PlayerState>((set, get) => ({
   queue: [],
   originalQueue: [],
@@ -55,7 +55,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => ({
     start: async (queue, _id) => {
       if (queue.length === 0) return;
 
-      const trackID = _id || queue[0]._id;
+      const trackID = _id ?? queue[0]._id;
       const queuePosition = queue.findIndex((track) => track._id === trackID);
 
       if (queuePosition > -1) {
@@ -184,7 +184,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => ({
       player.setVolume(volume);
       saveVolume(volume);
     },
-    setIsMuted: async (muted = false) => {
+    setIsMuted: (muted = false) => {
       if (muted) {
         player.mute();
       } else {
