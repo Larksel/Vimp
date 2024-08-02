@@ -45,7 +45,7 @@ export default function SettingsView() {
 
   return (
     <div className='flex flex-col items-center'>
-      <div className='flex h-full w-full max-w-[800px] flex-col'>
+      <div className='flex h-full w-[90%] max-w-[800px] flex-col'>
         <Settings.Section name='Geral'>
           <Settings.Option name='Display Notifications (Coming soon)'>
             <Switch
