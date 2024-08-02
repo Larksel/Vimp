@@ -53,19 +53,28 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => ({
   crossfadeDuration: config.__initialConfig['audioCrossfadeDuration'],
   api: {
     start: async (queue, _id) => {
-      if (queue.length === 0) return;
+      if (queue.length === 0 || queue === null) return;
 
+      const state = get();
       const trackID = _id ?? queue[0]._id;
-      const queuePosition = queue.findIndex((track) => track._id === trackID);
+      let queuePosition = queue.findIndex((track) => track._id === trackID);
+      let newQueue = [...queue];
 
       if (queuePosition > -1) {
+        const originalQueue = [...newQueue];
         const track = queue[queuePosition];
 
         player.setTrack(track);
         await player.play();
 
+        if (state.shuffle) {
+          newQueue = shuffleTracks(newQueue, queuePosition);
+          queuePosition = 0;
+        }
+
         set({
-          queue: queue,
+          queue: newQueue,
+          originalQueue: originalQueue,
           queuePosition: queuePosition,
           playerStatus: PlayerStatus.PLAY,
         });
@@ -165,7 +174,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => ({
       }
     },
     jumpToTrack: async (_id) => {
-      const { queue } = get()
+      const { queue } = get();
       const queuePosition = queue.findIndex((track) => track._id === _id);
 
       if (queuePosition > -1) {
@@ -194,29 +203,50 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => ({
     },
     toggleFavorite: async (_id) => {
       if (!_id && _id === '') return;
-      
-      const { queue } = get()
+
+      const { queue } = get();
       const queuePosition = queue.findIndex((track) => track._id === _id);
-      
+
       if (queuePosition > -1) {
         const track = queue[queuePosition];
         await window.VimpAPI.db.updateFavorite(track._id);
 
         const newQueue = [...queue];
-        newQueue[queuePosition] = { ...track, favorite: !track.favorite}
+        newQueue[queuePosition] = { ...track, favorite: !track.favorite };
 
         set({
-          queue: newQueue
+          queue: newQueue,
         });
       }
     },
     toggleShuffle: async () => {
-      const { shuffle } = get();
+      const { queue, queuePosition, originalQueue } = get();
+      const shuffle = !get().shuffle;
 
-      await config.set('audioShuffle', !shuffle);
+      await config.set('audioShuffle', shuffle);
+      
+      if (queuePosition === null) return;
+      if (shuffle) {
+        const newQueue = shuffleTracks([...queue], queuePosition);
 
-      //TODO implementar lógica do shuffle
-      set({ shuffle: !shuffle });
+        set({
+          queue: newQueue,
+          queuePosition: 0,
+          originalQueue: queue,
+          shuffle: shuffle,
+        });
+      } else {
+        const currentTrackID = queue[queuePosition]._id;
+        const currentTrackIndex = originalQueue.findIndex(
+          (track) => currentTrackID === track._id,
+        );
+
+        set({
+          queue: [...originalQueue],
+          queuePosition: currentTrackIndex,
+          shuffle: shuffle,
+        });
+      }
     },
     toggleRepeat: async () => {
       const { repeat } = get();
@@ -264,3 +294,20 @@ function createPlayerStore<T extends PlayerState>(store: StateCreator<T>) {
 const saveVolume = debounce(async (volume: number) => {
   await config.set('audioVolume', volume);
 }, 500);
+
+const shuffleTracks = (tracks: TrackModel[], index: number) => {
+  const shuffledTracks = [...tracks];
+  // Take the current track so we can return it to the first position
+  const currentTrack = shuffledTracks.splice(index, 1)[0];
+
+  //Shuffle
+  for (let i = shuffledTracks.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffledTracks[i], shuffledTracks[j]] = [shuffledTracks[j], shuffledTracks[i]]
+  }
+
+  // Mantain the current track on the first position
+  shuffledTracks.unshift(currentTrack);
+
+  return [...shuffledTracks];
+};
