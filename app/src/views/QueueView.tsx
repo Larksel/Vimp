@@ -1,7 +1,7 @@
 import usePlayerStore, { usePlayerAPI } from '@/stores/usePlayerStore';
 import TrackList from '@/componentes/TrackList/TrackList';
 
-export default function Queue() {
+export default function QueueView() {
   const playerAPI = usePlayerAPI();
   const queue = usePlayerStore((state) => state.queue);
 

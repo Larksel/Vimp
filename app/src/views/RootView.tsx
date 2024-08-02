@@ -1,18 +1,18 @@
 import { CSSProperties, useEffect, useState } from 'react';
 import { Outlet, useRevalidator } from 'react-router-dom';
-import { LoaderData } from './router';
+import { LoaderData } from '../router';
 import debounce from 'lodash/debounce';
 
-import { TrackModel } from '../shared/types/vimp';
-import AppBar from './componentes/AppBar/AppBar';
-import SideBar from './componentes/SideBar/SideBar';
-import { ScrollArea, ScrollBar } from './componentes/ui/scroll-area';
-import Header from './componentes/Header/Header';
-import PlaybackConsole from './componentes/PlaybackConsole/PlaybackConsole';
-import channels from '../shared/lib/ipc-channels';
-import useCurrentTrack from './hooks/useCurrentTrack';
+import { TrackModel } from '../../shared/types/vimp';
+import AppBar from '../componentes/AppBar/AppBar';
+import SideBar from '../componentes/SideBar/SideBar';
+import { ScrollArea, ScrollBar } from '../componentes/ui/scroll-area';
+import Header from '../componentes/Header/Header';
+import PlaybackConsole from '../componentes/PlaybackConsole/PlaybackConsole';
+import channels from '../../shared/lib/ipc-channels';
+import useCurrentTrack from '../hooks/useCurrentTrack';
 
-export default function Root() {
+export default function RootView() {
   const revalidator = useRevalidator();
   const [collapsed, setCollapsed] = useState(false);
   const track = useCurrentTrack();
@@ -67,9 +67,9 @@ export default function Root() {
   );
 }
 
-export type RootLoaderData = LoaderData<typeof Root.loader>;
+export type RootLoaderData = LoaderData<typeof RootView.loader>;
 
-Root.loader = async () => {
+RootView.loader = async () => {
   const res: TrackModel[] = await window.VimpAPI.db.getTracks();
 
   const tracks = res.sort((a, b) => {

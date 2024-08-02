@@ -1,10 +1,10 @@
 import { useRevalidator, useRouteLoaderData } from 'react-router-dom';
-import { RootLoaderData } from '@/Root';
+import { RootLoaderData } from '@/views/RootView';
 
 import CardList from '@/componentes/CardList/CardList';
 import { Button } from '@/componentes/ui/button';
 
-export default function HomePage() {
+export default function HomeView() {
   const revalidator = useRevalidator();
   const { tracks } = useRouteLoaderData('root') as RootLoaderData;
 

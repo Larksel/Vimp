@@ -5,10 +5,10 @@ import { VirtuosoGrid } from 'react-virtuoso';
 import MediaCard from '@/componentes/MediaCard/MediaCard';
 import { Input } from '@/componentes/ui/input';
 import { useRevalidator, useRouteLoaderData } from 'react-router-dom';
-import { RootLoaderData } from '@/Root';
+import { RootLoaderData } from '@/views/RootView';
 import { Button } from '@/componentes/ui/button';
 
-export default function MusicLibrary() {
+export default function MusicLibraryView() {
   const [search, setSearch] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState(search);
   const { tracks } = useRouteLoaderData('root') as RootLoaderData;

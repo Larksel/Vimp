@@ -1,9 +1,9 @@
 import { LoaderFunctionArgs, createHashRouter, useNavigate } from 'react-router-dom';
-import HomePage from './views/Home/HomePage';
-import Queue from './views/Queue/Queue';
-import MusicLibrary from './views/MusicLibrary/MusicLibrary';
-import Settings from './views/Settings/Settings';
-import Root from './Root';
+import HomeView from './views/HomeView';
+import QueueView from './views/QueueView';
+import MusicLibraryView from './views/MusicLibraryView';
+import SettingsView from './views/SettingsView';
+import RootView from './views/RootView';
 
 import routes from './routes';
 
@@ -13,31 +13,31 @@ const router = createHashRouter([
   {
     path: '',
     id: 'root',
-    element: <Root />,
-    loader: Root.loader,
+    element: <RootView />,
+    loader: RootView.loader,
     ErrorBoundary: GlobalErrorBoundary,
     children: [
       {
         index: true,
         path: routes.HOME,
         id: routes.HOME,
-        element: <HomePage />,
+        element: <HomeView />,
       },
       {
         path: routes.MUSIC_LIBRARY,
         id: routes.MUSIC_LIBRARY,
-        element: <MusicLibrary />,
+        element: <MusicLibraryView />,
       },
       {
         path: routes.QUEUE,
         id: routes.QUEUE,
-        element: <Queue />,
+        element: <QueueView />,
       },
       {
         path: routes.SETTINGS,
         id: routes.SETTINGS,
-        element: <Settings />,
-        loader: Settings.loader
+        element: <SettingsView />,
+        loader: SettingsView.loader
       },
     ],
   },
@@ -51,7 +51,7 @@ function GlobalErrorBoundary() {
   return (
     <div className='flex h-screen flex-col items-center justify-center'>
       <div className='flex flex-col items-center justify-center gap-4 rounded-lg bg-white/10 p-4'>
-        <h1 className='text-2xl'>💥 Erro: Pagina não encontrada 💥</h1>
+        <h1 className='text-2xl'>💥 Pagina não encontrada 💥</h1>
         <button
           className='rounded bg-green-600 p-2'
           onClick={() => navigate(-1)}
