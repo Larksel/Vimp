@@ -14,6 +14,7 @@ export default function MusicLibraryView() {
   const { tracks } = useRouteLoaderData('root') as RootLoaderData;
   const revalidator = useRevalidator();
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedSetSearch = useCallback(
     debounce((value) => {
       setDebouncedSearch(value);

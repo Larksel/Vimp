@@ -1,5 +1,3 @@
-import { useNavigate } from 'react-router-dom';
-
 import placeholderImage from '../../assets/images/placeholder.png';
 
 import { Button } from '../ui/button';
@@ -15,8 +13,6 @@ interface PlaylistListProps {
 //TODO puxar playlists salvas no BD
 
 export default function PlaylistList({ collapsed }: PlaylistListProps) {
-  const navigate = useNavigate();
-
   return (
     <ScrollArea className='relative h-full w-full rounded-lg bg-[#121212]'>
       <ListHeader collapsed={collapsed} />
@@ -29,7 +25,8 @@ export default function PlaylistList({ collapsed }: PlaylistListProps) {
             className='flex h-16 w-full justify-start gap-4 rounded-none bg-transparent p-2 active:bg-[#fff3]'
           >
             <img
-              src={'' || placeholderImage}
+              src={placeholderImage}
+              alt=''
               className='h-12 w-12 shrink-0 rounded bg-neutral-800 object-cover'
             />
 

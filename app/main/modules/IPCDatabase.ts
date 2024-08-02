@@ -4,7 +4,6 @@ import { Track, TrackModel } from '../../shared/types/vimp';
 
 import channels from '../../shared/lib/ipc-channels';
 
-//TODO canais ipc em constantes em um arquivo
 export default function setupIPCDatabase() {
   // * CRUD operations
 
@@ -36,12 +35,9 @@ export default function setupIPCDatabase() {
 
   // * Features
 
-  ipcMain.handle(
-    channels.INCREMENT_PLAY_COUNT,
-    async (_, trackID: string) => {
-      await TracksDB.incrementPlayCount(trackID);
-    },
-  );
+  ipcMain.handle(channels.INCREMENT_PLAY_COUNT, async (_, trackID: string) => {
+    await TracksDB.incrementPlayCount(trackID);
+  });
 
   ipcMain.handle(channels.TOGGLE_FAVORITE, async (_, trackID: string) => {
     await TracksDB.updateFavorite(trackID);

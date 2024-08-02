@@ -26,9 +26,8 @@ export default function PlaybackButtons() {
       case PlayerStatus.PLAY:
         return true;
       default:
-        break;
+        return;
     }
-    return;
   };
 
   const repeatIcons = {

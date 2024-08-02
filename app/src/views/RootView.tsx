@@ -18,14 +18,16 @@ export default function RootView() {
   const track = useCurrentTrack();
 
   useEffect(() => {
-    window.VimpAPI.db.onTracksDBChanged(debounce(() => {
-      console.log('TracksDB changed')
-      revalidator.revalidate();
-    }, 500));
+    window.VimpAPI.db.onTracksDBChanged(
+      debounce(() => {
+        console.log('TracksDB changed');
+        revalidator.revalidate();
+      }, 500),
+    );
     return function cleanup() {
-      window.VimpAPI.app.removeAllListeners(channels.TRACKS_DB_CHANGED)
-    }
-  }, [])
+      window.VimpAPI.app.removeAllListeners(channels.TRACKS_DB_CHANGED);
+    };
+  }, [revalidator]);
 
   const appBarHeight = 36;
   const playConsoleHeight = track.path === '' ? 0 : 80;
@@ -54,7 +56,7 @@ export default function RootView() {
         <div className='relative col-span-3 row-span-2 overflow-clip rounded-lg bg-[#121212]'>
           <Header />
           <ScrollArea className='relative h-full w-full'>
-            <div className='h-full *:h-full w-[calc(100vw-24px-var(--sidebar-width))] p-4 pt-16 transition-all'>
+            <div className='h-full w-[calc(100vw-24px-var(--sidebar-width))] p-4 pt-16 transition-all *:h-full'>
               <Outlet />
             </div>
             <ScrollBar orientation='vertical' />
@@ -72,7 +74,7 @@ export type RootLoaderData = LoaderData<typeof RootView.loader>;
 RootView.loader = async () => {
   const res: TrackModel[] = await window.VimpAPI.db.getTracks();
 
-  const tracks = res.sort((a, b) => {
+  const tracks = res.toSorted((a, b) => {
     if (!a) return 1;
     if (!b) return -1;
 
@@ -87,4 +89,4 @@ RootView.loader = async () => {
   });
 
   return { tracks };
-}
+};

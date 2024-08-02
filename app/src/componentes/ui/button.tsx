@@ -9,7 +9,6 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        //TODO confirmar cores do estilo default
         default:
           'bg-neutral-900 text-neutral-50 hover:bg-neutral-800/90 active:bg-neutral-700/90',
         destructive: 'bg-red-500 text-neutral-50 hover:bg-red-700/90',

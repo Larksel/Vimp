@@ -10,6 +10,7 @@ interface TrackRowProps {
   onClick: (trackID: string) => void;
 }
 
+// TODO alterar de div para botão
 export default function TrackRow(props: TrackRowProps) {
   const { track, index, onClick } = props;
   const { _id } = useCurrentTrack();
@@ -25,6 +26,7 @@ export default function TrackRow(props: TrackRowProps) {
       <div className='flex h-full items-center gap-3 truncate'>
         <img
           src={track.cover || placeholder}
+          alt=''
           className='size-12 shrink-0 rounded object-cover'
         />
 

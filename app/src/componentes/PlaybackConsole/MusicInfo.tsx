@@ -35,6 +35,7 @@ export default function MusicInfo() {
         >
           <img
             src={track.cover || placeholderImage}
+            alt=''
             className={`size-16 rounded object-cover transition-all ${visible ? 'w-0 opacity-0' : ''}`}
           />
 
@@ -46,7 +47,7 @@ export default function MusicInfo() {
             }}
           >
             <InfoText variant='primary'>{track.title}</InfoText>
-            <InfoText variant='secondary'>{track.artist}</InfoText>
+            <InfoText variant='secondary'>{track.artist[0]}</InfoText>
           </div>
         </div>
         <Button

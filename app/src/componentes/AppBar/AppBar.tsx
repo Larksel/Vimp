@@ -11,10 +11,6 @@ export default function AppBar() {
       style={{
         WebkitAppRegion: 'drag',
       }}
-    >
-      {
-        //TODO to be decided
-      }
-    </div>
+    />
   );
 }

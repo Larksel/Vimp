@@ -9,10 +9,12 @@ export default function MoreOptions() {
 
   const buttons = [
     {
+      id: 'queue',
       icon: <Playlist size={24} />,
       action: () => navigate(routes.QUEUE),
     },
     {
+      id: 'moreinfo',
       icon: <Info size={24} />,
       action: () => console.log('Show extended music info'),
     },
@@ -22,7 +24,7 @@ export default function MoreOptions() {
     <div className='flex h-full w-[30%] flex-row items-center justify-end gap-2 px-2'>
       {buttons.map((button, index) => (
         <button
-          key={index}
+          key={button.id}
           onClick={button.action}
           className='text-neutral-400 transition-colors hover:text-neutral-100'
         >

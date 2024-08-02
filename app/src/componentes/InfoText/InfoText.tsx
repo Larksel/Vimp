@@ -14,9 +14,10 @@ const textVariants = cva('w-fit whitespace-nowrap font-normal', {
 interface InfoTextProps
   extends React.HTMLProps<HTMLParagraphElement>,
     VariantProps<typeof textVariants> {
-  children: any;
+  children: string;
 }
 
+// TODO arrumar isso aqui
 export default function InfoText({
   children,
   variant,

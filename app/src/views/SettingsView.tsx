@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { useLoaderData, useRevalidator } from 'react-router-dom';
 import { Config } from '../../shared/types/vimp';
 
-import * as Setting from '@/componentes/Setting/Setting';
+import * as Settings from '@/componentes/Settings/Settings';
 
 export default function SettingsView() {
   const { config } = useLoaderData() as SettingsLoaderData;
@@ -46,8 +46,8 @@ export default function SettingsView() {
   return (
     <div className='flex flex-col items-center'>
       <div className='flex h-full w-full max-w-[800px] flex-col'>
-        <Setting.Section name='Geral'>
-          <Setting.Option name='Display Notifications (Coming soon)'>
+        <Settings.Section name='Geral'>
+          <Settings.Option name='Display Notifications (Coming soon)'>
             <Switch
               checked={configData.displayNotifications}
               onCheckedChange={() => {
@@ -58,8 +58,8 @@ export default function SettingsView() {
                 setChanged(true);
               }}
             />
-          </Setting.Option>
-          <Setting.Option name='Rescan Tracks'>
+          </Settings.Option>
+          <Settings.Option name='Rescan Tracks'>
             {!scanning && (
               <Button className='bg-neutral-800' onClick={rescanTracks}>
                 Rescan Now
@@ -68,17 +68,17 @@ export default function SettingsView() {
             {scanning && (
               <Button className='bg-neutral-800'>Rescanning...</Button>
             )}
-          </Setting.Option>
-        </Setting.Section>
-        <Setting.Section name='Pastas de música'>
+          </Settings.Option>
+        </Settings.Section>
+        <Settings.Section name='Pastas de música'>
           <ul className='px-4'>
             {configData.musicFolders.map((folder) => (
               <li key={folder}>- {folder}</li>
             ))}
           </ul>
-        </Setting.Section>
-        <Setting.Section name='Audio' className='flex flex-col gap-4'>
-          <Setting.Option name='Gapless Playback (Coming soon)'>
+        </Settings.Section>
+        <Settings.Section name='Audio' className='flex flex-col gap-4'>
+          <Settings.Option name='Gapless Playback (Coming soon)'>
             <Switch
               checked={configData.audioGaplessPlayback}
               onCheckedChange={() => {
@@ -89,9 +89,9 @@ export default function SettingsView() {
                 setChanged(true);
               }}
             />
-          </Setting.Option>
+          </Settings.Option>
 
-          <Setting.Option name='Crossfade Duration (Coming soon)'>
+          <Settings.Option name='Crossfade Duration (Coming soon)'>
             <Input
               className='max-w-16'
               value={configData.audioCrossfadeDuration}
@@ -103,15 +103,15 @@ export default function SettingsView() {
                 setChanged(true);
               }}
             />
-          </Setting.Option>
-        </Setting.Section>
-        <Setting.Section name='Danger Zone'>
-          <Setting.Option name='Clear Tracks Database'>
+          </Settings.Option>
+        </Settings.Section>
+        <Settings.Section name='Danger Zone'>
+          <Settings.Option name='Clear Tracks Database'>
             <Button variant={'destructive'} onClick={clearTracksDB}>
               Clear Now
             </Button>
-          </Setting.Option>
-        </Setting.Section>
+          </Settings.Option>
+        </Settings.Section>
         {changed && (
           <Button
             onClick={saveChanges}

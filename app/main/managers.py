@@ -15,6 +15,7 @@ class FileManager:
 
         file.save()
 
+    #TODO use regex
     # Removes every non-supported character from the filename
     @staticmethod
     def format_filename(filename):

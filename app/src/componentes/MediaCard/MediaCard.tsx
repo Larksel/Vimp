@@ -32,12 +32,13 @@ export default function MediaCard(props: MediaCardProps) {
         </button>
         <img
           src={item.cover || placeholder}
+          alt=''
           className='aspect-square w-full select-none rounded object-cover'
         />
       </CardHeader>
       <CardContent className='overflow-hidden p-0'>
         <InfoText variant='primary'>{item.title}</InfoText>
-        <InfoText variant='secondary'>{item.artist}</InfoText>
+        <InfoText variant='secondary'>{item.artist[0]}</InfoText>
       </CardContent>
       <p className='absolute bottom-4 right-4 w-fit text-sm text-neutral-400'>
         {formatDuration(item.duration)}

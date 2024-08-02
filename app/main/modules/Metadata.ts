@@ -37,10 +37,10 @@ export async function getMetadata(trackPath: string) {
  */
 function formatMusicMetadata(data: mmd.IAudioMetadata, trackPath: string) {
   const { common, format } = data;
-  const picture = common.picture && common.picture[0];
+  const picture = common.picture?.[0];
 
   const metadata = {
-    title: common.title || path.parse(trackPath).base,
+    title: common.title ?? path.parse(trackPath).base,
     album: common.album,
     artist: common.artists ||
       (common.artist && [common.artist]) ||
@@ -87,7 +87,7 @@ export async function getCover(trackPath: string) {
   }
 
   const data = await mmd.parseFile(trackPath);
-  const picture = data.common.picture && data.common.picture[0];
+  const picture = data.common.picture?.[0];
 
   if (picture) {
     return parseBase64(picture.format, picture.data.toString('base64'));

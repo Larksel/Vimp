@@ -7,7 +7,3 @@ class Converter:
         mp4 = AudioFileClip(videofile)
         mp4.write_audiofile(audiofile)
         mp4.close()
-
-    @staticmethod
-    def merge(videofile, audiofile):
-        pass
