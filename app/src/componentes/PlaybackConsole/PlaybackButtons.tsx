@@ -37,22 +37,20 @@ export default function PlaybackButtons() {
   };
 
   return (
-    <div className='flex w-full items-center gap-4'>
-      <div className='flex flex-1 justify-end gap-2'>
-        <button
-          className='relative flex size-8 items-center justify-center text-neutral-400 transition-colors hover:text-neutral-100'
-          onClick={() => playerAPI.toggleShuffle()}
-        >
-          <Shuffle size={20} className={`${shuffle ? 'text-green-500' : ''}`} />
-        </button>
+    <div className='flex w-full items-center justify-center gap-4'>
+      <button
+        className='flex size-8 items-center justify-center text-neutral-400 transition-colors hover:text-neutral-100'
+        onClick={() => playerAPI.toggleShuffle()}
+      >
+        <Shuffle size={20} className={`${shuffle ? 'text-green-500' : ''}`} />
+      </button>
 
-        <button
-          className='relative flex size-8 items-center justify-center text-neutral-400 transition-colors hover:text-neutral-100'
-          onClick={() => playerAPI.previous()}
-        >
-          <SkipBack size={20} />
-        </button>
-      </div>
+      <button
+        className='flex size-8 items-center justify-center text-neutral-400 transition-colors hover:text-neutral-100'
+        onClick={() => playerAPI.previous()}
+      >
+        <SkipBack size={20} />
+      </button>
 
       <button
         onClick={() => playerAPI.playPause()}
@@ -65,21 +63,19 @@ export default function PlaybackButtons() {
         )}
       </button>
 
-      <div className='flex flex-1 gap-2'>
-        <button
-          className='relative flex size-8 items-center justify-center text-neutral-400 transition-colors hover:text-neutral-100'
-          onClick={() => playerAPI.next()}
-        >
-          <SkipForward size={20} />
-        </button>
+      <button
+        className='flex size-8 items-center justify-center text-neutral-400 transition-colors hover:text-neutral-100'
+        onClick={() => playerAPI.next()}
+      >
+        <SkipForward size={20} />
+      </button>
 
-        <button
-          className='relative flex size-8 items-center justify-center text-neutral-400 transition-colors hover:text-neutral-100'
-          onClick={() => playerAPI.toggleRepeat()}
-        >
-          {repeatIcons[repeat]}
-        </button>
-      </div>
+      <button
+        className='flex size-8 items-center justify-center text-neutral-400 transition-colors hover:text-neutral-100'
+        onClick={() => playerAPI.toggleRepeat()}
+      >
+        {repeatIcons[repeat]}
+      </button>
     </div>
   );
 }
