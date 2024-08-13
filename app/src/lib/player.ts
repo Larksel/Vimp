@@ -41,6 +41,8 @@ class Player {
 
       if (this.track && this.track._id && this.track._id !== '') {
         await window.VimpAPI.db.updateLastPlayed(this.track._id);
+        //TODO implementar threshold
+        await window.VimpAPI.db.incrementPlayCount(this.track._id);
         // TODO revalidar rotas
       }
     } catch (err) {

@@ -89,7 +89,6 @@ const TracksDB = {
   /**
    * Increments `playCount` attribute for the given track
    */
-  //TODO implementar sistema de threshold para incrementar automaticamente
   async incrementPlayCount(trackID: string) {
     const doc = await Tracks.get(trackID);
     await Tracks.put({
