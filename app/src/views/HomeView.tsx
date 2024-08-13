@@ -22,7 +22,7 @@ export default function HomeView() {
   const favorites = tracks.filter((track) => track.favorite === true);
 
   const mostPlayed = tracks
-    .filter((track) => track.playCount > 5)
+    .filter((track) => track.playCount > 0)
     .toSorted((a, b) => b.playCount - a.playCount);
 
   const recentlyAdded = tracks
