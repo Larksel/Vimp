@@ -12,15 +12,29 @@ export default function HomeView() {
     .filter((track) => track.lastPlayed !== undefined)
     .toSorted((a, b) => {
       if (a.lastPlayed && b.lastPlayed) {
-        return new Date(b.lastPlayed).getTime() - new Date(a.lastPlayed).getTime()
+        return (
+          new Date(b.lastPlayed).getTime() - new Date(a.lastPlayed).getTime()
+        );
       }
       return 0;
-    })
-  const favorites = tracks
-    .filter((track) => track.favorite === true)
+    });
+
+  const favorites = tracks.filter((track) => track.favorite === true);
+
   const mostPlayed = tracks
-    .filter((track) => track.playCount > 0)
-    .toSorted((a, b) => b.playCount - a.playCount)
+    .filter((track) => track.playCount > 5)
+    .toSorted((a, b) => b.playCount - a.playCount);
+
+  const recentlyAdded = tracks
+    .filter((track) => track.dateAdded !== undefined)
+    .toSorted((a, b) => {
+      if (a.dateAdded && b.dateAdded) {
+        return (
+          new Date(b.dateAdded).getTime() - new Date(a.dateAdded).getTime()
+        );
+      }
+      return 0;
+    });
 
   const forceScan = async () => {
     const pathsToScan = await window.VimpAPI.config.get('musicFolders');
@@ -30,7 +44,7 @@ export default function HomeView() {
     console.log(tracksDB);
 
     revalidator.revalidate();
-  }
+  };
 
   return (
     <div className='space-y-10'>
@@ -52,23 +66,20 @@ export default function HomeView() {
           <CardList max={5} data={mostPlayed} />
         </div>
       )}
-      {tracks.length > 0 && (
+      {recentlyAdded.length > 0 && (
         <div>
-          <h1>Aleatórias</h1>
-          <CardList max={10} data={tracks} />
+          <h1>Recentemente Adicionadas</h1>
+          <CardList max={10} data={recentlyAdded} />
         </div>
       )}
-      {recents.length === 0 &&
-        favorites.length === 0 &&
-        mostPlayed.length === 0 &&
-        tracks.length === 0 && (
-          <div className='flex flex-col h-80 items-center justify-center text-neutral-400 space-y-4'>
-            <h1>Sua biblioteca está vazia</h1>
-            <Button variant={'outline'} onClick={forceScan}>
-              Escanear arquivos
-            </Button>
-          </div>
-        )}
+      {tracks.length === 0 && (
+        <div className='flex h-80 flex-col items-center justify-center space-y-4 text-neutral-400'>
+          <h1>Sua biblioteca está vazia</h1>
+          <Button variant={'outline'} onClick={forceScan}>
+            Escanear arquivos
+          </Button>
+        </div>
+      )}
     </div>
   );
 }
