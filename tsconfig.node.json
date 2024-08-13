@@ -4,8 +4,7 @@
     "electron.vite.config.*", 
     "app/main/**/*", 
     "app/preload/**/*", 
-    "app/shared/**/*",
-    "app/preload/env.d.ts"
+    "app/shared/**/*"
   ],
   "compilerOptions": {
     "composite": true,

@@ -3,7 +3,7 @@
   "include": [
     "app/src/types/index.d.ts",
     "app/src/**/*",
-    "app/shared/types/vimp.ts",
+    "app/shared/**/*",
   ],
   "compilerOptions": {
     "composite": true,
