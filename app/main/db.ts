@@ -2,7 +2,6 @@ import path from 'path';
 import { app } from 'electron';
 import PouchDB from 'pouchdb';
 import PouchDBFind from 'pouchdb-find';
-import { formatDate } from '../shared/lib/utils';
 import { Track, TrackModel } from '../shared/types/vimp';
 
 PouchDB.plugin(PouchDBFind);
@@ -24,7 +23,12 @@ const TracksDB = {
   // * CRUD operations
 
   async insertMany(tracks: Track[]) {
-    return Tracks.bulkDocs(tracks);
+    const datedTracks = tracks.map((track) => ({
+      ...track,
+      dateAdded: new Date(),
+    }));
+
+    return Tracks.bulkDocs(datedTracks);
   },
 
   //TODO pegar pedaços ao invés de tudo direto
@@ -45,7 +49,7 @@ const TracksDB = {
   async update(track: TrackModel) {
     const doc = await Tracks.get(track._id);
 
-    return Tracks.put({ ...doc, ...track });
+    return Tracks.put({ ...doc, ...track, dateModified: new Date() });
   },
 
   async delete(trackID: string): Promise<void> {
@@ -112,7 +116,7 @@ const TracksDB = {
     const doc = await Tracks.get(trackID);
     await Tracks.put({
       ...doc,
-      lastPlayed: formatDate(new Date()),
+      lastPlayed: new Date(),
     });
   },
 

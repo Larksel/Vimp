@@ -1,8 +1,8 @@
-import * as mmd from 'music-metadata';
+import { parseFile, IAudioMetadata } from 'music-metadata';
 import path from 'path';
 import { Track } from '../../shared/types/vimp';
 
-export async function getMetadata(trackPath: string) {
+export async function getMetadata(trackPath: string): Promise<Track> {
   const defaultMetadata = getMetadataDefaults();
 
   const basicMetadata = {
@@ -11,7 +11,7 @@ export async function getMetadata(trackPath: string) {
   };
 
   try {
-    const data = await mmd.parseFile(trackPath, {
+    const data = await parseFile(trackPath, {
       skipCovers: false,
       duration: true,
     });
@@ -35,7 +35,7 @@ export async function getMetadata(trackPath: string) {
 /**
  * Returns an object with only the needed data from the file
  */
-function formatMusicMetadata(data: mmd.IAudioMetadata, trackPath: string) {
+function formatMusicMetadata(data: IAudioMetadata, trackPath: string) {
   const { common, format } = data;
   const picture = common.picture?.[0];
 
@@ -65,12 +65,10 @@ function formatMusicMetadata(data: mmd.IAudioMetadata, trackPath: string) {
 function getMetadataDefaults(): Track {
   return {
     title: '',
-    album: '',
     artist: ['Unknown artist'],
     genre: ['Unknown'],
     duration: 0,
     playCount: 0,
-    lastPlayed: null,
     favorite: false,
     path: '',
     cover: '',
@@ -86,7 +84,7 @@ export async function getCover(trackPath: string) {
     return null;
   }
 
-  const data = await mmd.parseFile(trackPath);
+  const data = await parseFile(trackPath);
   const picture = data.common.picture?.[0];
 
   if (picture) {

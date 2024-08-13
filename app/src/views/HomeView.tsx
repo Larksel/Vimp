@@ -9,8 +9,8 @@ export default function HomeView() {
   const { tracks } = useRouteLoaderData('root') as RootLoaderData;
 
   const recents = tracks
-    .filter((track) => track.lastPlayed !== null)
-    .sort((a, b) => {
+    .filter((track) => track.lastPlayed !== undefined)
+    .toSorted((a, b) => {
       if (a.lastPlayed && b.lastPlayed) {
         return new Date(b.lastPlayed).getTime() - new Date(a.lastPlayed).getTime()
       }
@@ -20,7 +20,7 @@ export default function HomeView() {
     .filter((track) => track.favorite === true)
   const mostPlayed = tracks
     .filter((track) => track.playCount > 0)
-    .sort((a, b) => b.playCount - a.playCount)
+    .toSorted((a, b) => b.playCount - a.playCount)
 
   const forceScan = async () => {
     const pathsToScan = await window.VimpAPI.config.get('musicFolders');
@@ -36,7 +36,7 @@ export default function HomeView() {
     <div className='space-y-10'>
       {recents.length > 0 && (
         <div>
-          <h1>Músicas recentes</h1>
+          <h1>Músicas recentemente tocadas</h1>
           <CardList max={5} data={recents} />
         </div>
       )}

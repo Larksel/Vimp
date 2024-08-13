@@ -16,7 +16,6 @@ export default function useCurrentTrack(): TrackModel {
       duration: 0,
       playCount: 0,
       favorite: false,
-      lastPlayed: null,
       path: '',
       cover: '',
       _id: '',
