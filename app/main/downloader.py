@@ -1,7 +1,7 @@
 import urllib.request
 
-from pytube import YouTube, Playlist
-from pytube.cli import on_progress
+from pytubefix import YouTube, Playlist
+from pytubefix.cli import on_progress
 
 if __name__ != "__main__":
     from .managers import DirManager, FileManager
