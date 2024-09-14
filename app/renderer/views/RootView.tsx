@@ -4,11 +4,11 @@ import { LoaderData } from '../router';
 import debounce from 'lodash/debounce';
 
 import { TrackModel } from '../../shared/types/vimp';
-import AppBar from '../componentes/AppBar/AppBar';
-import SideBar from '../componentes/SideBar/SideBar';
-import { ScrollArea, ScrollBar } from '../componentes/ui/scroll-area';
-import Header from '../componentes/Header/Header';
-import PlaybackConsole from '../componentes/PlaybackConsole/PlaybackConsole';
+import AppBar from '../components/AppBar/AppBar';
+import SideBar from '../components/SideBar/SideBar';
+import { ScrollArea, ScrollBar } from '../components/ui/scroll-area';
+import Header from '../components/Header/Header';
+import PlaybackConsole from '../components/PlaybackConsole/PlaybackConsole';
 import channels from '../../shared/lib/ipc-channels';
 import useCurrentTrack from '../hooks/useCurrentTrack';
 

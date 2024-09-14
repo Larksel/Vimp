@@ -1,8 +1,8 @@
 import { useRevalidator, useRouteLoaderData } from 'react-router-dom';
 import { RootLoaderData } from '@/views/RootView';
 
-import CardList from '@/componentes/CardList/CardList';
-import { Button } from '@/componentes/ui/button';
+import CardList from '@/components/CardList/CardList';
+import { Button } from '@/components/ui/button';
 
 export default function HomeView() {
   const revalidator = useRevalidator();

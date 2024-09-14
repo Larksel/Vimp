@@ -2,11 +2,11 @@ import { useState, useCallback, useMemo } from 'react';
 import { debounce } from 'lodash';
 import { VirtuosoGrid } from 'react-virtuoso';
 
-import MediaCard from '@/componentes/MediaCard/MediaCard';
-import { Input } from '@/componentes/ui/input';
+import MediaCard from '@/components/MediaCard/MediaCard';
+import { Input } from '@/components/ui/input';
 import { useRevalidator, useRouteLoaderData } from 'react-router-dom';
 import { RootLoaderData } from '@/views/RootView';
-import { Button } from '@/componentes/ui/button';
+import { Button } from '@/components/ui/button';
 
 export default function MusicLibraryView() {
   const [search, setSearch] = useState('');

@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader } from '@/componentes/ui/card';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import InfoText from '../InfoText/InfoText';
 
 import { Play } from '@phosphor-icons/react';
