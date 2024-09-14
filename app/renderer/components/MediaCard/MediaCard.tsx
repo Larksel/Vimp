@@ -5,7 +5,7 @@ import { Play } from '@phosphor-icons/react';
 
 import placeholder from '../../assets/images/placeholder.png';
 import { TrackModel } from '../../../shared/types/vimp';
-import { formatDuration } from '@/lib/utils';
+import { formatDuration } from '@/utils/utils';
 import { usePlayerAPI } from '@/stores/usePlayerStore';
 
 interface MediaCardProps {

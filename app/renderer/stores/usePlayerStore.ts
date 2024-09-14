@@ -2,7 +2,7 @@ import { StateCreator } from 'zustand';
 import debounce from 'lodash/debounce';
 
 import { PlayerStatus, RepeatMode, TrackModel } from '../../shared/types/vimp';
-import { createStore } from '@/lib/utils-store';
+import { createStore } from '@/utils/utils-store';
 import player from '@/lib/player';
 
 type PlayerState = {

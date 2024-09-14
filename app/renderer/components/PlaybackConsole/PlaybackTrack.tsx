@@ -1,6 +1,6 @@
 import { Slider } from '../ui/slider';
 
-import { formatDuration } from '../../lib/utils';
+import { formatDuration } from '../../utils/utils';
 import { usePlayerAPI } from '@/stores/usePlayerStore';
 import usePlayerCurrentTime from '@/hooks/usePlayerCurrentTime';
 import useCurrentTrack from '@/hooks/useCurrentTrack';
