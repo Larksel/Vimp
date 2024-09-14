@@ -3,7 +3,7 @@ import debounce from 'lodash/debounce';
 
 import { PlayerStatus, RepeatMode, TrackModel } from '../../shared/types/vimp';
 import { createStore } from '@/utils/utils-store';
-import player from '@/lib/player';
+import player from '@/features/player';
 
 type PlayerState = {
   queue: TrackModel[];

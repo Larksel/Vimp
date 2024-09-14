@@ -8,7 +8,7 @@ import { Slider } from '../ui/slider';
 
 import usePlayerStore, { usePlayerAPI } from '@/stores/usePlayerStore';
 import { useState } from 'react';
-import player from '@/lib/player';
+import player from '@/features/player';
 
 //TODO indicador com o volume atual
 //TODO https://www.dr-lex.be/info-stuff/volumecontrols.html#about

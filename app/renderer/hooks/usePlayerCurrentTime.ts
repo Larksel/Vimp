@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 
-import player from '../lib/player';
+import player from '../features/player';
 
 /**
  * Returns the current track elapsed time

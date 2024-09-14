@@ -1,6 +1,6 @@
-import player from "@/lib/player";
-import { usePlayerAPI } from "@/stores/usePlayerStore";
-import { useEffect } from "react";
+import player from '@/features/player';
+import { usePlayerAPI } from '@/stores/usePlayerStore';
+import { useEffect } from 'react';
 
 export default function PlayerEvents() {
   const playerAPI = usePlayerAPI();
@@ -11,7 +11,7 @@ export default function PlayerEvents() {
     return function cleanup() {
       player.getAudio().removeEventListener('ended', playerAPI.next);
     };
-  }, [playerAPI])
+  }, [playerAPI]);
 
   return null;
 }
