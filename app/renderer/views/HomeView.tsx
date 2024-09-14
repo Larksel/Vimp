@@ -2,7 +2,7 @@ import { useRevalidator, useRouteLoaderData } from 'react-router-dom';
 import { RootLoaderData } from '@/views/RootView';
 
 import CardList from '@/components/CardList/CardList';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/common/button';
 
 export default function HomeView() {
   const revalidator = useRevalidator();

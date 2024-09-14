@@ -6,7 +6,7 @@ import debounce from 'lodash/debounce';
 import { TrackModel } from '../../shared/types/vimp';
 import AppBar from '../components/AppBar/AppBar';
 import SideBar from '../components/SideBar/SideBar';
-import { ScrollArea, ScrollBar } from '../components/ui/scroll-area';
+import { ScrollArea, ScrollBar } from '../components/common/scroll-area';
 import Header from '../components/Header/Header';
 import PlaybackConsole from '../components/PlaybackConsole/PlaybackConsole';
 import channels from '../../shared/lib/ipc-channels';

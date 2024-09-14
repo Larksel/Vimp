@@ -6,7 +6,7 @@ import useCurrentTrack from '@/hooks/useCurrentTrack';
 
 import ExpandedView from './ExpandedView';
 import InfoText from '../InfoText/InfoText';
-import { Button } from '../ui/button';
+import { Button } from '../common/button';
 import { useRevalidator } from 'react-router-dom';
 import { usePlayerAPI } from '@/stores/usePlayerStore';
 

@@ -1,8 +1,8 @@
 import { useState } from 'react';
 
 import { Plus, MagnifyingGlass, ListBullets } from '@phosphor-icons/react';
-import { Button } from '../ui/button';
-import { Input } from '../ui/input';
+import { Button } from '../common/button';
+import { Input } from '../common/input';
 
 interface ListHeaderProps {
   collapsed: boolean;

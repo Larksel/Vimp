@@ -3,10 +3,10 @@ import { debounce } from 'lodash';
 import { VirtuosoGrid } from 'react-virtuoso';
 
 import MediaCard from '@/components/MediaCard/MediaCard';
-import { Input } from '@/components/ui/input';
+import { Input } from '@/components/common/input';
 import { useRevalidator, useRouteLoaderData } from 'react-router-dom';
 import { RootLoaderData } from '@/views/RootView';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/common/button';
 
 export default function MusicLibraryView() {
   const [search, setSearch] = useState('');

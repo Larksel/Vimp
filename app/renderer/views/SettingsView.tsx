@@ -1,6 +1,6 @@
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Switch } from '@/components/ui/switch';
+import { Button } from '@/components/common/button';
+import { Input } from '@/components/common/input';
+import { Switch } from '@/components/common/switch';
 import { LoaderData } from '@/router';
 import { useState } from 'react';
 import { useLoaderData, useRevalidator } from 'react-router-dom';

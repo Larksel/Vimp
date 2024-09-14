@@ -6,7 +6,7 @@ import {
   MusicNote,
   MonitorPlay,
 } from '@phosphor-icons/react';
-import { Button } from '../ui/button';
+import { Button } from '../common/button';
 
 import routes from '@/routes';
 

@@ -1,7 +1,7 @@
 import placeholderImage from '../../assets/images/placeholder.png';
 
-import { Button } from '../ui/button';
-import { ScrollArea, ScrollBar } from '../ui/scroll-area';
+import { Button } from '../common/button';
+import { ScrollArea, ScrollBar } from '../common/scroll-area';
 import ListHeader from './ListHeader';
 import InfoText from '../InfoText/InfoText';
 
