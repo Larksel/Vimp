@@ -3,7 +3,7 @@ import chokidar from 'chokidar';
 import path from 'path';
 import { Config, Track } from '@shared/types/vimp';
 import globals from '@shared/lib/globals';
-import { TracksDB } from '../db';
+import { TracksDB } from '@main/db';
 import { getMetadata } from './Metadata';
 import ModuleWindow from './BaseWindowModule';
 import { BrowserWindow } from 'electron';

@@ -2,14 +2,14 @@ import { app, BrowserWindow, session } from 'electron';
 import { electronApp, optimizer } from '@electron-toolkit/utils';
 import os from 'os';
 import { join } from 'path';
-import MenuBuilder from './modules/MenuBuilder';
-import { setupVimpProtocol } from './modules/Protocol';
-import setupIPCDatabase from './modules/IPCDatabase';
-import setupIPCTracks from './modules/IPCTracks';
-import setupIPCDialog from './modules/Dialog';
-import Library from './modules/Library';
-import ConfigModule from './modules/ConfigModule';
-import FileWatcher from './modules/FileWatcher';
+import MenuBuilder from '@modules/MenuBuilder';
+import { setupVimpProtocol } from '@modules/Protocol';
+import setupIPCDatabase from '@modules/IPCDatabase';
+import setupIPCTracks from '@modules/IPCTracks';
+import setupIPCDialog from '@modules/Dialog';
+import Library from '@modules/Library';
+import ConfigModule from '@modules/ConfigModule';
+import FileWatcher from '@modules/FileWatcher';
 
 const isDebug =
   process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true';

@@ -1,5 +1,5 @@
 import { ipcMain } from 'electron';
-import { TracksDB } from '../db';
+import { TracksDB } from '@main/db';
 import { Track, TrackModel } from '@shared/types/vimp';
 
 import channels from '@shared/lib/ipc-channels';

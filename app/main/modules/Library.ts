@@ -9,7 +9,7 @@ import channels from '@shared/lib/ipc-channels';
 import { Track } from '@shared/types/vimp';
 
 import Module from './BaseModule';
-import { TracksDB } from '../db';
+import { TracksDB } from '@main/db';
 import { getMetadata } from './Metadata';
 
 class Library extends Module {
