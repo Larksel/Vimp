@@ -9,7 +9,7 @@ import {
 } from '@phosphor-icons/react';
 
 import usePlayerStore, { usePlayerAPI } from '@stores/usePlayerStore';
-import { PlayerStatus } from '../../../shared/types/vimp';
+import { PlayerStatus } from '@shared/types/vimp';
 
 export default function PlaybackButtons() {
   const playerAPI = usePlayerAPI();

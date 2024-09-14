@@ -1,8 +1,8 @@
 import { app, ipcMain, screen } from 'electron';
 import Store from 'electron-store';
-import { Config, RepeatMode } from "../../shared/types/vimp";
+import { Config, RepeatMode } from "@shared/types/vimp";
 import Module from './BaseModule';
-import channels from '../../shared/lib/ipc-channels';
+import channels from '@shared/lib/ipc-channels';
 
 const userFolder = app.getPath('home');
 const vimpMusicFolder = userFolder + '\\Desktop\\Vimp Music'

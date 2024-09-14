@@ -4,7 +4,7 @@ import { Switch } from '@components/common/switch';
 import { LoaderData } from '@renderer/router';
 import { useState } from 'react';
 import { useLoaderData, useRevalidator } from 'react-router-dom';
-import { Config } from '../../shared/types/vimp';
+import { Config } from '@shared/types/vimp';
 
 import * as Settings from '@components/Settings/Settings';
 

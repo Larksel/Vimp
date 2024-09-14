@@ -4,7 +4,7 @@ import InfoText from '@components/InfoText/InfoText';
 import { Play } from '@phosphor-icons/react';
 
 import placeholder from '@assets/images/placeholder.png';
-import { TrackModel } from '../../../shared/types/vimp';
+import { TrackModel } from '@shared/types/vimp';
 import { formatDuration } from '@utils/utils';
 import { usePlayerAPI } from '@stores/usePlayerStore';
 

@@ -4,9 +4,9 @@ import fs from 'fs';
 import path from 'path';
 import queue from 'queue';
 
-import globals from '../../shared/lib/globals';
-import channels from '../../shared/lib/ipc-channels';
-import { Track } from '../../shared/types/vimp';
+import globals from '@shared/lib/globals';
+import channels from '@shared/lib/ipc-channels';
+import { Track } from '@shared/types/vimp';
 
 import Module from './BaseModule';
 import { TracksDB } from '../db';

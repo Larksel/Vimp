@@ -1,7 +1,7 @@
 import { ScrollArea, ScrollBar } from '@components/common/scroll-area';
 import MediaCard from '@components/MediaCard/MediaCard';
 
-import { TrackModel } from '../../../shared/types/vimp';
+import { TrackModel } from '@shared/types/vimp';
 
 type CardListProps = {
   data: TrackModel[];

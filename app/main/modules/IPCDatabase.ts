@@ -1,8 +1,8 @@
 import { ipcMain } from 'electron';
 import { TracksDB } from '../db';
-import { Track, TrackModel } from '../../shared/types/vimp';
+import { Track, TrackModel } from '@shared/types/vimp';
 
-import channels from '../../shared/lib/ipc-channels';
+import channels from '@shared/lib/ipc-channels';
 
 export default function setupIPCDatabase() {
   // * CRUD operations

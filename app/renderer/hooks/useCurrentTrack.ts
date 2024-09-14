@@ -1,5 +1,5 @@
 import usePlayerStore from "@stores/usePlayerStore";
-import { TrackModel } from "../../shared/types/vimp";
+import { TrackModel } from "@shared/types/vimp";
 
 
 export default function useCurrentTrack(): TrackModel {

@@ -1,6 +1,6 @@
 import { parseFile, IAudioMetadata } from 'music-metadata';
 import path from 'path';
-import { Track } from '../../shared/types/vimp';
+import { Track } from '@shared/types/vimp';
 
 export async function getMetadata(trackPath: string): Promise<Track> {
   const defaultMetadata = getMetadataDefaults();

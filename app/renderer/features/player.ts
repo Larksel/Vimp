@@ -1,4 +1,4 @@
-import { TrackModel } from '../../shared/types/vimp';
+import { TrackModel } from '@shared/types/vimp';
 
 interface PlayerOptions {
   playbackRate?: number;

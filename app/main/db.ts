@@ -2,7 +2,7 @@ import path from 'path';
 import { app } from 'electron';
 import PouchDB from 'pouchdb';
 import PouchDBFind from 'pouchdb-find';
-import { Track, TrackModel } from '../shared/types/vimp';
+import { Track, TrackModel } from '@shared/types/vimp';
 
 PouchDB.plugin(PouchDBFind);
 
