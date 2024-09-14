@@ -1,6 +1,6 @@
 import { Virtuoso } from 'react-virtuoso';
 import { TrackModel } from '../../../shared/types/vimp';
-import { ScrollArea } from '../common/scroll-area';
+import { ScrollArea } from '@components/common/scroll-area';
 import TrackRow from './TrackRow';
 
 interface TrackListProps {

@@ -1,9 +1,9 @@
-import placeholderImage from '../../assets/images/placeholder.png';
+import placeholderImage from '@assets/images/placeholder.png';
 
-import { Button } from '../common/button';
-import { ScrollArea, ScrollBar } from '../common/scroll-area';
+import { Button } from '@components/common/button';
+import { ScrollArea, ScrollBar } from '@components/common/scroll-area';
 import ListHeader from './ListHeader';
-import InfoText from '../InfoText/InfoText';
+import InfoText from '@components/InfoText/InfoText';
 
 interface PlaylistListProps {
   collapsed: boolean;

@@ -4,7 +4,7 @@ import {
   SpeakerSimpleX,
 } from '@phosphor-icons/react';
 
-import { Slider } from '../common/slider';
+import { Slider } from '@components/common/slider';
 
 import usePlayerStore, { usePlayerAPI } from '@stores/usePlayerStore';
 import { useState } from 'react';

@@ -1,16 +1,16 @@
 import { CSSProperties, useEffect, useState } from 'react';
 import { Outlet, useRevalidator } from 'react-router-dom';
-import { LoaderData } from '../router';
+import { LoaderData } from '@renderer/router';
 import debounce from 'lodash/debounce';
 
 import { TrackModel } from '../../shared/types/vimp';
-import AppBar from '../components/AppBar/AppBar';
-import SideBar from '../components/SideBar/SideBar';
-import { ScrollArea, ScrollBar } from '../components/common/scroll-area';
-import Header from '../components/Header/Header';
-import PlaybackConsole from '../components/PlaybackConsole/PlaybackConsole';
+import AppBar from '@components/AppBar/AppBar';
+import SideBar from '@components/SideBar/SideBar';
+import { ScrollArea, ScrollBar } from '@components/common/scroll-area';
+import Header from '@components/Header/Header';
+import PlaybackConsole from '@components/PlaybackConsole/PlaybackConsole';
 import channels from '../../shared/lib/ipc-channels';
-import useCurrentTrack from '../hooks/useCurrentTrack';
+import useCurrentTrack from '@hooks/useCurrentTrack';
 
 export default function RootView() {
   const revalidator = useRevalidator();
