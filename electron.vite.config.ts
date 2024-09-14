@@ -12,6 +12,13 @@ const commonConfig = {
 export default defineConfig({
   main: {
     plugins: [externalizeDepsPlugin({ exclude: externals })],
+    resolve: {
+      alias: {
+        '@shared': path.resolve(__dirname, './app/shared'),
+        '@main': path.resolve(__dirname, './app/main'),
+        '@modules': path.resolve(__dirname, './app/main/modules'),
+      }
+    },
     build: {
       ...commonConfig,
       outDir: '.vite/main',
@@ -22,6 +29,11 @@ export default defineConfig({
   },
   preload: {
     plugins: [externalizeDepsPlugin({ exclude: externals })],
+    resolve: {
+      alias: {
+        '@shared': path.resolve(__dirname, './app/shared'),
+      }
+    },
     build: {
       ...commonConfig,
       outDir: '.vite/preload',
@@ -35,6 +47,7 @@ export default defineConfig({
     resolve: {
       // This config must be the same as in tsconfig.web.json
       alias: {
+        '@shared': path.resolve(__dirname, './app/shared'),
         '@renderer': path.resolve(__dirname, './app/renderer'),
         '@assets': path.resolve(__dirname, './app/renderer/assets'),
         '@components': path.resolve(__dirname, './app/renderer/components'),

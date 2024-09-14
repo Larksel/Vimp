@@ -4,6 +4,9 @@
     "baseUrl": ".",
     // This config must be the same as in electron.vite.config
     "paths": {
+      "@shared/*": ["./app/shared/*"],
+      "@main/*": ["./app/main/*"],
+      "@modules/*": ["./app/main/modules/*"],
       "@renderer/*": ["./app/renderer/*"],
       "@assets/*": ["./app/renderer/assets/*"],
       "@components/*": ["./app/renderer/components/*"],
