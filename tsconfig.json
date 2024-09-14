@@ -2,9 +2,10 @@
   "files": [],
   "compilerOptions": {
     "baseUrl": ".",
+    // This config must be the same as in electron.vite.config
     "paths": {
       "@/*": [
-        "./app/src/*"
+        "./app/renderer/*"
       ]
     }
   },

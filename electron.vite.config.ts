@@ -33,18 +33,19 @@ export default defineConfig({
   renderer: {
     plugins: [react()],
     resolve: {
+      // This config must be the same as in tsconfig.web.json
       alias: {
-        '@': path.resolve(__dirname, './app/src'),
+        '@': path.resolve(__dirname, './app/renderer'),
       },
     },
     appType: 'spa',
-    root: path.resolve(__dirname, './app/src'),
+    root: path.resolve(__dirname, './app/renderer'),
     build: {
       minify,
       emptyOutDir: true,
       outDir: '.vite/renderer',
       rollupOptions: {
-        input: 'app/src/index.html',
+        input: 'app/renderer/index.html',
       },
     },
   },

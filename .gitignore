@@ -92,8 +92,7 @@ typings/
 out/
 
 .vscode/
-app/src/test/
-todo/
+app/renderer/test/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

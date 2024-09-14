@@ -1,8 +1,8 @@
 {
   "extends": "@electron-toolkit/tsconfig/tsconfig.web.json",
   "include": [
-    "app/src/types/index.d.ts",
-    "app/src/**/*",
+    "app/renderer/types/index.d.ts",
+    "app/renderer/**/*",
     "app/shared/**/*",
   ],
   "compilerOptions": {
@@ -10,8 +10,9 @@
     "jsx": "react-jsx",
     "noUnusedLocals": false,
     "noUnusedParameters": false,
+    // This config must be the same as in electron.vite.config
     "paths": {
-      "@/*": ["./app/src/*"],
+      "@/*": ["./app/renderer/*"],
     }
   }
 }
