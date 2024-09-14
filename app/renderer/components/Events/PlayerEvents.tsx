@@ -1,5 +1,5 @@
-import player from '@/features/player';
-import { usePlayerAPI } from '@/stores/usePlayerStore';
+import player from '@features/player';
+import { usePlayerAPI } from '@stores/usePlayerStore';
 import { useEffect } from 'react';
 
 export default function PlayerEvents() {

@@ -8,7 +8,7 @@ import {
   RepeatOnce,
 } from '@phosphor-icons/react';
 
-import usePlayerStore, { usePlayerAPI } from '@/stores/usePlayerStore';
+import usePlayerStore, { usePlayerAPI } from '@stores/usePlayerStore';
 import { PlayerStatus } from '../../../shared/types/vimp';
 
 export default function PlaybackButtons() {

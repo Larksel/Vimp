@@ -1,9 +1,9 @@
 import { Slider } from '../common/slider';
 
 import { formatDuration } from '../../utils/utils';
-import { usePlayerAPI } from '@/stores/usePlayerStore';
-import usePlayerCurrentTime from '@/hooks/usePlayerCurrentTime';
-import useCurrentTrack from '@/hooks/useCurrentTrack';
+import { usePlayerAPI } from '@stores/usePlayerStore';
+import usePlayerCurrentTime from '@hooks/usePlayerCurrentTime';
+import useCurrentTrack from '@hooks/useCurrentTrack';
 
 export default function PlaybackTrack() {
   const currentTrack = useCurrentTrack();

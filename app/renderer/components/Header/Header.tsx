@@ -1,8 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import { CaretLeft, CaretRight, Bell, Gear } from '@phosphor-icons/react';
-import { Button } from '../common/button';
+import { Button } from '@components/common/button';
 
-import routes from '@/routes';
+import routes from '@renderer/routes';
 
 //TODO cor de fundo sólida após scroll <- Fade in
 //TODO Pesquisa global

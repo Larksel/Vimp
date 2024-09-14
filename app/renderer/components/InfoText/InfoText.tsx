@@ -1,6 +1,6 @@
 import { useRef, useEffect, useState } from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
-import { cn } from '@/utils/utils';
+import { cn } from '@utils/utils';
 
 const textVariants = cva('w-fit whitespace-nowrap font-normal', {
   variants: {

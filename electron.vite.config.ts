@@ -35,7 +35,14 @@ export default defineConfig({
     resolve: {
       // This config must be the same as in tsconfig.web.json
       alias: {
-        '@': path.resolve(__dirname, './app/renderer'),
+        '@renderer': path.resolve(__dirname, './app/renderer'),
+        '@assets': path.resolve(__dirname, './app/renderer/assets'),
+        '@components': path.resolve(__dirname, './app/renderer/components'),
+        '@features': path.resolve(__dirname, './app/renderer/features'),
+        '@hooks': path.resolve(__dirname, './app/renderer/hooks'),
+        '@stores': path.resolve(__dirname, './app/renderer/stores'),
+        '@utils': path.resolve(__dirname, './app/renderer/utils'),
+        '@views': path.resolve(__dirname, './app/renderer/views'),
       },
     },
     appType: 'spa',

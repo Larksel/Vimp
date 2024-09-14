@@ -1,5 +1,5 @@
-import usePlayerStore, { usePlayerAPI } from '@/stores/usePlayerStore';
-import TrackList from '@/components/TrackList/TrackList';
+import usePlayerStore, { usePlayerAPI } from '@stores/usePlayerStore';
+import TrackList from '@components/TrackList/TrackList';
 
 export default function QueueView() {
   const playerAPI = usePlayerAPI();

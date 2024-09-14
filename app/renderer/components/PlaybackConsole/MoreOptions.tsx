@@ -2,7 +2,7 @@ import { Playlist, Info } from '@phosphor-icons/react';
 
 import VolumeControl from './VolumeControl';
 import { useNavigate } from 'react-router-dom';
-import routes from '@/routes';
+import routes from '@renderer/routes';
 
 export default function MoreOptions() {
   const navigate = useNavigate();

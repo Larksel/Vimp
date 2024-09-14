@@ -8,7 +8,7 @@ import {
 } from '@phosphor-icons/react';
 import { Button } from '../common/button';
 
-import routes from '@/routes';
+import routes from '@renderer/routes';
 
 // TODO Downloader
 

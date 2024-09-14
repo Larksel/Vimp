@@ -2,13 +2,13 @@ import { useState } from 'react';
 import { HeartStraight } from '@phosphor-icons/react';
 
 import placeholderImage from '../../assets/images/placeholder.png';
-import useCurrentTrack from '@/hooks/useCurrentTrack';
+import useCurrentTrack from '@hooks/useCurrentTrack';
 
 import ExpandedView from './ExpandedView';
 import InfoText from '../InfoText/InfoText';
 import { Button } from '../common/button';
 import { useRevalidator } from 'react-router-dom';
-import { usePlayerAPI } from '@/stores/usePlayerStore';
+import { usePlayerAPI } from '@stores/usePlayerStore';
 
 export default function MusicInfo() {
   const playerAPI = usePlayerAPI();

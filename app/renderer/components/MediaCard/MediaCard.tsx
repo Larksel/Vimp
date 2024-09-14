@@ -1,12 +1,12 @@
-import { Card, CardContent, CardHeader } from '@/components/common/card';
-import InfoText from '../InfoText/InfoText';
+import { Card, CardContent, CardHeader } from '@renderer/components/card';
+import InfoText from '@components/InfoText/InfoText';
 
 import { Play } from '@phosphor-icons/react';
 
-import placeholder from '../../assets/images/placeholder.png';
+import placeholder from '@assets/images/placeholder.png';
 import { TrackModel } from '../../../shared/types/vimp';
-import { formatDuration } from '@/utils/utils';
-import { usePlayerAPI } from '@/stores/usePlayerStore';
+import { formatDuration } from '@utils/utils';
+import { usePlayerAPI } from '@stores/usePlayerStore';
 
 interface MediaCardProps {
   item: TrackModel;

@@ -1,5 +1,5 @@
-import placeholder from '../../assets/images/placeholder.png';
-import useCurrentTrack from '@/hooks/useCurrentTrack';
+import placeholder from '@assets/images/placeholder.png';
+import useCurrentTrack from '@hooks/useCurrentTrack';
 
 interface ExpandedViewProps {
   visible: boolean;

@@ -1,9 +1,9 @@
 import { LoaderFunctionArgs, createHashRouter, useNavigate } from 'react-router-dom';
-import HomeView from './views/HomeView';
-import QueueView from './views/QueueView';
-import MusicLibraryView from './views/MusicLibraryView';
-import SettingsView from './views/SettingsView';
-import RootView from './views/RootView';
+import HomeView from '@views/HomeView';
+import QueueView from '@views/QueueView';
+import MusicLibraryView from '@views/MusicLibraryView';
+import SettingsView from '@views/SettingsView';
+import RootView from '@views/RootView';
 
 import routes from './routes';
 
