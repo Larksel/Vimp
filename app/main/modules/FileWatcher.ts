@@ -28,9 +28,7 @@ export default class FileWatcher extends ModuleWindow {
       ignoreInitial: true,
       ignored: new RegExp(`^[^.]*\\.(?!${lookahead})[^.]*$`, 'i'),
     });
-    // TODO Verificar ao iniciar
 
-    // TODO como saber se um arquivo foi movido ou renomeado? (Watcher)
     watcher
       .on('add', (path) => this.handleAddedFile(path))
       .on('unlink', (path) => this.handleRemovedFile(path))
@@ -40,8 +38,6 @@ export default class FileWatcher extends ModuleWindow {
       });
   }
 
-  // TODO Criar uma lista baseada em um intervalo de 1000ms e após esse tempo passar sem nenhuma nova remoção, excluir em massa https://pouchdb.com/guides/bulk-operations.html
-  // TODO se basear na library
   async handleAddedFile(filePath: string) {
     console.log(`DETECTED: ${filePath}`);
     const resolvedPath = path.resolve(filePath);
@@ -59,8 +55,6 @@ export default class FileWatcher extends ModuleWindow {
     }
   }
 
-  // TODO Criar uma lista baseada em um intervalo de 1000ms e após esse tempo passar sem nenhuma nova remoção, excluir em massa https://pouchdb.com/guides/bulk-operations.html
-  // TODO se basear na library
   async handleRemovedFile(filePath: string) {
     console.log(`LOST: ${filePath}`);
 
