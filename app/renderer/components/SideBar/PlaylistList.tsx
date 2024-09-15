@@ -9,9 +9,6 @@ interface PlaylistListProps {
   collapsed: boolean;
 }
 
-//TODO animar texto grande quando o mouse passar por cima
-//TODO puxar playlists salvas no BD
-
 export default function PlaylistList({ collapsed }: PlaylistListProps) {
   return (
     <ScrollArea className='relative h-full w-full rounded-lg bg-[#121212]'>

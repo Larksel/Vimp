@@ -17,7 +17,6 @@ interface InfoTextProps
   children: string;
 }
 
-// TODO arrumar isso aqui
 export default function InfoText({
   children,
   variant,

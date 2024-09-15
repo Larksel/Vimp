@@ -8,7 +8,6 @@ interface TrackListProps {
   onItemClick: (trackID: string) => void;
 }
 
-//TODO opção de remover track da lista
 export default function TrackList(props: TrackListProps) {
   const { queue, onItemClick } = props;
 

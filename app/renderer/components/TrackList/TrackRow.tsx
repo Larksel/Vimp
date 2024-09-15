@@ -10,7 +10,6 @@ interface TrackRowProps {
   onClick: (trackID: string) => void;
 }
 
-// TODO alterar de div para botão
 export default function TrackRow(props: TrackRowProps) {
   const { track, index, onClick } = props;
   const { _id } = useCurrentTrack();

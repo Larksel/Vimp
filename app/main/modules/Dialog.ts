@@ -3,7 +3,6 @@ import { getMetadata } from './Metadata';
 
 import channels from '@shared/constants/ipc-channels';
 
-//TODO Dialogs genéricos
 export default function setupIPCDialog() {
   ipcMain.handle(channels.PICK_FILES, async () => {
     const { canceled, filePaths } = await dialog.showOpenDialog({

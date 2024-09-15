@@ -37,9 +37,6 @@ type PlayerState = {
 
 const { config } = window.VimpAPI;
 
-//TODO crossfade
-//TODO gapless playback sem silencio entre as tracks
-//TODO persistir partes importantes
 const usePlayerStore = createPlayerStore<PlayerState>((set, get) => ({
   queue: [],
   originalQueue: [],

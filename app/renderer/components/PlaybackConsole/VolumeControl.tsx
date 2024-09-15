@@ -10,8 +10,6 @@ import usePlayerStore, { usePlayerAPI } from '@stores/usePlayerStore';
 import { useState } from 'react';
 import player from '@features/player';
 
-//TODO indicador com o volume atual
-//TODO https://www.dr-lex.be/info-stuff/volumecontrols.html#about
 export default function VolumeControl() {
   const playerAPI = usePlayerAPI();
   const audio = player.getAudio();

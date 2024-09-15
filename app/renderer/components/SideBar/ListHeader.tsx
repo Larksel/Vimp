@@ -8,8 +8,6 @@ interface ListHeaderProps {
   collapsed: boolean;
 }
 
-//TODO pesquisa de playlists
-//TODO ordem
 
 export default function ListHeader({ collapsed }: ListHeaderProps) {
   const [inputVisible, setInputVisible] = useState(false);

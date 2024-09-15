@@ -7,8 +7,6 @@ import RootView from '@views/RootView';
 
 import routes from './routes';
 
-//TODO Definir páginas que ficam no "Frame"
-//TODO e páginas que ocupam outras partes aplicação
 const router = createHashRouter([
   {
     path: '',

@@ -10,8 +10,6 @@ import { Button } from '@components/common/button';
 
 import routes from '@renderer/routes';
 
-// TODO Downloader
-
 const navButtons = [
   {
     text: 'Home',

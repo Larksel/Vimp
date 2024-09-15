@@ -50,7 +50,6 @@ export default class ConfigModule extends Module {
   }
 
   getDefaultConfig(): Config {
-    // TODO audio pitch
     const defaultConfig: Config = {
       audioVolume: 0.5,
       audioPlaybackRate: 1,
@@ -62,13 +61,6 @@ export default class ConfigModule extends Module {
       musicFolders: [app.getPath('music'), vimpMusicFolder],
     
       displayNotifications: true,
-    
-      // bounds: {
-      //   width: 1000,
-      //   height: 600,
-      //   x: Math.round(this.workArea.width / 2),
-      //   y: Math.round(this.workArea.height / 2),
-      // },
     }
 
     return defaultConfig;

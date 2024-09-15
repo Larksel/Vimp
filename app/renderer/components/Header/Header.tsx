@@ -4,8 +4,6 @@ import { Button } from '@components/common/button';
 
 import routes from '@renderer/routes';
 
-//TODO cor de fundo sólida após scroll <- Fade in
-//TODO Pesquisa global
 export default function Header() {
   const navigate = useNavigate();
 
