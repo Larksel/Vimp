@@ -1,6 +1,6 @@
 import { Track, TrackModel } from '@shared/types/vimp';
 import { ipcRenderer } from 'electron';
-import channels from '@shared/lib/ipc-channels';
+import channels from '@shared/constants/ipc-channels';
 
 ipcRenderer.removeAllListeners(channels.TRACKS_DB_CHANGED);
 

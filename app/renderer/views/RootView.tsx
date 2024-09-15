@@ -9,7 +9,7 @@ import SideBar from '@components/SideBar/SideBar';
 import { ScrollArea, ScrollBar } from '@components/common/scroll-area';
 import Header from '@components/Header/Header';
 import PlaybackConsole from '@components/PlaybackConsole/PlaybackConsole';
-import channels from '@shared/lib/ipc-channels';
+import channels from '@shared/constants/ipc-channels';
 import useCurrentTrack from '@hooks/useCurrentTrack';
 
 export default function RootView() {

@@ -1,5 +1,5 @@
 import { contextBridge, ipcRenderer } from 'electron';
-import channels from '@shared/lib/ipc-channels';
+import channels from '@shared/constants/ipc-channels';
 import db from './db';
 import { Config } from '@shared/types/vimp';
 

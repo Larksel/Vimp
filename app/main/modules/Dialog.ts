@@ -1,7 +1,7 @@
 import { ipcMain, dialog } from 'electron';
 import { getMetadata } from './Metadata';
 
-import channels from '@shared/lib/ipc-channels';
+import channels from '@shared/constants/ipc-channels';
 
 //TODO Dialogs genéricos
 export default function setupIPCDialog() {

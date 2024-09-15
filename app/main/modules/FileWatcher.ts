@@ -2,12 +2,12 @@ import type Store from 'electron-store';
 import chokidar from 'chokidar';
 import path from 'path';
 import { Config, Track } from '@shared/types/vimp';
-import globals from '@shared/lib/globals';
+import globals from '@shared/constants/globals';
 import { TracksDB } from '@main/db';
 import { getMetadata } from './Metadata';
 import ModuleWindow from './BaseWindowModule';
 import { BrowserWindow } from 'electron';
-import channels from '@shared/lib/ipc-channels';
+import channels from '@shared/constants/ipc-channels';
 
 export default class FileWatcher extends ModuleWindow {
   protected config: Store<Config>;
