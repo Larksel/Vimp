@@ -2,7 +2,7 @@ import { useState, useCallback, useMemo } from 'react';
 import { debounce } from 'lodash';
 import { VirtuosoGrid } from 'react-virtuoso';
 
-import MediaCard from '@components/MediaCard/MediaCard';
+import MediaCard from '@components/MediaCard';
 import { Input } from '@components/common/input';
 import { useRevalidator, useRouteLoaderData } from 'react-router-dom';
 import { RootLoaderData } from '@views/RootView';

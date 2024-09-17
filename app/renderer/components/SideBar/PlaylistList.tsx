@@ -3,7 +3,7 @@ import placeholderImage from '@assets/images/placeholder.png';
 import { Button } from '@components/common/button';
 import { ScrollArea, ScrollBar } from '@components/common/scroll-area';
 import ListHeader from './ListHeader';
-import InfoText from '@components/InfoText/InfoText';
+import InfoText from '@components/InfoText';
 
 interface PlaylistListProps {
   collapsed: boolean;

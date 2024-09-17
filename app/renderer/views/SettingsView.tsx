@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { useLoaderData, useRevalidator } from 'react-router-dom';
 import { Config } from '@shared/types/vimp';
 
-import * as Settings from '@components/Settings/Settings';
+import * as Settings from '@components/Settings';
 
 export default function SettingsView() {
   const { config } = useLoaderData() as SettingsLoaderData;

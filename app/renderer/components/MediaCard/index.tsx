@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader } from '@components/common/card';
-import InfoText from '@components/InfoText/InfoText';
+import InfoText from '@components/InfoText';
 
 import { Play } from '@phosphor-icons/react';
 
