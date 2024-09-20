@@ -55,4 +55,4 @@ class TracksRepository extends GenericDatabase<Track> {
   }
 }
 
-export default TracksRepository;
+export const TracksDB = new TracksRepository();
