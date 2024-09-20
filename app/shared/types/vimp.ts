@@ -39,14 +39,14 @@ export type GenericModel<T> = PouchDB.Core.ExistingDocument<
 export type TrackModel = GenericModel<Track>;
 
 export interface Config {
-  audioVolume: number,
-  audioPlaybackRate: number,
-  audioMuted: boolean,
-  audioShuffle: boolean,
-  audioRepeatMode: RepeatMode,
-  audioGaplessPlayback: boolean,
-  audioCrossfadeDuration: number,
-  musicFolders: string[],
+  audioVolume: number;
+  audioPlaybackRate: number;
+  audioMuted: boolean;
+  audioShuffle: boolean;
+  audioRepeatMode: RepeatMode;
+  audioGaplessPlayback: boolean;
+  audioCrossfadeDuration: number;
+  musicFolders: string[];
 
-  displayNotifications: boolean,
+  displayNotifications: boolean;
 }
