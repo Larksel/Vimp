@@ -1,7 +1,7 @@
 import GenericDatabase from '@databases/genericDb';
 import { Track, TrackModel } from '@shared/types/vimp';
 
-class TracksRepository extends GenericDatabase<Track> {
+class TracksDatabase extends GenericDatabase<Track> {
   constructor() {
     super('TracksDB')
 
@@ -55,4 +55,4 @@ class TracksRepository extends GenericDatabase<Track> {
   }
 }
 
-export const TracksDB = new TracksRepository();
+export const TracksDB = new TracksDatabase();

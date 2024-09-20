@@ -1,4 +1,4 @@
-import { TracksDB } from '@databases/tracksRepository';
+import { TracksDB } from '@databases/tracksDb';
 
 export {
   TracksDB,
