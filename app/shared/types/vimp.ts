@@ -32,9 +32,11 @@ export interface Track extends CommonData {
   albumartist?: string;
 }
 
-export type TrackModel = PouchDB.Core.ExistingDocument<
-  Track & PouchDB.Core.AllDocsMeta
+export type GenericModel<T> = PouchDB.Core.ExistingDocument<
+  T & PouchDB.Core.AllDocsMeta
 >;
+
+export type TrackModel = GenericModel<Track>;
 
 export interface Config {
   audioVolume: number,
