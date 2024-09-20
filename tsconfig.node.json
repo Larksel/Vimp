@@ -13,7 +13,8 @@
     "paths": {
       "@shared/*": ["./app/shared/*"],
       "@main/*": ["./app/main/*"],
-      "@modules/*": ["./app/main/modules/*"]
+      "@modules/*": ["./app/main/modules/*"],
+      "@databases/*": ["./app/main/databases/*"]
     }
   }
 }

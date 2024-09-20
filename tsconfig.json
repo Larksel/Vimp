@@ -7,6 +7,7 @@
       "@shared/*": ["./app/shared/*"],
       "@main/*": ["./app/main/*"],
       "@modules/*": ["./app/main/modules/*"],
+      "@databases/*": ["./app/main/databases/*"],
       "@renderer/*": ["./app/renderer/*"],
       "@assets/*": ["./app/renderer/assets/*"],
       "@components/*": ["./app/renderer/components/*"],

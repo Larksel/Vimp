@@ -17,6 +17,7 @@ export default defineConfig({
         '@shared': path.resolve(__dirname, './app/shared'),
         '@main': path.resolve(__dirname, './app/main'),
         '@modules': path.resolve(__dirname, './app/main/modules'),
+        '@databases': path.resolve(__dirname, './app/main/databases'),
       }
     },
     build: {
