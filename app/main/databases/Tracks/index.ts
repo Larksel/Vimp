@@ -1,14 +1,5 @@
-import path from 'path';
-import { app } from 'electron';
-import PouchDB from 'pouchdb';
-import PouchDBFind from 'pouchdb-find';
-import { Track, TrackModel } from '@shared/types/vimp';
+import TracksRepository from "./tracksRepository";
 
-PouchDB.plugin(PouchDBFind);
+const TracksDB = new TracksRepository();
 
-const userDataPath = app.getPath('userData');
-
-const TracksDB = new PouchDB<Track>(path.join(userDataPath, 'TracksDB'), {
-  adapter: 'leveldb',
-  auto_compaction: true,
-});
+export default TracksDB;
