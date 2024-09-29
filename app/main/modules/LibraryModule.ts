@@ -11,8 +11,9 @@ import { Track } from '@shared/types/vimp';
 import BaseModule from './BaseModule';
 import { TracksDB } from '@main/dbManager';
 import MetadataModule from './MetadataModule';
+import { ILibraryModule } from '@interfaces/modules/ILibraryModule';
 
-export default class LibraryModule extends BaseModule {
+export default class LibraryModule extends BaseModule implements ILibraryModule {
   public import: {
     processed: number;
     total: number;
@@ -31,7 +32,7 @@ export default class LibraryModule extends BaseModule {
     };
   }
 
-  async load(): Promise<void> {
+  protected async load(): Promise<void> {
     ipcMain.handle(
       channels.LIBRARY_IMPORT_TRACKS,
       this.importTracks.bind(this),
