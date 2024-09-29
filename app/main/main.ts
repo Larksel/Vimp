@@ -6,11 +6,11 @@ import MenuBuilder from '@modules/MenuBuilder';
 import { setupVimpProtocol } from '@modules/Protocol';
 import setupIPCDatabase from '@modules/ipc/IPCDatabase';
 import setupIPCTracks from '@modules/ipc/IPCTracks';
-import setupIPCDialog from '@modules/Dialog';
-import Library from '@modules/Library';
-import ConfigModule from '@modules/ConfigModule';
-import FileWatcher from '@modules/FileWatcher';
 import * as ModulesManager from '@main/utils/utils-modules';
+import ConfigModule from '@modules/ConfigModule';
+import DialogsModule from '@modules/DialogsModule';
+import FileWatcher from '@modules/FileWatcher';
+import Library from '@modules/Library';
 
 const isDebug =
   process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true';
@@ -116,10 +116,10 @@ app.whenReady().then(async () => {
   setupVimpProtocol();
   setupIPCDatabase();
   setupIPCTracks();
-  setupIPCDialog();
 
   ModulesManager.init(
-    new Library(),
+    new DialogsModule(),
     new FileWatcher(mainWindow!, config),
+    new Library(),
   );
 });
