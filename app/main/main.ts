@@ -2,9 +2,9 @@ import { app, BrowserWindow, session } from 'electron';
 import { electronApp, optimizer } from '@electron-toolkit/utils';
 import os from 'os';
 import { join } from 'path';
-import MenuBuilder from '@modules/MenuBuilder';
 import setupIPCDatabase from '@modules/ipc/IPCDatabase';
 import * as ModulesManager from '@main/utils/utils-modules';
+import AppMenuModule from '@modules/AppMenuModule';
 import ConfigModule from '@modules/ConfigModule';
 import DialogsModule from '@modules/DialogsModule';
 import LibraryModule from '@modules/LibraryModule';
@@ -85,8 +85,6 @@ const createWindow = () => {
   mainWindow.on('closed', () => {
     mainWindow = null;
   });
-
-  new MenuBuilder(mainWindow).buildMenu();
 };
 
 app.on('window-all-closed', () => {
@@ -123,6 +121,7 @@ app.whenReady().then(async () => {
     new DialogsModule(metadataModule),
     new LibraryModule(metadataModule),
     new ProtocolModule(),
+    new AppMenuModule(mainWindow!),
     new WatcherModule(mainWindow!, config, metadataModule),
   );
 });
