@@ -5,11 +5,11 @@ import { Config, Track } from '@shared/types/vimp';
 import globals from '@shared/constants/globals';
 import { TracksDB } from '@main/dbManager';
 import { getMetadata } from './Metadata';
-import ModuleWindow from './BaseWindowModule';
+import BaseWindowModule from './BaseWindowModule';
 import { BrowserWindow } from 'electron';
 import channels from '@shared/constants/ipc-channels';
 
-export default class FileWatcher extends ModuleWindow {
+export default class FileWatcher extends BaseWindowModule {
   protected config: Store<Config>;
 
   constructor(window: BrowserWindow, config: Store<Config>) {

@@ -9,8 +9,8 @@ import setupIPCTracks from '@modules/ipc/IPCTracks';
 import * as ModulesManager from '@main/utils/utils-modules';
 import ConfigModule from '@modules/ConfigModule';
 import DialogsModule from '@modules/DialogsModule';
-import FileWatcher from '@modules/FileWatcher';
-import Library from '@modules/Library';
+import FileWatcher from '@modules/FileWatcherModule';
+import Library from '@modules/LibraryModule';
 
 const isDebug =
   process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true';

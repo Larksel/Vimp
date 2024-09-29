@@ -8,11 +8,11 @@ import globals from '@shared/constants/globals';
 import channels from '@shared/constants/ipc-channels';
 import { Track } from '@shared/types/vimp';
 
-import Module from './BaseModule';
+import BaseModule from './BaseModule';
 import { TracksDB } from '@main/dbManager';
 import { getMetadata } from './Metadata';
 
-class Library extends Module {
+export default class Library extends BaseModule {
   public import: {
     processed: number;
     total: number;
@@ -140,5 +140,3 @@ class Library extends Module {
     });
   }
 }
-
-export default Library;
