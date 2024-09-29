@@ -4,11 +4,11 @@ import os from 'os';
 import { join } from 'path';
 import MenuBuilder from '@modules/MenuBuilder';
 import setupIPCDatabase from '@modules/ipc/IPCDatabase';
-import setupIPCTracks from '@modules/ipc/IPCTracks';
 import * as ModulesManager from '@main/utils/utils-modules';
 import ConfigModule from '@modules/ConfigModule';
 import DialogsModule from '@modules/DialogsModule';
 import LibraryModule from '@modules/LibraryModule';
+import MetadataModule from '@modules/MetadataModule';
 import ProtocolModule from '@modules/ProtocolModule';
 import WatcherModule from '@modules/WatcherModule';
 
@@ -110,18 +110,19 @@ app.whenReady().then(async () => {
   }
 
   const configModule = new ConfigModule();
-  await ModulesManager.init(configModule);
+  const metadataModule = new MetadataModule();
+
+  await ModulesManager.init(configModule, metadataModule);
   const config = configModule.getConfig();
 
   createWindow();
 
   setupIPCDatabase();
-  setupIPCTracks();
 
   ModulesManager.init(
-    new DialogsModule(),
-    new LibraryModule(),
+    new DialogsModule(metadataModule),
+    new LibraryModule(metadataModule),
     new ProtocolModule(),
-    new WatcherModule(mainWindow!, config),
+    new WatcherModule(mainWindow!, config, metadataModule),
   );
 });

@@ -4,17 +4,23 @@ import path from 'path';
 import { Config, Track } from '@shared/types/vimp';
 import globals from '@shared/constants/globals';
 import { TracksDB } from '@main/dbManager';
-import { getMetadata } from './Metadata';
+import MetadataModule from './MetadataModule';
 import BaseWindowModule from './BaseWindowModule';
 import { BrowserWindow } from 'electron';
 import channels from '@shared/constants/ipc-channels';
 
 export default class WatcherModule extends BaseWindowModule {
   protected config: Store<Config>;
+  private metadataModule: MetadataModule;
 
-  constructor(window: BrowserWindow, config: Store<Config>) {
+  constructor(
+    window: BrowserWindow,
+    config: Store<Config>,
+    metadataModule: MetadataModule,
+  ) {
     super(window);
 
+    this.metadataModule = metadataModule;
     this.config = config;
   }
 
@@ -45,13 +51,13 @@ export default class WatcherModule extends BaseWindowModule {
     const existingDoc = await TracksDB.getByPath(resolvedPath);
 
     if (!existingDoc) {
-      const track: Track = await getMetadata(resolvedPath);
+      const track: Track = await this.metadataModule.getMetadata(resolvedPath);
       await TracksDB.insertMany([track]);
       console.log(`ADDED: ${filePath}`);
 
       this.window.webContents.send(channels.TRACKS_DB_CHANGED);
     } else {
-      console.log(`SKIPPED: ${filePath}`)
+      console.log(`SKIPPED: ${filePath}`);
     }
   }
 
@@ -68,7 +74,7 @@ export default class WatcherModule extends BaseWindowModule {
 
       this.window.webContents.send(channels.TRACKS_DB_CHANGED);
     } else {
-      console.log(`Track Not Found: ${filePath}`)
+      console.log(`Track Not Found: ${filePath}`);
     }
   }
 }

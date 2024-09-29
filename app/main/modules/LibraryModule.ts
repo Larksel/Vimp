@@ -10,7 +10,7 @@ import { Track } from '@shared/types/vimp';
 
 import BaseModule from './BaseModule';
 import { TracksDB } from '@main/dbManager';
-import { getMetadata } from './Metadata';
+import MetadataModule from './MetadataModule';
 
 export default class LibraryModule extends BaseModule {
   public import: {
@@ -18,8 +18,12 @@ export default class LibraryModule extends BaseModule {
     total: number;
   };
 
-  constructor() {
+  private metadataModule: MetadataModule;
+
+  constructor(metadataModule: MetadataModule) {
     super();
+
+    this.metadataModule = metadataModule;
 
     this.import = {
       processed: 0,
@@ -117,7 +121,7 @@ export default class LibraryModule extends BaseModule {
               const existingDoc = await TracksDB.getByPath(filePath);
 
               if (!existingDoc) {
-                const track = await getMetadata(filePath);
+                const track = await this.metadataModule.getMetadata(filePath);
                 scannedFiles.push(track);
               }
 

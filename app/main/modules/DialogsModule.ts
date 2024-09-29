@@ -1,12 +1,16 @@
 import { ipcMain, dialog } from 'electron';
-import { getMetadata } from './Metadata';
+import MetadataModule from './MetadataModule';
 
 import channels from '@shared/constants/ipc-channels';
 import BaseModule from './BaseModule';
 
 export default class DialogsModule extends BaseModule {
-  constructor() {
+  private metadataModule: MetadataModule;
+
+  constructor(metadataModule: MetadataModule) {
     super();
+
+    this.metadataModule = metadataModule;
   }
 
   protected async load() {
@@ -19,7 +23,7 @@ export default class DialogsModule extends BaseModule {
       if (!canceled) {
         const files = await Promise.all(
           filePaths.map(async (path) => {
-            const track = await getMetadata(path);
+            const track = await this.metadataModule.getMetadata(path);
             return track;
           }),
         );
@@ -39,7 +43,7 @@ export default class DialogsModule extends BaseModule {
       if (!canceled) {
         const path = filePaths[0];
 
-        const track = await getMetadata(path);
+        const track = await this.metadataModule.getMetadata(path);
         return track;
       }
 
