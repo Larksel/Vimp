@@ -22,7 +22,7 @@ const iconPath =
 
 const reactDevToolsPath = join(
   os.homedir(),
-  '/AppData/Local/Google/Chrome/User Data/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/5.2.0_0',
+  '/AppData/Local/Google/Chrome/User Data/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/5.3.1_0',
 );
 
 const icon = join(__dirname, iconPath);
