@@ -1,4 +1,4 @@
-import { formatDuration } from '@utils/utils';
+import { formatDuration } from '@render-utils/utils';
 import placeholder from '@assets/images/placeholder.png';
 import { HeartStraight, PlayCircle } from '@phosphor-icons/react';
 import { TrackModel } from '@shared/types/vimp';

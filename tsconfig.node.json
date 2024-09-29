@@ -15,6 +15,7 @@
       "@modules/*": ["./app/main/modules/*"],
       "@interfaces/*": ["./app/main/interfaces/*"],
       "@databases/*": ["./app/main/databases/*"],
+      "@main-utils/*": ["./app/main/utils/*"],
       "@main/*": ["./app/main/*"]
     }
   }

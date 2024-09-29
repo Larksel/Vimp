@@ -16,6 +16,7 @@ export default defineConfig({
       alias: {
         '@shared': path.resolve(__dirname, './app/shared'),
         '@main': path.resolve(__dirname, './app/main'),
+        '@main-utils': path.resolve(__dirname, './app/main/utils'),
         '@modules': path.resolve(__dirname, './app/main/modules'),
         '@interfaces': path.resolve(__dirname, './app/main/interfaces'),
         '@databases': path.resolve(__dirname, './app/main/databases'),
@@ -56,7 +57,7 @@ export default defineConfig({
         '@features': path.resolve(__dirname, './app/renderer/features'),
         '@hooks': path.resolve(__dirname, './app/renderer/hooks'),
         '@stores': path.resolve(__dirname, './app/renderer/stores'),
-        '@utils': path.resolve(__dirname, './app/renderer/utils'),
+        '@render-utils': path.resolve(__dirname, './app/renderer/utils'),
         '@views': path.resolve(__dirname, './app/renderer/views'),
       },
     },
