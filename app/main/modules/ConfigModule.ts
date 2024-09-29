@@ -1,11 +1,12 @@
 import { app, ipcMain, screen } from 'electron';
 import Store from 'electron-store';
 import { Config, RepeatMode } from "@shared/types/vimp";
-import Module from './BaseModule';
+import BaseModule from './BaseModule';
 import channels from '@shared/constants/ipc-channels';
 import { vimpMusicFolder, userMusicFolder } from '@main-utils/utils-resources';
+import { IConfigModule } from '@interfaces/modules/IConfigModule';
 
-export default class ConfigModule extends Module {
+export default class ConfigModule extends BaseModule implements IConfigModule  {
   private workArea: Electron.Rectangle;
   private config: Store<Config>;
 
@@ -47,7 +48,7 @@ export default class ConfigModule extends Module {
     return config;
   }
 
-  getDefaultConfig(): Config {
+  private getDefaultConfig(): Config {
     const defaultConfig: Config = {
       audioVolume: 0.5,
       audioPlaybackRate: 1,
