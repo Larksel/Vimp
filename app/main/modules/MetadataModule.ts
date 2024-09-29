@@ -4,8 +4,9 @@ import { Track } from '@shared/types/vimp';
 import BaseModule from './BaseModule';
 import { ipcMain } from 'electron';
 import channels from '@shared/constants/ipc-channels';
+import { IMetadataModule } from '@interfaces/modules/IMetadataModule';
 
-export default class MetadataModule extends BaseModule {
+export default class MetadataModule extends BaseModule implements IMetadataModule {
   constructor() {
     super();
   }
