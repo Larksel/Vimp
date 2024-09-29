@@ -97,19 +97,21 @@ app.on('window-all-closed', () => {
 
 app.whenReady().then(async () => {
   electronApp.setAppUserModelId('com.electron.vimp');
-  const configModule = new ConfigModule();
-  await ModulesManager.init(configModule);
-  const config = configModule.getConfig();
-  
-  if (isDebug) {
-    await session.defaultSession.loadExtension(reactDevToolsPath)
-      .then((ext) => console.log('Loaded Extension:', ext.name))
-      .catch((err) => console.log('Error on extension loading:', err))
-  }
 
   app.on('browser-window-created', (_, window) => {
     optimizer.watchWindowShortcuts(window);
   });
+
+  if (isDebug) {
+    await session.defaultSession
+      .loadExtension(reactDevToolsPath)
+      .then((ext) => console.log('Loaded Extension:', ext.name))
+      .catch((err) => console.log('Error on extension loading:', err));
+  }
+
+  const configModule = new ConfigModule();
+  await ModulesManager.init(configModule);
+  const config = configModule.getConfig();
 
   createWindow();
 
