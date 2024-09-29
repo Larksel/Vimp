@@ -3,9 +3,7 @@ import Store from 'electron-store';
 import { Config, RepeatMode } from "@shared/types/vimp";
 import Module from './BaseModule';
 import channels from '@shared/constants/ipc-channels';
-
-const userFolder = app.getPath('home');
-const vimpMusicFolder = userFolder + '\\Desktop\\Vimp Music'
+import { vimpMusicFolder, userMusicFolder } from '@main-utils/utils-resources';
 
 export default class ConfigModule extends Module {
   private workArea: Electron.Rectangle;
@@ -58,7 +56,7 @@ export default class ConfigModule extends Module {
       audioRepeatMode: RepeatMode.OFF,
       audioGaplessPlayback: true,
       audioCrossfadeDuration: 300,
-      musicFolders: [app.getPath('music'), vimpMusicFolder],
+      musicFolders: [userMusicFolder, vimpMusicFolder],
     
       displayNotifications: true,
     }
