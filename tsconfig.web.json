@@ -13,14 +13,14 @@
     // This config must be the same as in electron.vite.config
     "paths": {
       "@shared/*": ["./app/shared/*"],
-      "@renderer/*": ["./app/renderer/*"],
       "@assets/*": ["./app/renderer/assets/*"],
       "@components/*": ["./app/renderer/components/*"],
       "@features/*": ["./app/renderer/features/*"],
       "@hooks/*": ["./app/renderer/hooks/*"],
       "@stores/*": ["./app/renderer/stores/*"],
       "@utils/*": ["./app/renderer/utils/*"],
-      "@views/*": ["./app/renderer/views/*"]
+      "@views/*": ["./app/renderer/views/*"],
+      "@renderer/*": ["./app/renderer/*"]
     }
   }
 }

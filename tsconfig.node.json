@@ -12,10 +12,10 @@
     "noUnusedLocals": false,
     "paths": {
       "@shared/*": ["./app/shared/*"],
-      "@main/*": ["./app/main/*"],
       "@modules/*": ["./app/main/modules/*"],
       "@interfaces/*": ["./app/main/interfaces/*"],
-      "@databases/*": ["./app/main/databases/*"]
+      "@databases/*": ["./app/main/databases/*"],
+      "@main/*": ["./app/main/*"]
     }
   }
 }
