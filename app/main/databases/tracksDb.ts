@@ -1,7 +1,8 @@
 import GenericDatabase from '@databases/genericDb';
+import { ITracksDatabase } from '@interfaces/databases/ITracksDatabase';
 import { Track, TrackModel } from '@shared/types/vimp';
 
-class TracksDatabase extends GenericDatabase<Track> {
+class TracksDatabase extends GenericDatabase<Track> implements ITracksDatabase {
   constructor() {
     super('TracksDB')
 
