@@ -12,6 +12,7 @@
     "noUnusedParameters": false,
     // This config must be the same as in electron.vite.config
     "paths": {
+      "@interfaces/*": ["./app/shared/interfaces/*"],
       "@shared/*": ["./app/shared/*"],
       "@assets/*": ["./app/renderer/assets/*"],
       "@components/*": ["./app/renderer/components/*"],
