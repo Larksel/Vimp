@@ -8,9 +8,9 @@ import setupIPCTracks from '@modules/ipc/IPCTracks';
 import * as ModulesManager from '@main/utils/utils-modules';
 import ConfigModule from '@modules/ConfigModule';
 import DialogsModule from '@modules/DialogsModule';
-import FileWatcherModule from '@modules/FileWatcherModule';
 import LibraryModule from '@modules/LibraryModule';
 import ProtocolModule from '@modules/ProtocolModule';
+import WatcherModule from '@modules/WatcherModule';
 
 const isDebug =
   process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true';
@@ -120,8 +120,8 @@ app.whenReady().then(async () => {
 
   ModulesManager.init(
     new DialogsModule(),
-    new FileWatcherModule(mainWindow!, config),
     new LibraryModule(),
     new ProtocolModule(),
+    new WatcherModule(mainWindow!, config),
   );
 });
