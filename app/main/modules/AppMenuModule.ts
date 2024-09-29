@@ -10,7 +10,7 @@ export default class AppMenuModule extends BaseWindowModule {
     this.buildMenu();
   }
 
-  buildMenu() {
+  private buildMenu() {
     let menu: Menu;
 
     if (
