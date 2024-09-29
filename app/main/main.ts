@@ -2,7 +2,8 @@ import { app, BrowserWindow, session } from 'electron';
 import { electronApp, optimizer } from '@electron-toolkit/utils';
 import os from 'os';
 import { join } from 'path';
-import setupIPCDatabase from '@modules/ipc/IPCDatabase';
+
+// Modules
 import * as ModulesManager from '@main/utils/utils-modules';
 import AppMenuModule from '@modules/AppMenuModule';
 import ConfigModule from '@modules/ConfigModule';
@@ -11,6 +12,8 @@ import LibraryModule from '@modules/LibraryModule';
 import MetadataModule from '@modules/MetadataModule';
 import ProtocolModule from '@modules/ProtocolModule';
 import WatcherModule from '@modules/WatcherModule';
+// IPC Modules
+import IPCDatabase from '@modules/ipc/IPCDatabase';
 
 const isDebug =
   process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true';
@@ -115,13 +118,13 @@ app.whenReady().then(async () => {
 
   createWindow();
 
-  setupIPCDatabase();
-
   ModulesManager.init(
     new DialogsModule(metadataModule),
     new LibraryModule(metadataModule),
     new ProtocolModule(),
     new AppMenuModule(mainWindow!),
     new WatcherModule(mainWindow!, config, metadataModule),
+    // IPC Modules
+    new IPCDatabase(),
   );
 });
