@@ -10,6 +10,7 @@ import setupIPCDialog from '@modules/Dialog';
 import Library from '@modules/Library';
 import ConfigModule from '@modules/ConfigModule';
 import FileWatcher from '@modules/FileWatcher';
+import * as ModulesManager from '@main/utils/utils-modules';
 
 const isDebug =
   process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true';
@@ -97,7 +98,7 @@ app.on('window-all-closed', () => {
 app.whenReady().then(async () => {
   electronApp.setAppUserModelId('com.electron.vimp');
   const configModule = new ConfigModule();
-  await configModule.init();
+  await ModulesManager.init(configModule);
   const config = configModule.getConfig();
   
   if (isDebug) {
@@ -117,6 +118,8 @@ app.whenReady().then(async () => {
   setupIPCTracks();
   setupIPCDialog();
 
-  new Library().init();
-  new FileWatcher(mainWindow!, config).init();
+  ModulesManager.init(
+    new Library(),
+    new FileWatcher(mainWindow!, config),
+  );
 });
