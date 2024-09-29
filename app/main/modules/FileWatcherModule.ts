@@ -9,7 +9,7 @@ import BaseWindowModule from './BaseWindowModule';
 import { BrowserWindow } from 'electron';
 import channels from '@shared/constants/ipc-channels';
 
-export default class FileWatcher extends BaseWindowModule {
+export default class FileWatcherModule extends BaseWindowModule {
   protected config: Store<Config>;
 
   constructor(window: BrowserWindow, config: Store<Config>) {

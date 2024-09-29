@@ -12,7 +12,7 @@ import BaseModule from './BaseModule';
 import { TracksDB } from '@main/dbManager';
 import { getMetadata } from './Metadata';
 
-export default class Library extends BaseModule {
+export default class LibraryModule extends BaseModule {
   public import: {
     processed: number;
     total: number;

@@ -3,14 +3,14 @@ import { electronApp, optimizer } from '@electron-toolkit/utils';
 import os from 'os';
 import { join } from 'path';
 import MenuBuilder from '@modules/MenuBuilder';
-import { setupVimpProtocol } from '@modules/Protocol';
 import setupIPCDatabase from '@modules/ipc/IPCDatabase';
 import setupIPCTracks from '@modules/ipc/IPCTracks';
 import * as ModulesManager from '@main/utils/utils-modules';
 import ConfigModule from '@modules/ConfigModule';
 import DialogsModule from '@modules/DialogsModule';
-import FileWatcher from '@modules/FileWatcherModule';
-import Library from '@modules/LibraryModule';
+import FileWatcherModule from '@modules/FileWatcherModule';
+import LibraryModule from '@modules/LibraryModule';
+import ProtocolModule from '@modules/ProtocolModule';
 
 const isDebug =
   process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true';
@@ -115,13 +115,13 @@ app.whenReady().then(async () => {
 
   createWindow();
 
-  setupVimpProtocol();
   setupIPCDatabase();
   setupIPCTracks();
 
   ModulesManager.init(
     new DialogsModule(),
-    new FileWatcher(mainWindow!, config),
-    new Library(),
+    new FileWatcherModule(mainWindow!, config),
+    new LibraryModule(),
+    new ProtocolModule(),
   );
 });
