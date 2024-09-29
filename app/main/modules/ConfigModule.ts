@@ -23,7 +23,7 @@ export default class ConfigModule extends Module {
     });
   }
 
-  async load(): Promise<void> {
+  protected async load(): Promise<void> {
     ipcMain.on(channels.CONFIG_GET_ALL, (event) => {
       event.returnValue = this.config.store;
     });

@@ -24,7 +24,7 @@ export default class WatcherModule extends BaseWindowModule {
     this.config = config;
   }
 
-  async load() {
+  protected async load() {
     const lookahead = globals.SUPPORTED_TRACKS_EXTENSIONS.map(
       (ext) => ext.slice(1) + '$',
     ).join('|'); // Prepara as extensões para o regex

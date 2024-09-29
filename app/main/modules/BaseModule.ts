@@ -1,6 +1,6 @@
 import { IBaseModule } from "@interfaces/modules/IBaseModule";
 
-export default class BaseModule implements IBaseModule {
+export default abstract class BaseModule implements IBaseModule {
   protected loaded: boolean;
 
   constructor() {
@@ -20,9 +20,5 @@ export default class BaseModule implements IBaseModule {
     }
   }
 
-  protected async load(): Promise<void> {
-    throw new TypeError(
-      `Module ${this.constructor.name} needs a load() method`,
-    );
-  }
+  protected abstract load(): Promise<void>;
 }
