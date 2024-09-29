@@ -3,11 +3,12 @@ import { app } from 'electron';
 import PouchDB from 'pouchdb';
 import PouchDBFind from 'pouchdb-find';
 import { GenericModel } from '@shared/types/vimp';
+import { IGenericDatabase } from '@interfaces/databases/IGenericDatabase';
 
 PouchDB.plugin(PouchDBFind);
 const userDataPath = app.getPath('userData');
 
-export default class GenericDatabase<T> {
+export default class GenericDatabase<T> implements IGenericDatabase<T> {
   protected db: PouchDB.Database;
 
   constructor(dbName: string) {
