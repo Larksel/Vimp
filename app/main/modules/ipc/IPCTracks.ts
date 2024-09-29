@@ -1,5 +1,5 @@
 import { ipcMain } from 'electron';
-import { getCover } from './Metadata';
+import { getCover } from '../Metadata';
 import channels from '@shared/constants/ipc-channels';
 
 export default function setupIPCTracks() {
