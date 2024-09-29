@@ -14,11 +14,11 @@ export default defineConfig({
     plugins: [externalizeDepsPlugin({ exclude: externals })],
     resolve: {
       alias: {
+        '@interfaces': path.resolve(__dirname, './app/shared/interfaces'),
         '@shared': path.resolve(__dirname, './app/shared'),
         '@main': path.resolve(__dirname, './app/main'),
         '@main-utils': path.resolve(__dirname, './app/main/utils'),
         '@modules': path.resolve(__dirname, './app/main/modules'),
-        '@interfaces': path.resolve(__dirname, './app/main/interfaces'),
         '@databases': path.resolve(__dirname, './app/main/databases'),
       }
     },
@@ -34,6 +34,7 @@ export default defineConfig({
     plugins: [externalizeDepsPlugin({ exclude: externals })],
     resolve: {
       alias: {
+        '@interfaces': path.resolve(__dirname, './app/shared/interfaces'),
         '@shared': path.resolve(__dirname, './app/shared'),
       }
     },
