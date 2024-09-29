@@ -7,7 +7,7 @@ import { GenericModel } from '@shared/types/vimp';
 PouchDB.plugin(PouchDBFind);
 const userDataPath = app.getPath('userData');
 
-class GenericDatabase<T> {
+export default class GenericDatabase<T> {
   protected db: PouchDB.Database;
 
   constructor(dbName: string) {
@@ -87,5 +87,3 @@ class GenericDatabase<T> {
     this.db.bulkDocs(deletedItems);
   }
 }
-
-export default GenericDatabase;
