@@ -44,7 +44,7 @@ export default class WatcherModule extends BaseWindowModule {
       });
   }
 
-  async handleAddedFile(filePath: string) {
+  private async handleAddedFile(filePath: string) {
     console.log(`DETECTED: ${filePath}`);
     const resolvedPath = path.resolve(filePath);
 
@@ -61,7 +61,7 @@ export default class WatcherModule extends BaseWindowModule {
     }
   }
 
-  async handleRemovedFile(filePath: string) {
+  private async handleRemovedFile(filePath: string) {
     console.log(`LOST: ${filePath}`);
 
     const resolvedPath = path.resolve(filePath);
