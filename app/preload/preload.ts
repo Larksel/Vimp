@@ -1,7 +1,7 @@
 import { contextBridge, ipcRenderer } from 'electron';
 import channels from '@shared/constants/ipc-channels';
 import tracksDB from './modules/tracksDB';
-import { Config } from '@shared/types/vimp';
+import config from './modules/config';
 
 const VimpAPI = {
   app: {
@@ -17,18 +17,7 @@ const VimpAPI = {
     importTracks: (paths: string[]) =>
       ipcRenderer.invoke(channels.LIBRARY_IMPORT_TRACKS, paths),
   },
-  config: {
-    __initialConfig: ipcRenderer.sendSync(channels.CONFIG_GET_ALL),
-    getAll(): Promise<Config> {
-      return ipcRenderer.invoke(channels.CONFIG_GET_ALL);
-    },
-    get<T extends keyof Config>(key: T): Promise<Config[T]> {
-      return ipcRenderer.invoke(channels.CONFIG_GET, key);
-    },
-    set<T extends keyof Config>(key: T, value: Config[T]): Promise<void> {
-      return ipcRenderer.invoke(channels.CONFIG_SET, key, value);
-    },
-  },
+  config,
   tracksDB,
 };
 
