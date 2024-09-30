@@ -2,6 +2,7 @@ import { contextBridge, ipcRenderer } from 'electron';
 import channels from '@shared/constants/ipc-channels';
 import tracksDB from './modules/tracksDB';
 import config from './modules/config';
+import library from './modules/library';
 
 const VimpAPI = {
   app: {
@@ -11,12 +12,7 @@ const VimpAPI = {
       ipcRenderer.invoke(channels.GET_COVER, trackPath),
     removeAllListeners: (channel: string) => ipcRenderer.removeAllListeners(channel)
   },
-  library: {
-    scanTracks: (paths: string[]) =>
-      ipcRenderer.invoke(channels.LIBRARY_SCAN_TRACKS, paths),
-    importTracks: (paths: string[]) =>
-      ipcRenderer.invoke(channels.LIBRARY_IMPORT_TRACKS, paths),
-  },
+  library,
   config,
   tracksDB,
 };
