@@ -18,7 +18,7 @@ export default function RootView() {
   const track = useCurrentTrack();
 
   useEffect(() => {
-    window.VimpAPI.db.onTracksDBChanged(
+    window.VimpAPI.tracksDB.onTracksDBChanged(
       debounce(() => {
         console.log('TracksDB changed');
         revalidator.revalidate();
@@ -72,7 +72,7 @@ export default function RootView() {
 export type RootLoaderData = LoaderData<typeof RootView.loader>;
 
 RootView.loader = async () => {
-  const res: TrackModel[] = await window.VimpAPI.db.getTracks();
+  const res: TrackModel[] = await window.VimpAPI.tracksDB.getTracks();
 
   const tracks = res.toSorted((a, b) => {
     if (!a) return 1;

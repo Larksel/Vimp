@@ -40,8 +40,8 @@ class Player {
       await this.audio.play();
 
       if (this.track && this.track._id && this.track._id !== '') {
-        await window.VimpAPI.db.updateLastPlayed(this.track._id);
-        await window.VimpAPI.db.incrementPlayCount(this.track._id);
+        await window.VimpAPI.tracksDB.updateLastPlayed(this.track._id);
+        await window.VimpAPI.tracksDB.incrementPlayCount(this.track._id);
       }
     } catch (err) {
       this.stop();

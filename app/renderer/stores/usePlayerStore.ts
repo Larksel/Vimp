@@ -206,7 +206,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => ({
 
       if (queuePosition > -1) {
         const track = queue[queuePosition];
-        await window.VimpAPI.db.updateFavorite(track._id);
+        await window.VimpAPI.tracksDB.updateFavorite(track._id);
 
         const newQueue = [...queue];
         newQueue[queuePosition] = { ...track, favorite: !track.favorite };

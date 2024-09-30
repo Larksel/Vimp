@@ -4,7 +4,7 @@ import channels from '@shared/constants/ipc-channels';
 
 ipcRenderer.removeAllListeners(channels.TRACKS_DB_CHANGED);
 
-const db = {
+const tracksDB = {
   onTracksDBChanged: (callback: () => void) =>
     ipcRenderer.on(channels.TRACKS_DB_CHANGED, () => callback()),
 
@@ -35,4 +35,4 @@ const db = {
   clearTracks: () => ipcRenderer.invoke(channels.CLEAR_TRACKS),
 };
 
-export default db;
+export default tracksDB;

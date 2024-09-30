@@ -1,6 +1,6 @@
 import { contextBridge, ipcRenderer } from 'electron';
 import channels from '@shared/constants/ipc-channels';
-import db from './db';
+import tracksDB from './modules/tracksDB';
 import { Config } from '@shared/types/vimp';
 
 const VimpAPI = {
@@ -29,7 +29,7 @@ const VimpAPI = {
       return ipcRenderer.invoke(channels.CONFIG_SET, key, value);
     },
   },
-  db,
+  tracksDB,
 };
 
 contextBridge.exposeInMainWorld('VimpAPI', VimpAPI);
