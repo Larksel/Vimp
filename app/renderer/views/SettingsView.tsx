@@ -38,7 +38,7 @@ export default function SettingsView() {
   };
 
   const clearTracksDB = async () => {
-    await window.VimpAPI.tracksDB.clearTracks();
+    await window.VimpAPI.tracksDB.clear();
     console.log('TracksDB limpo');
     revalidator.revalidate();
   };

@@ -11,8 +11,8 @@ const tracksDB = {
   // * CRUD operations
   insertMany: (tracks: Track[]) =>
     ipcRenderer.invoke(IPCChannels.TRACKSDB_INSERT_MANY, tracks),
-  getTracks: () => ipcRenderer.invoke(IPCChannels.TRACKSDB_GET_ALL),
-  updateTrack: (track: TrackModel) =>
+  getAll: () => ipcRenderer.invoke(IPCChannels.TRACKSDB_GET_ALL),
+  update: (track: TrackModel) =>
     ipcRenderer.invoke(IPCChannels.TRACKSDB_UPDATE, track),
   delete: (trackID: string) =>
     ipcRenderer.invoke(IPCChannels.TRACKSDB_DELETE, trackID),
@@ -32,7 +32,7 @@ const tracksDB = {
     ipcRenderer.invoke(IPCChannels.TRACKSDB_UPDATE_LAST_PLAYED, trackID),
 
   // * Helpers
-  clearTracks: () => ipcRenderer.invoke(IPCChannels.TRACKSDB_CLEAR),
+  clear: () => ipcRenderer.invoke(IPCChannels.TRACKSDB_CLEAR),
 };
 
 export default tracksDB;

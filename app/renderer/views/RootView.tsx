@@ -72,7 +72,7 @@ export default function RootView() {
 export type RootLoaderData = LoaderData<typeof RootView.loader>;
 
 RootView.loader = async () => {
-  const res: TrackModel[] = await window.VimpAPI.tracksDB.getTracks();
+  const res: TrackModel[] = await window.VimpAPI.tracksDB.getAll();
 
   const tracks = res.toSorted((a, b) => {
     if (!a) return 1;
