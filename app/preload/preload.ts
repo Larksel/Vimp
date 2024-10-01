@@ -10,7 +10,7 @@ const VimpAPI = {
     openFile: () => ipcRenderer.invoke(IPCChannels.DIALOG_OPEN_FILE),
     getCover: (trackPath: string) =>
       ipcRenderer.invoke(IPCChannels.METADATA_GET_COVER, trackPath),
-    removeAllListeners: (channel: string) => ipcRenderer.removeAllListeners(channel)
+    removeAllListeners: (channel: IPCChannels) => ipcRenderer.removeAllListeners(channel)
   },
   library,
   config,
