@@ -6,10 +6,10 @@ import library from './modules/library';
 
 const VimpAPI = {
   app: {
-    pickFile: () => ipcRenderer.invoke(IPCChannels.PICK_FILES),
-    openFile: () => ipcRenderer.invoke(IPCChannels.OPEN_FILE),
+    pickFile: () => ipcRenderer.invoke(IPCChannels.DIALOG_PICK_FILES),
+    openFile: () => ipcRenderer.invoke(IPCChannels.DIALOG_OPEN_FILE),
     getCover: (trackPath: string) =>
-      ipcRenderer.invoke(IPCChannels.GET_COVER, trackPath),
+      ipcRenderer.invoke(IPCChannels.METADATA_GET_COVER, trackPath),
     removeAllListeners: (channel: string) => ipcRenderer.removeAllListeners(channel)
   },
   library,

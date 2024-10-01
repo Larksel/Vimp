@@ -12,7 +12,7 @@ export default class MetadataModule extends BaseModule implements IMetadataModul
   }
 
   protected async load() {
-    ipcMain.handle(IPCChannels.GET_COVER, async (_, trackPath: string) => {
+    ipcMain.handle(IPCChannels.METADATA_GET_COVER, async (_, trackPath: string) => {
       return this.getCover(trackPath);
     });
   }

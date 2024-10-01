@@ -2,37 +2,37 @@ import { Track, TrackModel } from '@shared/types/vimp';
 import { ipcRenderer } from 'electron';
 import IPCChannels from '@shared/constants/IPCChannels';
 
-ipcRenderer.removeAllListeners(IPCChannels.TRACKS_DB_CHANGED);
+ipcRenderer.removeAllListeners(IPCChannels.TRACKSDB_HAS_CHANGED);
 
 const tracksDB = {
   onTracksDBChanged: (callback: () => void) =>
-    ipcRenderer.on(IPCChannels.TRACKS_DB_CHANGED, () => callback()),
+    ipcRenderer.on(IPCChannels.TRACKSDB_HAS_CHANGED, () => callback()),
 
   // * CRUD operations
   insertMany: (tracks: Track[]) =>
-    ipcRenderer.invoke(IPCChannels.INSERT_TRACKS, tracks),
-  getTracks: () => ipcRenderer.invoke(IPCChannels.GET_TRACKS),
+    ipcRenderer.invoke(IPCChannels.TRACKSDB_INSERT_MANY, tracks),
+  getTracks: () => ipcRenderer.invoke(IPCChannels.TRACKSDB_GET_ALL),
   updateTrack: (track: TrackModel) =>
-    ipcRenderer.invoke(IPCChannels.UPDATE_TRACK, track),
+    ipcRenderer.invoke(IPCChannels.TRACKSDB_UPDATE, track),
   delete: (trackID: string) =>
-    ipcRenderer.invoke(IPCChannels.DELETE_TRACK, trackID),
+    ipcRenderer.invoke(IPCChannels.TRACKSDB_DELETE, trackID),
 
   // * Getter functions
   getById: (trackID: string) =>
-    ipcRenderer.invoke(IPCChannels.GET_TRACK_BY_ID, trackID),
+    ipcRenderer.invoke(IPCChannels.TRACKSDB_GET_BY_ID, trackID),
   getByPath: (trackPath: string) =>
-    ipcRenderer.invoke(IPCChannels.GET_TRACK_BY_PATH, trackPath),
+    ipcRenderer.invoke(IPCChannels.TRACKSDB_GET_BY_PATH, trackPath),
 
   // * Features
   incrementPlayCount: (trackID: string) =>
-    ipcRenderer.invoke(IPCChannels.INCREMENT_PLAY_COUNT, trackID),
+    ipcRenderer.invoke(IPCChannels.TRACKSDB_INCREMENT_PLAY_COUNT, trackID),
   updateFavorite: (trackID: string) => 
-    ipcRenderer.invoke(IPCChannels.TOGGLE_FAVORITE, trackID),
+    ipcRenderer.invoke(IPCChannels.TRACKSDB_UPDATE_FAVORITE, trackID),
   updateLastPlayed: (trackID: string) =>
-    ipcRenderer.invoke(IPCChannels.UPDATE_LAST_PLAYED, trackID),
+    ipcRenderer.invoke(IPCChannels.TRACKSDB_UPDATE_LAST_PLAYED, trackID),
 
   // * Helpers
-  clearTracks: () => ipcRenderer.invoke(IPCChannels.CLEAR_TRACKS),
+  clearTracks: () => ipcRenderer.invoke(IPCChannels.TRACKSDB_CLEAR),
 };
 
 export default tracksDB;

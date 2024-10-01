@@ -14,7 +14,7 @@ export default class DialogsModule extends BaseModule {
   }
 
   protected async load() {
-    ipcMain.handle(IPCChannels.PICK_FILES, async () => {
+    ipcMain.handle(IPCChannels.DIALOG_PICK_FILES, async () => {
       const { canceled, filePaths } = await dialog.showOpenDialog({
         properties: ['multiSelections', 'openFile'],
         filters: [{ name: 'Audio Files', extensions: ['mp3', 'wav', 'ogg'] }],
@@ -34,7 +34,7 @@ export default class DialogsModule extends BaseModule {
       return null;
     });
 
-    ipcMain.handle(IPCChannels.OPEN_FILE, async () => {
+    ipcMain.handle(IPCChannels.DIALOG_OPEN_FILE, async () => {
       const { canceled, filePaths } = await dialog.showOpenDialog({
         properties: ['openFile'],
         filters: [{ name: 'Audio Files', extensions: ['mp3', 'wav', 'ogg'] }],

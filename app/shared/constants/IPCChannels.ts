@@ -1,35 +1,37 @@
 enum IPCChannels {
+  // CONFIG
+  CONFIG_GET = 'config:get',
+  CONFIG_GET_ALL = 'config:getAll',
+  CONFIG_SET = 'config:set',
+
   // DIALOG
-  PICK_FILES = 'PICK_FILES',
-  OPEN_FILE = 'OPEN_FILE',
-
-  // DATABASE
-  INSERT_TRACKS = 'INSERT_TRACKS',
-  GET_TRACKS = 'GET_TRACKS',
-  UPDATE_TRACK = 'UPDATE_TRACK',
-  DELETE_TRACK = 'DELETE_TRACK',
-
-  GET_TRACK_BY_ID = 'GET_TRACK_ID',
-  GET_TRACK_BY_PATH = 'GET_TRACK_PATH',
-
-  INCREMENT_PLAY_COUNT = 'INCREMENT_PLAY_COUNT',
-  TOGGLE_FAVORITE = 'TOGGLE_FAVORITE',
-  UPDATE_LAST_PLAYED = 'UPDATE_LAST_PLAYED',
-  TRACKS_DB_CHANGED = 'TRACKS_DB_CHANGED',
-
-  CLEAR_TRACKS = 'CLEAR_TRACKS',
-
-  // TRACKS
-  GET_COVER = 'GET_COVER',
+  DIALOG_PICK_FILES = 'dialog:pickFiles',
+  DIALOG_OPEN_FILE = 'dialog:openFile',
 
   // LIBRARY
-  LIBRARY_IMPORT_TRACKS = 'LIBRARY_IMPORT_TRACKS',
-  LIBRARY_SCAN_TRACKS = 'LIBRARY_SCAN_TRACKS',
+  LIBRARY_IMPORT_TRACKS = 'library:importTracks',
+  LIBRARY_SCAN_TRACKS = 'library:scanTracks',
 
-  // CONFIG
-  CONFIG_GET = 'CONFIG_GET',
-  CONFIG_GET_ALL = 'CONFIG_GET_ALL',
-  CONFIG_SET = 'CONFIG_SET',
+  // METADATA
+  METADATA_GET_COVER = 'metadata:getCover',
+
+  /* DATABASES */
+  // TracksDB
+  TRACKSDB_INSERT_MANY = 'tracksDB:insertMany',
+  TRACKSDB_UPDATE_MANY = 'tracksDB:updateMany',
+  TRACKSDB_DELETE_MANY = 'tracksDB:deleteMany',
+
+  TRACKSDB_GET_ALL = 'tracksDB:getAll',
+  TRACKSDB_GET_BY_ID = 'tracksDB:getById',
+  TRACKSDB_UPDATE = 'tracksDB:update',
+  TRACKSDB_DELETE = 'tracksDB:delete',
+  TRACKSDB_CLEAR = 'tracksDB:clear',
+
+  TRACKSDB_GET_BY_PATH = 'tracksDB:getByPath',
+  TRACKSDB_INCREMENT_PLAY_COUNT = 'tracksDB:incrementPlayCount',
+  TRACKSDB_UPDATE_FAVORITE = 'tracksDB:updateFavorite',
+  TRACKSDB_UPDATE_LAST_PLAYED = 'tracksDB:updateLastPlayed',
+  TRACKSDB_HAS_CHANGED = 'tracksDB:hasChanged',
 }
 
 export default IPCChannels;

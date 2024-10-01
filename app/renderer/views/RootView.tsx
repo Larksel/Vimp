@@ -25,7 +25,7 @@ export default function RootView() {
       }, 500),
     );
     return function cleanup() {
-      window.VimpAPI.app.removeAllListeners(IPCChannels.TRACKS_DB_CHANGED);
+      window.VimpAPI.app.removeAllListeners(IPCChannels.TRACKSDB_HAS_CHANGED);
     };
   }, [revalidator]);
 

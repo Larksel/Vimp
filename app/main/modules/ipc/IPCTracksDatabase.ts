@@ -13,52 +13,52 @@ export default class IPCTracksDatabase extends BaseModule {
   protected async load() {
     // * CRUD operations
 
-    ipcMain.handle(IPCChannels.INSERT_TRACKS, async (_, tracks: Track[]) => {
+    ipcMain.handle(IPCChannels.TRACKSDB_INSERT_MANY, async (_, tracks: Track[]) => {
       await TracksDB.insertMany(tracks);
     });
 
-    ipcMain.handle(IPCChannels.GET_TRACKS, async () => {
+    ipcMain.handle(IPCChannels.TRACKSDB_GET_ALL, async () => {
       return TracksDB.getAll();
     });
 
-    ipcMain.handle(IPCChannels.UPDATE_TRACK, async (_, track: TrackModel) => {
+    ipcMain.handle(IPCChannels.TRACKSDB_UPDATE, async (_, track: TrackModel) => {
       return TracksDB.update(track);
     });
 
-    ipcMain.handle(IPCChannels.DELETE_TRACK, async (_, trackID: string) => {
+    ipcMain.handle(IPCChannels.TRACKSDB_DELETE, async (_, trackID: string) => {
       await TracksDB.delete(trackID);
     });
 
     // * Getter functions
 
-    ipcMain.handle(IPCChannels.GET_TRACK_BY_ID, async (_, trackID: string) => {
+    ipcMain.handle(IPCChannels.TRACKSDB_GET_BY_ID, async (_, trackID: string) => {
       return TracksDB.getById(trackID);
     });
 
-    ipcMain.handle(IPCChannels.GET_TRACK_BY_PATH, async (_, trackPath: string) => {
+    ipcMain.handle(IPCChannels.TRACKSDB_GET_BY_PATH, async (_, trackPath: string) => {
       return TracksDB.getByPath(trackPath);
     });
 
     // * Features
 
     ipcMain.handle(
-      IPCChannels.INCREMENT_PLAY_COUNT,
+      IPCChannels.TRACKSDB_INCREMENT_PLAY_COUNT,
       async (_, trackID: string) => {
         await TracksDB.incrementPlayCount(trackID);
       },
     );
 
-    ipcMain.handle(IPCChannels.TOGGLE_FAVORITE, async (_, trackID: string) => {
+    ipcMain.handle(IPCChannels.TRACKSDB_UPDATE_FAVORITE, async (_, trackID: string) => {
       await TracksDB.updateFavorite(trackID);
     });
 
-    ipcMain.handle(IPCChannels.UPDATE_LAST_PLAYED, async (_, trackID: string) => {
+    ipcMain.handle(IPCChannels.TRACKSDB_UPDATE_LAST_PLAYED, async (_, trackID: string) => {
       await TracksDB.updateLastPlayed(trackID);
     });
 
     // * Helpers
 
-    ipcMain.handle(IPCChannels.CLEAR_TRACKS, async () => {
+    ipcMain.handle(IPCChannels.TRACKSDB_CLEAR, async () => {
       await TracksDB.clear();
     });
   }
