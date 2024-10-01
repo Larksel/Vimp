@@ -5,7 +5,7 @@ import path from 'path';
 import queue from 'queue';
 
 import globals from '@shared/constants/globals';
-import channels from '@shared/constants/ipc-channels';
+import IPCChannels from '@shared/constants/IPCChannels';
 import { Track } from '@shared/types/vimp';
 
 import BaseModule from './BaseModule';
@@ -34,10 +34,10 @@ export default class LibraryModule extends BaseModule implements ILibraryModule 
 
   protected async load(): Promise<void> {
     ipcMain.handle(
-      channels.LIBRARY_IMPORT_TRACKS,
+      IPCChannels.LIBRARY_IMPORT_TRACKS,
       this.importTracks.bind(this),
     );
-    ipcMain.handle(channels.LIBRARY_SCAN_TRACKS, this.scanTracks.bind(this));
+    ipcMain.handle(IPCChannels.LIBRARY_SCAN_TRACKS, this.scanTracks.bind(this));
   }
 
   private async scanTracks(

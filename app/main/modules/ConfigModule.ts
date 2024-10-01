@@ -2,7 +2,7 @@ import { app, ipcMain, screen } from 'electron';
 import Store from 'electron-store';
 import { Config, RepeatMode } from "@shared/types/vimp";
 import BaseModule from './BaseModule';
-import channels from '@shared/constants/ipc-channels';
+import IPCChannels from '@shared/constants/IPCChannels';
 import { vimpMusicFolder, userMusicFolder } from '@main-utils/utils-resources';
 import { IConfigModule } from '@interfaces/modules/IConfigModule';
 
@@ -23,17 +23,17 @@ export default class ConfigModule extends BaseModule implements IConfigModule  {
   }
 
   protected async load(): Promise<void> {
-    ipcMain.on(channels.CONFIG_GET_ALL, (event) => {
+    ipcMain.on(IPCChannels.CONFIG_GET_ALL, (event) => {
       event.returnValue = this.config.store;
     });
 
-    ipcMain.handle(channels.CONFIG_GET_ALL, (): Config => this.config.store);
+    ipcMain.handle(IPCChannels.CONFIG_GET_ALL, (): Config => this.config.store);
 
-    ipcMain.handle(channels.CONFIG_GET, (_, key) => {
+    ipcMain.handle(IPCChannels.CONFIG_GET, (_, key) => {
       return this.config.get(key);
     })
 
-    ipcMain.handle(channels.CONFIG_SET, (_, key, value) => {
+    ipcMain.handle(IPCChannels.CONFIG_SET, (_, key, value) => {
       this.config.set(key, value);
     })
   }

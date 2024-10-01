@@ -1,7 +1,7 @@
 import { ipcMain, dialog } from 'electron';
 import MetadataModule from './MetadataModule';
 
-import channels from '@shared/constants/ipc-channels';
+import IPCChannels from '@shared/constants/IPCChannels';
 import BaseModule from './BaseModule';
 
 export default class DialogsModule extends BaseModule {
@@ -14,7 +14,7 @@ export default class DialogsModule extends BaseModule {
   }
 
   protected async load() {
-    ipcMain.handle(channels.PICK_FILES, async () => {
+    ipcMain.handle(IPCChannels.PICK_FILES, async () => {
       const { canceled, filePaths } = await dialog.showOpenDialog({
         properties: ['multiSelections', 'openFile'],
         filters: [{ name: 'Audio Files', extensions: ['mp3', 'wav', 'ogg'] }],
@@ -34,7 +34,7 @@ export default class DialogsModule extends BaseModule {
       return null;
     });
 
-    ipcMain.handle(channels.OPEN_FILE, async () => {
+    ipcMain.handle(IPCChannels.OPEN_FILE, async () => {
       const { canceled, filePaths } = await dialog.showOpenDialog({
         properties: ['openFile'],
         filters: [{ name: 'Audio Files', extensions: ['mp3', 'wav', 'ogg'] }],

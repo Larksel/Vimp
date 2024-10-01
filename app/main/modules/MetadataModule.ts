@@ -3,7 +3,7 @@ import path from 'path';
 import { Track } from '@shared/types/vimp';
 import BaseModule from './BaseModule';
 import { ipcMain } from 'electron';
-import channels from '@shared/constants/ipc-channels';
+import IPCChannels from '@shared/constants/IPCChannels';
 import { IMetadataModule } from '@interfaces/modules/IMetadataModule';
 
 export default class MetadataModule extends BaseModule implements IMetadataModule {
@@ -12,7 +12,7 @@ export default class MetadataModule extends BaseModule implements IMetadataModul
   }
 
   protected async load() {
-    ipcMain.handle(channels.GET_COVER, async (_, trackPath: string) => {
+    ipcMain.handle(IPCChannels.GET_COVER, async (_, trackPath: string) => {
       return this.getCover(trackPath);
     });
   }

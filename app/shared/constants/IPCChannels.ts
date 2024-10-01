@@ -1,4 +1,4 @@
-const channels = {
+const IPCChannels = {
   // DIALOG
   PICK_FILES: 'PICK_FILES',
   OPEN_FILE: 'OPEN_FILE',
@@ -32,4 +32,4 @@ const channels = {
   CONFIG_SET: 'CONFIG_SET',
 };
 
-export default channels;
+export default IPCChannels;

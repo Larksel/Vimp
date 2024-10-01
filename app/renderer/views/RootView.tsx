@@ -9,7 +9,7 @@ import SideBar from '@components/SideBar';
 import { ScrollArea, ScrollBar } from '@components/common/scroll-area';
 import Header from '@components/Header';
 import PlaybackConsole from '@components/PlaybackConsole';
-import channels from '@shared/constants/ipc-channels';
+import IPCChannels from '@shared/constants/IPCChannels';
 import useCurrentTrack from '@hooks/useCurrentTrack';
 
 export default function RootView() {
@@ -25,7 +25,7 @@ export default function RootView() {
       }, 500),
     );
     return function cleanup() {
-      window.VimpAPI.app.removeAllListeners(channels.TRACKS_DB_CHANGED);
+      window.VimpAPI.app.removeAllListeners(IPCChannels.TRACKS_DB_CHANGED);
     };
   }, [revalidator]);
 

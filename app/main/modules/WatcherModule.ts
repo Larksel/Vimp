@@ -7,7 +7,7 @@ import { TracksDB } from '@main/dbManager';
 import MetadataModule from './MetadataModule';
 import BaseWindowModule from './BaseWindowModule';
 import { BrowserWindow } from 'electron';
-import channels from '@shared/constants/ipc-channels';
+import IPCChannels from '@shared/constants/IPCChannels';
 
 export default class WatcherModule extends BaseWindowModule {
   protected config: Store<Config>;
@@ -55,7 +55,7 @@ export default class WatcherModule extends BaseWindowModule {
       await TracksDB.insertMany([track]);
       console.log(`ADDED: ${filePath}`);
 
-      this.window.webContents.send(channels.TRACKS_DB_CHANGED);
+      this.window.webContents.send(IPCChannels.TRACKS_DB_CHANGED);
     } else {
       console.log(`SKIPPED: ${filePath}`);
     }
@@ -72,7 +72,7 @@ export default class WatcherModule extends BaseWindowModule {
       await TracksDB.delete(existingDoc._id);
       console.log(`REMOVED: ${filePath}`);
 
-      this.window.webContents.send(channels.TRACKS_DB_CHANGED);
+      this.window.webContents.send(IPCChannels.TRACKS_DB_CHANGED);
     } else {
       console.log(`Track Not Found: ${filePath}`);
     }
