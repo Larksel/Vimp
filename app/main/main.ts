@@ -10,7 +10,7 @@ import MetadataModule from '@modules/MetadataModule';
 import ProtocolModule from '@modules/ProtocolModule';
 import WatcherModule from '@modules/WatcherModule';
 // IPC Modules
-import IPCDatabase from '@modules/ipc/IPCDatabase';
+import IPCTracksDatabase from '@modules/ipc/IPCTracksDatabase';
 import MainWindowModule from '@modules/MainWindowModule';
 import { reactDevToolsPath } from '@main-utils/utils-resources';
 
@@ -55,6 +55,6 @@ app.whenReady().then(async () => {
     new AppMenuModule(mainWindow!),
     new WatcherModule(mainWindow!, config, metadataModule),
     // IPC Modules
-    new IPCDatabase(),
+    new IPCTracksDatabase(),
   );
 });

@@ -5,7 +5,7 @@ import { Track, TrackModel } from '@shared/types/vimp';
 import IPCChannels from '@shared/constants/IPCChannels';
 import BaseModule from '@modules/BaseModule';
 
-export default class IPCDatabase extends BaseModule {
+export default class IPCTracksDatabase extends BaseModule {
   constructor() {
     super();
   }
