@@ -4,8 +4,10 @@ import { Track, TrackModel } from '@shared/types/vimp';
 
 class TracksDatabase extends GenericDatabase<Track> implements ITracksDatabase {
   constructor() {
-    super('TracksDB')
+    super('TracksDB');
+  }
 
+  init() {
     this.db.createIndex({
       index: {
         fields: ['path'],
@@ -56,4 +58,8 @@ class TracksDatabase extends GenericDatabase<Track> implements ITracksDatabase {
   }
 }
 
-export const TracksDB = new TracksDatabase();
+// Initialize the database asynchronously before using it.
+const TracksDB = new TracksDatabase();
+TracksDB.init();
+
+export { TracksDB };
