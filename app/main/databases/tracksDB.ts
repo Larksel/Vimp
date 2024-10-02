@@ -1,4 +1,4 @@
-import GenericDatabase from '@databases/genericDb';
+import GenericDatabase from '@databases/genericDB';
 import { ITracksDatabase } from '@interfaces/databases/ITracksDatabase';
 import { Track, TrackModel } from '@shared/types/vimp';
 
