@@ -1,6 +1,6 @@
 import { contextBridge, ipcRenderer } from 'electron';
 import IPCChannels from '@shared/constants/IPCChannels';
-import tracksDB from './modules/tracksDB';
+import tracksDB from './databases/tracksDB';
 import config from './modules/config';
 import library from './modules/library';
 
