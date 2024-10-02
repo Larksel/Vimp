@@ -1,6 +1,6 @@
-import IPCChannels from "@shared/constants/IPCChannels";
-import { Config } from "@shared/types/vimp";
-import { ipcRenderer } from "electron";
+import IPCChannels from '@shared/constants/IPCChannels';
+import { Config } from '@shared/types/vimp';
+import { ipcRenderer } from 'electron';
 
 const config = {
   __initialConfig: ipcRenderer.sendSync(IPCChannels.CONFIG_GET_ALL),
