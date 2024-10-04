@@ -5,7 +5,7 @@ import IPCChannels from '@shared/constants/IPCChannels';
 import BaseModule from './BaseModule';
 
 export default class DialogsModule extends BaseModule {
-  private metadataModule: MetadataModule;
+  private readonly metadataModule: MetadataModule;
 
   constructor(metadataModule: MetadataModule) {
     super();

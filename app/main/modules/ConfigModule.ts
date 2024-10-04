@@ -1,4 +1,4 @@
-import { app, ipcMain, screen } from 'electron';
+import { app, ipcMain } from 'electron';
 import Store from 'electron-store';
 import { Config, RepeatMode } from "@shared/types/vimp";
 import BaseModule from './BaseModule';
@@ -7,15 +7,13 @@ import { vimpMusicFolder, userMusicFolder } from '@main-utils/utils-resources';
 import { IConfigModule } from '@interfaces/modules/IConfigModule';
 
 export default class ConfigModule extends BaseModule implements IConfigModule  {
-  private workArea: Electron.Rectangle;
-  private config: Store<Config>;
+  private readonly config: Store<Config>;
 
   constructor() {
     super();
 
     console.log(`Config path:`, app.getPath('userData'));
 
-    this.workArea = screen.getPrimaryDisplay().workArea;
     this.config = new Store<Config>({
       name: 'config',
       defaults: this.getDefaultConfig(),

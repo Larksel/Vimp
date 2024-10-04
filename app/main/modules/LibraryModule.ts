@@ -19,7 +19,7 @@ export default class LibraryModule extends BaseModule implements ILibraryModule 
     total: number;
   };
 
-  private metadataModule: MetadataModule;
+  private readonly metadataModule: MetadataModule;
 
   constructor(metadataModule: MetadataModule) {
     super();

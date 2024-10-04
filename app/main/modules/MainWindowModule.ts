@@ -5,7 +5,7 @@ import { vimpIcon } from '@main-utils/utils-resources';
 
 export default class MainWindowModule extends BaseModule {
   private window: BrowserWindow | null = null;
-  private options?: BrowserWindowConstructorOptions;
+  private readonly options?: BrowserWindowConstructorOptions;
 
   constructor() {
     super();
