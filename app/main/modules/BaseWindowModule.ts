@@ -10,6 +10,9 @@ export default abstract class BaseWindowModule extends BaseModule implements IBa
     this.window = window;
   }
 
+  /**
+   * Returns the window used by the module
+   */
   getWindow(): BrowserWindow {
     return this.window;
   }

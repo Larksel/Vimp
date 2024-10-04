@@ -38,6 +38,9 @@ export default class ConfigModule extends BaseModule implements IConfigModule  {
     })
   }
 
+  /**
+   * Returns the current config
+   */
   getConfig(): Store<Config> {
     const config = this.config;
 
@@ -48,6 +51,9 @@ export default class ConfigModule extends BaseModule implements IConfigModule  {
     return config;
   }
 
+  /**
+   * Returns the default config
+   */
   private getDefaultConfig(): Config {
     const defaultConfig: Config = {
       audioVolume: 0.5,

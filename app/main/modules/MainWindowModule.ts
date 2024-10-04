@@ -44,6 +44,9 @@ export default class MainWindowModule extends BaseModule {
     return this.window;
   }
 
+  /**
+   * Creates the main window
+   */
   private createWindow() {
     this.window = new BrowserWindow(this.options);
 

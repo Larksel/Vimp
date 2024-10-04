@@ -17,6 +17,9 @@ export default class MetadataModule extends BaseModule implements IMetadataModul
     });
   }
 
+  /**
+   * Gets metadata from a file
+   */
   async getMetadata(trackPath: string): Promise<Track> {
     const defaultMetadata = this.getMetadataDefaults();
 
@@ -47,6 +50,9 @@ export default class MetadataModule extends BaseModule implements IMetadataModul
     return basicMetadata;
   }
 
+  /**
+   * Returns the track's cover
+   */
   async getCover(trackPath: string) {
     if (!trackPath) {
       return null;

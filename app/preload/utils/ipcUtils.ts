@@ -13,6 +13,9 @@ export interface GenericChannels {
   CLEAR: string;
 }
 
+/**
+ * Returns the generic DB ipc call functions for a given model
+ */
 export function createDatabaseIPC<T>(
   channels: GenericChannels,
 ): IGenericDatabase<T> {

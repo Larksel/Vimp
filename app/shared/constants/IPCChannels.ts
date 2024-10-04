@@ -1,3 +1,6 @@
+/**
+ * Contains the IPC channels used in the application
+ */
 enum IPCChannels {
   // CONFIG
   CONFIG_GET = 'config:get',

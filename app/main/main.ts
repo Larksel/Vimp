@@ -40,6 +40,7 @@ app.whenReady().then(async () => {
       .catch((err) => console.log('Error on extension loading:', err));
   }
 
+  // Initialize main modules first
   const mainWindowModule = new MainWindowModule();
   const configModule = new ConfigModule();
   const metadataModule = new MetadataModule();
@@ -48,6 +49,7 @@ app.whenReady().then(async () => {
   const mainWindow = mainWindowModule.getWindow();
   const config = configModule.getConfig();
 
+  // Then initialize the rest with their dependencies
   ModulesManager.init(
     new DialogsModule(metadataModule),
     new LibraryModule(metadataModule),

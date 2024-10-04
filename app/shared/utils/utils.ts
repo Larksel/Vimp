@@ -1,3 +1,6 @@
+/**
+ * Returns the passed date with the timezone offset applied
+ */
 export const formatDate = (date: Date | undefined) => {
   if (date === undefined) return null;
 
