@@ -30,7 +30,7 @@ export default function RootView() {
   }, [revalidator]);
 
   const appBarHeight = 36;
-  const playConsoleHeight = track.path === '' ? 0 : 80;
+  const playConsoleHeight = track ? 80 : 0;
   const sidebarSmall = 64;
   const sidebarLarge = 256;
 

@@ -23,13 +23,13 @@ export default function PlaybackTrack() {
       <Slider
         value={[songProgress]}
         min={0}
-        max={currentTrack.duration}
+        max={currentTrack ? currentTrack.duration : 0}
         step={0.1}
         onValueChange={(value) => handleProgressChange(value[0])}
       />
 
       <p className='min-w-10 text-left text-xs text-neutral-500'>
-        {formatDuration(currentTrack.duration)}
+        {formatDuration(currentTrack ? currentTrack.duration : 0)}
       </p>
     </div>
   );

@@ -21,6 +21,7 @@ export default function MusicInfo() {
   };
 
   const toggleFavorite = async () => {
+    if (!track) return;
     playerAPI.toggleFavorite(track._id);
     revalidator.revalidate();
   };
@@ -28,13 +29,13 @@ export default function MusicInfo() {
   return (
     <>
       <ExpandedView visible={visible} />
-      <div className='flex w-[30%] items-center'>
+      <div className='flex h-full w-[30%] items-center'>
         <div
           onClick={toggleVisible}
-          className={`flex w-full select-none items-center ${visible ? 'gap-0' : 'gap-2'} overflow-hidden rounded-lg p-2 transition-all hover:bg-white/20`}
+          className={`flex h-full w-full select-none items-center ${visible ? 'gap-0' : 'gap-2'} overflow-hidden rounded-lg p-2 transition-all hover:bg-white/20`}
         >
           <img
-            src={track.cover || placeholderImage}
+            src={track ? track.cover || placeholderImage : placeholderImage}
             alt=''
             className={`size-16 rounded object-cover transition-all ${visible ? 'w-0 opacity-0' : ''}`}
           />
@@ -46,20 +47,30 @@ export default function MusicInfo() {
                 'linear-gradient(90deg,transparent 0,#000 8px,#000 calc(100% - 12px),transparent)',
             }}
           >
-            <InfoText variant='primary'>{track.title}</InfoText>
-            <InfoText variant='secondary'>{track.artist[0]}</InfoText>
+            {track ? (
+              <>
+                <InfoText variant='primary'>{track.title}</InfoText>
+                <InfoText variant='secondary'>{track.artist[0]}</InfoText>
+              </>
+            ) : (
+              <InfoText variant='primary'>Nenhuma música selecionada</InfoText>
+            )}
           </div>
         </div>
-        <Button
-          className='aspect-square shrink-0 rounded-full bg-transparent p-0'
-          onClick={toggleFavorite}
-        >
-          <HeartStraight
-            size={20}
-            weight={`${track.favorite ? 'fill' : 'regular'}`}
-            className={`${track.favorite ? 'text-red-500' : ''} transition-all`}
-          />
-        </Button>
+        {track && (
+          <>
+            <Button
+              className='aspect-square shrink-0 rounded-full bg-transparent p-0'
+              onClick={toggleFavorite}
+            >
+              <HeartStraight
+                size={20}
+                weight={`${track.favorite ? 'fill' : 'regular'}`}
+                className={`${track.favorite ? 'text-red-500' : ''} transition-all`}
+              />
+            </Button>
+          </>
+        )}
       </div>
     </>
   );

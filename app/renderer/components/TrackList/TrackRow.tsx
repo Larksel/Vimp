@@ -12,8 +12,8 @@ interface TrackRowProps {
 
 export default function TrackRow(props: TrackRowProps) {
   const { track, index, onClick } = props;
-  const { _id } = useCurrentTrack();
-  const isPlaying = track._id === _id;
+  const currentTrack = useCurrentTrack();
+  const isPlaying = currentTrack ? track._id === currentTrack._id : false;
 
   return (
     <div
