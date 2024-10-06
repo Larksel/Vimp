@@ -1,4 +1,5 @@
 {
+  "extends": "@electron-toolkit/tsconfig/tsconfig.json",
   "files": [],
   "compilerOptions": {
     "baseUrl": ".",

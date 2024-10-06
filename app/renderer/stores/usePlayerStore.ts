@@ -5,7 +5,7 @@ import { PlayerStatus, RepeatMode, TrackModel } from '@shared/types/vimp';
 import { createStore } from '@render-utils/utils-store';
 import player from '@features/player';
 
-type PlayerState = {
+interface PlayerState {
   queue: TrackModel[];
   originalQueue: TrackModel[];
   queuePosition: number | null;
@@ -33,7 +33,7 @@ type PlayerState = {
     setSongProgress: (progress: number) => void;
     setPlaybackRate: (playbackRate: number) => void;
   };
-};
+}
 
 const { config } = window.VimpAPI;
 

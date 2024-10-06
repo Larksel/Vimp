@@ -3,10 +3,10 @@ import MediaCard from '@components/MediaCard';
 
 import { TrackModel } from '@shared/types/vimp';
 
-type CardListProps = {
+interface CardListProps {
   data: TrackModel[];
   max: number;
-};
+}
 
 export default function CardList({ data, max }: CardListProps) {
   return (
