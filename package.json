@@ -1,7 +1,6 @@
 {
   "name": "vimp",
   "productName": "Vimp",
-  "type": "module",
   "version": "0.1.0",
   "description": "Vimp - video & music player",
   "main": ".vite/main/main.js",
