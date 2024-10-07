@@ -29,9 +29,11 @@ export default tseslint.config(
     rules: {
       'no-unused-vars': 'off',
       'no-unresolved': 'off',
+      '@typescript-eslint/no-unused-vars': 'warn',
       'import/no-unresolved': 'off',
+      'import/no-nodejs-modules': 'off',
       'import/no-dynamic-require': 'warn',
-      'import/no-nodejs-modules': 'warn',
+      'import/named': 'off',
     },
   },
 );
