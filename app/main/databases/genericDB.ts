@@ -29,8 +29,12 @@ export default class GenericDatabase<T> implements IGenericDatabase<T> {
   }
 
   // TODO Implementar
-  async updateMany(items: GenericModel<T>[]) { return items }
-  async deleteMany(items: GenericModel<T>[]) { return items }
+  async updateMany(items: GenericModel<T>[]) {
+    return items;
+  }
+  async deleteMany(items: GenericModel<T>[]) {
+    return items;
+  }
 
   // CRUD operations
   async getAll() {
@@ -43,7 +47,7 @@ export default class GenericDatabase<T> implements IGenericDatabase<T> {
       .map((record) => record.doc)
       .filter(Boolean);
 
-    return items;
+    return items as GenericModel<T>[];
   }
 
   async getById(itemID: string) {
@@ -51,7 +55,7 @@ export default class GenericDatabase<T> implements IGenericDatabase<T> {
       selector: { _id: itemID },
     });
 
-    return docs[0];
+    return docs[0] as GenericModel<T>;
   }
 
   async update(item: GenericModel<T>) {
@@ -79,7 +83,7 @@ export default class GenericDatabase<T> implements IGenericDatabase<T> {
     const allItems = await this.getAll();
     const deletedItems = allItems.map((item) => {
       return {
-        ...(item as GenericModel<T>),
+        ...item,
         _deleted: true,
       };
     });

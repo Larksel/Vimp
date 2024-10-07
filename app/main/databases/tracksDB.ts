@@ -21,7 +21,7 @@ class TracksDatabase extends GenericDatabase<Track> implements ITracksDatabase {
       selector: { path: trackPath },
     });
 
-    return docs[0];
+    return docs[0] as TrackModel;
   }
 
   /**
