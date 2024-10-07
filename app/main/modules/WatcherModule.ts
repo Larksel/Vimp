@@ -1,5 +1,5 @@
 import type Store from 'electron-store';
-import chokidar from 'chokidar';
+import { watch } from 'chokidar';
 import path from 'path';
 import { Config, Track } from '@shared/types/vimp';
 import globals from '@shared/constants/globals';
@@ -28,7 +28,7 @@ export default class WatcherModule extends BaseWindowModule {
     const lookahead = globals.SUPPORTED_TRACKS_EXTENSIONS.map(
       (ext) => ext.slice(1) + '$',
     ).join('|'); // Prepara as extensões para o regex
-    const watcher = chokidar.watch(this.config.get('musicFolders'), {
+    const watcher = watch(this.config.get('musicFolders'), {
       persistent: true,
       awaitWriteFinish: true,
       ignoreInitial: true,
