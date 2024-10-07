@@ -28,12 +28,17 @@ export default class GenericDatabase<T> implements IGenericDatabase<T> {
     return this.db.bulkDocs(datedItems);
   }
 
-  // TODO Implementar
   async updateMany(items: GenericModel<T>[]) {
-    return items;
+    return await this.db.bulkDocs(items);
   }
+
   async deleteMany(items: GenericModel<T>[]) {
-    return items;
+    const deletedItems = items.map((item) => ({
+      ...item,
+      _deleted: true,
+    }));
+
+    return await this.db.bulkDocs(deletedItems);
   }
 
   // CRUD operations

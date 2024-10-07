@@ -4,8 +4,12 @@ export interface IGenericDatabase<T> {
   insertMany(
     items: T[],
   ): Promise<(PouchDB.Core.Error | PouchDB.Core.Response)[]>;
-  updateMany(items: GenericModel<T>[]): Promise<GenericModel<T>[]>;
-  deleteMany(items: GenericModel<T>[]): Promise<GenericModel<T>[]>;
+  updateMany(
+    items: GenericModel<T>[],
+  ): Promise<(PouchDB.Core.Error | PouchDB.Core.Response)[]>;
+  deleteMany(
+    items: GenericModel<T>[],
+  ): Promise<(PouchDB.Core.Error | PouchDB.Core.Response)[]>;
   getAll(): Promise<GenericModel<T>[]>;
   getById(itemID: string): Promise<GenericModel<T>>;
   update(item: GenericModel<T>): Promise<PouchDB.Core.Response>;
