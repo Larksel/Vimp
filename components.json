@@ -12,7 +12,7 @@
   },
   "aliases": {
     "components": "@components",
-    "utils": "@render-utils",
+    "utils": "@render-utils/utils",
     "ui": "@components/common"
   }
 }
