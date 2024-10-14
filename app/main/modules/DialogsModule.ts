@@ -1,13 +1,13 @@
 import { ipcMain, dialog } from 'electron';
-import MetadataModule from './MetadataModule';
+import { IMetadataModule } from '@interfaces/modules/IMetadataModule';
 
 import IPCChannels from '@shared/constants/IPCChannels';
 import BaseModule from './BaseModule';
 
 export default class DialogsModule extends BaseModule {
-  private readonly metadataModule: MetadataModule;
+  private readonly metadataModule: IMetadataModule;
 
-  constructor(metadataModule: MetadataModule) {
+  constructor(metadataModule: IMetadataModule) {
     super();
 
     this.metadataModule = metadataModule;
