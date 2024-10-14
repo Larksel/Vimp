@@ -19,6 +19,8 @@ enum IPCChannels {
   METADATA_GET_COVER = 'metadata:getCover',
 
   /* DATABASES */
+  DB_HAS_CHANGED = 'db:hasChanged',
+
   // TracksDB
   TRACKSDB_INSERT_MANY = 'tracksDB:insertMany',
   TRACKSDB_UPDATE_MANY = 'tracksDB:updateMany',
