@@ -4,7 +4,7 @@ import { VirtuosoGrid } from 'react-virtuoso';
 
 import MediaCard from '@components/MediaCard';
 import { Input } from '@components/common/input';
-import { useRevalidator, useRouteLoaderData } from 'react-router-dom';
+import { useRouteLoaderData } from 'react-router-dom';
 import { RootLoaderData } from '@views/RootView';
 import { Button } from '@components/common/button';
 
@@ -12,7 +12,6 @@ export default function MusicLibraryView() {
   const [search, setSearch] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState(search);
   const { tracks } = useRouteLoaderData('root') as RootLoaderData;
-  const revalidator = useRevalidator();
 
   const debouncedSetSearch = useCallback(
     debounce((value) => {
@@ -38,8 +37,6 @@ export default function MusicLibraryView() {
 
     const tracksDB = await window.VimpAPI.library.importTracks(trackPaths);
     console.log(tracksDB);
-
-    revalidator.revalidate();
   };
 
   return (

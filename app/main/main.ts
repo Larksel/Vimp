@@ -57,6 +57,6 @@ app.whenReady().then(async () => {
     new AppMenuModule(mainWindow!),
     new WatcherModule(mainWindow!, config, metadataModule),
     // IPC Modules
-    new IPCTracksDatabase(),
+    new IPCTracksDatabase(mainWindow!),
   );
 });

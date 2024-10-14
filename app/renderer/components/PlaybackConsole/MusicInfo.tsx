@@ -7,12 +7,10 @@ import useCurrentTrack from '@hooks/useCurrentTrack';
 import ExpandedView from './ExpandedView';
 import InfoText from '@components/InfoText';
 import { Button } from '@components/common/button';
-import { useRevalidator } from 'react-router-dom';
 import { usePlayerAPI } from '@stores/usePlayerStore';
 
 export default function MusicInfo() {
   const playerAPI = usePlayerAPI();
-  const revalidator = useRevalidator();
   const [visible, setVisible] = useState(false);
   const track = useCurrentTrack();
 
@@ -23,7 +21,6 @@ export default function MusicInfo() {
   const toggleFavorite = async () => {
     if (!track) return;
     playerAPI.toggleFavorite(track._id);
-    revalidator.revalidate();
   };
 
   return (
@@ -58,18 +55,16 @@ export default function MusicInfo() {
           </div>
         </div>
         {track && (
-          <>
-            <Button
-              className='aspect-square shrink-0 rounded-full bg-transparent p-0'
-              onClick={toggleFavorite}
-            >
-              <HeartStraight
-                size={20}
-                weight={`${track.favorite ? 'fill' : 'regular'}`}
-                className={`${track.favorite ? 'text-red-500' : ''} transition-all`}
-              />
-            </Button>
-          </>
+          <Button
+            className='aspect-square shrink-0 rounded-full bg-transparent p-0'
+            onClick={toggleFavorite}
+          >
+            <HeartStraight
+              size={20}
+              weight={`${track.favorite ? 'fill' : 'regular'}`}
+              className={`${track.favorite ? 'text-red-500' : ''} transition-all`}
+            />
+          </Button>
         )}
       </div>
     </>

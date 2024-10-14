@@ -3,7 +3,7 @@ import { Input } from '@components/common/input';
 import { Switch } from '@components/common/switch';
 import { LoaderData } from '@renderer/router';
 import { useState } from 'react';
-import { useLoaderData, useRevalidator } from 'react-router-dom';
+import { useLoaderData } from 'react-router-dom';
 import { Config } from '@shared/types/vimp';
 
 import * as Settings from '@components/Settings';
@@ -13,7 +13,6 @@ export default function SettingsView() {
   const [configData, setConfigData] = useState<Config>(config);
   const [changed, setChanged] = useState(false);
   const [scanning, setScanning] = useState(false);
-  const revalidator = useRevalidator();
 
   const saveChanges = async () => {
     setChanged(false);
@@ -33,14 +32,12 @@ export default function SettingsView() {
     const tracksDB = await window.VimpAPI.library.importTracks(trackPaths);
     console.log(tracksDB);
 
-    revalidator.revalidate();
     setScanning(() => false);
   };
 
   const clearTracksDB = async () => {
     await window.VimpAPI.tracksDB.clear();
     console.log('TracksDB limpo');
-    revalidator.revalidate();
   };
 
   return (
