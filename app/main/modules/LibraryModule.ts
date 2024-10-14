@@ -9,9 +9,10 @@ import IPCChannels from '@shared/constants/IPCChannels';
 import { Track } from '@shared/types/vimp';
 
 import BaseModule from './BaseModule';
-import { TracksDB } from '@main/dbManager';
-import MetadataModule from './MetadataModule';
+import { IMetadataModule } from '@interfaces/modules/IMetadataModule';
+import { IDBManager } from '@interfaces/modules/IDBManager';
 import { ILibraryModule } from '@interfaces/modules/ILibraryModule';
+import { ITracksDatabase } from '@interfaces/databases/ITracksDatabase';
 
 export default class LibraryModule extends BaseModule implements ILibraryModule {
   public import: {
@@ -19,11 +20,13 @@ export default class LibraryModule extends BaseModule implements ILibraryModule 
     total: number;
   };
 
-  private readonly metadataModule: MetadataModule;
+  private readonly metadataModule: IMetadataModule;
+  private readonly TracksDB: ITracksDatabase;
 
-  constructor(metadataModule: MetadataModule) {
+  constructor(dbManager: IDBManager, metadataModule: IMetadataModule) {
     super();
 
+    this.TracksDB = dbManager.getTracksDB();
     this.metadataModule = metadataModule;
 
     this.import = {
@@ -119,7 +122,7 @@ export default class LibraryModule extends BaseModule implements ILibraryModule 
             try {
               filePath = path.resolve(filePath);
 
-              const existingDoc = await TracksDB.getByPath(filePath);
+              const existingDoc = await this.TracksDB.getByPath(filePath);
 
               if (!existingDoc) {
                 const track = await this.metadataModule.getMetadata(filePath);
@@ -138,7 +141,7 @@ export default class LibraryModule extends BaseModule implements ILibraryModule 
         await scanQueue.start();
 
         console.log('Inserting in database');
-        await TracksDB.insertMany(scannedFiles);
+        await this.TracksDB.insertMany(scannedFiles);
       } catch (err) {
         reject(err);
       }
