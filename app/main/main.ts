@@ -60,7 +60,7 @@ app.whenReady().then(async () => {
     new LibraryModule(dbManager, metadataModule),
     new ProtocolModule(),
     new AppMenuModule(mainWindow!),
-    new WatcherModule(mainWindow!, config, metadataModule),
+    new WatcherModule(dbManager, config, metadataModule),
     // IPC Modules
     new IPCTracksDatabase(mainWindow!),
   );

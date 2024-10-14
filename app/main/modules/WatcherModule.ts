@@ -3,23 +3,24 @@ import { watch } from 'chokidar';
 import path from 'path';
 import { Config, Track } from '@shared/types/vimp';
 import globals from '@shared/constants/globals';
-import { TracksDB } from '@main/dbManager';
-import MetadataModule from './MetadataModule';
-import BaseWindowModule from './BaseWindowModule';
-import { BrowserWindow } from 'electron';
-import IPCChannels from '@shared/constants/IPCChannels';
+import { IDBManager } from '@interfaces/modules/IDBManager';
+import { IMetadataModule } from '@interfaces/modules/IMetadataModule';
+import BaseModule from './BaseModule';
+import { ITracksDatabase } from '@interfaces/databases/ITracksDatabase';
 
-export default class WatcherModule extends BaseWindowModule {
+export default class WatcherModule extends BaseModule {
   protected config: Store<Config>;
-  private readonly metadataModule: MetadataModule;
+  private readonly metadataModule: IMetadataModule;
+  private readonly TracksDB: ITracksDatabase;
 
   constructor(
-    window: BrowserWindow,
+    dbManager: IDBManager,
     config: Store<Config>,
-    metadataModule: MetadataModule,
+    metadataModule: IMetadataModule,
   ) {
-    super(window);
+    super();
 
+    this.TracksDB = dbManager.getTracksDB();
     this.metadataModule = metadataModule;
     this.config = config;
   }
@@ -48,14 +49,12 @@ export default class WatcherModule extends BaseWindowModule {
     console.log(`DETECTED: ${filePath}`);
     const resolvedPath = path.resolve(filePath);
 
-    const existingDoc = await TracksDB.getByPath(resolvedPath);
+    const existingDoc = await this.TracksDB.getByPath(resolvedPath);
 
     if (!existingDoc) {
       const track: Track = await this.metadataModule.getMetadata(resolvedPath);
-      await TracksDB.insertMany([track]);
+      await this.TracksDB.insertMany([track]);
       console.log(`ADDED: ${filePath}`);
-
-      this.window.webContents.send(IPCChannels.TRACKSDB_HAS_CHANGED);
     } else {
       console.log(`SKIPPED: ${filePath}`);
     }
@@ -66,13 +65,11 @@ export default class WatcherModule extends BaseWindowModule {
 
     const resolvedPath = path.resolve(filePath);
 
-    const existingDoc = await TracksDB.getByPath(resolvedPath);
+    const existingDoc = await this.TracksDB.getByPath(resolvedPath);
 
     if (existingDoc) {
-      await TracksDB.delete(existingDoc._id);
+      await this.TracksDB.delete(existingDoc._id);
       console.log(`REMOVED: ${filePath}`);
-
-      this.window.webContents.send(IPCChannels.TRACKSDB_HAS_CHANGED);
     } else {
       console.log(`Track Not Found: ${filePath}`);
     }
