@@ -36,6 +36,9 @@ export default function InfoText({
       setIsOverflow(element.scrollWidth > element.clientWidth);
     });
 
+    console.log(isOverflow);
+    console.log(contWidth);
+
     observer.observe(element);
 
     return () => {

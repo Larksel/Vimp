@@ -22,7 +22,7 @@ export default function MoreOptions() {
 
   return (
     <div className='flex h-full w-[30%] flex-row items-center justify-end gap-2 px-2'>
-      {buttons.map((button, index) => (
+      {buttons.map((button) => (
         <button
           key={button.id}
           onClick={button.action}
