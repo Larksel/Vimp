@@ -1,6 +1,7 @@
+import { IBaseWindowModule } from '@interfaces/modules/IBaseWindowModule';
 import { GenericModel } from '@shared/types/vimp';
 
-export interface IGenericDatabase<T> {
+export interface IGenericDatabase<T> extends IBaseWindowModule {
   insertMany(
     items: T[],
   ): Promise<(PouchDB.Core.Error | PouchDB.Core.Response)[]>;

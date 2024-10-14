@@ -1,17 +1,23 @@
 import path from 'path';
-import { app } from 'electron';
+import { app, BrowserWindow } from 'electron';
 import PouchDB from 'pouchdb';
 import PouchDBFind from 'pouchdb-find';
 import { GenericModel } from '@shared/types/vimp';
 import { IGenericDatabase } from '@interfaces/databases/IGenericDatabase';
+import BaseWindowModule from '@modules/BaseWindowModule';
+import IPCChannels from '@shared/constants/IPCChannels';
 
 PouchDB.plugin(PouchDBFind);
 const userDataPath = app.getPath('userData');
 
-export default class GenericDatabase<T> implements IGenericDatabase<T> {
+export default abstract class GenericDatabase<T>
+  extends BaseWindowModule
+  implements IGenericDatabase<T>
+{
   protected db: PouchDB.Database;
 
-  constructor(dbName: string) {
+  constructor(dbName: string, window: BrowserWindow) {
+    super(window);
     this.db = new PouchDB(path.join(userDataPath, dbName), {
       adapter: 'leveldb',
       auto_compaction: true,
@@ -24,8 +30,11 @@ export default class GenericDatabase<T> implements IGenericDatabase<T> {
       ...item,
       dateAdded: new Date(),
     }));
+    const result = await this.db.bulkDocs(datedItems);
 
-    return this.db.bulkDocs(datedItems);
+    this.window.webContents.send(IPCChannels.TRACKSDB_HAS_CHANGED);
+
+    return result;
   }
 
   async updateMany(items: GenericModel<T>[]) {
@@ -33,8 +42,11 @@ export default class GenericDatabase<T> implements IGenericDatabase<T> {
       ...item,
       dateModified: new Date(),
     }));
+    const result = await this.db.bulkDocs(updatedItems);
 
-    return await this.db.bulkDocs(updatedItems);
+    this.window.webContents.send(IPCChannels.TRACKSDB_HAS_CHANGED);
+
+    return result;
   }
 
   async deleteMany(items: GenericModel<T>[]) {
@@ -42,8 +54,11 @@ export default class GenericDatabase<T> implements IGenericDatabase<T> {
       ...item,
       _deleted: true,
     }));
+    const result = await this.db.bulkDocs(deletedItems);
 
-    return await this.db.bulkDocs(deletedItems);
+    this.window.webContents.send(IPCChannels.TRACKSDB_HAS_CHANGED);
+
+    return result;
   }
 
   // CRUD operations
@@ -70,8 +85,15 @@ export default class GenericDatabase<T> implements IGenericDatabase<T> {
 
   async update(item: GenericModel<T>) {
     const doc = await this.db.get(item._id);
+    const result = await this.db.put({
+      ...doc,
+      ...item,
+      dateModified: new Date(),
+    });
 
-    return this.db.put({ ...doc, ...item, dateModified: new Date() });
+    this.window.webContents.send(IPCChannels.TRACKSDB_HAS_CHANGED);
+
+    return result;
   }
 
   async delete(itemID: string) {
@@ -85,6 +107,8 @@ export default class GenericDatabase<T> implements IGenericDatabase<T> {
     }));
 
     await this.db.bulkDocs(deletedItems);
+
+    this.window.webContents.send(IPCChannels.TRACKSDB_HAS_CHANGED);
   }
 
   // * Helpers
@@ -99,6 +123,7 @@ export default class GenericDatabase<T> implements IGenericDatabase<T> {
     });
     if (!deletedItems) return;
 
-    this.db.bulkDocs(deletedItems);
+    await this.db.bulkDocs(deletedItems);
+    this.window.webContents.send(IPCChannels.TRACKSDB_HAS_CHANGED);
   }
 }

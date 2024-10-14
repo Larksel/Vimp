@@ -1,14 +1,19 @@
 import GenericDatabase from '@databases/genericDB';
 import { ITracksDatabase } from '@interfaces/databases/ITracksDatabase';
+import IPCChannels from '@shared/constants/IPCChannels';
 import { Track, TrackModel } from '@shared/types/vimp';
+import { BrowserWindow } from 'electron';
 
-class TracksDatabase extends GenericDatabase<Track> implements ITracksDatabase {
-  constructor() {
-    super('TracksDB');
+export default class TracksDatabase
+  extends GenericDatabase<Track>
+  implements ITracksDatabase
+{
+  constructor(window: BrowserWindow) {
+    super('TracksDB', window);
   }
 
-  init() {
-    this.db.createIndex({
+  protected async load() {
+    await this.db.createIndex({
       index: {
         fields: ['path'],
       },
@@ -33,6 +38,7 @@ class TracksDatabase extends GenericDatabase<Track> implements ITracksDatabase {
       ...doc,
       playCount: doc.playCount + 1,
     });
+    this.window.webContents.send(IPCChannels.TRACKSDB_HAS_CHANGED);
   }
 
   /**
@@ -44,6 +50,7 @@ class TracksDatabase extends GenericDatabase<Track> implements ITracksDatabase {
       ...doc,
       favorite: !doc.favorite,
     });
+    this.window.webContents.send(IPCChannels.TRACKSDB_HAS_CHANGED);
   }
 
   /**
@@ -55,11 +62,6 @@ class TracksDatabase extends GenericDatabase<Track> implements ITracksDatabase {
       ...doc,
       lastPlayed: new Date(),
     });
+    this.window.webContents.send(IPCChannels.TRACKSDB_HAS_CHANGED);
   }
 }
-
-// Initialize the database asynchronously before using it.
-const TracksDB = new TracksDatabase();
-TracksDB.init();
-
-export { TracksDB };
