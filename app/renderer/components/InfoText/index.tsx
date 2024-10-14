@@ -1,4 +1,3 @@
-import { useRef, useEffect, useState } from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@render-utils/utils';
 
@@ -22,32 +21,9 @@ export default function InfoText({
   variant,
   className,
 }: InfoTextProps) {
-  const [isOverflow, setIsOverflow] = useState<boolean>(false);
-  const [contWidth, setContWidth] = useState<number>(0);
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const element = ref?.current;
-
-    if (!element) return;
-
-    const observer = new ResizeObserver(() => {
-      setContWidth(element.clientWidth);
-      setIsOverflow(element.scrollWidth > element.clientWidth);
-    });
-
-    console.log(isOverflow);
-    console.log(contWidth);
-
-    observer.observe(element);
-
-    return () => {
-      observer.disconnect();
-    };
-  }, [children]);
 
   return (
-    <p ref={ref} className={cn(textVariants({ variant, className }))}>
+    <p className={cn(textVariants({ variant, className }))}>
       {children}
     </p>
   );
