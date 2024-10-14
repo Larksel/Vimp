@@ -3,7 +3,7 @@ import { ipcRenderer } from 'electron';
 import { createDatabaseIPC, GenericChannels } from '../utils/ipcUtils';
 import IPCChannels from '@shared/constants/IPCChannels';
 
-ipcRenderer.removeAllListeners(IPCChannels.TRACKSDB_HAS_CHANGED);
+ipcRenderer.removeAllListeners(IPCChannels.DB_HAS_CHANGED);
 
 const tracksDBChannels: GenericChannels = {
   INSERT_MANY: IPCChannels.TRACKSDB_INSERT_MANY,
@@ -20,9 +20,6 @@ const genericDBChannels = createDatabaseIPC<Track>(tracksDBChannels);
 
 const tracksDB = {
   ...genericDBChannels,
-  onTracksDBChanged: (callback: () => void) => {
-    return ipcRenderer.on(IPCChannels.TRACKSDB_HAS_CHANGED, () => callback());
-  },
   getByPath: (trackPath: string) => {
     return ipcRenderer.invoke(IPCChannels.TRACKSDB_GET_BY_PATH, trackPath);
   },

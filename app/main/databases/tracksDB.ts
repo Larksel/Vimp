@@ -38,7 +38,7 @@ export default class TracksDatabase
       ...doc,
       playCount: doc.playCount + 1,
     });
-    this.window.webContents.send(IPCChannels.TRACKSDB_HAS_CHANGED);
+    this.window.webContents.send(IPCChannels.DB_HAS_CHANGED);
   }
 
   /**
@@ -50,7 +50,7 @@ export default class TracksDatabase
       ...doc,
       favorite: !doc.favorite,
     });
-    this.window.webContents.send(IPCChannels.TRACKSDB_HAS_CHANGED);
+    this.window.webContents.send(IPCChannels.DB_HAS_CHANGED);
   }
 
   /**
@@ -62,6 +62,6 @@ export default class TracksDatabase
       ...doc,
       lastPlayed: new Date(),
     });
-    this.window.webContents.send(IPCChannels.TRACKSDB_HAS_CHANGED);
+    this.window.webContents.send(IPCChannels.DB_HAS_CHANGED);
   }
 }

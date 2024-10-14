@@ -17,6 +17,9 @@ const VimpAPI = {
     },
     removeAllListeners: (channel: IPCChannels) => {
       return ipcRenderer.removeAllListeners(channel);
+    }, 
+    onDBChanged: (callback: () => void) => {
+      return ipcRenderer.on(IPCChannels.DB_HAS_CHANGED, () => callback());
     },
   },
   library,

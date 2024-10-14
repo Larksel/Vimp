@@ -18,14 +18,14 @@ export default function RootView() {
   const track = useCurrentTrack();
 
   useEffect(() => {
-    window.VimpAPI.tracksDB.onTracksDBChanged(
+    window.VimpAPI.app.onDBChanged(
       debounce(() => {
-        console.log('TracksDB changed');
+        console.log('DB changed');
         revalidator.revalidate();
       }, 500),
     );
     return function cleanup() {
-      window.VimpAPI.app.removeAllListeners(IPCChannels.TRACKSDB_HAS_CHANGED);
+      window.VimpAPI.app.removeAllListeners(IPCChannels.DB_HAS_CHANGED);
     };
   }, [revalidator]);
 

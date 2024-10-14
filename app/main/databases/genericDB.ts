@@ -32,7 +32,7 @@ export default abstract class GenericDatabase<T>
     }));
     const result = await this.db.bulkDocs(datedItems);
 
-    this.window.webContents.send(IPCChannels.TRACKSDB_HAS_CHANGED);
+    this.window.webContents.send(IPCChannels.DB_HAS_CHANGED);
 
     return result;
   }
@@ -44,7 +44,7 @@ export default abstract class GenericDatabase<T>
     }));
     const result = await this.db.bulkDocs(updatedItems);
 
-    this.window.webContents.send(IPCChannels.TRACKSDB_HAS_CHANGED);
+    this.window.webContents.send(IPCChannels.DB_HAS_CHANGED);
 
     return result;
   }
@@ -56,7 +56,7 @@ export default abstract class GenericDatabase<T>
     }));
     const result = await this.db.bulkDocs(deletedItems);
 
-    this.window.webContents.send(IPCChannels.TRACKSDB_HAS_CHANGED);
+    this.window.webContents.send(IPCChannels.DB_HAS_CHANGED);
 
     return result;
   }
@@ -91,7 +91,7 @@ export default abstract class GenericDatabase<T>
       dateModified: new Date(),
     });
 
-    this.window.webContents.send(IPCChannels.TRACKSDB_HAS_CHANGED);
+    this.window.webContents.send(IPCChannels.DB_HAS_CHANGED);
 
     return result;
   }
@@ -108,7 +108,7 @@ export default abstract class GenericDatabase<T>
 
     await this.db.bulkDocs(deletedItems);
 
-    this.window.webContents.send(IPCChannels.TRACKSDB_HAS_CHANGED);
+    this.window.webContents.send(IPCChannels.DB_HAS_CHANGED);
   }
 
   // * Helpers
@@ -124,6 +124,6 @@ export default abstract class GenericDatabase<T>
     if (!deletedItems) return;
 
     await this.db.bulkDocs(deletedItems);
-    this.window.webContents.send(IPCChannels.TRACKSDB_HAS_CHANGED);
+    this.window.webContents.send(IPCChannels.DB_HAS_CHANGED);
   }
 }

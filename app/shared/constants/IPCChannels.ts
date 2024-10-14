@@ -36,7 +36,6 @@ enum IPCChannels {
   TRACKSDB_INCREMENT_PLAY_COUNT = 'tracksDB:incrementPlayCount',
   TRACKSDB_UPDATE_FAVORITE = 'tracksDB:updateFavorite',
   TRACKSDB_UPDATE_LAST_PLAYED = 'tracksDB:updateLastPlayed',
-  TRACKSDB_HAS_CHANGED = 'tracksDB:hasChanged',
 }
 
 export default IPCChannels;
