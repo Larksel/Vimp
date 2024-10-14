@@ -13,6 +13,7 @@ import WatcherModule from '@modules/WatcherModule';
 import IPCTracksDatabase from '@modules/ipc/IPCTracksDatabase';
 import MainWindowModule from '@modules/MainWindowModule';
 import { reactDevToolsPath } from '@main-utils/utils-resources';
+import DBManager from './dbManager';
 
 const isDebug =
   process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true';
@@ -48,6 +49,10 @@ app.whenReady().then(async () => {
   await ModulesManager.init(mainWindowModule, configModule, metadataModule);
   const mainWindow = mainWindowModule.getWindow();
   const config = configModule.getConfig();
+
+  // Initialize databases
+  const dbManager = new DBManager(mainWindow!)
+  await ModulesManager.init(dbManager);
 
   // Then initialize the rest with their dependencies
   ModulesManager.init(
