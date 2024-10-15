@@ -8,5 +8,6 @@ export interface ILibraryModule extends IBaseModule {
     total: number;
   };
 
+  scanTracks(_: IpcMainInvokeEvent, pathsScan: string[]): Promise<string[]>;
   importTracks(_: IpcMainInvokeEvent, tracksPath: string[]): Promise<Track[]>;
 }

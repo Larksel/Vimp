@@ -43,7 +43,7 @@ export default class LibraryModule extends BaseModule implements ILibraryModule 
     ipcMain.handle(IPCChannels.LIBRARY_SCAN_TRACKS, this.scanTracks.bind(this));
   }
 
-  private async scanTracks(
+  async scanTracks(
     _: IpcMainInvokeEvent,
     pathsScan: string[],
   ): Promise<string[]> {
