@@ -5,6 +5,7 @@ import BaseModule from './BaseModule';
 import { ipcMain } from 'electron';
 import IPCChannels from '@shared/constants/IPCChannels';
 import { IMetadataModule } from '@interfaces/modules/IMetadataModule';
+import { statSync } from 'fs';
 
 export default class MetadataModule extends BaseModule implements IMetadataModule {
   constructor() {
@@ -94,6 +95,8 @@ export default class MetadataModule extends BaseModule implements IMetadataModul
   private formatMusicMetadata(data: IAudioMetadata, trackPath: string) {
     const { common, format } = data;
     const picture = common.picture?.[0];
+    const stats = statSync(trackPath);
+    const dateModified: Date = stats.mtime;
 
     const metadata = {
       title: common.title ?? path.parse(trackPath).base,
@@ -103,6 +106,7 @@ export default class MetadataModule extends BaseModule implements IMetadataModul
         (common.albumartist && [common.albumartist]) || ['Unknown artist'],
       genre: common.genre || ['Unknown'],
       duration: format.duration,
+      dateModified: dateModified,
     };
 
     if (picture) {
