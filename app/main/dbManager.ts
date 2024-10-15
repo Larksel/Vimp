@@ -5,7 +5,7 @@ import TracksDatabase from '@databases/tracksDB';
 import { IDBManager } from '@interfaces/modules/IDBManager';
 
 export default class DBManager extends BaseWindowModule implements IDBManager {
-  private TracksDB: TracksDatabase;
+  private readonly TracksDB: TracksDatabase;
 
   constructor(window: BrowserWindow) {
     super(window);
