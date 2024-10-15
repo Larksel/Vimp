@@ -24,43 +24,6 @@ export default abstract class GenericDatabase<T>
     });
   }
 
-  // Bulk operations
-  async insertMany(items: T[]) {
-    const datedItems = items.map((item) => ({
-      ...item,
-      dateAdded: new Date(),
-    }));
-    const result = await this.db.bulkDocs(datedItems);
-
-    this.window.webContents.send(IPCChannels.DB_HAS_CHANGED);
-
-    return result;
-  }
-
-  async updateMany(items: GenericModel<T>[]) {
-    const updatedItems = items.map((item) => ({
-      ...item,
-      dateModified: new Date(),
-    }));
-    const result = await this.db.bulkDocs(updatedItems);
-
-    this.window.webContents.send(IPCChannels.DB_HAS_CHANGED);
-
-    return result;
-  }
-
-  async deleteMany(items: GenericModel<T>[]) {
-    const deletedItems = items.map((item) => ({
-      ...item,
-      _deleted: true,
-    }));
-    const result = await this.db.bulkDocs(deletedItems);
-
-    this.window.webContents.send(IPCChannels.DB_HAS_CHANGED);
-
-    return result;
-  }
-
   // CRUD operations
   async getAll() {
     const [firstResponse, secondResponse] = await Promise.all([
@@ -83,32 +46,47 @@ export default abstract class GenericDatabase<T>
     return docs[0] as GenericModel<T>;
   }
 
-  async update(item: GenericModel<T>) {
-    const doc = await this.db.get(item._id);
-    const result = await this.db.put({
-      ...doc,
+  async create(items: T | T[]) {
+    const itemsArray = Array.isArray(items) ? items : [items];
+
+    const datedItems = itemsArray.map((item) => ({
       ...item,
-      dateModified: new Date(),
-    });
+      dateAdded: new Date(),
+    }));
+    const result = await this.db.bulkDocs(datedItems);
 
     this.window.webContents.send(IPCChannels.DB_HAS_CHANGED);
 
     return result;
   }
 
-  async delete(itemID: string) {
-    const { docs } = await this.db.find({
-      selector: { _id: itemID },
-    });
-    const items = docs;
-    const deletedItems = items.map((item) => ({
+  async update(items: GenericModel<T> | GenericModel<T>[]) {
+    const itemsArray = Array.isArray(items) ? items : [items];
+
+    const updatedItems = itemsArray.map((item) => ({
+      ...item,
+      dateModified: new Date(),
+    }));
+
+    const result = await this.db.bulkDocs(updatedItems);
+
+    this.window.webContents.send(IPCChannels.DB_HAS_CHANGED);
+
+    return result;
+  }
+
+  async delete(items: GenericModel<T> | GenericModel<T>[]) {
+    const itemsArray = Array.isArray(items) ? items : [items];
+
+    const deletedItems = itemsArray.map((item) => ({
       ...item,
       _deleted: true,
     }));
-
-    await this.db.bulkDocs(deletedItems);
+    const result = await this.db.bulkDocs(deletedItems);
 
     this.window.webContents.send(IPCChannels.DB_HAS_CHANGED);
+
+    return result;
   }
 
   // * Helpers

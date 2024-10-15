@@ -22,12 +22,9 @@ enum IPCChannels {
   DB_HAS_CHANGED = 'db:hasChanged',
 
   // TracksDB
-  TRACKSDB_INSERT_MANY = 'tracksDB:insertMany',
-  TRACKSDB_UPDATE_MANY = 'tracksDB:updateMany',
-  TRACKSDB_DELETE_MANY = 'tracksDB:deleteMany',
-
   TRACKSDB_GET_ALL = 'tracksDB:getAll',
   TRACKSDB_GET_BY_ID = 'tracksDB:getById',
+  TRACKSDB_CREATE = 'tracksDB:create',
   TRACKSDB_UPDATE = 'tracksDB:update',
   TRACKSDB_DELETE = 'tracksDB:delete',
   TRACKSDB_CLEAR = 'tracksDB:clear',

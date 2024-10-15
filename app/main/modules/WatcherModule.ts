@@ -53,7 +53,7 @@ export default class WatcherModule extends BaseModule {
 
     if (!existingDoc) {
       const track: Track = await this.metadataModule.getMetadata(resolvedPath);
-      await this.TracksDB.insertMany([track]);
+      await this.TracksDB.create(track);
       console.log(`ADDED: ${filePath}`);
     } else {
       console.log(`SKIPPED: ${filePath}`);
@@ -68,7 +68,7 @@ export default class WatcherModule extends BaseModule {
     const existingDoc = await this.TracksDB.getByPath(resolvedPath);
 
     if (existingDoc) {
-      await this.TracksDB.delete(existingDoc._id);
+      await this.TracksDB.delete(existingDoc);
       console.log(`REMOVED: ${filePath}`);
     } else {
       console.log(`Track Not Found: ${filePath}`);

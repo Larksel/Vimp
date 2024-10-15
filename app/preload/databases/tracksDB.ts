@@ -6,11 +6,9 @@ import IPCChannels from '@shared/constants/IPCChannels';
 ipcRenderer.removeAllListeners(IPCChannels.DB_HAS_CHANGED);
 
 const tracksDBChannels: GenericChannels = {
-  INSERT_MANY: IPCChannels.TRACKSDB_INSERT_MANY,
-  UPDATE_MANY: IPCChannels.TRACKSDB_UPDATE_MANY,
-  DELETE_MANY: IPCChannels.TRACKSDB_DELETE_MANY,
   GET_ALL: IPCChannels.TRACKSDB_GET_ALL,
   GET_BY_ID: IPCChannels.TRACKSDB_GET_BY_ID,
+  CREATE: IPCChannels.TRACKSDB_CREATE,
   UPDATE: IPCChannels.TRACKSDB_UPDATE,
   DELETE: IPCChannels.TRACKSDB_DELETE,
   CLEAR: IPCChannels.TRACKSDB_CLEAR,

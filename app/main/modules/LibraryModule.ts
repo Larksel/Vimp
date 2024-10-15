@@ -141,7 +141,7 @@ export default class LibraryModule extends BaseModule implements ILibraryModule 
         await scanQueue.start();
 
         console.log('Inserting in database');
-        await this.TracksDB.insertMany(scannedFiles);
+        await this.TracksDB.create(scannedFiles);
       } catch (err) {
         reject(err);
       }
