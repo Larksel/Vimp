@@ -2,7 +2,10 @@ import { IBaseModule } from "@interfaces/modules/IBaseModule";
 
 export const init = async (...modules: IBaseModule[]): Promise<void> => {
   const results = await Promise.allSettled(
-    modules.map((module) => module.init()),
+    modules.map((module) => {
+      if (module.init)
+        module.init()
+    }),
   );
 
   results.forEach((result, index) => {
