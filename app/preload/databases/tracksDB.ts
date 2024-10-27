@@ -1,11 +1,11 @@
-import { Track } from '@shared/types/vimp';
+import { Track, GenericDBChannels } from '@shared/types/vimp';
 import { ipcRenderer } from 'electron';
-import { createDatabaseIPC, GenericChannels } from '../utils/ipcUtils';
+import { createDatabaseIPC } from '../utils/ipcUtils';
 import IPCChannels from '@shared/constants/IPCChannels';
 
 ipcRenderer.removeAllListeners(IPCChannels.DB_HAS_CHANGED);
 
-const tracksDBChannels: GenericChannels = {
+const tracksDBChannels: GenericDBChannels = {
   GET_ALL: IPCChannels.TRACKSDB_GET_ALL,
   GET_BY_ID: IPCChannels.TRACKSDB_GET_BY_ID,
   CREATE: IPCChannels.TRACKSDB_CREATE,

@@ -11,7 +11,7 @@ export enum PlayerStatus {
 }
 
 /**
- * Informações genéricas (dateAdded, playCount, favorite, etc.)
+ * Generic info (dateAdded, playCount, favorite, etc.)
  */
 export interface CommonData {
   playCount: number;
@@ -49,4 +49,16 @@ export interface Config {
   musicFolders: string[];
 
   displayNotifications: boolean;
+}
+
+/**
+ * Generic IPC channels for database methods
+ */
+export interface GenericDBChannels {
+  GET_ALL: string;
+  GET_BY_ID: string;
+  CREATE: string;
+  UPDATE: string;
+  DELETE: string;
+  CLEAR: string;
 }

@@ -1,21 +1,12 @@
 import { ipcRenderer } from 'electron';
 import { IGenericDatabase } from '@interfaces/databases/IGenericDatabase';
-import { GenericModel } from '@shared/types/vimp';
-
-export interface GenericChannels {
-  GET_ALL: string;
-  GET_BY_ID: string;
-  CREATE: string;
-  UPDATE: string;
-  DELETE: string;
-  CLEAR: string;
-}
+import { GenericModel, GenericDBChannels } from '@shared/types/vimp';
 
 /**
  * Returns the generic DB ipc call functions for a given model
  */
 export function createDatabaseIPC<T>(
-  channels: GenericChannels,
+  channels: GenericDBChannels,
 ): IGenericDatabase<T> {
   return {
     getAll: () => {
