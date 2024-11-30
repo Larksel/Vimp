@@ -8,8 +8,9 @@
   ],
   "compilerOptions": {
     "composite": true,
-    "types": ["electron-vite/node"],
+    "types": ["electron-vite/node", "jest"],
     "noUnusedLocals": false,
+    // This config must be the same as in electron.vite.config
     "paths": {
       "@interfaces/*": ["./app/shared/interfaces/*"],
       "@shared/*": ["./app/shared/*"],
