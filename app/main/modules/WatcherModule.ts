@@ -2,7 +2,7 @@ import type Store from 'electron-store';
 import { watch } from 'chokidar';
 import path from 'path';
 import { Config, Track } from '@shared/types/vimp';
-import globals from '@shared/constants/globals';
+import supportedExtensions from '@shared/constants/supportedExtensions';
 import { IDBManager } from '@interfaces/modules/IDBManager';
 import { IMetadataModule } from '@interfaces/modules/IMetadataModule';
 import BaseModule from './BaseModule';
@@ -26,7 +26,7 @@ export default class WatcherModule extends BaseModule {
   }
 
   protected async load() {
-    const lookahead = globals.SUPPORTED_TRACKS_EXTENSIONS.map(
+    const lookahead = supportedExtensions.TRACKS.map(
       (ext) => ext.slice(1) + '$',
     ).join('|'); // Prepara as extensões para o regex
     const watcher = watch(this.config.get('musicFolders'), {

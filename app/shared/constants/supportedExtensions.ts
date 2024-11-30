@@ -1,5 +1,5 @@
-const globals = {
-  SUPPORTED_TRACKS_EXTENSIONS: [
+const supportedExtensions = {
+  TRACKS: [
     // MP3 / MP4
     '.mp3',
     '.mp4',
@@ -19,4 +19,4 @@ const globals = {
   ],
 }
 
-export default globals;
+export default supportedExtensions;

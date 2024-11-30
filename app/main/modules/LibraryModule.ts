@@ -4,7 +4,7 @@ import fs from 'fs';
 import path from 'path';
 import queue from 'queue';
 
-import globals from '@shared/constants/globals';
+import supportedExtensions from '@shared/constants/supportedExtensions';
 import IPCChannels from '@shared/constants/IPCChannels';
 import { Track } from '@shared/types/vimp';
 
@@ -85,7 +85,7 @@ export default class LibraryModule extends BaseModule implements ILibraryModule 
 
     const supportedTrackFiles = allFiles.filter((filePath) => {
       const extension = path.extname(filePath).toLowerCase();
-      return globals.SUPPORTED_TRACKS_EXTENSIONS.includes(extension);
+      return supportedExtensions.TRACKS.includes(extension);
     });
 
     return supportedTrackFiles;
