@@ -10,6 +10,11 @@ export enum PlayerStatus {
   STOP = 'stop',
 }
 
+export enum FileTypes {
+  TRACKS = 'tracks',
+  VIDEOS = 'videos',
+}
+
 /**
  * Generic info (dateAdded, playCount, favorite, etc.)
  */

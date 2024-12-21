@@ -4,7 +4,7 @@ import fs from 'fs';
 import path from 'path';
 import queue from 'queue';
 
-import globals from '@shared/constants/globals';
+import supportedExtensions from '@shared/constants/supportedExtensions';
 import IPCChannels from '@shared/constants/IPCChannels';
 
 import BaseModule from './BaseModule';
@@ -13,7 +13,7 @@ import { IDBManager } from '@interfaces/modules/IDBManager';
 import { ILibraryModule } from '@interfaces/modules/InewLibraryModule';
 import { ITracksDatabase } from '@interfaces/databases/ITracksDatabase';
 
-type FilterType = 'tracks' | 'video';
+type FilterType = 'tracks' | 'video' | 'allSupported';
 
 export default class LibraryModule
   extends BaseModule
@@ -45,13 +45,15 @@ export default class LibraryModule
       (_, pathsScan: string[]) => {
         return this.import(pathsScan);
       },
-    ); //TODO alterar canais
+    );
     ipcMain.handle(IPCChannels.LIBRARY_SCAN_TRACKS, (_, paths: string[]) => {
       return this.scan(paths);
-    }); //TODO alterar canais
+    });
   }
 
-  // TODO retornar ja organizado em grupos (musica, video, playlist)
+  /**
+   * Scans passed paths and returns found files that are supported.
+   */
   async scan(
     pathsScan: string[],
   ): Promise<{ paths: string[]; files: string[] }> {
@@ -100,14 +102,24 @@ export default class LibraryModule
   }
 
   private filterSupportedFiles(files: string[], type: FilterType) {
-    let supportedExtensions: string[];
+    let extensions: string[] = [];
+    const fileTypes = Object.keys(supportedExtensions);
+
     switch (type) {
       case 'tracks':
-        supportedExtensions = globals.SUPPORTED_TRACKS_EXTENSIONS;
+        extensions = supportedExtensions.TRACKS;
         break;
 
       case 'video':
+        extensions = supportedExtensions.VIDEOS;
         console.log('video file filter needs implementation');
+        break;
+
+      case 'allSupported':
+        extensions = fileTypes
+          .map((fileType) => supportedExtensions[fileType])
+          .flat()
+          .filter((value, index, self) => self.indexOf(value) === index);
         break;
 
       default:
@@ -116,7 +128,7 @@ export default class LibraryModule
 
     const supportedFiles = files.filter((filePath) => {
       const extension = path.extname(filePath).toLowerCase();
-      return supportedExtensions.includes(extension);
+      return extensions.includes(extension);
     });
 
     return supportedFiles;
