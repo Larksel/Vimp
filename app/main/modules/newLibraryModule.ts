@@ -52,7 +52,7 @@ export default class LibraryModule
   }
 
   /**
-   * Scans passed paths and returns found files that are supported.
+   * Scans passed paths and returns found files that are supported and folders.
    */
   async scan(
     pathsScan: string[],
@@ -94,7 +94,10 @@ export default class LibraryModule
       if (itemStat.isDirectory()) folders.push(item);
     });
 
-    return { paths: folders, files: files };
+    return {
+      paths: folders,
+      files: this.filterSupportedFiles(files, 'allSupported'),
+    };
   }
 
   async import<T>(itemsPath: string[]): Promise<T[]> {
