@@ -1,3 +1,4 @@
+import { ScannedFiles } from '@shared/types/vimp';
 import { IBaseModule } from './IBaseModule';
 
 export interface ILibraryModule extends IBaseModule {
@@ -10,5 +11,7 @@ export interface ILibraryModule extends IBaseModule {
     paths: string[],
     files: string[],
   }>;
-  import(itemsPath: string[]): Promise<any>;
+  import(itemsPath: string[]): Promise<ScannedFiles | null>;
+  //TODO método para escanear e importar tudo dos diretorios configurados
+  //scanAndSave(pathsScan: string[]): Promise<>
 }

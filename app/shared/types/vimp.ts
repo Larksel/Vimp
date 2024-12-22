@@ -13,6 +13,13 @@ export enum PlayerStatus {
 export enum FileTypes {
   TRACKS = 'tracks',
   VIDEOS = 'videos',
+  PLAYLIST = 'playlist',
+  UNKNOWN = 'unknown',
+}
+
+export interface ScannedFiles {
+  tracks: Track[];
+  //videos: Video[];
 }
 
 /**

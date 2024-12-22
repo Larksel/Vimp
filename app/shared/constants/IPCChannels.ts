@@ -12,8 +12,8 @@ enum IPCChannels {
   DIALOG_OPEN_FILE = 'dialog:openFile',
 
   // LIBRARY
-  LIBRARY_IMPORT_TRACKS = 'library:importTracks',
-  LIBRARY_SCAN_TRACKS = 'library:scanTracks',
+  LIBRARY_IMPORT = 'library:import',
+  LIBRARY_SCAN = 'library:scan',
 
   // METADATA
   METADATA_GET_COVER = 'metadata:getCover',

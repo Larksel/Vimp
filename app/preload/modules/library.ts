@@ -1,12 +1,13 @@
 import IPCChannels from '@shared/constants/IPCChannels';
+import { ScannedFiles } from '@shared/types/vimp';
 import { ipcRenderer } from 'electron';
 
 const library = {
-  scanTracks: (paths: string[]) => {
-    return ipcRenderer.invoke(IPCChannels.LIBRARY_SCAN_TRACKS, paths);
+  scan: (paths: string[]): Promise<{ folders: string[]; files: string[] }> => {
+    return ipcRenderer.invoke(IPCChannels.LIBRARY_SCAN, paths);
   },
-  importTracks: (paths: string[]) => {
-    return ipcRenderer.invoke(IPCChannels.LIBRARY_IMPORT_TRACKS, paths);
+  import: (paths: string[]): Promise<ScannedFiles | null> => {
+    return ipcRenderer.invoke(IPCChannels.LIBRARY_IMPORT, paths);
   },
 };
 

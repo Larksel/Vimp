@@ -33,10 +33,10 @@ export default function MusicLibraryView() {
 
   const forceScan = async () => {
     const pathsToScan = await window.VimpAPI.config.get('musicFolders');
-    const trackPaths = await window.VimpAPI.library.scanTracks(pathsToScan);
+    const trackPaths = await window.VimpAPI.library.scan(pathsToScan);
 
-    const tracksDB = await window.VimpAPI.library.importTracks(trackPaths);
-    console.log(tracksDB);
+    const importedFiles = await window.VimpAPI.library.import(trackPaths.files);
+    console.log(importedFiles);
   };
 
   return (

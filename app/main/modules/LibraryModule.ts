@@ -11,6 +11,7 @@ import BaseModule from './BaseModule';
 import { IMetadataModule } from '@interfaces/modules/IMetadataModule';
 import { IDBManager } from '@interfaces/modules/IDBManager';
 import { ILibraryModule } from '@interfaces/modules/ILibraryModule';
+import { FileTypes, ScannedFiles } from '@shared/types/vimp';
 
 type FilterType = 'tracks' | 'video' | 'allSupported';
 
@@ -40,12 +41,12 @@ export default class LibraryModule
 
   protected async load(): Promise<void> {
     ipcMain.handle(
-      IPCChannels.LIBRARY_IMPORT_TRACKS,
+      IPCChannels.LIBRARY_IMPORT,
       (_, pathsScan: string[]) => {
         return this.import(pathsScan);
       },
     );
-    ipcMain.handle(IPCChannels.LIBRARY_SCAN_TRACKS, (_, paths: string[]) => {
+    ipcMain.handle(IPCChannels.LIBRARY_SCAN, (_, paths: string[]) => {
       return this.scan(paths);
     });
   }
@@ -99,15 +100,20 @@ export default class LibraryModule
     };
   }
 
-  // TODO deve suportar diferentes tipos de arquivos
-  async import(itemsPath: string[]): Promise<any> {
-    if (!itemsPath || itemsPath.length === 0) return [];
+  /**
+   * Imports files from passed paths to the database
+   */
+  async import(itemsPath: string[]) {
+    if (!itemsPath || itemsPath.length === 0) return null;
 
     // Filtrar caminhos válidos
     const validPaths = itemsPath.filter((path) => path);
-    if (validPaths.length === 0) return [];
+    if (validPaths.length === 0) return null;
 
-    const scannedFiles: Record<string, any[]> = {};
+    const scannedFiles: ScannedFiles = {
+      tracks: [],
+      //videos: [],
+    };
 
     try {
       // Configurar a fila de processamento
@@ -180,7 +186,7 @@ export default class LibraryModule
 
   private async processFile(
     filePath: string,
-    scannedFiles: Record<string, any[]>,
+    scannedFiles: ScannedFiles,
   ): Promise<void> {
     try {
       const resolvedPath = path.resolve(filePath);
@@ -214,10 +220,10 @@ export default class LibraryModule
   }
 
   private async insertScannedFiles(
-    scannedFiles: Record<string, any[]>,
+    scannedFiles: ScannedFiles,
   ): Promise<void> {
     for (const [fileType, files] of Object.entries(scannedFiles)) {
-      const db = this.getDatabaseForType(fileType);
+      const db = this.getDatabaseForType(fileType as FileTypes);
       if (db && files.length > 0) {
         console.log(
           `Inserting ${files.length} ${fileType} files into database`,
@@ -227,18 +233,20 @@ export default class LibraryModule
     }
   }
 
-  private getFileType(extension: string): string {
-    if (supportedExtensions.TRACKS.includes(extension)) return 'tracks';
-    if (supportedExtensions.VIDEOS.includes(extension)) return 'video';
-    return 'unknown';
+  private getFileType(extension: string): FileTypes {
+    // Check for video formats first to avoid mistakenly importing videos as audio,
+    // especially when both share supported formats like mp4 and webm.
+    if (supportedExtensions.VIDEOS.includes(extension)) return FileTypes.VIDEOS;
+    if (supportedExtensions.TRACKS.includes(extension)) return FileTypes.TRACKS;
+    return FileTypes.UNKNOWN;
   }
 
-  private getDatabaseForType(fileType: string) {
+  private getDatabaseForType(fileType: FileTypes) {
     switch (fileType) {
-      case 'tracks':
+      case FileTypes.TRACKS:
         return this.dbManager.getTracksDB();
-      case 'video':
-        console.log('No DB for videos')
+      case FileTypes.VIDEOS:
+        console.log('No DB for videos');
         return null;
       default:
         return null;
