@@ -5,7 +5,7 @@ import * as ModulesManager from '@main-utils/utils-modules';
 import AppMenuModule from '@modules/AppMenuModule';
 import ConfigModule from '@modules/ConfigModule';
 import DialogsModule from '@modules/DialogsModule';
-import LibraryModule from '@modules/newLibraryModule';
+import LibraryModule from '@modules/LibraryModule';
 import MetadataModule from '@modules/MetadataModule';
 import ProtocolModule from '@modules/ProtocolModule';
 import WatcherModule from '@modules/WatcherModule';
