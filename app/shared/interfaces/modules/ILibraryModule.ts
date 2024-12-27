@@ -4,6 +4,7 @@ import { IBaseModule } from './IBaseModule';
 export interface ILibraryModule extends IBaseModule {
   status: {
     processed: number;
+    added: number;
     total: number;
   };
 

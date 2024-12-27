@@ -21,6 +21,7 @@ export default class LibraryModule
 {
   public status: {
     processed: number;
+    added: number;
     total: number;
   };
 
@@ -35,6 +36,7 @@ export default class LibraryModule
 
     this.status = {
       processed: 0,
+      added: 0,
       total: 0,
     };
   }
@@ -206,6 +208,7 @@ export default class LibraryModule
         const metadata = await this.metadataModule.getMetadata(resolvedPath);
         if (!scannedFiles[fileType]) scannedFiles[fileType] = [];
         scannedFiles[fileType].push(metadata);
+        this.status.added++;
       }
 
       this.status.processed++;
@@ -216,6 +219,7 @@ export default class LibraryModule
 
   private resetImportProgress(): void {
     this.status.processed = 0;
+    this.status.added = 0;
     this.status.total = 0;
   }
 
