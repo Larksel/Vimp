@@ -9,7 +9,7 @@ export interface ILibraryModule extends IBaseModule {
   };
 
   scan(pathsScan: string[]): Promise<{
-    paths: string[],
+    folders: string[],
     files: string[],
   }>;
   import(itemsPath: string[]): Promise<ScannedFiles | null>;
