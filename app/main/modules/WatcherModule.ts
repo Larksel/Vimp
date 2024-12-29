@@ -41,7 +41,7 @@ export default class WatcherModule extends BaseModule {
       .on('unlink', (path) => this.handleRemovedFile(path))
       .on('error', (error) => console.log(`Watcher error: ${error}`))
       .on('ready', () => {
-        console.log('Initial scan complete. Ready for changes.');
+        console.log('Watcher ready for changes.');
       });
   }
 
