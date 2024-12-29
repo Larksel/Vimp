@@ -1,7 +1,11 @@
 import { BrowserWindow } from 'electron';
-import Module from './BaseModule';
+import BaseModule from './BaseModule';
+import { IBaseWindowModule } from '@interfaces/modules/IBaseWindowModule';
 
-export default class ModuleWindow extends Module {
+export default abstract class BaseWindowModule
+  extends BaseModule
+  implements IBaseWindowModule
+{
   protected window: BrowserWindow;
 
   constructor(window: BrowserWindow) {
@@ -9,6 +13,9 @@ export default class ModuleWindow extends Module {
     this.window = window;
   }
 
+  /**
+   * Returns the window used by the module
+   */
   getWindow(): BrowserWindow {
     return this.window;
   }

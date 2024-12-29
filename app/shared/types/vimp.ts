@@ -10,8 +10,20 @@ export enum PlayerStatus {
   STOP = 'stop',
 }
 
+export enum FileTypes {
+  TRACKS = 'tracks',
+  VIDEOS = 'videos',
+  PLAYLIST = 'playlist',
+  UNKNOWN = 'unknown',
+}
+
+export interface ScannedFiles {
+  tracks: Track[];
+  //videos: Video[];
+}
+
 /**
- * Informações genéricas (dateAdded, playCount, favorite, etc.)
+ * Generic info (dateAdded, playCount, favorite, etc.)
  */
 export interface CommonData {
   playCount: number;
@@ -32,19 +44,33 @@ export interface Track extends CommonData {
   albumartist?: string;
 }
 
-export type TrackModel = PouchDB.Core.ExistingDocument<
-  Track & PouchDB.Core.AllDocsMeta
+export type GenericModel<T> = PouchDB.Core.ExistingDocument<
+  T & PouchDB.Core.AllDocsMeta
 >;
 
-export interface Config {
-  audioVolume: number,
-  audioPlaybackRate: number,
-  audioMuted: boolean,
-  audioShuffle: boolean,
-  audioRepeatMode: RepeatMode,
-  audioGaplessPlayback: boolean,
-  audioCrossfadeDuration: number,
-  musicFolders: string[],
+export type TrackModel = GenericModel<Track>;
 
-  displayNotifications: boolean,
+export interface Config {
+  audioVolume: number;
+  audioPlaybackRate: number;
+  audioMuted: boolean;
+  audioShuffle: boolean;
+  audioRepeatMode: RepeatMode;
+  audioGaplessPlayback: boolean;
+  audioCrossfadeDuration: number;
+  musicFolders: string[];
+
+  displayNotifications: boolean;
+}
+
+/**
+ * Generic IPC channels for database methods
+ */
+export interface GenericDBChannels {
+  GET_ALL: string;
+  GET_BY_ID: string;
+  CREATE: string;
+  UPDATE: string;
+  DELETE: string;
+  CLEAR: string;
 }

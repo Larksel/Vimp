@@ -1,92 +1,25 @@
-import { app, BrowserWindow, session } from 'electron';
+import { app, session } from 'electron';
 import { electronApp, optimizer } from '@electron-toolkit/utils';
-import os from 'os';
-import { join } from 'path';
-import MenuBuilder from './modules/MenuBuilder';
-import { setupVimpProtocol } from './modules/Protocol';
-import setupIPCDatabase from './modules/IPCDatabase';
-import setupIPCTracks from './modules/IPCTracks';
-import setupIPCDialog from './modules/Dialog';
-import Library from './modules/Library';
-import ConfigModule from './modules/ConfigModule';
-import FileWatcher from './modules/FileWatcher';
+// Modules
+import * as ModulesManager from '@main-utils/utils-modules';
+import AppMenuModule from '@modules/AppMenuModule';
+import ConfigModule from '@modules/ConfigModule';
+import DialogsModule from '@modules/DialogsModule';
+import LibraryModule from '@modules/LibraryModule';
+import MetadataModule from '@modules/MetadataModule';
+import ProtocolModule from '@modules/ProtocolModule';
+import WatcherModule from '@modules/WatcherModule';
+// IPC Modules
+import IPCTracksDatabase from '@modules/ipc/IPCTracksDatabase';
+import MainWindowModule from '@modules/MainWindowModule';
+import { reactDevToolsPath } from '@main-utils/utils-resources';
+import DBManager from './dbManager';
 
 const isDebug =
   process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true';
 
-const iconPath =
-  process.platform === 'win32'
-    ? '../../resources/icons/icon.ico'
-    : '../../resources/icons/icon.png';
-
-const reactDevToolsPath = join(
-  os.homedir(),
-  '/AppData/Local/Google/Chrome/User Data/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/5.2.0_0',
-);
-
-const icon = join(__dirname, iconPath);
-let mainWindow: BrowserWindow | null = null;
-
 console.log('Debug:', isDebug);
 console.log('Platform:', process.platform, '\n\n');
-
-const createWindow = () => {
-  mainWindow = new BrowserWindow({
-    title: 'Vimp',
-    width: 1024,
-    height: 670,
-    minWidth: 940,
-    minHeight: 560,
-    backgroundColor: 'black',
-    frame: false,
-    autoHideMenuBar: true,
-    titleBarStyle: 'hidden',
-    titleBarOverlay: {
-      color: 'black',
-      symbolColor: 'white',
-      height: 36,
-    },
-    show: false,
-    icon: icon,
-    webPreferences: {
-      preload: join(__dirname, '../preload/preload.js'),
-      contextIsolation: true,
-      nodeIntegration: false,
-      devTools: true,
-    },
-  });
-
-  if (process.argv.includes('--devtools')) {
-    mainWindow.webContents.openDevTools({ mode: 'detach' });
-  }
-
-  mainWindow.webContents.setWindowOpenHandler(() => {
-    return { action: 'deny' };
-  });
-
-  if (!app.isPackaged && process.env['ELECTRON_RENDERER_URL']) {
-    mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL']);
-  } else {
-    mainWindow.loadFile(join(__dirname, '../renderer/index.html'));
-  }
-
-  mainWindow.once('ready-to-show', () => {
-    if (!mainWindow) {
-      throw new Error('"mainWindow" is not defined');
-    }
-    if (process.env.START_MINIMIZED) {
-      mainWindow.minimize();
-    } else {
-      mainWindow.show();
-    }
-  });
-
-  mainWindow.on('closed', () => {
-    mainWindow = null;
-  });
-
-  new MenuBuilder(mainWindow).buildMenu();
-};
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
@@ -96,27 +29,39 @@ app.on('window-all-closed', () => {
 
 app.whenReady().then(async () => {
   electronApp.setAppUserModelId('com.electron.vimp');
-  const configModule = new ConfigModule();
-  await configModule.init();
-  const config = configModule.getConfig();
-  
-  if (isDebug) {
-    await session.defaultSession.loadExtension(reactDevToolsPath)
-      .then((ext) => console.log('Loaded Extension:', ext.name))
-      .catch((err) => console.log('Error on extension loading:', err))
-  }
 
   app.on('browser-window-created', (_, window) => {
     optimizer.watchWindowShortcuts(window);
   });
 
-  createWindow();
+  if (isDebug) {
+    await session.defaultSession
+      .loadExtension(reactDevToolsPath)
+      .then((ext) => console.log('Loaded Extension:', ext.name))
+      .catch((err) => console.log('Error on extension loading:', err));
+  }
 
-  setupVimpProtocol();
-  setupIPCDatabase();
-  setupIPCTracks();
-  setupIPCDialog();
+  // Initialize main modules first
+  const mainWindowModule = new MainWindowModule();
+  const configModule = new ConfigModule();
+  const metadataModule = new MetadataModule();
 
-  new Library().init();
-  new FileWatcher(mainWindow!, config).init();
+  await ModulesManager.init(mainWindowModule, configModule, metadataModule);
+  const mainWindow = mainWindowModule.getWindow();
+  const config = configModule.getConfig();
+
+  // Initialize databases
+  const dbManager = new DBManager(mainWindow!);
+  await ModulesManager.init(dbManager);
+
+  // Then initialize the rest with their dependencies
+  ModulesManager.init(
+    new DialogsModule(metadataModule),
+    new LibraryModule(dbManager, metadataModule, config),
+    new ProtocolModule(),
+    new AppMenuModule(mainWindow!),
+    new WatcherModule(dbManager, config, metadataModule),
+    // IPC Modules
+    new IPCTracksDatabase(dbManager),
+  );
 });

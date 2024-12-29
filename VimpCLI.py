@@ -1,7 +1,7 @@
 from os import startfile, system
 
-from app.main.downloader import Downloader
-from app.main.managers import DirManager
+from app.main.python.downloader import Downloader
+from app.main.python.managers import DirManager
 
 
 dirmanager = DirManager()

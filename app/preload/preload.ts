@@ -1,35 +1,30 @@
 import { contextBridge, ipcRenderer } from 'electron';
-import channels from '../shared/lib/ipc-channels';
-import db from './db';
-import { Config } from '../shared/types/vimp';
+import IPCChannels from '@shared/constants/IPCChannels';
+import tracksDB from './databases/tracksDB';
+import config from './modules/config';
+import library from './modules/library';
 
 const VimpAPI = {
   app: {
-    pickFile: () => ipcRenderer.invoke(channels.PICK_FILES),
-    openFile: () => ipcRenderer.invoke(channels.OPEN_FILE),
-    getCover: (trackPath: string) =>
-      ipcRenderer.invoke(channels.GET_COVER, trackPath),
-    removeAllListeners: (channel: string) => ipcRenderer.removeAllListeners(channel)
-  },
-  library: {
-    scanTracks: (paths: string[]) =>
-      ipcRenderer.invoke(channels.LIBRARY_SCAN_TRACKS, paths),
-    importTracks: (paths: string[]) =>
-      ipcRenderer.invoke(channels.LIBRARY_IMPORT_TRACKS, paths),
-  },
-  config: {
-    __initialConfig: ipcRenderer.sendSync(channels.CONFIG_GET_ALL),
-    getAll(): Promise<Config> {
-      return ipcRenderer.invoke(channels.CONFIG_GET_ALL);
+    pickFile: () => {
+      return ipcRenderer.invoke(IPCChannels.DIALOG_PICK_FILES);
     },
-    get<T extends keyof Config>(key: T): Promise<Config[T]> {
-      return ipcRenderer.invoke(channels.CONFIG_GET, key);
+    openFile: () => {
+      return ipcRenderer.invoke(IPCChannels.DIALOG_OPEN_FILE);
     },
-    set<T extends keyof Config>(key: T, value: Config[T]): Promise<void> {
-      return ipcRenderer.invoke(channels.CONFIG_SET, key, value);
+    getCover: (trackPath: string) => {
+      return ipcRenderer.invoke(IPCChannels.METADATA_GET_COVER, trackPath);
+    },
+    removeAllListeners: (channel: IPCChannels) => {
+      return ipcRenderer.removeAllListeners(channel);
+    },
+    onDBChanged: (callback: () => void) => {
+      return ipcRenderer.on(IPCChannels.DB_HAS_CHANGED, () => callback());
     },
   },
-  db,
+  library,
+  config,
+  tracksDB,
 };
 
 contextBridge.exposeInMainWorld('VimpAPI', VimpAPI);
