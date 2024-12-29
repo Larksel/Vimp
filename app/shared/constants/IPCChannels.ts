@@ -14,6 +14,7 @@ enum IPCChannels {
   // LIBRARY
   LIBRARY_IMPORT = 'library:import',
   LIBRARY_SCAN = 'library:scan',
+  LIBRARY_SCAN_AND_SAVE = 'library:scanAndSave',
 
   // METADATA
   METADATA_GET_COVER = 'metadata:getCover',

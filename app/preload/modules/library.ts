@@ -9,6 +9,9 @@ const library = {
   import: (paths: string[]): Promise<ScannedFiles | null> => {
     return ipcRenderer.invoke(IPCChannels.LIBRARY_IMPORT, paths);
   },
+  scanAndSave: (paths?: string[]): Promise<ScannedFiles | null> => {
+    return ipcRenderer.invoke(IPCChannels.LIBRARY_SCAN_AND_SAVE, paths);
+  },
 };
 
 export default library;

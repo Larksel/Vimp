@@ -56,6 +56,9 @@ export default class LibraryModule
     ipcMain.handle(IPCChannels.LIBRARY_SCAN, (_, paths: string[]) => {
       return this.scan(paths);
     });
+    ipcMain.handle(IPCChannels.LIBRARY_SCAN_AND_SAVE, (_, paths?: string[]) => {
+      return this.scanAndSave(paths);
+    });
   }
 
   /**

@@ -36,10 +36,7 @@ export default function HomeView() {
     });
 
   const forceScan = async () => {
-    const pathsToScan = await window.VimpAPI.config.get('musicFolders');
-    const trackPaths = await window.VimpAPI.library.scan(pathsToScan);
-
-    const importedFiles = await window.VimpAPI.library.import(trackPaths.files);
+    const importedFiles = await window.VimpAPI.library.scanAndSave();
     console.log(importedFiles);
   };
 
