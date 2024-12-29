@@ -8,7 +8,6 @@ interface ListHeaderProps {
   collapsed: boolean;
 }
 
-
 export default function ListHeader({ collapsed }: ListHeaderProps) {
   const [inputVisible, setInputVisible] = useState(false);
   const [search, setSearch] = useState('');

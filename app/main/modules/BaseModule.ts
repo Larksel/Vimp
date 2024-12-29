@@ -1,4 +1,4 @@
-import { IBaseModule } from "@interfaces/modules/IBaseModule";
+import { IBaseModule } from '@interfaces/modules/IBaseModule';
 
 export default abstract class BaseModule implements IBaseModule {
   protected loaded: boolean;

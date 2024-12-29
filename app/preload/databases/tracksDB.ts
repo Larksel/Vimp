@@ -12,7 +12,7 @@ const tracksDBChannels: GenericDBChannels = {
   UPDATE: IPCChannels.TRACKSDB_UPDATE,
   DELETE: IPCChannels.TRACKSDB_DELETE,
   CLEAR: IPCChannels.TRACKSDB_CLEAR,
-}
+};
 
 const genericDBChannels = createDatabaseIPC<Track>(tracksDBChannels);
 
@@ -22,7 +22,10 @@ const tracksDB = {
     return ipcRenderer.invoke(IPCChannels.TRACKSDB_GET_BY_PATH, trackPath);
   },
   incrementPlayCount: (trackID: string) => {
-    return ipcRenderer.invoke(IPCChannels.TRACKSDB_INCREMENT_PLAY_COUNT, trackID);
+    return ipcRenderer.invoke(
+      IPCChannels.TRACKSDB_INCREMENT_PLAY_COUNT,
+      trackID,
+    );
   },
   updateFavorite: (trackID: string) => {
     return ipcRenderer.invoke(IPCChannels.TRACKSDB_UPDATE_FAVORITE, trackID);

@@ -33,7 +33,7 @@ export default class TracksDatabase
     const lostTracks = tracks.filter((track) => !fs.existsSync(track.path));
 
     if (lostTracks.length > 0) {
-      console.log(`Deleting ${lostTracks.length} missing tracks`)
+      console.log(`Deleting ${lostTracks.length} missing tracks`);
       await this.delete(lostTracks);
     }
 

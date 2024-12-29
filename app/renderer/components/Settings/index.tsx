@@ -6,12 +6,12 @@ interface Props {
 }
 
 type SectionProps = {
-  name: string
-} & Props
+  name: string;
+} & Props;
 
 type OptionProps = {
-  name: string
-} & Props
+  name: string;
+} & Props;
 
 export function Section(props: SectionProps) {
   return (
@@ -32,5 +32,5 @@ export function Option(props: OptionProps) {
       <h6>{props.name}</h6>
       {props.children}
     </div>
-  )
+  );
 }

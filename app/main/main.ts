@@ -51,7 +51,7 @@ app.whenReady().then(async () => {
   const config = configModule.getConfig();
 
   // Initialize databases
-  const dbManager = new DBManager(mainWindow!)
+  const dbManager = new DBManager(mainWindow!);
   await ModulesManager.init(dbManager);
 
   // Then initialize the rest with their dependencies

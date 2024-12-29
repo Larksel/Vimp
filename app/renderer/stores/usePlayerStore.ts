@@ -221,7 +221,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => ({
       const shuffle = !get().shuffle;
 
       await config.set('audioShuffle', shuffle);
-      
+
       if (queuePosition === null) return;
       if (shuffle) {
         const newQueue = shuffleTracks([...queue], queuePosition);
@@ -300,7 +300,10 @@ const shuffleTracks = (tracks: TrackModel[], index: number) => {
   //Shuffle
   for (let i = shuffledTracks.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    [shuffledTracks[i], shuffledTracks[j]] = [shuffledTracks[j], shuffledTracks[i]]
+    [shuffledTracks[i], shuffledTracks[j]] = [
+      shuffledTracks[j],
+      shuffledTracks[i],
+    ];
   }
 
   // Mantain the current track on the first position

@@ -7,15 +7,21 @@ import IPCChannels from '@shared/constants/IPCChannels';
 import { IMetadataModule } from '@interfaces/modules/IMetadataModule';
 import { statSync } from 'fs';
 
-export default class MetadataModule extends BaseModule implements IMetadataModule {
+export default class MetadataModule
+  extends BaseModule
+  implements IMetadataModule
+{
   constructor() {
     super();
   }
 
   protected async load() {
-    ipcMain.handle(IPCChannels.METADATA_GET_COVER, async (_, trackPath: string) => {
-      return this.getCover(trackPath);
-    });
+    ipcMain.handle(
+      IPCChannels.METADATA_GET_COVER,
+      async (_, trackPath: string) => {
+        return this.getCover(trackPath);
+      },
+    );
   }
 
   /**
@@ -112,7 +118,10 @@ export default class MetadataModule extends BaseModule implements IMetadataModul
     if (picture) {
       return {
         ...metadata,
-        cover: this.parseBase64(picture.format, picture.data.toString('base64')),
+        cover: this.parseBase64(
+          picture.format,
+          picture.data.toString('base64'),
+        ),
       };
     }
 

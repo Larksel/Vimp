@@ -1,6 +1,6 @@
 import { app } from 'electron';
 import os from 'os';
-import { join } from "path";
+import { join } from 'path';
 
 // Extensions
 export const reactDevToolsPath = join(

@@ -2,7 +2,7 @@ import { defineConfig, externalizeDepsPlugin } from 'electron-vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
 
-const externals = ['globby', 'queue']
+const externals = ['globby', 'queue'];
 const minify = process.env.NODE_ENV === 'production';
 const commonConfig = {
   minify,
@@ -20,7 +20,7 @@ export default defineConfig({
         '@main-utils': path.resolve(__dirname, './app/main/utils'),
         '@modules': path.resolve(__dirname, './app/main/modules'),
         '@databases': path.resolve(__dirname, './app/main/databases'),
-      }
+      },
     },
     build: {
       ...commonConfig,
@@ -36,7 +36,7 @@ export default defineConfig({
       alias: {
         '@interfaces': path.resolve(__dirname, './app/shared/interfaces'),
         '@shared': path.resolve(__dirname, './app/shared'),
-      }
+      },
     },
     build: {
       ...commonConfig,

@@ -1,4 +1,8 @@
-import { LoaderFunctionArgs, createHashRouter, useNavigate } from 'react-router-dom';
+import {
+  LoaderFunctionArgs,
+  createHashRouter,
+  useNavigate,
+} from 'react-router-dom';
 import HomeView from '@views/HomeView';
 import QueueView from '@views/QueueView';
 import MusicLibraryView from '@views/MusicLibraryView';
@@ -35,7 +39,7 @@ const router = createHashRouter([
         path: routes.SETTINGS,
         id: routes.SETTINGS,
         element: <SettingsView />,
-        loader: SettingsView.loader
+        loader: SettingsView.loader,
       },
     ],
   },

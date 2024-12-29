@@ -1,12 +1,12 @@
 import { app, ipcMain } from 'electron';
 import Store from 'electron-store';
-import { Config, RepeatMode } from "@shared/types/vimp";
+import { Config, RepeatMode } from '@shared/types/vimp';
 import BaseModule from './BaseModule';
 import IPCChannels from '@shared/constants/IPCChannels';
 import { vimpMusicFolder, userMusicFolder } from '@main-utils/utils-resources';
 import { IConfigModule } from '@interfaces/modules/IConfigModule';
 
-export default class ConfigModule extends BaseModule implements IConfigModule  {
+export default class ConfigModule extends BaseModule implements IConfigModule {
   private readonly config: Store<Config>;
 
   constructor() {
@@ -29,11 +29,11 @@ export default class ConfigModule extends BaseModule implements IConfigModule  {
 
     ipcMain.handle(IPCChannels.CONFIG_GET, (_, key) => {
       return this.config.get(key);
-    })
+    });
 
     ipcMain.handle(IPCChannels.CONFIG_SET, (_, key, value) => {
       this.config.set(key, value);
-    })
+    });
   }
 
   /**
@@ -43,7 +43,7 @@ export default class ConfigModule extends BaseModule implements IConfigModule  {
     const config = this.config;
 
     if (config === undefined) {
-      throw new Error('Config is not defined')
+      throw new Error('Config is not defined');
     }
 
     return config;
@@ -62,9 +62,9 @@ export default class ConfigModule extends BaseModule implements IConfigModule  {
       audioGaplessPlayback: true,
       audioCrossfadeDuration: 300,
       musicFolders: [userMusicFolder, vimpMusicFolder],
-    
+
       displayNotifications: true,
-    }
+    };
 
     return defaultConfig;
   }

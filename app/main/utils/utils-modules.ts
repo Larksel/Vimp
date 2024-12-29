@@ -1,10 +1,9 @@
-import { IBaseModule } from "@interfaces/modules/IBaseModule";
+import { IBaseModule } from '@interfaces/modules/IBaseModule';
 
 export const init = async (...modules: IBaseModule[]): Promise<void> => {
   const results = await Promise.allSettled(
     modules.map((module) => {
-      if (module.init)
-        module.init()
+      if (module.init) module.init();
     }),
   );
 

@@ -11,11 +11,11 @@ export default function QueueView() {
     } else {
       playerAPI.start(queue, trackID);
     }
-  }
+  };
 
   return (
     <div>
       <TrackList queue={queue} onItemClick={handleItemClick} />
     </div>
-  )
+  );
 }

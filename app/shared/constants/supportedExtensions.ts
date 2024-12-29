@@ -17,10 +17,7 @@ const supportedExtensions = {
     // web media
     '.webm',
   ],
-  VIDEOS: [
-    '.mp4',
-    '.webm',
-  ],
-}
+  VIDEOS: ['.mp4', '.webm'],
+};
 
 export default supportedExtensions;

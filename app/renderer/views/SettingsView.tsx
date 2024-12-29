@@ -26,7 +26,7 @@ export default function SettingsView() {
 
   const rescanTracks = async () => {
     setScanning(() => true);
-    
+
     const importedFiles = await window.VimpAPI.library.scanAndSave();
     console.log(importedFiles);
 
