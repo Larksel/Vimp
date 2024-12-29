@@ -13,6 +13,5 @@ export interface ILibraryModule extends IBaseModule {
     files: string[],
   }>;
   import(itemsPath: string[]): Promise<ScannedFiles | null>;
-  //TODO método para escanear e importar tudo dos diretorios configurados
-  //scanAndSave(pathsScan: string[]): Promise<>
+  scanAndSave(paths: string[]): Promise<ScannedFiles | null>;
 }

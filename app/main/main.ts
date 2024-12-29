@@ -57,7 +57,7 @@ app.whenReady().then(async () => {
   // Then initialize the rest with their dependencies
   ModulesManager.init(
     new DialogsModule(metadataModule),
-    new LibraryModule(dbManager, metadataModule),
+    new LibraryModule(dbManager, metadataModule, config),
     new ProtocolModule(),
     new AppMenuModule(mainWindow!),
     new WatcherModule(dbManager, config, metadataModule),

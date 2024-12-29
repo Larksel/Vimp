@@ -11,7 +11,8 @@ import BaseModule from './BaseModule';
 import { IMetadataModule } from '@interfaces/modules/IMetadataModule';
 import { IDBManager } from '@interfaces/modules/IDBManager';
 import { ILibraryModule } from '@interfaces/modules/ILibraryModule';
-import { FileTypes, ScannedFiles } from '@shared/types/vimp';
+import type Store from 'electron-store';
+import { Config, FileTypes, ScannedFiles } from '@shared/types/vimp';
 
 type FilterType = 'tracks' | 'video' | 'allSupported';
 
@@ -27,13 +28,18 @@ export default class LibraryModule
 
   private readonly metadataModule: IMetadataModule;
   private readonly dbManager: IDBManager;
+  protected config: Store<Config>;
 
-  constructor(dbManager: IDBManager, metadataModule: IMetadataModule) {
+  constructor(
+    dbManager: IDBManager,
+    metadataModule: IMetadataModule,
+    config: Store<Config>,
+  ) {
     super();
 
     this.dbManager = dbManager;
     this.metadataModule = metadataModule;
-
+    this.config = config;
     this.status = {
       processed: 0,
       added: 0,
@@ -42,6 +48,8 @@ export default class LibraryModule
   }
 
   protected async load(): Promise<void> {
+    console.log('Starting initial library scan');
+    await this.scanAndSave();
     ipcMain.handle(IPCChannels.LIBRARY_IMPORT, (_, pathsScan: string[]) => {
       return this.import(pathsScan);
     });
@@ -152,6 +160,22 @@ export default class LibraryModule
       console.error('Error during import:', error);
       throw error;
     }
+  }
+
+  /**
+   * Scans the specified paths and configured music folders for supported media files,
+   * imports the found files into the database, and returns the imported file data.
+   *
+   * @param paths - An optional array of paths to scan in addition to the configured music folders.
+   * @returns A promise that resolves to the imported file data or null if no files are found.
+   */
+
+  async scanAndSave(paths: string[] = []) {
+    const pathsScan = [...paths, ...this.config.get('musicFolders')];
+    const { files } = await this.scan(pathsScan);
+    const importedFiles = await this.import(files);
+
+    return importedFiles;
   }
 
   private filterSupportedFiles(files: string[], type: FilterType) {
