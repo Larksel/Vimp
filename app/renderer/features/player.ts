@@ -10,6 +10,7 @@ interface PlayerOptions {
 class Player {
   private readonly audio: HTMLAudioElement;
   private track: TrackModel | null;
+  protected hasPlayed: boolean;
 
   constructor(options?: PlayerOptions) {
     const defaultOptions = {
@@ -21,6 +22,7 @@ class Player {
 
     this.audio = new Audio();
     this.track = null;
+    this.hasPlayed = false;
 
     this.audio.defaultPlaybackRate = defaultOptions.playbackRate;
     this.audio.playbackRate = defaultOptions.playbackRate;
@@ -37,13 +39,25 @@ class Player {
       log.error('[Player] No audio source defined');
       return;
     }
+
+    if (!this.track) {
+      this.stop();
+      log.error('[Player] No track defined');
+      return;
+    }
+
     try {
       await this.audio.play();
+      log.debug(`[Player] Playing ${this.track.title}`);
 
-      if (this.track && this.track._id && this.track._id !== '') {
+      if (
+        !this.hasPlayed &&
+        this.track._id &&
+        this.track._id !== ''
+      ) {
         await window.VimpAPI.tracksDB.updateLastPlayed(this.track._id);
         await window.VimpAPI.tracksDB.incrementPlayCount(this.track._id);
-        log.debug(`[Player] Playing ${this.track.title}`);
+        this.hasPlayed = true;
       }
     } catch (err) {
       this.stop();
@@ -124,6 +138,7 @@ class Player {
 
     this.track = track;
     this.audio.src = path;
+    this.hasPlayed = false;
     log.debug(`[Player] New track defined: ${track.title}`);
   }
 }
