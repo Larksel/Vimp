@@ -69,6 +69,7 @@
     "chokidar": "^4.0.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
+    "electron-log": "^5.2.4",
     "electron-squirrel-startup": "^1.0.0",
     "electron-store": "8.2.0",
     "globby": "^14.0.1",
