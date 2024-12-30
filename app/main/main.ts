@@ -15,18 +15,12 @@ import IPCTracksDatabase from '@modules/ipc/IPCTracksDatabase';
 import MainWindowModule from '@modules/MainWindowModule';
 import { reactDevToolsPath } from '@main-utils/utils-resources';
 import DBManager from './dbManager';
+import setupLogger from './logger';
 
 const isDebug =
   process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true';
 
-log.transports.file.level = 'info';
-log.transports.console.level = isDebug ? 'debug' : false;
-log.transports.file.format =
-  '[{y}-{m}-{d} {h}:{i}:{s}] [{processType}] [{level}]- {text}';
-log.transports.console.format =
-  '[{y}-{m}-{d} {h}:{i}:{s}] [{processType}] [{level}]- {text}';
-log.transports.console.useStyles = true;
-log.initialize();
+setupLogger(isDebug);
 
 log.info('Debug:', isDebug);
 log.info('Platform:', process.platform, '\n\n');
