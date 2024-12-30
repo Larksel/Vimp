@@ -1,4 +1,5 @@
 import { CSSProperties, useEffect, useState } from 'react';
+import log from 'electron-log/renderer';
 import { Outlet, useRevalidator } from 'react-router-dom';
 import { LoaderData } from '@renderer/router';
 import debounce from 'lodash/debounce';
@@ -20,7 +21,7 @@ export default function RootView() {
   useEffect(() => {
     window.VimpAPI.app.onDBChanged(
       debounce(() => {
-        console.log('DB changed');
+        log.debug('DB changed');
         revalidator.revalidate();
       }, 500),
     );

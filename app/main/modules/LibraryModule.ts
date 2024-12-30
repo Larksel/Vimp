@@ -1,4 +1,5 @@
 import { ipcMain } from 'electron';
+import log from 'electron-log/main';
 import { globby } from 'globby';
 import fs from 'fs';
 import path from 'path';
@@ -48,7 +49,7 @@ export default class LibraryModule
   }
 
   protected async load(): Promise<void> {
-    console.log('Starting initial library scan');
+    log.info('Starting initial library scan');
     await this.scanAndSave();
     ipcMain.handle(IPCChannels.LIBRARY_IMPORT, (_, pathsScan: string[]) => {
       return this.import(pathsScan);
@@ -70,11 +71,11 @@ export default class LibraryModule
     const existingPaths = pathsScan.filter((folder) => fs.existsSync(folder));
 
     if (existingPaths.length === 0) {
-      console.log('The passed paths dont exist');
+      log.error('The passed paths dont exist');
       return { folders: [], files: [] };
     }
 
-    console.log('Scanning:', existingPaths);
+    log.info('Scanning:', existingPaths);
 
     const pathsStats = await Promise.all(
       existingPaths.map(async (folder) => ({
@@ -111,8 +112,8 @@ export default class LibraryModule
 
     const supportedFiles = this.filterSupportedFiles(files, 'allSupported');
 
-    console.log(`Found ${folders.length} folders`);
-    console.log(`Found ${supportedFiles.length} supported files`);
+    log.info(`Found ${folders.length} folders`);
+    log.info(`Found ${supportedFiles.length} supported files`);
 
     return {
       folders: folders,
@@ -130,7 +131,7 @@ export default class LibraryModule
     const validPaths = itemsPath.filter((path) => path);
     if (validPaths.length === 0) return null;
 
-    console.log('Initializing import');
+    log.info('Initializing import');
 
     const scannedFiles: ScannedFiles = {
       tracks: [],
@@ -151,16 +152,16 @@ export default class LibraryModule
       await scanQueue.start();
       await this.insertScannedFiles(scannedFiles);
 
-      console.log('Import completed');
-      console.log(
+      log.info('Import completed');
+      log.info(
         `Processed ${this.status.processed}/${this.status.total} files`,
       );
-      console.log(`Added ${this.status.added} files to database`);
+      log.info(`Added ${this.status.added} files to database`);
       this.resetImportProgress();
 
       return scannedFiles;
     } catch (error) {
-      console.error('Error during import:', error);
+      log.error('Error during import:', error);
       throw error;
     }
   }
@@ -192,7 +193,7 @@ export default class LibraryModule
 
       case 'video':
         extensions = supportedExtensions.VIDEOS;
-        console.log('video file filter needs implementation');
+        log.error('video file filter needs implementation');
         break;
 
       case 'allSupported':
@@ -215,13 +216,13 @@ export default class LibraryModule
   }
 
   private createScanQueue() {
-    console.log('Processing queue created');
+    log.info('Processing queue created');
     const scanQueue = new queue();
     scanQueue.concurrency = 32;
     scanQueue.autostart = false;
 
     scanQueue.addEventListener('end', () => {
-      console.log('Processing queue completed');
+      log.info('Processing queue completed');
     });
 
     return scanQueue;
@@ -239,7 +240,7 @@ export default class LibraryModule
       const db = this.getDatabaseForType(fileType);
 
       if (!db) {
-        console.warn(`No database found for file type: ${fileType}`);
+        log.warn(`No database found for file type: ${fileType}`);
         return;
       }
 
@@ -254,7 +255,7 @@ export default class LibraryModule
 
       this.status.processed++;
     } catch (error) {
-      console.error('Error scanning file:', filePath, error);
+      log.error('Error scanning file:', filePath, error);
     }
   }
 
@@ -268,7 +269,7 @@ export default class LibraryModule
     for (const [fileType, files] of Object.entries(scannedFiles)) {
       const db = this.getDatabaseForType(fileType as FileTypes);
       if (db && files.length > 0) {
-        console.log(`Inserting ${files.length} ${fileType} into database`);
+        log.info(`Inserting ${files.length} ${fileType} into database`);
         await db.create(files);
       }
     }
@@ -287,7 +288,7 @@ export default class LibraryModule
       case FileTypes.TRACKS:
         return this.dbManager.getTracksDB();
       case FileTypes.VIDEOS:
-        console.log('No DB for videos');
+        log.error('No DB for videos');
         return null;
       default:
         return null;

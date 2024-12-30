@@ -1,4 +1,5 @@
 import { Playlist, Info } from '@phosphor-icons/react';
+import log from 'electron-log/renderer';
 
 import VolumeControl from './VolumeControl';
 import { useNavigate } from 'react-router-dom';
@@ -16,7 +17,7 @@ export default function MoreOptions() {
     {
       id: 'moreinfo',
       icon: <Info size={24} />,
-      action: () => console.log('Show extended music info'),
+      action: () => log.debug('Show extended music info'),
     },
   ];
 

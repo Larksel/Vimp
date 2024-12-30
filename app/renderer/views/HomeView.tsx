@@ -1,3 +1,4 @@
+import log from 'electron-log/renderer';
 import { useRouteLoaderData } from 'react-router-dom';
 import { RootLoaderData } from '@views/RootView';
 
@@ -37,7 +38,7 @@ export default function HomeView() {
 
   const forceScan = async () => {
     const importedFiles = await window.VimpAPI.library.scanAndSave();
-    console.log(importedFiles);
+    log.debug(importedFiles);
   };
 
   return (

@@ -1,4 +1,5 @@
 import { parseFile, IAudioMetadata } from 'music-metadata';
+import log from 'electron-log/main';
 import path from 'path';
 import { Track } from '@shared/types/vimp';
 import BaseModule from './BaseModule';
@@ -51,7 +52,7 @@ export default class MetadataModule
 
       return metadata;
     } catch (err) {
-      console.log(`Erro ao ler ${trackPath}: ${err}\n`);
+      log.error(`Erro ao ler ${trackPath}: ${err}\n`);
     }
 
     return basicMetadata;

@@ -1,3 +1,4 @@
+import log from 'electron-log/renderer';
 import { TrackModel } from '@shared/types/vimp';
 
 interface PlayerOptions {
@@ -7,7 +8,7 @@ interface PlayerOptions {
 }
 
 class Player {
-  private audio: HTMLAudioElement;
+  private readonly audio: HTMLAudioElement;
   private track: TrackModel | null;
 
   constructor(options?: PlayerOptions) {
@@ -33,7 +34,7 @@ class Player {
   async play() {
     if (!this.audio.src) {
       this.stop();
-      console.log('No audio source defined');
+      log.error('No audio source defined');
       return;
     }
     try {
@@ -45,7 +46,7 @@ class Player {
       }
     } catch (err) {
       this.stop();
-      console.log('Player error:\n', err);
+      log.error('Player error:\n', err);
     }
   }
 

@@ -1,3 +1,4 @@
+import log from 'electron-log/main';
 import { app, ipcMain } from 'electron';
 import Store from 'electron-store';
 import { Config, RepeatMode } from '@shared/types/vimp';
@@ -12,7 +13,7 @@ export default class ConfigModule extends BaseModule implements IConfigModule {
   constructor() {
     super();
 
-    console.log(`Config path:`, app.getPath('userData'));
+    log.info(`Config path:`, app.getPath('userData'));
 
     this.config = new Store<Config>({
       name: 'config',

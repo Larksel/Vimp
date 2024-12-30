@@ -1,3 +1,4 @@
+import log from 'electron-log/renderer';
 import { Button } from '@components/common/button';
 import { Input } from '@components/common/input';
 import { Switch } from '@components/common/switch';
@@ -28,14 +29,14 @@ export default function SettingsView() {
     setScanning(() => true);
 
     const importedFiles = await window.VimpAPI.library.scanAndSave();
-    console.log(importedFiles);
+    log.debug(importedFiles);
 
     setScanning(() => false);
   };
 
   const clearTracksDB = async () => {
     await window.VimpAPI.tracksDB.clear();
-    console.log('TracksDB limpo');
+    log.info('TracksDB limpo');
   };
 
   return (
