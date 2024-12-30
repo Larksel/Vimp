@@ -1,5 +1,6 @@
 import { app, session } from 'electron';
 import { electronApp, optimizer } from '@electron-toolkit/utils';
+import log from 'electron-log/main';
 // Modules
 import * as ModulesManager from '@main-utils/utils-modules';
 import AppMenuModule from '@modules/AppMenuModule';
@@ -18,8 +19,17 @@ import DBManager from './dbManager';
 const isDebug =
   process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true';
 
-console.log('Debug:', isDebug);
-console.log('Platform:', process.platform, '\n\n');
+log.transports.file.level = 'info';
+log.transports.console.level = isDebug ? 'debug' : false;
+log.transports.file.format =
+  '[{y}-{m}-{d} {h}:{i}:{s}] [{processType}] [{level}]- {text}';
+log.transports.console.format =
+  '[{y}-{m}-{d} {h}:{i}:{s}] [{processType}] [{level}]- {text}';
+log.transports.console.useStyles = true;
+log.initialize();
+
+log.info('Debug:', isDebug);
+log.info('Platform:', process.platform, '\n\n');
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
@@ -37,8 +47,8 @@ app.whenReady().then(async () => {
   if (isDebug) {
     await session.defaultSession
       .loadExtension(reactDevToolsPath)
-      .then((ext) => console.log('Loaded Extension:', ext.name))
-      .catch((err) => console.log('Error on extension loading:', err));
+      .then((ext) => log.info('Loaded Extension:', ext.name))
+      .catch((err) => log.warn('Error on extension loading:', err));
   }
 
   // Initialize main modules first
