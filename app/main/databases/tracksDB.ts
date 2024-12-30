@@ -1,3 +1,4 @@
+import log from 'electron-log/main';
 import GenericDatabase from '@databases/genericDB';
 import { ITracksDatabase } from '@interfaces/databases/ITracksDatabase';
 import IPCChannels from '@shared/constants/IPCChannels';
@@ -28,12 +29,12 @@ export default class TracksDatabase
    * present on the device.
    */
   async verifyTracksDB() {
-    console.log('Verifying TracksDB');
+    log.info('[TracksDB] Verifying TracksDB');
     const tracks = await this.getAll();
     const lostTracks = tracks.filter((track) => !fs.existsSync(track.path));
 
     if (lostTracks.length > 0) {
-      console.log(`Deleting ${lostTracks.length} missing tracks`);
+      log.info(`[TracksDB] Deleting ${lostTracks.length} missing tracks`);
       await this.delete(lostTracks);
     }
 

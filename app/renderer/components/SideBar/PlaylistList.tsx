@@ -18,7 +18,7 @@ export default function PlaylistList({ collapsed }: PlaylistListProps) {
           <Button
             key={index}
             variant='default'
-            onClick={() => console.log(`Playlist ${index + 1}`)}
+            onClick={() => console.debug(`Playlist ${index + 1}`)}
             className='flex h-16 w-full justify-start gap-4 rounded-none bg-transparent p-2 active:bg-[#fff3]'
           >
             <img

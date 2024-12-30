@@ -1,3 +1,4 @@
+import log from 'electron-log/main';
 import { IBaseModule } from '@interfaces/modules/IBaseModule';
 
 export const init = async (...modules: IBaseModule[]): Promise<void> => {
@@ -9,8 +10,8 @@ export const init = async (...modules: IBaseModule[]): Promise<void> => {
 
   results.forEach((result, index) => {
     if (result.status === 'rejected') {
-      console.error(
-        `An error occurred when loading ${modules[index].constructor.name} could not be loaded:\n${result.reason}`,
+      log.error(
+        `[Main] An error occurred when loading ${modules[index].constructor.name} could not be loaded:\n${result.reason}`,
       );
     }
   });

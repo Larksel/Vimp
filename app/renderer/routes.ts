@@ -1,5 +1,5 @@
 const routes = {
-  HOME: '/',
+  HOME: '',
   QUEUE: 'queue',
   SEARCH: 'search',
   MUSIC_LIBRARY: 'music_library',

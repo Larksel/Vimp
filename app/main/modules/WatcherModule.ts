@@ -1,4 +1,5 @@
 import type Store from 'electron-store';
+import log from 'electron-log/main';
 import { watch } from 'chokidar';
 import path from 'path';
 import { Config, Track } from '@shared/types/vimp';
@@ -39,14 +40,16 @@ export default class WatcherModule extends BaseModule {
     watcher
       .on('add', (path) => this.handleAddedFile(path))
       .on('unlink', (path) => this.handleRemovedFile(path))
-      .on('error', (error) => console.log(`Watcher error: ${error}`))
+      .on('error', (error) =>
+        log.error(`[Watcher] File watcher error: ${error}`),
+      )
       .on('ready', () => {
-        console.log('Watcher ready for changes.');
+        log.info('[Watcher] File watcher ready for changes.');
       });
   }
 
   private async handleAddedFile(filePath: string) {
-    console.log(`DETECTED: ${filePath}`);
+    log.info(`[Watcher] DETECTED: ${filePath}`);
     const resolvedPath = path.resolve(filePath);
 
     const existingDoc = await this.TracksDB.getByPath(resolvedPath);
@@ -54,14 +57,14 @@ export default class WatcherModule extends BaseModule {
     if (!existingDoc) {
       const track: Track = await this.metadataModule.getMetadata(resolvedPath);
       await this.TracksDB.create(track);
-      console.log(`ADDED: ${filePath}`);
+      log.info(`[Watcher] ADDED: ${filePath}`);
     } else {
-      console.log(`SKIPPED: ${filePath}`);
+      log.info(`[Watcher] SKIPPED: ${filePath}`);
     }
   }
 
   private async handleRemovedFile(filePath: string) {
-    console.log(`LOST: ${filePath}`);
+    log.info(`[Watcher] LOST: ${filePath}`);
 
     const resolvedPath = path.resolve(filePath);
 
@@ -69,9 +72,9 @@ export default class WatcherModule extends BaseModule {
 
     if (existingDoc) {
       await this.TracksDB.delete(existingDoc);
-      console.log(`REMOVED: ${filePath}`);
+      log.info(`[Watcher] REMOVED: ${filePath}`);
     } else {
-      console.log(`Track Not Found: ${filePath}`);
+      log.info(`[Watcher] Track Not Found: ${filePath}`);
     }
   }
 }

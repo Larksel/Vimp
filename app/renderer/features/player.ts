@@ -1,3 +1,4 @@
+import log from 'electron-log/renderer';
 import { TrackModel } from '@shared/types/vimp';
 
 interface PlayerOptions {
@@ -7,8 +8,9 @@ interface PlayerOptions {
 }
 
 class Player {
-  private audio: HTMLAudioElement;
+  private readonly audio: HTMLAudioElement;
   private track: TrackModel | null;
+  protected hasPlayed: boolean;
 
   constructor(options?: PlayerOptions) {
     const defaultOptions = {
@@ -20,6 +22,7 @@ class Player {
 
     this.audio = new Audio();
     this.track = null;
+    this.hasPlayed = false;
 
     this.audio.defaultPlaybackRate = defaultOptions.playbackRate;
     this.audio.playbackRate = defaultOptions.playbackRate;
@@ -33,35 +36,54 @@ class Player {
   async play() {
     if (!this.audio.src) {
       this.stop();
-      console.log('No audio source defined');
+      log.error('[Player] No audio source defined');
       return;
     }
+
+    if (!this.track) {
+      this.stop();
+      log.error('[Player] No track defined');
+      return;
+    }
+
     try {
       await this.audio.play();
+      log.debug(`[Player] Playing ${this.track.title}`);
 
-      if (this.track && this.track._id && this.track._id !== '') {
+      if (
+        !this.hasPlayed &&
+        this.track._id &&
+        this.track._id !== ''
+      ) {
         await window.VimpAPI.tracksDB.updateLastPlayed(this.track._id);
         await window.VimpAPI.tracksDB.incrementPlayCount(this.track._id);
+        this.hasPlayed = true;
       }
     } catch (err) {
       this.stop();
-      console.log('Player error:\n', err);
+      log.error('[Player] Player error:\n', err);
     }
   }
 
   pause() {
+    log.debug('[Player] Player paused');
     this.audio.pause();
   }
 
   stop() {
+    log.debug('[Player] Player stoped');
     this.audio.pause();
+    this.track = null;
+    this.audio.src = '';
   }
 
   mute() {
+    log.debug('[Player] Player muted');
     this.audio.muted = true;
   }
 
   unmute() {
+    log.debug('[Player] Player unmuted');
     this.audio.muted = false;
   }
 
@@ -116,6 +138,8 @@ class Player {
 
     this.track = track;
     this.audio.src = path;
+    this.hasPlayed = false;
+    log.debug(`[Player] New track defined: ${track.title}`);
   }
 }
 

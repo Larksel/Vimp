@@ -1,4 +1,5 @@
 import { StateCreator } from 'zustand';
+import log from 'electron-log/renderer';
 import debounce from 'lodash/debounce';
 
 import { PlayerStatus, RepeatMode, TrackModel } from '@shared/types/vimp';
@@ -69,6 +70,8 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => ({
           queuePosition = 0;
         }
 
+        log.debug('[PlayerStore] New queue started');
+
         set({
           queue: newQueue,
           originalQueue: originalQueue,
@@ -79,10 +82,12 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => ({
     },
     play: async () => {
       await player.play();
+      log.debug('[PlayerStore] PlayerStatus changed to PLAY');
       set({ playerStatus: PlayerStatus.PLAY });
     },
     pause: () => {
       player.pause();
+      log.debug('[PlayerStore] PlayerStatus changed to PAUSE');
       set({ playerStatus: PlayerStatus.PAUSE });
     },
     playPause: async () => {
@@ -100,6 +105,8 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => ({
       player.stop();
       get().api.setSongProgress(0);
 
+      log.debug('[PlayerStore] PlayerStatus changed to STOP');
+
       set({
         queue: [],
         queuePosition: null,
@@ -111,21 +118,27 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => ({
       const currentTime = player.getCurrentTime();
 
       let newPosition: number;
+      let debugMessage: string;
 
       if (queuePosition !== null) {
         if (currentTime > 5) {
+          debugMessage = '[PlayerStore] Rewind track';
           newPosition = queuePosition;
         } else if (queuePosition === 0 && repeat === RepeatMode.ALL) {
+          debugMessage = '[PlayerStore] Go to last track';
           newPosition = queue.length - 1;
         } else if (queuePosition !== 0) {
+          debugMessage = '[PlayerStore] Go to previous track';
           newPosition = queuePosition - 1;
         } else {
+          debugMessage = '[PlayerStore] Replay track';
           newPosition = queuePosition;
         }
 
         const track = queue[newPosition];
 
         if (track) {
+          log.debug(debugMessage);
           player.setTrack(track);
           await player.play();
 
@@ -134,6 +147,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => ({
             playerStatus: PlayerStatus.PLAY,
           });
         } else {
+          log.error('[PlayerStore] Error while switching to the previous track');
           get().api.stop();
         }
       }
@@ -141,22 +155,27 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => ({
     next: async () => {
       const { queue, queuePosition, repeat } = get();
       let newPosition: number;
+      let debugMessage: string;
 
       if (queuePosition !== null) {
         if (repeat === RepeatMode.ONE) {
+          debugMessage = '[PlayerStore] Replay track';
           newPosition = queuePosition;
         } else if (
           repeat === RepeatMode.ALL &&
           queuePosition === queue.length - 1
         ) {
+          debugMessage = '[PlayerStore] Go to first track';
           newPosition = 0;
         } else {
+          debugMessage = '[PlayerStore] Go to next track';
           newPosition = queuePosition + 1;
         }
 
         const track = queue[newPosition];
 
         if (track) {
+          log.debug(debugMessage);
           player.setTrack(track);
           await player.play();
 
@@ -165,7 +184,8 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => ({
             queuePosition: newPosition,
           });
         } else {
-          get().api.pause();
+          log.error('[PlayerStore] Error while switching to the next track');
+          get().api.stop();
           get().api.setSongProgress(0);
         }
       }
@@ -176,6 +196,8 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => ({
 
       if (queuePosition > -1) {
         const track = queue[queuePosition];
+
+        log.debug(`[PlayerStore] Jump to track ${track.title}`);
 
         player.setTrack(track);
         await player.play();
@@ -208,6 +230,8 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => ({
         const track = queue[queuePosition];
         await window.VimpAPI.tracksDB.updateFavorite(track._id);
 
+        log.debug(`[PlayerStore] Favorited track: ${track.title}`);
+
         const newQueue = [...queue];
         newQueue[queuePosition] = { ...track, favorite: !track.favorite };
 
@@ -225,6 +249,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => ({
       if (queuePosition === null) return;
       if (shuffle) {
         const newQueue = shuffleTracks([...queue], queuePosition);
+        log.debug('[PlayerStore] Queue shuffled');
 
         set({
           queue: newQueue,
@@ -237,6 +262,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => ({
         const currentTrackIndex = originalQueue.findIndex(
           (track) => currentTrackID === track._id,
         );
+        log.debug('[PlayerStore] Queue back original order');
 
         set({
           queue: [...originalQueue],
@@ -249,16 +275,19 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => ({
       const { repeat } = get();
       switch (repeat) {
         case RepeatMode.OFF: {
+          log.debug('[PlayerStore] RepeatMode set to ALL');
           await config.set('audioRepeatMode', RepeatMode.ALL);
           set({ repeat: RepeatMode.ALL });
           break;
         }
         case RepeatMode.ALL: {
+          log.debug('[PlayerStore] RepeatMode set to ONE');
           await config.set('audioRepeatMode', RepeatMode.ONE);
           set({ repeat: RepeatMode.ONE });
           break;
         }
         case RepeatMode.ONE: {
+          log.debug('[PlayerStore] RepeatMode set to OFF');
           await config.set('audioRepeatMode', RepeatMode.OFF);
           set({ repeat: RepeatMode.OFF });
           break;
@@ -289,6 +318,7 @@ function createPlayerStore<T extends PlayerState>(store: StateCreator<T>) {
 }
 
 const saveVolume = debounce(async (volume: number) => {
+  log.debug(`[PlayerStore] Volume set to ${volume}`)
   await config.set('audioVolume', volume);
 }, 500);
 

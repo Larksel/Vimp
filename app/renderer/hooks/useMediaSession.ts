@@ -1,4 +1,5 @@
 import { useEffect, useCallback } from 'react';
+import log from 'electron-log/renderer';
 
 import useCurrentTrack from '@hooks/useCurrentTrack';
 import usePlayerCurrentTime from '@hooks/usePlayerCurrentTime';
@@ -22,6 +23,11 @@ export default function useMediaSession() {
         ? currentTrack.artist.join(', ')
         : currentTrack.artist;
 
+      log.debug(
+        '[useMediaSession] Metadata set for track:',
+        currentTrack.title,
+      );
+
       navigator.mediaSession.metadata = new MediaMetadata({
         title: currentTrack.title,
         artist: artists,
@@ -36,6 +42,10 @@ export default function useMediaSession() {
    */
   const updatePositionState = useCallback(() => {
     if (currentTrack) {
+      log.debug(
+        '[useMediaSession] Position state set for track:',
+        currentTrack.title,
+      );
       navigator.mediaSession.setPositionState({
         duration: player.getTrackDuration(),
         playbackRate: player.getAudio().playbackRate,
@@ -48,25 +58,47 @@ export default function useMediaSession() {
    * Configure MediaSession action handlers.
    */
   const configureActionHandlers = useCallback(() => {
-    navigator.mediaSession.setActionHandler('play', playerAPI.play);
-    navigator.mediaSession.setActionHandler('pause', playerAPI.pause);
-    navigator.mediaSession.setActionHandler('stop', playerAPI.stop);
+    navigator.mediaSession.setActionHandler('play', () => {
+      log.debug('[useMediaSession] Play action triggered');
+      playerAPI.play();
+    });
+
+    navigator.mediaSession.setActionHandler('pause', () => {
+      log.debug('[useMediaSession] Pause action triggered');
+      playerAPI.pause();
+    });
+
+    navigator.mediaSession.setActionHandler('stop', () => {
+      log.debug('[useMediaSession] Stop action triggered');
+      playerAPI.stop();
+    });
+
     navigator.mediaSession.setActionHandler('seekto', (e) => {
+      log.debug('[useMediaSession] SeekTo action triggered');
       if (e.seekTime) playerAPI.setSongProgress(e.seekTime);
     });
+
     navigator.mediaSession.setActionHandler('seekbackward', () => {
+      log.debug('[useMediaSession] SeekBackward 10s action triggered');
       player.setCurrentTime(Math.max(player.getCurrentTime() - 10, 0));
     });
+
     navigator.mediaSession.setActionHandler('seekforward', () => {
+      log.debug('[useMediaSession] SeekForward 10s action triggered');
       player.setCurrentTime(
         Math.min(player.getCurrentTime() + 10, player.getTrackDuration()),
       );
     });
-    navigator.mediaSession.setActionHandler(
-      'previoustrack',
-      playerAPI.previous,
-    );
-    navigator.mediaSession.setActionHandler('nexttrack', playerAPI.next);
+
+    navigator.mediaSession.setActionHandler('previoustrack', () => {
+      log.debug('[useMediaSession] PreviousTrack action triggered');
+      playerAPI.previous();
+    });
+
+    navigator.mediaSession.setActionHandler('nexttrack', () => {
+      log.debug('[useMediaSession] NextTrack action triggered');
+      playerAPI.next();
+    });
   }, [playerAPI]);
 
   useEffect(() => {

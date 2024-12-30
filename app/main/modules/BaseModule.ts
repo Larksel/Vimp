@@ -1,3 +1,4 @@
+import log from 'electron-log/main';
 import { IBaseModule } from '@interfaces/modules/IBaseModule';
 
 export default abstract class BaseModule implements IBaseModule {
@@ -11,7 +12,7 @@ export default abstract class BaseModule implements IBaseModule {
     if (this.loaded)
       throw new TypeError(`Module ${this.constructor.name} is already loaded`);
     else {
-      console.log(`Loading module: ${this.constructor.name}`);
+      log.info(`[Main] Loading module: ${this.constructor.name}`);
 
       await this.load().catch((err) => {
         throw err;

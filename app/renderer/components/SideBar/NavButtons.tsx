@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import {
   House,
@@ -39,6 +39,7 @@ interface NavButtonsProps {
 
 export default function NavButtons({ collapsed }: NavButtonsProps) {
   const navigate = useNavigate();
+  const location = useLocation();
 
   return (
     <>
@@ -46,7 +47,10 @@ export default function NavButtons({ collapsed }: NavButtonsProps) {
         <Button
           key={text}
           variant='default'
-          onClick={() => navigate(page)}
+          onClick={() => {
+            if (location.pathname.replace('/', '') !== page)
+              navigate(page);
+          }}
           className='text-md h-14 w-full justify-start gap-3 rounded-none bg-transparent px-[18px]'
         >
           {icon}
