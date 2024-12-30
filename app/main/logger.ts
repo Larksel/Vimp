@@ -1,7 +1,24 @@
 import log from 'electron-log/main';
 
 export default function setupLogger(isDebug: boolean) {
+  const date = new Date();
+  const formattedDate = date
+    .toLocaleString('pt-BR', {
+      // (AAAA/MM/DD HH:mm:ss)
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false,
+    })
+    .replace(/\//g, '-')
+    .replace(',', '')
+    .replace(/:/g, '-');
+
   // File
+  log.transports.file.fileName = `${formattedDate}.log`;
   log.transports.file.level = 'info';
   log.transports.file.format =
     '[{y}-{m}-{d} {h}:{i}:{s}] [{processType}] [{level}]- {text}';
