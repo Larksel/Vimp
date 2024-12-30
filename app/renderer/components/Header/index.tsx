@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { CaretLeft, CaretRight, Bell, Gear } from '@phosphor-icons/react';
 import { Button } from '@components/common/button';
 
@@ -6,6 +6,7 @@ import routes from '@renderer/routes';
 
 export default function Header() {
   const navigate = useNavigate();
+  const location = useLocation();
 
   return (
     <div className='absolute z-10 flex h-16 w-full items-center justify-between gap-2 p-4'>
@@ -35,7 +36,10 @@ export default function Header() {
         </Button>
         <Button
           variant='ghost'
-          onClick={() => navigate(routes.SETTINGS)}
+          onClick={() => {
+            if (location.pathname.replace('/', '') !== routes.SETTINGS)
+              navigate(routes.SETTINGS)
+          }}
           className='aspect-square rounded-full bg-[#0009] p-0 text-neutral-400 hover:scale-110 hover:bg-[#0009] hover:text-white active:bg-[#fff3]'
         >
           <Gear size={20} />
