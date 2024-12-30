@@ -1,4 +1,3 @@
-import log from 'electron-log/renderer';
 import { useRouteLoaderData } from 'react-router-dom';
 import { RootLoaderData } from '@views/RootView';
 

@@ -1,5 +1,4 @@
 import { useState, useCallback, useMemo } from 'react';
-import log from 'electron-log/renderer';
 import { debounce } from 'lodash';
 import { VirtuosoGrid } from 'react-virtuoso';
 

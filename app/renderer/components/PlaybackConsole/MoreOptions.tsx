@@ -1,5 +1,4 @@
 import { Playlist, Info } from '@phosphor-icons/react';
-import log from 'electron-log/renderer';
 
 import VolumeControl from './VolumeControl';
 import { useNavigate } from 'react-router-dom';

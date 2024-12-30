@@ -1,4 +1,3 @@
-import log from 'electron-log/renderer';
 import placeholderImage from '@assets/images/placeholder.png';
 
 import { Button } from '@components/common/button';
