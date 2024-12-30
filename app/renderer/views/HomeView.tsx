@@ -1,4 +1,5 @@
 import { useRouteLoaderData } from 'react-router-dom';
+import log from 'electron-log/renderer';
 import { RootLoaderData } from '@views/RootView';
 
 import CardList from '@components/CardList';
@@ -36,6 +37,7 @@ export default function HomeView() {
     });
 
   const forceScan = async () => {
+    log.debug('[HomeView] Triggered library scan and save');
     const importedFiles = await window.VimpAPI.library.scanAndSave();
     console.log(importedFiles);
   };

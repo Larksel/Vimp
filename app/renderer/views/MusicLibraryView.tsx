@@ -1,4 +1,5 @@
 import { useState, useCallback, useMemo } from 'react';
+import log from 'electron-log/renderer';
 import { debounce } from 'lodash';
 import { VirtuosoGrid } from 'react-virtuoso';
 
@@ -32,6 +33,7 @@ export default function MusicLibraryView() {
   }, [tracks, debouncedSearch]);
 
   const forceScan = async () => {
+    log.debug('[MusicLibraryView] Triggered library scan and save');
     const importedFiles = await window.VimpAPI.library.scanAndSave();
     console.log(importedFiles);
   };

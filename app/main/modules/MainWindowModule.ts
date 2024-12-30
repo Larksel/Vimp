@@ -1,4 +1,5 @@
 import { app, BrowserWindow, BrowserWindowConstructorOptions } from 'electron';
+import log from 'electron-log/main';
 import BaseModule from './BaseModule';
 import { join } from 'path';
 import { vimpIcon } from '@main-utils/utils-resources';
@@ -38,6 +39,7 @@ export default class MainWindowModule extends BaseModule {
 
   protected async load() {
     this.createWindow();
+    log.info('[MainWindow] Main window created');
   }
 
   getWindow() {
@@ -68,6 +70,9 @@ export default class MainWindowModule extends BaseModule {
       if (!this.window) {
         throw new Error('"mainWindow" is not defined');
       }
+
+      log.info('[MainWindow] Main window ready to show');
+
       if (process.env.START_MINIMIZED) {
         this.window.minimize();
       } else {

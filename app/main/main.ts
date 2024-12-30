@@ -22,6 +22,7 @@ const isDebug =
 
 setupLogger(isDebug);
 
+log.info('[Main] Initializing Vimp');
 log.info('[Main] Debug:', isDebug);
 log.info('[Main] Platform:', process.platform, '\n\n');
 

@@ -43,6 +43,7 @@ class Player {
       if (this.track && this.track._id && this.track._id !== '') {
         await window.VimpAPI.tracksDB.updateLastPlayed(this.track._id);
         await window.VimpAPI.tracksDB.incrementPlayCount(this.track._id);
+        log.debug(`[Player] Playing ${this.track.title}`);
       }
     } catch (err) {
       this.stop();
@@ -51,18 +52,24 @@ class Player {
   }
 
   pause() {
+    log.debug('[Player] Player paused');
     this.audio.pause();
   }
 
   stop() {
+    log.debug('[Player] Player stoped');
     this.audio.pause();
+    this.track = null;
+    this.audio.src = '';
   }
 
   mute() {
+    log.debug('[Player] Player muted');
     this.audio.muted = true;
   }
 
   unmute() {
+    log.debug('[Player] Player unmuted');
     this.audio.muted = false;
   }
 
@@ -117,6 +124,7 @@ class Player {
 
     this.track = track;
     this.audio.src = path;
+    log.debug(`[Player] New track defined: ${track.title}`);
   }
 }
 

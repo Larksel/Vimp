@@ -28,6 +28,7 @@ export default function SettingsView() {
   const rescanTracks = async () => {
     setScanning(() => true);
 
+    log.debug('[SettingsView] Triggered library scan and save');
     const importedFiles = await window.VimpAPI.library.scanAndSave();
     console.log(importedFiles);
 
@@ -124,6 +125,7 @@ export default function SettingsView() {
 export type SettingsLoaderData = LoaderData<typeof SettingsView.loader>;
 
 SettingsView.loader = async () => {
+  log.debug('[SettingsView] Loading configs');
   const config = await window.VimpAPI.config.getAll();
 
   return { config };
