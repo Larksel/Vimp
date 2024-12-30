@@ -13,7 +13,7 @@ export default class ConfigModule extends BaseModule implements IConfigModule {
   constructor() {
     super();
 
-    log.info(`Config path:`, app.getPath('userData'));
+    log.info(`[Config] Config path:`, app.getPath('userData'));
 
     this.config = new Store<Config>({
       name: 'config',

@@ -34,7 +34,7 @@ class Player {
   async play() {
     if (!this.audio.src) {
       this.stop();
-      log.error('No audio source defined');
+      log.error('[Player] No audio source defined');
       return;
     }
     try {
@@ -46,7 +46,7 @@ class Player {
       }
     } catch (err) {
       this.stop();
-      log.error('Player error:\n', err);
+      log.error('[Player] Player error:\n', err);
     }
   }
 

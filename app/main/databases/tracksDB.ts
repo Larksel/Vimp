@@ -29,12 +29,12 @@ export default class TracksDatabase
    * present on the device.
    */
   async verifyTracksDB() {
-    log.info('Verifying TracksDB');
+    log.info('[TracksDB] Verifying TracksDB');
     const tracks = await this.getAll();
     const lostTracks = tracks.filter((track) => !fs.existsSync(track.path));
 
     if (lostTracks.length > 0) {
-      log.info(`Deleting ${lostTracks.length} missing tracks`);
+      log.info(`[TracksDB] Deleting ${lostTracks.length} missing tracks`);
       await this.delete(lostTracks);
     }
 

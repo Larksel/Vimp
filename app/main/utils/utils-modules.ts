@@ -11,7 +11,7 @@ export const init = async (...modules: IBaseModule[]): Promise<void> => {
   results.forEach((result, index) => {
     if (result.status === 'rejected') {
       log.error(
-        `An error occurred when loading ${modules[index].constructor.name} could not be loaded:\n${result.reason}`,
+        `[Main] An error occurred when loading ${modules[index].constructor.name} could not be loaded:\n${result.reason}`,
       );
     }
   });

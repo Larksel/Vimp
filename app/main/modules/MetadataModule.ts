@@ -52,7 +52,7 @@ export default class MetadataModule
 
       return metadata;
     } catch (err) {
-      log.error(`Erro ao ler ${trackPath}: ${err}\n`);
+      log.error(`[Metadata] Erro ao ler ${trackPath}: ${err}\n`);
     }
 
     return basicMetadata;

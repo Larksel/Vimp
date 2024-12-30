@@ -40,14 +40,16 @@ export default class WatcherModule extends BaseModule {
     watcher
       .on('add', (path) => this.handleAddedFile(path))
       .on('unlink', (path) => this.handleRemovedFile(path))
-      .on('error', (error) => log.error(`Watcher error: ${error}`))
+      .on('error', (error) =>
+        log.error(`[Watcher] File watcher error: ${error}`),
+      )
       .on('ready', () => {
-        log.info('Watcher ready for changes.');
+        log.info('[Watcher] File watcher ready for changes.');
       });
   }
 
   private async handleAddedFile(filePath: string) {
-    log.info(`DETECTED: ${filePath}`);
+    log.info(`[Watcher] DETECTED: ${filePath}`);
     const resolvedPath = path.resolve(filePath);
 
     const existingDoc = await this.TracksDB.getByPath(resolvedPath);
@@ -55,14 +57,14 @@ export default class WatcherModule extends BaseModule {
     if (!existingDoc) {
       const track: Track = await this.metadataModule.getMetadata(resolvedPath);
       await this.TracksDB.create(track);
-      log.info(`ADDED: ${filePath}`);
+      log.info(`[Watcher] ADDED: ${filePath}`);
     } else {
-      log.info(`SKIPPED: ${filePath}`);
+      log.info(`[Watcher] SKIPPED: ${filePath}`);
     }
   }
 
   private async handleRemovedFile(filePath: string) {
-    log.info(`LOST: ${filePath}`);
+    log.info(`[Watcher] LOST: ${filePath}`);
 
     const resolvedPath = path.resolve(filePath);
 
@@ -70,9 +72,9 @@ export default class WatcherModule extends BaseModule {
 
     if (existingDoc) {
       await this.TracksDB.delete(existingDoc);
-      log.info(`REMOVED: ${filePath}`);
+      log.info(`[Watcher] REMOVED: ${filePath}`);
     } else {
-      log.info(`Track Not Found: ${filePath}`);
+      log.info(`[Watcher] Track Not Found: ${filePath}`);
     }
   }
 }

@@ -21,7 +21,7 @@ export default function RootView() {
   useEffect(() => {
     window.VimpAPI.app.onDBChanged(
       debounce(() => {
-        log.debug('DB changed');
+        log.debug('[RootView] DB changed');
         revalidator.revalidate();
       }, 500),
     );

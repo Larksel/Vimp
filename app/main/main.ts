@@ -22,8 +22,8 @@ const isDebug =
 
 setupLogger(isDebug);
 
-log.info('Debug:', isDebug);
-log.info('Platform:', process.platform, '\n\n');
+log.info('[Main] Debug:', isDebug);
+log.info('[Main] Platform:', process.platform, '\n\n');
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
@@ -41,8 +41,8 @@ app.whenReady().then(async () => {
   if (isDebug) {
     await session.defaultSession
       .loadExtension(reactDevToolsPath)
-      .then((ext) => log.info('Loaded Extension:', ext.name))
-      .catch((err) => log.warn('Error on extension loading:', err));
+      .then((ext) => log.info('[Main] Loaded Extension:', ext.name))
+      .catch((err) => log.warn('[Main] Error on extension loading:', err));
   }
 
   // Initialize main modules first

@@ -49,7 +49,7 @@ export default class LibraryModule
   }
 
   protected async load(): Promise<void> {
-    log.info('Starting initial library scan');
+    log.info('[Library] Starting initial library scan');
     await this.scanAndSave();
     ipcMain.handle(IPCChannels.LIBRARY_IMPORT, (_, pathsScan: string[]) => {
       return this.import(pathsScan);
@@ -71,11 +71,11 @@ export default class LibraryModule
     const existingPaths = pathsScan.filter((folder) => fs.existsSync(folder));
 
     if (existingPaths.length === 0) {
-      log.error('The passed paths dont exist');
+      log.error('[Library] The passed paths dont exist');
       return { folders: [], files: [] };
     }
 
-    log.info('Scanning:', existingPaths.join(', '));
+    log.info('[Library] Scanning:', existingPaths.join(', '));
 
     const pathsStats = await Promise.all(
       existingPaths.map(async (folder) => ({
@@ -112,8 +112,8 @@ export default class LibraryModule
 
     const supportedFiles = this.filterSupportedFiles(files, 'allSupported');
 
-    log.info(`Found ${folders.length} folders`);
-    log.info(`Found ${supportedFiles.length} supported files`);
+    log.info(`[Library] Found ${folders.length} folders`);
+    log.info(`[Library] Found ${supportedFiles.length} supported files`);
 
     return {
       folders: folders,
@@ -131,7 +131,7 @@ export default class LibraryModule
     const validPaths = itemsPath.filter((path) => path);
     if (validPaths.length === 0) return null;
 
-    log.info('Initializing import');
+    log.info('[Library] Initializing import');
 
     const scannedFiles: ScannedFiles = {
       tracks: [],
@@ -152,16 +152,16 @@ export default class LibraryModule
       await scanQueue.start();
       await this.insertScannedFiles(scannedFiles);
 
-      log.info('Import completed');
+      log.info('[Library] Import completed');
       log.info(
-        `Processed ${this.status.processed}/${this.status.total} files`,
+        `[Library] Processed ${this.status.processed}/${this.status.total} files`,
       );
-      log.info(`Added ${this.status.added} files to database`);
+      log.info(`[Library] Added ${this.status.added} files to database`);
       this.resetImportProgress();
 
       return scannedFiles;
     } catch (error) {
-      log.error('Error during import:', error);
+      log.error('[Library] Error during import:', error);
       throw error;
     }
   }
@@ -193,7 +193,7 @@ export default class LibraryModule
 
       case 'video':
         extensions = supportedExtensions.VIDEOS;
-        log.error('video file filter needs implementation');
+        log.error('[Library] video file filter needs implementation');
         break;
 
       case 'allSupported':
@@ -216,13 +216,13 @@ export default class LibraryModule
   }
 
   private createScanQueue() {
-    log.info('Processing queue created');
+    log.info('[Library] Processing queue created');
     const scanQueue = new queue();
     scanQueue.concurrency = 32;
     scanQueue.autostart = false;
 
     scanQueue.addEventListener('end', () => {
-      log.info('Processing queue completed');
+      log.info('[Library] Processing queue completed');
     });
 
     return scanQueue;
@@ -240,7 +240,7 @@ export default class LibraryModule
       const db = this.getDatabaseForType(fileType);
 
       if (!db) {
-        log.error(`No database found for file type: ${fileType}`);
+        log.error(`[Library] No database found for file type: ${fileType}`);
         return;
       }
 
@@ -255,7 +255,7 @@ export default class LibraryModule
 
       this.status.processed++;
     } catch (error) {
-      log.error('Error scanning file:', filePath, error);
+      log.error('[Library] Error scanning file:', filePath, error);
     }
   }
 
@@ -269,7 +269,9 @@ export default class LibraryModule
     for (const [fileType, files] of Object.entries(scannedFiles)) {
       const db = this.getDatabaseForType(fileType as FileTypes);
       if (db && files.length > 0) {
-        log.info(`Inserting ${files.length} ${fileType} into database`);
+        log.info(
+          `[Library] Inserting ${files.length} ${fileType} into database`,
+        );
         await db.create(files);
       }
     }
@@ -288,7 +290,7 @@ export default class LibraryModule
       case FileTypes.TRACKS:
         return this.dbManager.getTracksDB();
       case FileTypes.VIDEOS:
-        log.error('No DB for videos');
+        log.error('[Library] No DB for videos');
         return null;
       default:
         return null;

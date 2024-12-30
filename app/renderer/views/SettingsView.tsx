@@ -36,7 +36,7 @@ export default function SettingsView() {
 
   const clearTracksDB = async () => {
     await window.VimpAPI.tracksDB.clear();
-    log.info('TracksDB limpo');
+    log.info('[SettingsView] TracksDB limpo');
   };
 
   return (
