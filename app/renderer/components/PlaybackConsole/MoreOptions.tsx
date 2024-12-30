@@ -17,7 +17,7 @@ export default function MoreOptions() {
     {
       id: 'moreinfo',
       icon: <Info size={24} />,
-      action: () => log.debug('Show extended music info'),
+      action: () => console.log('Show extended music info'),
     },
   ];
 

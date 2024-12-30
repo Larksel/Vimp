@@ -75,7 +75,7 @@ export default class LibraryModule
       return { folders: [], files: [] };
     }
 
-    log.info('Scanning:', existingPaths);
+    log.info('Scanning:', existingPaths.join(', '));
 
     const pathsStats = await Promise.all(
       existingPaths.map(async (folder) => ({
@@ -240,7 +240,7 @@ export default class LibraryModule
       const db = this.getDatabaseForType(fileType);
 
       if (!db) {
-        log.warn(`No database found for file type: ${fileType}`);
+        log.error(`No database found for file type: ${fileType}`);
         return;
       }
 

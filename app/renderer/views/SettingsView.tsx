@@ -29,7 +29,7 @@ export default function SettingsView() {
     setScanning(() => true);
 
     const importedFiles = await window.VimpAPI.library.scanAndSave();
-    log.debug(importedFiles);
+    console.log(importedFiles);
 
     setScanning(() => false);
   };

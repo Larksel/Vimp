@@ -38,7 +38,7 @@ export default function HomeView() {
 
   const forceScan = async () => {
     const importedFiles = await window.VimpAPI.library.scanAndSave();
-    log.debug(importedFiles);
+    console.log(importedFiles);
   };
 
   return (
