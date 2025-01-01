@@ -65,7 +65,9 @@ export default class TracksDatabase
       playCount: doc.playCount + 1,
     });
 
-    log.debug(`[TracksDB] Play count incremented to ${doc.playCount + 1} for track: ${doc.title}`);
+    log.debug(
+      `[TracksDB] Play count incremented to ${doc.playCount + 1} for track: ${doc.title}`,
+    );
     this.window.webContents.send(IPCChannels.DB_HAS_CHANGED);
   }
 
@@ -74,13 +76,16 @@ export default class TracksDatabase
    */
   async updateFavorite(trackID: string) {
     const doc: TrackModel = await this.db.get(trackID);
+    const newFavoriteState = !doc.favorite;
+    const dateFavorited = newFavoriteState ? new Date() : undefined;
     await this.db.put({
       ...doc,
-      favorite: !doc.favorite,
+      favorite: newFavoriteState,
+      dateFavorited: dateFavorited,
     });
 
     log.debug(
-      `[TracksDB] Favorite status changed to ${!doc.favorite} for track: ${doc.title}`,
+      `[TracksDB] Favorite status changed to ${newFavoriteState} for track: ${doc.title}`,
     );
     this.window.webContents.send(IPCChannels.DB_HAS_CHANGED);
   }

@@ -28,6 +28,7 @@ export interface ScannedFiles {
 export interface CommonData {
   playCount: number;
   favorite: boolean;
+  dateFavorited?: Date;
   lastPlayed?: Date;
   dateAdded?: Date;
   dateModified?: Date;

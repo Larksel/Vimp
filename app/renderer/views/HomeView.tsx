@@ -19,7 +19,17 @@ export default function HomeView() {
       return 0;
     });
 
-  const favorites = tracks.filter((track) => track.favorite === true);
+  const favorites = tracks
+    .filter((track) => track.favorite === true)
+    .toSorted((a, b) => {
+      if (a.dateFavorited && b.dateFavorited) {
+        return (
+          new Date(b.dateFavorited).getTime() -
+          new Date(a.dateFavorited).getTime()
+        );
+      }
+      return 0;
+    });
 
   const mostPlayed = tracks
     .filter((track) => track.playCount > 0)
