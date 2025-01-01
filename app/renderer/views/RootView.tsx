@@ -1,6 +1,6 @@
 import { CSSProperties, useEffect, useState } from 'react';
 import log from 'electron-log/renderer';
-import { Outlet, useRevalidator } from 'react-router-dom';
+import { Outlet, useRevalidator, useRouteLoaderData } from 'react-router-dom';
 import { LoaderData } from '@renderer/router';
 import debounce from 'lodash/debounce';
 
@@ -12,11 +12,14 @@ import Header from '@components/Header';
 import PlaybackConsole from '@components/PlaybackConsole';
 import IPCChannels from '@shared/constants/IPCChannels';
 import useCurrentTrack from '@hooks/useCurrentTrack';
+import { usePlayerAPI } from '@stores/usePlayerStore';
 
 export default function RootView() {
   const revalidator = useRevalidator();
   const [collapsed, setCollapsed] = useState(false);
   const track = useCurrentTrack();
+  const { updateQueue } = usePlayerAPI();
+  const { tracks } = useRouteLoaderData('root') as RootLoaderData;
 
   useEffect(() => {
     window.VimpAPI.app.onDBChanged(
@@ -25,6 +28,9 @@ export default function RootView() {
         revalidator.revalidate();
       }, 500),
     );
+
+    updateQueue(tracks);
+
     return function cleanup() {
       window.VimpAPI.app.removeAllListeners(IPCChannels.DB_HAS_CHANGED);
     };
@@ -73,7 +79,7 @@ export default function RootView() {
 export type RootLoaderData = LoaderData<typeof RootView.loader>;
 
 RootView.loader = async () => {
-  log.debug('[RootView] Loading tracks')
+  log.debug('[RootView] Loading tracks');
   const res: TrackModel[] = await window.VimpAPI.tracksDB.getAll();
 
   const tracks = res.toSorted((a, b) => {

@@ -33,6 +33,7 @@ interface PlayerState {
     toggleRepeat: () => Promise<void>;
     setSongProgress: (progress: number) => void;
     setPlaybackRate: (playbackRate: number) => void;
+    updateQueue: (tracks: TrackModel[]) => void;
   };
 }
 
@@ -316,6 +317,29 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => ({
       if (playbackRate >= 0.5 && playbackRate <= 5) {
         player.setPlaybackRate(playbackRate);
       }
+    },
+    updateQueue: (tracks) => {
+      const { queue, originalQueue } = get();
+
+      const trackMap = new Map(tracks.map((track) => [track._id, track]));
+
+      const updateQueueList = (queueList: TrackModel[]) => {
+        return queueList
+          .map((track) => trackMap.get(track._id))
+          .filter((track) => track !== undefined);
+      };
+
+      const newQueue = updateQueueList(queue);
+      const newOriginalQueue = updateQueueList(originalQueue);
+
+      console.log(newQueue);
+
+      log.debug('[PlayerStore] Queue updated');
+
+      set({
+        queue: newQueue,
+        originalQueue: newOriginalQueue,
+      });
     },
   },
 }));
