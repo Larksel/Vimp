@@ -5,112 +5,75 @@ from app.main.python.managers import DirManager
 
 
 dirmanager = DirManager()
+decoration = "-+"
 
-
-def VideoMode():
+def download_mode(mode_type, downloader_func):
     while True:
         system("cls")
-        print("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-")
-        print("               Download Video               ")
-        print("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-")
+        print(f"{decoration*30}-")
+        print(f"                  Download {mode_type}                  ")
+        print(f"{decoration*30}-")
         print("0 - Go back")
-        print("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-")
+        print(f"{decoration*30}-")
         link = input("Link: -> ")
         if link == "0" or link == "":
             break
         downloader = Downloader(link)
-        downloader.get_video()
+        downloader_func(downloader)
 
 
-def MusicMode():
+def video_mode():
+    download_mode("Video", lambda downloader: downloader.get_video())
+
+
+def music_mode():
+    download_mode("Music", lambda downloader: downloader.get_music())
+
+
+def list_music():
+    download_mode(
+        "Music from Playlist", lambda downloader: downloader.get_music_playlist()
+    )
+
+
+def list_video():
+    download_mode(
+        "Video from Playlist", lambda downloader: downloader.get_video_playlist()
+    )
+
+
+def thumb_mode():
+    download_mode("Thumbnail", lambda downloader: downloader.get_thumbnail())
+
+
+def folder_mode():
     while True:
         system("cls")
-        print("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-")
-        print("               Download Music               ")
-        print("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-")
-        print("0 - Go back")
-        print("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-")
-        link = input("Link: -> ")
-        if link == "0" or link == "":
-            break
-        downloader = Downloader(link)
-        downloader.get_music()
-
-
-def ListMusic():
-    while True:
-        system("cls")
-        print("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-")
-        print("               Download Music from Playlist               ")
-        print("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-")
-        print("0 - Go back")
-        print("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-")
-        link = input("Link: -> ")
-        if link == "0" or link == "":
-            break
-        downloader = Downloader(link)
-        downloader.get_music_playlist()
-
-
-def ListVideo():
-    while True:
-        system("cls")
-        print("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-")
-        print("               Download Video from Playlist               ")
-        print("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-")
-        print("0 - Go back")
-        print("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-")
-        link = input("Link: -> ")
-        if link == "0" or link == "":
-            break
-        downloader = Downloader(link)
-        downloader.get_video_playlist()
-
-
-def ThumbMode():
-    while True:
-        system("cls")
-        print("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-")
-        print("                     Download Thumbnail                     ")
-        print("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-")
-        print("0 - Go back")
-        print("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-")
-        link = input("Link: -> ")
-        if link == "0" or link == "":
-            break
-        downloader = Downloader(link)
-        downloader.get_thumbnail()
-
-
-def FolderMode():
-    while True:
-        system("cls")
-        print("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-")
+        print(f"{decoration*20}-")
         print("               Open Folder               ")
-        print("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-")
+        print(f"{decoration*20}-")
         print("0 - Go back")
         print("1 - Music Folder")
         print("2 - Video Folder")
         print("3 - Temp Folder")
-        print("4 - Vimp Folder")
-        print("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-")
+        print(f"{decoration*20}-")
 
         opcao = input("-> ")
-        if opcao == "1":
-            dirmanager.open_music_dir()
-        elif opcao == "2":
-            dirmanager.open_video_dir()
-        elif opcao == "3":
-            dirmanager.open_temp_dir()
-        elif opcao == "4":
-            startfile(dirmanager.USER_FOLDER + r"\Desktop\Vimp Project")
-        elif opcao == "0" or opcao == "":
+        folder_actions = {
+            "1": dirmanager.open_music_dir,
+            "2": dirmanager.open_video_dir,
+            "3": dirmanager.open_temp_dir,
+        }
+
+        if opcao == "0" or opcao == "":
             break
+        elif opcao in folder_actions:
+            folder_actions[opcao]()
         else:
             print("Opção inválida. Tente novamente!")
 
 
-def Home():
+def home():
     while True:
 
         system("cls")
@@ -129,17 +92,17 @@ def Home():
         opcao = input("-> ")
 
         if opcao == "1":
-            VideoMode()
+            video_mode()
         elif opcao == "2":
-            MusicMode()
+            music_mode()
         elif opcao == "3":
-            ListMusic()
+            list_music()
         elif opcao == "4":
-            ListVideo()
+            list_video()
         elif opcao == "5":
-            ThumbMode()
+            thumb_mode()
         elif opcao == "6":
-            FolderMode()
+            folder_mode()
         elif opcao == "0" or opcao == "":
             break
         else:
@@ -147,4 +110,4 @@ def Home():
 
 
 if __name__ == "__main__":
-    Home()
+    home()
