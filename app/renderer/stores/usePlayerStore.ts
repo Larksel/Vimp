@@ -114,7 +114,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => ({
       });
     },
     previous: async () => {
-      const { queue, queuePosition, repeat } = get();
+      const { queue, queuePosition, repeat, api } = get();
       const currentTime = player.getCurrentTime();
 
       let newPosition: number;
@@ -122,8 +122,9 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => ({
 
       if (queuePosition !== null) {
         if (currentTime > 5) {
-          debugMessage = '[PlayerStore] Rewind track';
-          newPosition = queuePosition;
+          log.debug('[PlayerStore] Rewind track');
+          api.setSongProgress(0);
+          return;
         } else if (queuePosition === 0 && repeat === RepeatMode.ALL) {
           debugMessage = '[PlayerStore] Go to last track';
           newPosition = queue.length - 1;
@@ -131,6 +132,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => ({
           debugMessage = '[PlayerStore] Go to previous track';
           newPosition = queuePosition - 1;
         } else {
+          // This case is treated as if the track has been fully played and is now being considered as a new playback
           debugMessage = '[PlayerStore] Replay track';
           newPosition = queuePosition;
         }
@@ -147,7 +149,9 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => ({
             playerStatus: PlayerStatus.PLAY,
           });
         } else {
-          log.error('[PlayerStore] Error while switching to the previous track');
+          log.error(
+            '[PlayerStore] Error while switching to the previous track',
+          );
           get().api.stop();
         }
       }
@@ -168,6 +172,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => ({
           debugMessage = '[PlayerStore] Go to first track';
           newPosition = 0;
         } else {
+          // This case is treated as if the track has been fully played and is now being considered as a new playback
           debugMessage = '[PlayerStore] Go to next track';
           newPosition = queuePosition + 1;
         }
@@ -318,7 +323,7 @@ function createPlayerStore<T extends PlayerState>(store: StateCreator<T>) {
 }
 
 const saveVolume = debounce(async (volume: number) => {
-  log.debug(`[PlayerStore] Volume set to ${volume}`)
+  log.debug(`[PlayerStore] Volume set to ${volume}`);
   await config.set('audioVolume', volume);
 }, 500);
 
