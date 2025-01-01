@@ -152,12 +152,12 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => ({
           log.error(
             '[PlayerStore] Error while switching to the previous track',
           );
-          get().api.stop();
+          api.stop();
         }
       }
     },
     next: async () => {
-      const { queue, queuePosition, repeat } = get();
+      const { queue, queuePosition, repeat, api } = get();
       let newPosition: number;
       let debugMessage: string;
 
@@ -171,6 +171,14 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => ({
         ) {
           debugMessage = '[PlayerStore] Go to first track';
           newPosition = 0;
+        } else if (
+          repeat === RepeatMode.OFF &&
+          queuePosition === queue.length - 1
+        ) {
+          log.debug('[PlayerStore] Player finished playing');
+          api.pause();
+          api.setSongProgress(0);
+          return;
         } else {
           // This case is treated as if the track has been fully played and is now being considered as a new playback
           debugMessage = '[PlayerStore] Go to next track';
@@ -190,8 +198,8 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => ({
           });
         } else {
           log.error('[PlayerStore] Error while switching to the next track');
-          get().api.stop();
-          get().api.setSongProgress(0);
+          api.setSongProgress(0);
+          api.stop();
         }
       }
     },
