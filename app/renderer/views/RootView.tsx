@@ -13,6 +13,7 @@ import PlaybackConsole from '@components/PlaybackConsole';
 import IPCChannels from '@shared/constants/IPCChannels';
 import useCurrentTrack from '@hooks/useCurrentTrack';
 import { usePlayerAPI } from '@stores/usePlayerStore';
+import { sortByName } from '@render-utils/utils-sort';
 
 export default function RootView() {
   const revalidator = useRevalidator();
@@ -82,19 +83,7 @@ RootView.loader = async () => {
   log.debug('[RootView] Loading tracks');
   const res: TrackModel[] = await window.VimpAPI.tracksDB.getAll();
 
-  const tracks = res.toSorted((a, b) => {
-    if (!a) return 1;
-    if (!b) return -1;
-
-    const titleA = a.title
-      .normalize('NFKD')
-      .replace(/[^a-zA-Z0-9-\u00C0-\u024F\u4E00-\u9FFF]/g, '');
-    const titleB = b.title
-      .normalize('NFKD')
-      .replace(/[^a-zA-Z0-9-\u00C0-\u024F\u4E00-\u9FFF]/g, '');
-
-    return titleA.localeCompare(titleB);
-  });
+  const tracks = sortByName(res, 'title');
 
   return { tracks };
 };
