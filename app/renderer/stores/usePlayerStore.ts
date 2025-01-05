@@ -319,26 +319,40 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => ({
       }
     },
     updateQueue: (tracks) => {
-      const { queue, originalQueue } = get();
+      const { queue, originalQueue, queuePosition } = get();
 
-      const trackMap = new Map(tracks.map((track) => [track._id, track]));
+      const updatedQueue = queue.map((track) => {
+        const updatedTrack = tracks.find(
+          (libraryTrack) => libraryTrack._id === track._id,
+        );
 
-      const updateQueueList = (queueList: TrackModel[]) => {
-        return queueList
-          .map((track) => trackMap.get(track._id))
-          .filter((track) => track !== undefined);
-      };
+        return updatedTrack ? { ...track, ...updatedTrack } : track;
+      });
 
-      const newQueue = updateQueueList(queue);
-      const newOriginalQueue = updateQueueList(originalQueue);
+      const updatedOriginalQueue = originalQueue.map((track) => {
+        const updatedTrack = tracks.find(
+          (libraryTrack) => libraryTrack._id === track._id,
+        );
 
-      console.log(newQueue);
+        return updatedTrack ? { ...track, ...updatedTrack } : track;
+      });
+
+      let newQueuePosition = queuePosition;
+
+      if (newQueuePosition !== null) {
+        const currentTrack = updatedQueue[newQueuePosition];
+
+        if (!currentTrack) {
+          newQueuePosition = 0;
+        }
+      }
 
       log.debug('[PlayerStore] Queue updated');
 
       set({
-        queue: newQueue,
-        originalQueue: newOriginalQueue,
+        queue: updatedQueue,
+        originalQueue: updatedOriginalQueue,
+        queuePosition: newQueuePosition,
       });
     },
   },

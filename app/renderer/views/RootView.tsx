@@ -13,11 +13,13 @@ import IPCChannels from '@shared/constants/IPCChannels';
 import useCurrentTrack from '@hooks/useCurrentTrack';
 import { sortByName } from '@render-utils/utils-sort';
 import { useLibraryAPI } from '@stores/useLibraryStore';
+import { usePlayerAPI } from '@stores/usePlayerStore';
 
 export default function RootView() {
   const [collapsed, setCollapsed] = useState(false);
   const track = useCurrentTrack();
   const libraryAPI = useLibraryAPI();
+  const playerAPI = usePlayerAPI();
 
   const loadTracks = async () => {
     log.debug('[RootView] Loading tracks');
@@ -25,6 +27,7 @@ export default function RootView() {
 
     const tracks = sortByName(res, 'title');
     libraryAPI.setTracks(tracks);
+    playerAPI.updateQueue(tracks);
   };
 
   useEffect(() => {
