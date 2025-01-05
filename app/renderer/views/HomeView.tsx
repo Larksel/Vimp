@@ -1,12 +1,11 @@
-import { useRouteLoaderData } from 'react-router-dom';
 import log from 'electron-log/renderer';
-import { RootLoaderData } from '@views/RootView';
 
 import CardList from '@components/CardList';
 import { Button } from '@components/common/button';
+import useLibraryStore from '@stores/useLibraryStore';
 
 export default function HomeView() {
-  const { tracks } = useRouteLoaderData('root') as RootLoaderData;
+  const tracks = useLibraryStore((state) => state.contents.tracks);
 
   const recents = tracks
     .filter((track) => track.lastPlayed !== undefined)

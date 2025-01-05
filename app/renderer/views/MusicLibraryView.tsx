@@ -5,14 +5,13 @@ import { VirtuosoGrid } from 'react-virtuoso';
 
 import MediaCard from '@components/MediaCard';
 import { Input } from '@components/common/input';
-import { useRouteLoaderData } from 'react-router-dom';
-import { RootLoaderData } from '@views/RootView';
 import { Button } from '@components/common/button';
+import useLibraryStore from '@stores/useLibraryStore';
 
 export default function MusicLibraryView() {
   const [search, setSearch] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState(search);
-  const { tracks } = useRouteLoaderData('root') as RootLoaderData;
+  const tracks = useLibraryStore((state) => state.contents.tracks);
 
   const debouncedSetSearch = useCallback(
     debounce((value) => {

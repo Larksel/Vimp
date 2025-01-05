@@ -1,7 +1,6 @@
 import { CSSProperties, useEffect, useState } from 'react';
 import log from 'electron-log/renderer';
-import { Outlet, useRevalidator, useRouteLoaderData } from 'react-router-dom';
-import { LoaderData } from '@renderer/router';
+import { Outlet } from 'react-router-dom';
 import debounce from 'lodash/debounce';
 
 import { TrackModel } from '@shared/types/vimp';
@@ -12,30 +11,36 @@ import Header from '@components/Header';
 import PlaybackConsole from '@components/PlaybackConsole';
 import IPCChannels from '@shared/constants/IPCChannels';
 import useCurrentTrack from '@hooks/useCurrentTrack';
-import { usePlayerAPI } from '@stores/usePlayerStore';
 import { sortByName } from '@render-utils/utils-sort';
+import { useLibraryAPI } from '@stores/useLibraryStore';
 
 export default function RootView() {
-  const revalidator = useRevalidator();
   const [collapsed, setCollapsed] = useState(false);
   const track = useCurrentTrack();
-  const { updateQueue } = usePlayerAPI();
-  const { tracks } = useRouteLoaderData('root') as RootLoaderData;
+  const libraryAPI = useLibraryAPI();
+
+  const loadTracks = async () => {
+    log.debug('[RootView] Loading tracks');
+    const res: TrackModel[] = await window.VimpAPI.tracksDB.getAll();
+
+    const tracks = sortByName(res, 'title');
+    libraryAPI.setTracks(tracks);
+  };
 
   useEffect(() => {
     window.VimpAPI.app.onDBChanged(
       debounce(() => {
         log.debug('[RootView] DB changed');
-        revalidator.revalidate();
+        loadTracks();
       }, 500),
     );
 
-    updateQueue(tracks);
+    loadTracks();
 
     return function cleanup() {
       window.VimpAPI.app.removeAllListeners(IPCChannels.DB_HAS_CHANGED);
     };
-  }, [revalidator]);
+  }, []);
 
   const appBarHeight = 36;
   const playConsoleHeight = track ? 80 : 0;
@@ -76,14 +81,3 @@ export default function RootView() {
     </div>
   );
 }
-
-export type RootLoaderData = LoaderData<typeof RootView.loader>;
-
-RootView.loader = async () => {
-  log.debug('[RootView] Loading tracks');
-  const res: TrackModel[] = await window.VimpAPI.tracksDB.getAll();
-
-  const tracks = sortByName(res, 'title');
-
-  return { tracks };
-};

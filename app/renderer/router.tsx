@@ -16,7 +16,6 @@ const router = createHashRouter([
     path: '',
     id: 'root',
     element: <RootView />,
-    loader: RootView.loader,
     ErrorBoundary: GlobalErrorBoundary,
     children: [
       {
