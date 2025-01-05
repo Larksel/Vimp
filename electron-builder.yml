@@ -1,4 +1,4 @@
-appId: com.electron.vimp
+appId: com.larksel.vimp
 directories:
   buildResources: build
 files:
