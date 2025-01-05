@@ -12,7 +12,7 @@ export default abstract class BaseModule implements IBaseModule {
     if (this.loaded)
       throw new TypeError(`Module ${this.constructor.name} is already loaded`);
     else {
-      log.info(`[Main] Loading module: ${this.constructor.name}`);
+      log.debug(`[Main] Loading module: ${this.constructor.name}`);
 
       await this.load().catch((err) => {
         throw err;
