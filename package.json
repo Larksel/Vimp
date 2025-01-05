@@ -2,7 +2,7 @@
   "name": "vimp",
   "productName": "Vimp",
   "version": "0.1.0",
-  "description": "Vimp - video & music player",
+  "description": "Vimp",
   "main": ".vite/main/main.js",
   "scripts": {
     "start": "electron-vite dev",
