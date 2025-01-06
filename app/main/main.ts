@@ -7,12 +7,13 @@ import AppMenuModule from '@modules/AppMenuModule';
 import ConfigModule from '@modules/ConfigModule';
 import DialogsModule from '@modules/DialogsModule';
 import LibraryModule from '@modules/LibraryModule';
+import MainWindowModule from '@modules/MainWindowModule';
 import MetadataModule from '@modules/MetadataModule';
 import ProtocolModule from '@modules/ProtocolModule';
 import WatcherModule from '@modules/WatcherModule';
 // IPC Modules
 import IPCTracksDatabase from '@modules/ipc/IPCTracksDatabase';
-import MainWindowModule from '@modules/MainWindowModule';
+import IPCPlaylistsDatabase from '@modules/ipc/IPCPlaylistsDatabase';
 import { reactDevToolsPath } from '@main-utils/utils-resources';
 import DBManager from './dbManager';
 import setupLogger from './logger';
@@ -68,5 +69,6 @@ app.whenReady().then(async () => {
     new WatcherModule(dbManager, config, metadataModule),
     // IPC Modules
     new IPCTracksDatabase(dbManager),
+    new IPCPlaylistsDatabase(dbManager),
   );
 });

@@ -34,6 +34,18 @@ enum IPCChannels {
   TRACKSDB_INCREMENT_PLAY_COUNT = 'tracksDB:incrementPlayCount',
   TRACKSDB_UPDATE_FAVORITE = 'tracksDB:updateFavorite',
   TRACKSDB_UPDATE_LAST_PLAYED = 'tracksDB:updateLastPlayed',
+
+  // PlaylistsDB
+  PLAYLISTSDB_GET_ALL = 'playlistsDB:getAll',
+  PLAYLISTSDB_GET_BY_ID = 'playlistsDB:getById',
+  PLAYLISTSDB_CREATE = 'playlistsDB:create',
+  PLAYLISTSDB_UPDATE = 'playlistsDB:update',
+  PLAYLISTSDB_DELETE = 'playlistsDB:delete',
+  PLAYLISTSDB_CLEAR = 'playlistsDB:clear',
+
+  PLAYLISTSDB_INCREMENT_PLAY_COUNT = 'playlistsDB:incrementPlayCount',
+  PLAYLISTSDB_UPDATE_FAVORITE = 'playlistsDB:updateFavorite',
+  PLAYLISTSDB_UPDATE_LAST_PLAYED = 'playlistsDB:updateLastPlayed',
 }
 
 export default IPCChannels;
