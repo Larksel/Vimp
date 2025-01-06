@@ -48,10 +48,14 @@ export interface Track extends CommonData {
 
 export interface Playlist extends CommonData {
   title: string;
-  cover: string;
-  description: string;
-  tracks: TrackModel[];
+  cover?: string;
+  description?: string;
   totalDuration?: number;
+
+  /**
+   * Array with track IDs
+   */
+  tracks: string[];
 
   /**
    * Indicates whether the playlist is automatically generated based on criteria such as most played songs.
