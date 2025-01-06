@@ -3,6 +3,7 @@ import IPCChannels from '@shared/constants/IPCChannels';
 import tracksDB from './databases/tracksDB';
 import config from './modules/config';
 import library from './modules/library';
+import playlistsDB from './databases/playlistsDB';
 
 const VimpAPI = {
   app: {
@@ -25,6 +26,7 @@ const VimpAPI = {
   library,
   config,
   tracksDB,
+  playlistsDB,
 };
 
 contextBridge.exposeInMainWorld('VimpAPI', VimpAPI);
