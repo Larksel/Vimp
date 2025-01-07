@@ -4,25 +4,53 @@ import { Button } from '@components/common/button';
 import { ScrollArea, ScrollBar } from '@components/common/scroll-area';
 import ListHeader from './ListHeader';
 import InfoText from '@components/InfoText';
+import { useEffect, useState } from 'react';
+import { PlaylistModel } from '@shared/types/vimp';
+import debounce from 'lodash/debounce';
+import IPCChannels from '@shared/constants/IPCChannels';
 
 interface PlaylistListProps {
   collapsed: boolean;
 }
 
 export default function PlaylistList({ collapsed }: PlaylistListProps) {
+  const [playlists, setPlaylists] = useState<PlaylistModel[]>();
+
+  useEffect(() => {
+    async function fetchPlaylists() {
+      const playlists = await window.VimpAPI.playlistsDB.getAll();
+      setPlaylists(playlists);
+    }
+
+    fetchPlaylists();
+
+    window.VimpAPI.app.onDBChanged(
+      debounce(() => {
+        fetchPlaylists();
+      }, 500),
+    );
+
+    return function cleanup() {
+      window.VimpAPI.app.removeAllListeners(IPCChannels.DB_HAS_CHANGED);
+    };
+  }, []);
+
   return (
     <ScrollArea className='relative h-full w-full rounded-lg bg-[#121212]'>
       <ListHeader collapsed={collapsed} />
       <div className='pt-11'>
-        {Array.from({ length: 10 }).map((_, index) => (
+        {
+          // TODO Navegar até a página da playlist utilizando parametros de url
+        }
+        {playlists?.map((pl, index) => (
           <Button
-            key={index}
+            key={pl._id}
             variant='default'
-            onClick={() => console.debug(`Playlist ${index + 1}`)}
+            onClick={() => console.log(pl)}
             className='flex h-16 w-full justify-start gap-4 rounded-none bg-transparent p-2 active:bg-[#fff3]'
           >
             <img
-              src={placeholderImage}
+              src={pl.cover ?? placeholderImage}
               alt=''
               className='h-12 w-12 shrink-0 rounded bg-neutral-800 object-cover'
             />
@@ -33,7 +61,7 @@ export default function PlaylistList({ collapsed }: PlaylistListProps) {
                 transitionDelay: !collapsed ? `${(index + 1) * 75}ms` : '',
               }}
             >
-              <InfoText variant='primary'>{`Playlist ${index + 1}`}</InfoText>
+              <InfoText variant='primary'>{pl.title}</InfoText>
               <InfoText variant='secondary'>Playlist</InfoText>
             </div>
           </Button>
