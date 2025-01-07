@@ -4,40 +4,18 @@ import { Button } from '@components/common/button';
 import { ScrollArea, ScrollBar } from '@components/common/scroll-area';
 import ListHeader from './ListHeader';
 import InfoText from '@components/InfoText';
-import { useEffect, useState } from 'react';
-import { PlaylistModel } from '@shared/types/vimp';
-import debounce from 'lodash/debounce';
-import IPCChannels from '@shared/constants/IPCChannels';
 import { useLocation, useNavigate } from 'react-router-dom';
 import routes from '@renderer/routes';
+import useLibraryStore from '@stores/useLibraryStore';
 
 interface PlaylistListProps {
   collapsed: boolean;
 }
 
 export default function PlaylistList({ collapsed }: PlaylistListProps) {
-  const [playlists, setPlaylists] = useState<PlaylistModel[]>();
+  const playlists = useLibraryStore((state) => state.contents.playlists);
   const navigate = useNavigate();
   const { pathname } = useLocation();
-
-  useEffect(() => {
-    async function fetchPlaylists() {
-      const playlists = await window.VimpAPI.playlistsDB.getAll();
-      setPlaylists(playlists);
-    }
-
-    fetchPlaylists();
-
-    window.VimpAPI.app.onDBChanged(
-      debounce(() => {
-        fetchPlaylists();
-      }, 500),
-    );
-
-    return function cleanup() {
-      window.VimpAPI.app.removeAllListeners(IPCChannels.DB_HAS_CHANGED);
-    };
-  }, []);
 
   const playlistView = (playlistID: string) => {
     const viewRoute = routes.PLAYLIST.replace(':id', playlistID);

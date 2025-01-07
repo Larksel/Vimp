@@ -3,7 +3,6 @@ import log from 'electron-log/renderer';
 import { Outlet } from 'react-router-dom';
 import debounce from 'lodash/debounce';
 
-import { TrackModel } from '@shared/types/vimp';
 import AppBar from '@components/AppBar';
 import SideBar from '@components/SideBar';
 import { ScrollArea, ScrollBar } from '@components/common/scroll-area';
@@ -23,22 +22,31 @@ export default function RootView() {
 
   const loadTracks = async () => {
     log.debug('[RootView] Loading tracks');
-    const res: TrackModel[] = await window.VimpAPI.tracksDB.getAll();
+    const res = await window.VimpAPI.tracksDB.getAll();
 
     const tracks = sortByName(res, 'title');
     libraryAPI.setTracks(tracks);
     playerAPI.updateQueue(tracks);
   };
 
+  const loadPlaylists = async () => {
+    const res = await window.VimpAPI.playlistsDB.getAll();
+    const playlists = sortByName(res, 'title');
+
+    libraryAPI.setPlaylists(playlists);
+  }
+
   useEffect(() => {
     window.VimpAPI.app.onDBChanged(
       debounce(() => {
         log.debug('[RootView] DB changed');
         loadTracks();
+        loadPlaylists();
       }, 500),
     );
 
     loadTracks();
+    loadPlaylists();
 
     return function cleanup() {
       window.VimpAPI.app.removeAllListeners(IPCChannels.DB_HAS_CHANGED);
