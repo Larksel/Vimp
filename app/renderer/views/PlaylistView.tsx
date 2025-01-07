@@ -1,9 +1,19 @@
-import { PlaylistModel } from "@shared/types/vimp";
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import TrackList from '@components/TrackList';
+import placeholder from '@assets/images/placeholder.png';
+import { HeartStraight, Play } from '@phosphor-icons/react';
+import { PlaylistModel } from '@shared/types/vimp';
+import { useLibraryAPI } from '@stores/useLibraryStore';
+import { usePlayerAPI } from '@stores/usePlayerStore';
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import InfoText from '@components/InfoText';
+import { Button } from '@components/common/button';
 
 export default function PlaylistView() {
   const [playlist, setPlaylist] = useState<PlaylistModel>();
+  const playerAPI = usePlayerAPI();
+  const libraryAPI = useLibraryAPI();
+  const tracks = libraryAPI.getTracksFromIDs(playlist?.tracks);
   const { id } = useParams();
 
   useEffect(() => {
@@ -14,11 +24,70 @@ export default function PlaylistView() {
     }
 
     fetchPlaylists();
-  }, [id])
+  }, [id]);
+
+  const playTracks = () => {
+    playerAPI.start(tracks);
+  };
+
+  const toggleFavorite = async () => {
+    if (playlist) await window.VimpAPI.playlistsDB.updateFavorite(playlist._id);
+  };
+
+  const handleItemClick = (trackID: string) => {
+    playerAPI.start(tracks, trackID);
+  };
 
   return (
-    <div>
-      <span>{playlist?.title}</span>
+    <div className='flex flex-col gap-4'>
+      <div className='flex gap-4'>
+        <img
+          src={playlist?.cover ?? placeholder}
+          alt=''
+          className='size-52 rounded-lg border border-black/30 object-cover shadow-md transition-all'
+        />
+        <div className='flex flex-col gap-2'>
+          <InfoText variant={'secondary'} className='text-sm'>
+            Playlist
+          </InfoText>
+
+          <InfoText
+            variant={'primary'}
+            className='text-6xl font-bold'
+          >{`${playlist?.title}`}</InfoText>
+
+          {playlist?.description && (
+            <InfoText variant={'secondary'} className='text-sm'>
+              {playlist?.description}
+            </InfoText>
+          )}
+
+          <InfoText
+            variant={'primary'}
+            className='text-sm'
+          >{`${tracks.length} tracks`}</InfoText>
+
+          <div className='mt-auto flex items-center gap-2'>
+            <Button
+              className='aspect-square shrink-0 rounded-full bg-green-500 p-0 hover:bg-green-600'
+              onClick={playTracks}
+            >
+              <Play size={20} weight='fill' />
+            </Button>
+            <Button
+              className='aspect-square shrink-0 rounded-full bg-transparent p-0'
+              onClick={toggleFavorite}
+            >
+              <HeartStraight
+                size={28}
+                weight={`${playlist?.favorite ? 'fill' : 'regular'}`}
+                className={`${playlist?.favorite ? 'text-red-500' : ''} transition-all`}
+              />
+            </Button>
+          </div>
+        </div>
+      </div>
+      <TrackList queue={tracks} onItemClick={handleItemClick} />
     </div>
   );
 }
