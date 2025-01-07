@@ -34,7 +34,10 @@ export default class PlaylistsDatabase
 
     const updatedPlaylists = allPlaylists.map((playlist) => ({
       ...playlist,
-      tracks: playlist.tracks.filter((id) => !!allTracks[id]),
+      tracks: playlist.tracks.filter((id) => {
+        const foundTrack = allTracks.find((track) => track._id === id);
+        return !!foundTrack;
+      }),
     }));
 
     await this.db.bulkDocs(updatedPlaylists);
