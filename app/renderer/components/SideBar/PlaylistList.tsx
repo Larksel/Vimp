@@ -8,6 +8,8 @@ import { useEffect, useState } from 'react';
 import { PlaylistModel } from '@shared/types/vimp';
 import debounce from 'lodash/debounce';
 import IPCChannels from '@shared/constants/IPCChannels';
+import { useLocation, useNavigate } from 'react-router-dom';
+import routes from '@renderer/routes';
 
 interface PlaylistListProps {
   collapsed: boolean;
@@ -15,6 +17,8 @@ interface PlaylistListProps {
 
 export default function PlaylistList({ collapsed }: PlaylistListProps) {
   const [playlists, setPlaylists] = useState<PlaylistModel[]>();
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
 
   useEffect(() => {
     async function fetchPlaylists() {
@@ -35,18 +39,23 @@ export default function PlaylistList({ collapsed }: PlaylistListProps) {
     };
   }, []);
 
+  const playlistView = (playlistID: string) => {
+    const viewRoute = routes.PLAYLIST.replace(':id', playlistID);
+
+    if (pathname.replace('/', '') !== viewRoute) {
+      navigate(viewRoute);
+    }
+  };
+
   return (
     <ScrollArea className='relative h-full w-full rounded-lg bg-[#121212]'>
       <ListHeader collapsed={collapsed} />
       <div className='pt-11'>
-        {
-          // TODO Navegar até a página da playlist utilizando parametros de url
-        }
         {playlists?.map((pl, index) => (
           <Button
             key={pl._id}
             variant='default'
-            onClick={() => console.log(pl)}
+            onClick={() => playlistView(pl._id)}
             className='flex h-16 w-full justify-start gap-4 rounded-none bg-transparent p-2 active:bg-[#fff3]'
           >
             <img

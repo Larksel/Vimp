@@ -3,11 +3,12 @@ import {
   createHashRouter,
   useNavigate,
 } from 'react-router-dom';
+import RootView from '@views/RootView';
 import HomeView from '@views/HomeView';
 import QueueView from '@views/QueueView';
 import MusicLibraryView from '@views/MusicLibraryView';
 import SettingsView from '@views/SettingsView';
-import RootView from '@views/RootView';
+import PlaylistView from '@views/PlaylistView';
 
 import routes from './routes';
 
@@ -39,6 +40,11 @@ const router = createHashRouter([
         id: routes.SETTINGS,
         element: <SettingsView />,
         loader: SettingsView.loader,
+      },
+      {
+        path: routes.PLAYLIST,
+        id: routes.PLAYLIST,
+        element: <PlaylistView />,
       },
     ],
   },

@@ -5,6 +5,7 @@ const routes = {
   MUSIC_LIBRARY: 'music_library',
   VIDEO_LIBRARY: 'video_library',
   SETTINGS: 'settings',
+  PLAYLIST: 'playlist/:id',
 };
 
 export default routes;
