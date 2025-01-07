@@ -11,10 +11,11 @@ interface LibraryState {
   };
   api: {
     setTracks: (tracks: TrackModel[]) => void;
+    getTracksFromIDs: (trackIDs?: string[]) => TrackModel[];
   };
 }
 
-const useLibraryStore = createLibraryStore<LibraryState>((set) => ({
+const useLibraryStore = createLibraryStore<LibraryState>((set, get) => ({
   loading: false,
   contents: {
     tracks: [],
@@ -29,6 +30,14 @@ const useLibraryStore = createLibraryStore<LibraryState>((set) => ({
           tracks: tracks,
         },
       });
+    },
+    getTracksFromIDs: (trackIDs) => {
+      if (!trackIDs || trackIDs.length === 0) return [];
+      const { tracks } = get().contents;
+
+      return trackIDs
+        .map((id) => tracks.find((track) => track._id === id))
+        .filter((track) => !!track);
     },
   },
 }));
