@@ -1,24 +1,32 @@
 import TrackList from '@components/TrackList';
 import placeholder from '@assets/images/placeholder.png';
 import { HeartStraight, Play } from '@phosphor-icons/react';
-import { usePlaylistAPI } from '@stores/useLibraryStore';
+import useLibraryStore, { usePlaylistAPI } from '@stores/useLibraryStore';
 import { usePlayerAPI } from '@stores/usePlayerStore';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import InfoText from '@components/InfoText';
 import { Button } from '@components/common/button';
 import usePlaylistLoader from '@hooks/usePlaylistLoader';
-import routes from '@renderer/routes';
 
 export default function PlaylistView() {
   const { id } = useParams();
-  const navigate = useNavigate();
+  const loading = useLibraryStore((state) => state.loading);
   const playerAPI = usePlayerAPI();
   const playlistAPI = usePlaylistAPI();
   const loaderData = usePlaylistLoader(id);
 
+  if (loading.playlists || loading.tracks) {
+    return (
+      <div className='flex items-center justify-center'>Carregando...</div>
+    );
+  }
+
   if (!loaderData) {
-    navigate(routes.HOME);
-    return;
+    return (
+      <div className='flex items-center justify-center'>
+        Playlist não encontrada
+      </div>
+    );
   }
 
   const { playlist, tracks } = loaderData;
