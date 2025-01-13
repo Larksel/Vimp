@@ -30,6 +30,7 @@ export default function RootView() {
   };
 
   const loadPlaylists = async () => {
+    log.debug('[RootView] Loading playlists');
     const res = await window.VimpAPI.playlistsDB.getAll();
     const playlists = sortByName(res, 'title');
 
