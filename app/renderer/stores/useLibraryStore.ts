@@ -16,10 +16,20 @@ interface LibraryState {
   api: {
     setTracks: (tracks: TrackModel[]) => void;
     setPlaylists: (playlists: PlaylistModel[]) => void;
+    getPlaylistFromID: (playlistID: string) => PlaylistModel | null;
     getTracksFromIDs: (trackIDs?: string[]) => TrackModel[];
   };
   playlistApi: {
-    toggleFavorite: (_id: string) => Promise<void>;
+    addTracks: (
+      playlistID: string,
+      tracks: TrackModel | TrackModel[],
+    ) => Promise<void>;
+    removeTracks: (
+      playlistID: string,
+      tracks: TrackModel | TrackModel[],
+    ) => Promise<void>;
+    toggleFavorite: (playlistID: string) => Promise<void>;
+    renamePlaylist: (playlistID: string, newTitle: string) => Promise<void>;
   };
 }
 
@@ -67,6 +77,18 @@ const useLibraryStore = createLibraryStore<LibraryState>((set, get) => ({
         },
       });
     },
+    getPlaylistFromID: (playlistID) => {
+      if (!playlistID || playlistID === '') return null;
+
+      const { playlists } = get().contents;
+
+      const playlist = playlists.find(
+        (playlist) => playlist._id === playlistID,
+      );
+
+      if (!playlist) return null;
+      return playlist;
+    },
     getTracksFromIDs: (trackIDs) => {
       if (!trackIDs || trackIDs.length === 0) return [];
       const { tracks } = get().contents;
@@ -77,31 +99,70 @@ const useLibraryStore = createLibraryStore<LibraryState>((set, get) => ({
     },
   },
   playlistApi: {
-    toggleFavorite: async (_id) => {
-      if (!_id && _id === '') return;
+    addTracks: async (playlistID, tracks) => {
+      const { getPlaylistFromID } = get().api;
+      const playlist = getPlaylistFromID(playlistID);
 
-      const { contents } = get();
-      const { playlists } = contents;
-      const index = playlists.findIndex((playlist) => playlist._id === _id);
+      const tracksArray = Array.isArray(tracks) ? tracks : [tracks];
+      const addedTracksIDs = tracksArray.map((track) => track._id);
 
-      if (index > -1) {
-        const playlist = playlists[index];
-        await window.VimpAPI.playlistsDB.updateFavorite(playlist._id);
-
-        log.debug(`[LibraryStore] Favorited playlist: ${playlist.title}`);
-
-        const updatedPlaylists = [...playlists];
-        updatedPlaylists[index] = {
+      if (playlist) {
+        const updatedPlaylist = {
           ...playlist,
-          favorite: !playlist.favorite,
+          tracks: [...playlist.tracks, ...addedTracksIDs],
+        };
+        log.debug(
+          `[LibraryStore] Added ${addedTracksIDs.length} tracks to playlist: ${playlist.title}`,
+        );
+        await window.VimpAPI.playlistsDB.update(updatedPlaylist);
+      }
+    },
+    removeTracks: async (playlistID, tracks) => {
+      const { getPlaylistFromID } = get().api;
+      const playlist = getPlaylistFromID(playlistID);
+
+      const tracksArray = Array.isArray(tracks) ? tracks : [tracks];
+      const removedTracksIDs = tracksArray.map((track) => track._id);
+
+      if (playlist) {
+        const updatedTracks = playlist.tracks.filter((trackID) =>
+          removedTracksIDs.some((removedID) => trackID !== removedID),
+        );
+
+        const updatedPlaylist = {
+          ...playlist,
+          tracks: updatedTracks,
         };
 
-        set({
-          contents: {
-            ...contents,
-            playlists: updatedPlaylists,
-          },
-        });
+        log.debug(
+          `[LibraryStore] Removed ${removedTracksIDs.length} tracks from playlist: ${playlist.title}`,
+        );
+        await window.VimpAPI.playlistsDB.update(updatedPlaylist);
+      }
+    },
+    toggleFavorite: async (playlistID) => {
+      const { getPlaylistFromID } = get().api;
+      const playlist = getPlaylistFromID(playlistID);
+
+      if (playlist) {
+        log.debug(`[LibraryStore] Favorited playlist: ${playlist.title}`);
+        await window.VimpAPI.playlistsDB.updateFavorite(playlist._id);
+      }
+    },
+    renamePlaylist: async (playlistID, newTitle) => {
+      const { getPlaylistFromID } = get().api;
+      const playlist = getPlaylistFromID(playlistID);
+
+      if (playlist) {
+        const updatedPlaylist = {
+          ...playlist,
+          title: newTitle,
+        };
+
+        log.debug(
+          `[LibraryStore] Renamed playlist: ${playlist.title} to ${newTitle}`,
+        );
+        await window.VimpAPI.playlistsDB.update(updatedPlaylist);
       }
     },
   },
