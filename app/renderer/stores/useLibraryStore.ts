@@ -5,7 +5,10 @@ import { PlaylistModel, TrackModel } from '@shared/types/vimp';
 import { createStore } from '@render-utils/utils-store';
 
 interface LibraryState {
-  loading: boolean;
+  loading: {
+    tracks: boolean;
+    playlists: boolean;
+  };
   contents: {
     tracks: TrackModel[];
     playlists: PlaylistModel[];
@@ -21,7 +24,10 @@ interface LibraryState {
 }
 
 const useLibraryStore = createLibraryStore<LibraryState>((set, get) => ({
-  loading: false,
+  loading: {
+    tracks: true,
+    playlists: true,
+  },
   contents: {
     tracks: [],
     playlists: [],
@@ -30,10 +36,14 @@ const useLibraryStore = createLibraryStore<LibraryState>((set, get) => ({
     setTracks: (tracks) => {
       if (!tracks) return;
 
-      const { contents } = get();
+      const { loading, contents } = get();
 
       log.info('[LibraryStore] Updated tracks');
       set({
+        loading: {
+          ...loading,
+          tracks: false,
+        },
         contents: {
           ...contents,
           tracks: tracks,
@@ -43,10 +53,14 @@ const useLibraryStore = createLibraryStore<LibraryState>((set, get) => ({
     setPlaylists: (playlists) => {
       if (!playlists) return;
 
-      const { contents } = get();
+      const { loading, contents } = get();
 
       log.info('[LibraryStore] Updated playlists');
       set({
+        loading: {
+          ...loading,
+          playlists: false,
+        },
         contents: {
           ...contents,
           playlists: playlists,

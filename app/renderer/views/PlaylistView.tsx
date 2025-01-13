@@ -1,37 +1,34 @@
 import TrackList from '@components/TrackList';
 import placeholder from '@assets/images/placeholder.png';
 import { HeartStraight, Play } from '@phosphor-icons/react';
-import { PlaylistModel } from '@shared/types/vimp';
-import { useLibraryAPI } from '@stores/useLibraryStore';
+import { usePlaylistAPI } from '@stores/useLibraryStore';
 import { usePlayerAPI } from '@stores/usePlayerStore';
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import InfoText from '@components/InfoText';
 import { Button } from '@components/common/button';
+import usePlaylistLoader from '@hooks/usePlaylistLoader';
+import routes from '@renderer/routes';
 
 export default function PlaylistView() {
-  const [playlist, setPlaylist] = useState<PlaylistModel>();
-  const playerAPI = usePlayerAPI();
-  const libraryAPI = useLibraryAPI();
-  const tracks = libraryAPI.getTracksFromIDs(playlist?.tracks);
   const { id } = useParams();
+  const navigate = useNavigate();
+  const playerAPI = usePlayerAPI();
+  const playlistAPI = usePlaylistAPI();
+  const loaderData = usePlaylistLoader(id);
 
-  useEffect(() => {
-    async function fetchPlaylists() {
-      if (!id) return;
-      const playlist = await window.VimpAPI.playlistsDB.getById(id);
-      setPlaylist(playlist);
-    }
+  if (!loaderData) {
+    navigate(routes.HOME);
+    return;
+  }
 
-    fetchPlaylists();
-  }, [id]);
+  const { playlist, tracks } = loaderData;
 
   const playTracks = () => {
     playerAPI.start(tracks);
   };
 
   const toggleFavorite = async () => {
-    if (playlist) await window.VimpAPI.playlistsDB.updateFavorite(playlist._id);
+    await playlistAPI.toggleFavorite(playlist._id);
   };
 
   const handleItemClick = (trackID: string) => {
@@ -42,7 +39,7 @@ export default function PlaylistView() {
     <div className='flex flex-col gap-4'>
       <div className='flex gap-4'>
         <img
-          src={playlist?.cover ?? placeholder}
+          src={playlist.cover ?? placeholder}
           alt=''
           className='size-52 rounded-lg border border-black/30 object-cover shadow-md transition-all'
         />
@@ -54,11 +51,11 @@ export default function PlaylistView() {
           <InfoText
             variant={'primary'}
             className='text-6xl font-bold'
-          >{`${playlist?.title}`}</InfoText>
+          >{`${playlist.title}`}</InfoText>
 
-          {playlist?.description && (
+          {playlist.description && (
             <InfoText variant={'secondary'} className='text-sm'>
-              {playlist?.description}
+              {playlist.description}
             </InfoText>
           )}
 
@@ -80,8 +77,8 @@ export default function PlaylistView() {
             >
               <HeartStraight
                 size={28}
-                weight={`${playlist?.favorite ? 'fill' : 'regular'}`}
-                className={`${playlist?.favorite ? 'text-red-500' : ''} transition-all`}
+                weight={`${playlist.favorite ? 'fill' : 'regular'}`}
+                className={`${playlist.favorite ? 'text-red-500' : ''} transition-all`}
               />
             </Button>
           </div>
