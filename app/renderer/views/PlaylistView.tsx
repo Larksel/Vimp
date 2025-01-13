@@ -7,6 +7,7 @@ import { useParams } from 'react-router-dom';
 import InfoText from '@components/InfoText';
 import { Button } from '@components/common/button';
 import usePlaylistLoader from '@hooks/usePlaylistLoader';
+import { formatDuration } from '@render-utils/utils';
 
 export default function PlaylistView() {
   const { id } = useParams();
@@ -43,6 +44,16 @@ export default function PlaylistView() {
     playerAPI.start(tracks, trackID);
   };
 
+  const totalDuration = () => {
+    let totalSeconds = 0;
+
+    tracks.forEach(({ duration }) => {
+      totalSeconds += duration ?? 0;
+    });
+
+    return formatDuration(totalSeconds);
+  };
+
   return (
     <div className='flex flex-col gap-4'>
       <div className='flex gap-4'>
@@ -66,11 +77,10 @@ export default function PlaylistView() {
               {playlist.description}
             </InfoText>
           )}
-
           <InfoText
             variant={'primary'}
             className='text-sm'
-          >{`${tracks.length} tracks`}</InfoText>
+          >{`${tracks.length} tracks - ${totalDuration()}`}</InfoText>
 
           <div className='mt-auto flex items-center gap-2'>
             <Button
