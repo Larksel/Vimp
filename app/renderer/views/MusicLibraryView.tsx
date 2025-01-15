@@ -1,35 +1,25 @@
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import log from 'electron-log/renderer';
-import { debounce } from 'lodash';
 import { VirtuosoGrid } from 'react-virtuoso';
 
 import MediaCard from '@components/MediaCard';
-import { Input } from '@components/common/input';
 import { Button } from '@components/common/button';
 import useLibraryStore from '@stores/useLibraryStore';
+import SearchBox from '@components/SearchBox';
 
 export default function MusicLibraryView() {
   const [search, setSearch] = useState('');
-  const [debouncedSearch, setDebouncedSearch] = useState(search);
   const tracks = useLibraryStore((state) => state.contents.tracks);
 
-  const debouncedSetSearch = useCallback(
-    debounce((value) => {
-      setDebouncedSearch(value);
-    }, 300),
-    [],
-  );
-
-  const handleSearchChange = (value: string) => {
+  const handleSearch = (value: string) => {
     setSearch(value);
-    debouncedSetSearch(value);
   };
 
   const filteredTracks = useMemo(() => {
     return tracks.filter((track) =>
-      track.title.toLowerCase().includes(debouncedSearch.toLowerCase()),
+      track.title.toLowerCase().includes(search.toLowerCase()),
     );
-  }, [tracks, debouncedSearch]);
+  }, [tracks, search]);
 
   const forceScan = async () => {
     log.debug('[MusicLibraryView] Triggered library scan and save');
@@ -39,13 +29,11 @@ export default function MusicLibraryView() {
 
   return (
     <div className='flex flex-col items-center'>
-      <Input
-        type='search'
-        name='search'
-        id='search'
-        placeholder='Buscar música'
-        value={search}
-        onChange={(e) => handleSearchChange(e.target.value)}
+      <SearchBox
+        name='search-music'
+        canChangeVisibility={false}
+        placeholder='Buscar música...'
+        onSearch={handleSearch}
         className='mb-4 max-w-[300px]'
       />
       {filteredTracks.length > 0 && (
