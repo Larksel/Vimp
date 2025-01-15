@@ -1,26 +1,47 @@
-import { InputHTMLAttributes, useState } from 'react';
+import { InputHTMLAttributes, useCallback, useState } from 'react';
 import { Input } from '@components/common/input';
 import { cn } from '@render-utils/utils';
 import { MagnifyingGlass } from '@phosphor-icons/react';
+import debounce from 'lodash/debounce';
 
 interface SearchBoxProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
   canChangeVisibility: boolean;
+  onSearch: (search: string) => void;
 }
 
 export default function SearchBox(props: SearchBoxProps) {
-  const { name, canChangeVisibility, className, placeholder, ...rest } = props;
-  const [searchTerm, setSearchTerm] = useState('');
+  const {
+    name,
+    canChangeVisibility,
+    onSearch,
+    className,
+    placeholder,
+    ...rest
+  } = props;
   // Using the negation of the 'canChangeVisibility' prop to achieve the following behavior:
   // - When 'canChangeVisibility' is true, the search box will be hidden by default.
   // - When 'canChangeVisibility' is false, the search box will always be visible.
   const [isVisible, setIsVisible] = useState(!canChangeVisibility);
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const debouncedSetSearch = useCallback(
+    debounce((value) => {
+      onSearch(value);
+    }, 300),
+    [],
+  );
+
+  const handleSearchChange = (value: string) => {
+    setSearchTerm(value);
+    debouncedSetSearch(value);
+  };
 
   const toggleVisibility = () => {
     if (!canChangeVisibility) return;
 
     if (isVisible) {
-      setSearchTerm('');
+      handleSearchChange('');
     }
 
     setIsVisible(!isVisible);
@@ -46,6 +67,7 @@ export default function SearchBox(props: SearchBoxProps) {
         value={searchTerm}
         placeholder={isVisible ? (placeholder ?? 'Pesquisar...') : ''}
         className={`h-full pl-8 pr-2 transition-all ${!isVisible && 'invisible w-8 px-0'}`}
+        onChange={({ target }) => handleSearchChange(target.value)}
         {...rest}
       />
     </div>
