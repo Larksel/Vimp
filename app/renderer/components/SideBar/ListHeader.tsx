@@ -21,7 +21,7 @@ export default function ListHeader({ collapsed }: ListHeaderProps) {
   };
 
   return (
-    <div className='absolute z-10 flex w-full items-center justify-between gap-1 bg-[#121212] px-2 py-1 transition-all'>
+    <div className='z-10 flex w-full items-center justify-between gap-1 bg-[#121212] px-2 py-1 transition-all'>
       <Button
         variant='ghost'
         className={`flex aspect-square rounded-full p-0 text-neutral-400 transition-all hover:scale-110 hover:bg-transparent hover:text-white ${collapsed ? 'mx-1' : ''}`}
