@@ -1,3 +1,4 @@
+import { useMemo, useState } from 'react';
 import placeholderImage from '@assets/images/placeholder.png';
 
 import { Button } from '@components/common/button';
@@ -14,8 +15,19 @@ interface PlaylistListProps {
 
 export default function PlaylistList({ collapsed }: PlaylistListProps) {
   const playlists = useLibraryStore((state) => state.contents.playlists);
+  const [search, setSearch] = useState('');
   const navigate = useNavigate();
   const { pathname } = useLocation();
+
+  const filteredPlaylists = useMemo(() => {
+    return playlists.filter((playlist) =>
+      playlist.title.toLowerCase().includes(search.toLowerCase()),
+    );
+  }, [playlists, search]);
+
+  const handleSearch = (searchTerm: string) => {
+    setSearch(searchTerm);
+  };
 
   const playlistView = (playlistID: string) => {
     const viewRoute = routes.PLAYLIST.replace(':id', playlistID);
@@ -27,10 +39,10 @@ export default function PlaylistList({ collapsed }: PlaylistListProps) {
 
   return (
     <>
-      <ListHeader collapsed={collapsed} />
+      <ListHeader collapsed={collapsed} searchHandler={handleSearch} />
       <div className='h-[calc(100%-48px)]'>
         <ScrollArea className='h-full'>
-          {playlists.map((pl, index) => (
+          {filteredPlaylists.map((pl, index) => (
             <Button
               key={pl._id}
               variant='default'

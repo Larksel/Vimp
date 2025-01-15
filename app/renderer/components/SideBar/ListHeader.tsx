@@ -1,24 +1,14 @@
-import { useState } from 'react';
-
-import { Plus, MagnifyingGlass, ListBullets } from '@phosphor-icons/react';
+import { Plus, ListBullets } from '@phosphor-icons/react';
 import { Button } from '@components/common/button';
-import { Input } from '@components/common/input';
+import SearchBox from '@components/SearchBox';
 
 interface ListHeaderProps {
   collapsed: boolean;
+  searchHandler: (search: string) => void;
 }
 
-export default function ListHeader({ collapsed }: ListHeaderProps) {
-  const [inputVisible, setInputVisible] = useState(false);
-  const [search, setSearch] = useState('');
-
-  const toggleVisibility = () => {
-    if (inputVisible) {
-      setSearch('');
-    }
-
-    setInputVisible(!inputVisible);
-  };
+export default function ListHeader(props: ListHeaderProps) {
+  const { collapsed, searchHandler } = props;
 
   return (
     <div className='z-10 flex w-full items-center justify-between gap-1 bg-[#121212] px-2 py-1 transition-all'>
@@ -32,20 +22,10 @@ export default function ListHeader({ collapsed }: ListHeaderProps) {
       <div
         className={`flex items-center ${collapsed ? 'w-0 overflow-clip' : 'w-full'}`}
       >
-        <Button
-          variant='ghost'
-          onClick={toggleVisibility}
-          className='flex aspect-square rounded-full p-0 text-neutral-400 transition-all hover:scale-110 hover:bg-transparent hover:text-white'
-        >
-          <MagnifyingGlass size={20} />
-        </Button>
-
-        <Input
-          type='text'
-          value={search}
-          onChange={({ target }) => setSearch(target.value)}
-          placeholder='Buscar'
-          className={`${!inputVisible ? 'invisible w-0 p-0' : 'w-full opacity-100'} transition-all`}
+        <SearchBox
+          name='search-playlist'
+          canChangeVisibility={true}
+          onSearch={searchHandler}
         />
       </div>
 
