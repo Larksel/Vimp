@@ -48,7 +48,7 @@ class Player {
 
     try {
       await this.audio.play();
-      log.debug(`[Player] Playing ${this.track.title}`);
+      log.info(`[Player] Playing ${this.track.path}`);
 
       if (
         !this.hasPlayed &&
@@ -139,7 +139,7 @@ class Player {
     this.track = track;
     this.audio.src = path;
     this.hasPlayed = false;
-    log.debug(`[Player] New track defined: ${track.title}`);
+    log.info(`[Player] New track defined: ${track.path}`);
   }
 }
 
