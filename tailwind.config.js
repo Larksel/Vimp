@@ -13,6 +13,14 @@ export default {
         '2xl': '1400px',
       },
     },
+    screens: {
+      xs: '1024px',
+      sm: '1280px',
+      md: '1360px',
+      lg: '1440px',
+      xl: '1600px',
+      '2xl': '1920px',
+    },
     extend: {
       keyframes: {
         'accordion-down': {

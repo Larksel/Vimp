@@ -40,7 +40,7 @@ export default function MusicLibraryView() {
         <div className='flex h-full w-full items-center justify-center'>
           <VirtuosoGrid
             className='w-full overflow-clip'
-            listClassName='grid w-full grid-cols-3 justify-items-center gap-6 xl:grid-cols-4 2xl:grid-cols-5'
+            listClassName='grid w-full grid-cols-2 justify-items-center gap-6 xs:grid-cols-3 sm:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6'
             data={filteredTracks}
             overscan={10}
             itemContent={(index, track) => (
