@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import TrackList from '@components/TrackList';
 import placeholder from '@assets/images/placeholder.png';
 import { HeartStraight, Play } from '@phosphor-icons/react';
@@ -15,6 +16,11 @@ export default function PlaylistView() {
   const playerAPI = usePlayerAPI();
   const playlistAPI = usePlaylistAPI();
   const loaderData = usePlaylistLoader(id);
+  const [scroll, setScroll] = useState(0);
+
+  const handleScroll = (scrollTop: number) => {
+    setScroll(scrollTop);
+  };
 
   if (loading.playlists || loading.tracks) {
     return (
@@ -56,33 +62,46 @@ export default function PlaylistView() {
 
   return (
     <div className='flex flex-col gap-4'>
-      <div className='flex gap-4'>
+      <div
+        className={`flex min-h-24 gap-4 transition-all duration-300 ${scroll > 0 ? 'h-[20%]' : 'h-[50%]'}`}
+      >
         <img
           src={playlist.cover ?? placeholder}
           alt=''
-          className='size-52 rounded-lg border border-black/30 object-cover shadow-md transition-all'
+          className='aspect-square h-full max-h-96 rounded-lg border border-black/30 object-cover shadow-md transition-all'
         />
-        <div className='flex flex-col gap-2'>
-          <InfoText variant={'secondary'} className='text-sm'>
+        <div
+          className={`flex w-full flex-col justify-center p-4 *:transition-all ${scroll > 0 ? '' : 'gap-2'}`}
+        >
+          <InfoText
+            variant={'secondary'}
+            className={`text-sm ${scroll > 0 && 'hidden'}`}
+          >
             Playlist
           </InfoText>
 
           <InfoText
             variant={'primary'}
-            className='text-6xl font-bold'
+            className={`font-bold ${scroll > 0 ? 'text-4xl' : 'text-6xl'}`}
           >{`${playlist.title}`}</InfoText>
 
-          {playlist.description && (
-            <InfoText variant={'secondary'} className='text-sm'>
-              {playlist.description}
-            </InfoText>
-          )}
           <InfoText
-            variant={'primary'}
+            variant={scroll > 0 ? 'secondary' : 'primary'}
             className='text-sm'
           >{`${tracks.length} tracks - ${totalDuration()}`}</InfoText>
 
-          <div className='mt-auto flex items-center gap-2'>
+          {playlist.description && (
+            <InfoText
+              variant={'secondary'}
+              className={`text-sm ${scroll > 0 && 'hidden'}`}
+            >
+              {playlist.description}
+            </InfoText>
+          )}
+
+          <div
+            className={`mt-auto flex items-center gap-2 ${scroll > 0 && 'hidden'}`}
+          >
             <Button
               className='aspect-square shrink-0 rounded-full bg-green-500 p-0 hover:bg-green-600'
               onClick={playTracks}
@@ -102,7 +121,11 @@ export default function PlaylistView() {
           </div>
         </div>
       </div>
-      <TrackList queue={tracks} onItemClick={handleItemClick} />
+      <TrackList
+        queue={tracks}
+        onItemClick={handleItemClick}
+        onScroll={handleScroll}
+      />
     </div>
   );
 }

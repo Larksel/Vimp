@@ -6,10 +6,11 @@ import TrackRow from './TrackRow';
 interface TrackListProps {
   queue: TrackModel[];
   onItemClick: (trackID: string) => void;
+  onScroll?: (scrollTop: number) => void;
 }
 
 export default function TrackList(props: TrackListProps) {
-  const { queue, onItemClick } = props;
+  const { queue, onItemClick, onScroll } = props;
 
   return (
     <div className='flex h-full flex-col items-center justify-start'>
@@ -37,6 +38,11 @@ export default function TrackList(props: TrackListProps) {
               onClick={(trackID) => onItemClick(trackID)}
             />
           )}
+          onScroll={(e) => {
+            if (!onScroll) return;
+            const target = e.target as HTMLElement;
+            onScroll(target.scrollTop);
+          }}
         />
       ) : (
         <div className='flex items-center justify-center pt-40 text-neutral-400'>
