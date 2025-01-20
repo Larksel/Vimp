@@ -61,14 +61,19 @@ export default function PlaylistView() {
   };
 
   return (
-    <div className='flex flex-col gap-4'>
+    <div className='z-[1] flex flex-col gap-4'>
+      <img
+        src={playlist.cover ?? placeholder}
+        alt=''
+        className='absolute inset-0 z-[0] h-full w-full object-cover blur-md brightness-[0.3]'
+      />
       <div
-        className={`flex max-h-[50vh] min-h-24 gap-4 transition-all duration-300 ${scroll > 0 ? 'h-[20%]' : 'h-full'}`}
+        className={`z-[1] flex max-h-[50vh] min-h-24 gap-4 rounded-lg bg-black/50 backdrop-blur-lg transition-all duration-300 ${scroll > 0 ? 'h-[20%]' : 'h-full'}`}
       >
         <img
           src={playlist.cover ?? placeholder}
           alt=''
-          className='aspect-square h-full rounded-lg border border-black/30 object-cover shadow-md transition-all'
+          className='z-[1] aspect-square h-full rounded-lg border border-black/30 object-cover shadow-md transition-all'
         />
         <div
           className={`relative flex w-full flex-col justify-center overflow-hidden p-4 *:transition-all ${scroll === 0 && 'gap-2'}`}
@@ -123,11 +128,13 @@ export default function PlaylistView() {
           </div>
         </div>
       </div>
-      <TrackList
-        queue={tracks}
-        onItemClick={handleItemClick}
-        onScroll={handleScroll}
-      />
+      <div className='z-[1] h-full rounded-lg bg-black/50 backdrop-blur-lg'>
+        <TrackList
+          queue={tracks}
+          onItemClick={handleItemClick}
+          onScroll={handleScroll}
+        />
+      </div>
     </div>
   );
 }
