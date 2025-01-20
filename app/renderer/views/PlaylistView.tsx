@@ -71,7 +71,7 @@ export default function PlaylistView() {
           className='aspect-square h-full max-h-96 rounded-lg border border-black/30 object-cover shadow-md transition-all'
         />
         <div
-          className={`flex w-full flex-col justify-center p-4 *:transition-all ${scroll > 0 ? '' : 'gap-2'}`}
+          className={`relative flex w-full flex-col justify-center p-4 *:transition-all ${scroll > 0 ? '' : 'gap-2'}`}
         >
           <InfoText
             variant={'secondary'}
@@ -100,7 +100,7 @@ export default function PlaylistView() {
           )}
 
           <div
-            className={`mt-auto flex items-center gap-2 ${scroll > 0 && 'hidden'}`}
+            className={`flex gap-2 ${scroll > 0 ? 'absolute right-4' : 'mt-auto'}`}
           >
             <Button
               className='aspect-square shrink-0 rounded-full bg-green-500 p-0 hover:bg-green-600'
