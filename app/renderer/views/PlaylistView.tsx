@@ -63,15 +63,15 @@ export default function PlaylistView() {
   return (
     <div className='flex flex-col gap-4'>
       <div
-        className={`flex min-h-24 gap-4 transition-all duration-300 ${scroll > 0 ? 'h-[20%]' : 'h-[50%]'}`}
+        className={`flex max-h-[50vh] min-h-24 gap-4 transition-all duration-300 ${scroll > 0 ? 'h-[20%]' : 'h-full'}`}
       >
         <img
           src={playlist.cover ?? placeholder}
           alt=''
-          className='aspect-square h-full max-h-96 rounded-lg border border-black/30 object-cover shadow-md transition-all'
+          className='aspect-square h-full rounded-lg border border-black/30 object-cover shadow-md transition-all'
         />
         <div
-          className={`relative flex w-full flex-col justify-center p-4 *:transition-all ${scroll > 0 ? '' : 'gap-2'}`}
+          className={`relative flex w-full flex-col justify-center overflow-hidden p-4 *:transition-all ${scroll === 0 && 'gap-2'}`}
         >
           <InfoText
             variant={'secondary'}
@@ -82,8 +82,10 @@ export default function PlaylistView() {
 
           <InfoText
             variant={'primary'}
-            className={`font-bold ${scroll > 0 ? 'text-4xl' : 'text-6xl'}`}
-          >{`${playlist.title}`}</InfoText>
+            className={`w-full truncate font-bold ${scroll > 0 ? 'text-4xl' : 'text-6xl'}`}
+          >
+            {playlist.title}
+          </InfoText>
 
           <InfoText
             variant={scroll > 0 ? 'secondary' : 'primary'}
@@ -93,7 +95,7 @@ export default function PlaylistView() {
           {playlist.description && (
             <InfoText
               variant={'secondary'}
-              className={`text-sm ${scroll > 0 && 'hidden'}`}
+              className={`w-full whitespace-normal text-sm ${scroll > 0 ? 'hidden' : 'line-clamp-2 sm:line-clamp-3 md:line-clamp-4 lg:line-clamp-6'}`}
             >
               {playlist.description}
             </InfoText>
