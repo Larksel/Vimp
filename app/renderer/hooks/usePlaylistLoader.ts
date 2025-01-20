@@ -13,17 +13,10 @@ export default function usePlaylistLoader(
   id?: string,
 ): PlaylistLoaderResult | null {
   return useLibraryStore((state) => {
-    if (
-      id &&
-      id !== '' &&
-      state.contents.playlists.length !== 0 &&
-      state.contents.tracks.length !== 0
-    ) {
+    if (id && id !== '' && state.contents.playlists.length !== 0) {
       const { playlists, tracks } = state.contents;
 
-      const playlist = playlists.find(
-        (playlist) => playlist._id === id,
-      );
+      const playlist = playlists.find((playlist) => playlist._id === id);
 
       if (playlist) {
         const playlistTracks = playlist.tracks

@@ -45,8 +45,10 @@ export default function TrackList(props: TrackListProps) {
           }}
         />
       ) : (
-        <div className='flex items-center justify-center pt-40 text-neutral-400'>
-          Lista vazia
+        <div className='flex size-full items-center justify-center text-neutral-400'>
+          <p>
+            Lista vazia
+          </p>
         </div>
       )}
     </div>
