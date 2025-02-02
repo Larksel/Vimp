@@ -1564,7 +1564,7 @@
   dependencies:
     defer-to-connect "^2.0.0"
 
-"@tailwindcss/node@^4.0.0":
+"@tailwindcss/node@^4.0.0", "@tailwindcss/node@^4.0.3":
   version "4.0.3"
   resolved "https://registry.yarnpkg.com/@tailwindcss/node/-/node-4.0.3.tgz#2ea18bdc679be00f623e3a7240ab291255dc59b4"
   integrity sha512-QsVJokOl0pJ4AbJV33D2npvLcHGPWi5MOSZtrtE0GT3tSx+3D0JE2lokLA8yHS1x3oCY/3IyRyy7XX6tmzid7A==
@@ -1628,7 +1628,7 @@
   resolved "https://registry.yarnpkg.com/@tailwindcss/oxide-win32-x64-msvc/-/oxide-win32-x64-msvc-4.0.3.tgz#be9aadfaadd4522352af3bb054387b6870840350"
   integrity sha512-+ujwN4phBGyOsPyLgGgeCyUm4Mul+gqWVCIGuSXWgrx9xVUnf6LVXrw0BDBc9Aq1S2qMyOTX4OkCGbZeoIo8Qw==
 
-"@tailwindcss/oxide@^4.0.0":
+"@tailwindcss/oxide@^4.0.0", "@tailwindcss/oxide@^4.0.3":
   version "4.0.3"
   resolved "https://registry.yarnpkg.com/@tailwindcss/oxide/-/oxide-4.0.3.tgz#488ea050dddf521493e998542e8c60a6e9997348"
   integrity sha512-FFcp3VNvRjjmFA39ORM27g2mbflMQljhvM7gxBAujHxUy4LXlKa6yMF9wbHdTbPqTONiCyyOYxccvJyVyI/XBg==
@@ -1656,6 +1656,16 @@
     lightningcss "^1.29.1"
     postcss "^8.4.41"
     tailwindcss "4.0.0"
+
+"@tailwindcss/vite@^4.0.3":
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/@tailwindcss/vite/-/vite-4.0.3.tgz#5c9a9ce59d97fe6330bb2e1520e6b793a4b38158"
+  integrity sha512-Qj6rSO+EvXnNDymloKZ11D54JJTnDrkRWJBzNHENDxjt0HtrCZJbSLIrcJ/WdaoU4othrel/oFqHpO/doxIS/Q==
+  dependencies:
+    "@tailwindcss/node" "^4.0.3"
+    "@tailwindcss/oxide" "^4.0.3"
+    lightningcss "^1.29.1"
+    tailwindcss "4.0.3"
 
 "@tokenizer/token@^0.3.0":
   version "0.3.0"

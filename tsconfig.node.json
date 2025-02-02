@@ -10,6 +10,8 @@
     "composite": true,
     "types": ["electron-vite/node", "jest"],
     "noUnusedLocals": false,
+    "module": "ESNext",
+    "moduleResolution": "bundler",
     // This config must be the same as in electron.vite.config
     "paths": {
       "@interfaces/*": ["./app/shared/interfaces/*"],

@@ -74,7 +74,7 @@ export default function RootView() {
     >
       <AppBar />
 
-      <div className='flex h-[var(--content-height)] gap-2 overflow-clip p-2 transition-all'>
+      <div className='flex h-(--content-height) gap-2 overflow-clip p-2 transition-all'>
         <SideBar
           toggle={() => setCollapsed(!collapsed)}
           collapsed={collapsed}
@@ -83,7 +83,7 @@ export default function RootView() {
         <div className='relative overflow-clip rounded-lg bg-[#121212]'>
           <Header />
           <ScrollArea className='relative h-full w-full'>
-            <div className='h-full w-[var(--content-width)] p-4 pt-16 transition-all *:h-full'>
+            <div className='h-full w-(--content-width) p-4 pt-16 transition-all *:h-full'>
               <Outlet />
             </div>
             <ScrollBar orientation='vertical' />

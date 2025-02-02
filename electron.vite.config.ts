@@ -1,6 +1,7 @@
 import { defineConfig, externalizeDepsPlugin } from 'electron-vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
+import tailwindcss from "@tailwindcss/vite";
 
 const externals = ['globby', 'queue'];
 const minify = process.env.NODE_ENV === 'production';
@@ -47,7 +48,7 @@ export default defineConfig({
     },
   },
   renderer: {
-    plugins: [react()],
+    plugins: [react(), tailwindcss()],
     resolve: {
       // This config must be the same as in tsconfig.web.json
       alias: {
