@@ -27,13 +27,13 @@ export default function MediaCard(props: MediaCardProps) {
       className='group relative flex h-72 w-56 flex-col space-y-2 overflow-hidden border-0 bg-[#181818] p-4 transition-all duration-300 hover:cursor-pointer hover:bg-neutral-800'
     >
       <CardHeader className='relative space-y-0 p-0'>
-        <button className='absolute bottom-0 right-2 flex size-10 items-center justify-center rounded-full bg-green-500 opacity-0 shadow-sm transition-all duration-300 group-hover:bottom-2 group-hover:opacity-100'>
+        <button className='absolute bottom-0 right-2 flex size-10 items-center justify-center rounded-full bg-green-500 opacity-0 shadow-xs transition-all duration-300 group-hover:bottom-2 group-hover:opacity-100'>
           <Play weight='fill' size={20} />
         </button>
         <img
           src={item.cover || placeholder}
           alt=''
-          className='aspect-square w-full select-none rounded object-cover'
+          className='aspect-square w-full select-none rounded-sm object-cover'
         />
       </CardHeader>
       <CardContent className='overflow-hidden p-0'>

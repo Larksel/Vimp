@@ -18,7 +18,7 @@ export default function TrackRow(props: TrackRowProps) {
   return (
     <div
       onClick={() => onClick(track._id)}
-      className={`grid h-16 w-full grid-cols-[16px,6fr,4fr,3fr,1fr] items-center gap-4 rounded-md px-4 text-sm tracking-normal hover:cursor-pointer hover:bg-neutral-700/70 ${isPlaying ? 'bg-white/10 text-green-500' : 'text-neutral-400'}`}
+      className={`grid h-16 w-full grid-cols-[16px_6fr_4fr_3fr_1fr] items-center gap-4 rounded-md px-4 text-sm tracking-normal hover:cursor-pointer hover:bg-neutral-700/70 ${isPlaying ? 'bg-white/10 text-green-500' : 'text-neutral-400'}`}
     >
       <span className='flex items-center justify-center'>{index + 1}</span>
 
@@ -26,7 +26,7 @@ export default function TrackRow(props: TrackRowProps) {
         <img
           src={track.cover || placeholder}
           alt=''
-          className='size-12 shrink-0 rounded object-cover'
+          className='size-12 shrink-0 rounded-sm object-cover'
         />
 
         <div className='flex h-full w-full flex-col justify-center truncate'>

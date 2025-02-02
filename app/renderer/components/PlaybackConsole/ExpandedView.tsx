@@ -15,7 +15,7 @@ export default function ExpandedView({ visible }: ExpandedViewProps) {
       <img
         src={track?.cover ?? placeholder}
         alt=''
-        className='absolute inset-0 size-full object-cover opacity-30 blur'
+        className='absolute inset-0 size-full object-cover opacity-30 blur-sm'
       />
       <img
         src={track?.cover ?? placeholder}

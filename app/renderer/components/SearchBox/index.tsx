@@ -50,7 +50,7 @@ export default function SearchBox(props: SearchBoxProps) {
   return (
     <div
       className={cn(
-        `relative flex h-8 w-full items-center overflow-hidden rounded`,
+        `relative flex h-8 w-full items-center overflow-hidden rounded-sm`,
         className,
       )}
     >

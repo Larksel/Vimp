@@ -34,7 +34,7 @@ export default function MusicInfo() {
           <img
             src={track ? track.cover || placeholderImage : placeholderImage}
             alt=''
-            className={`size-16 rounded object-cover transition-all ${visible ? 'w-0 opacity-0' : ''}`}
+            className={`size-16 rounded-sm object-cover transition-all ${visible ? 'w-0 opacity-0' : ''}`}
           />
 
           <div
