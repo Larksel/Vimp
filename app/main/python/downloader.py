@@ -15,7 +15,7 @@ class Downloader:
         # Carrega todos os atributos necessarios
         self.link = link
 
-        self.yt = YouTube(self.link, on_progress_callback=on_progress)
+        self.yt = YouTube(self.link, 'WEB', on_progress_callback=on_progress)
         if "&list=" in self.link:
             try:
                 self.pl = Playlist(self.link)
@@ -75,7 +75,7 @@ class Downloader:
         self.get_thumbnail()
 
         video = self.yt.streams.get_audio_only()
-        video.download(dirmanager.tempfolder, filename=mp4_file)
+        video.download(dirmanager.tempfolder, f"{self.formatted_title}.mp4")
 
         # Convert to mp3
         dirmanager.make_dir(dirmanager.musicfolder)
