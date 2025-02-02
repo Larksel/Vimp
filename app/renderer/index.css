@@ -15,37 +15,29 @@
   }
 
   :root {
-    /* Cores principais */
-    --color-background: #000;
-    --color-surface: #121212;
+    /* Background Colors */
+  --background-base: #121212;
+  --background-highlight: #1f1f1f;
+  --background-click: #000000;
+  --background-surface-base: #181818;
+  --background-surface-highlight: #262626;
+  --background-surface-click: #424242;
+  --background-glass-base: rgba(0, 0, 0, 0.1);
+  --background-glass-highlight: rgba(0, 0, 0, 0.14);
+  --background-glass-click: rgba(0, 0, 0, 0.21);
 
-    /* Cores de cartões */
-    --color-card-background: #181818;
-    --color-card-hover: #262626;
+  /* Text Colors */
+  --text-primary: #ffffff;
+  --text-secondary: #a3a3a3;
+  --text-dark: #737373;
 
-    /* Cores de inputs */
-    --color-input-background: #424242;
-
-    /* Cores de botões */
-    --color-button-background: #000;
-    --color-button-hover: #222;
-    --color-button-active: #424242;
-
-    /* Fundo translúcido */
-    --color-glass-background: rgba(0, 0, 0, 0.5);
-
-    /* Cores principais de destaque */
-    --color-primary: #22c55e;
-    --color-primary-hover: #16a34a;
-    --color-secondary: #ef4444;
-    --color-secondary-hover: #dc2626;
-
-    /* Cores de favoritos */
-    --color-favorite: #ef4444;
-
-    /* Cores de texto */
-    --color-text-primary: #fff;
-    --color-text-secondary: #a3a3a3;
-    --color-text-tertiary: #737373;
+  /* Essential Colors */
+  --essential-base: #ffffff;
+  --essential-accent: #22c55e;
+  --essential-subdued: #7c7c7c;
+  --essential-danger: #BD0000;
+  --essential-info: #5DB6DC;
+  --essential-success: #009F55;
+  --essential-warning: #ffc107;
   }
 }
