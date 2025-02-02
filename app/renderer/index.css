@@ -13,4 +13,39 @@
   ::-webkit-scrollbar {
     width: 0;
   }
+
+  :root {
+    /* Cores principais */
+    --color-background: #000;
+    --color-surface: #121212;
+
+    /* Cores de cartões */
+    --color-card-background: #181818;
+    --color-card-hover: #262626;
+
+    /* Cores de inputs */
+    --color-input-background: #424242;
+
+    /* Cores de botões */
+    --color-button-background: #000;
+    --color-button-hover: #222;
+    --color-button-active: #424242;
+
+    /* Fundo translúcido */
+    --color-glass-background: rgba(0, 0, 0, 0.5);
+
+    /* Cores principais de destaque */
+    --color-primary: #22c55e;
+    --color-primary-hover: #16a34a;
+    --color-secondary: #ef4444;
+    --color-secondary-hover: #dc2626;
+
+    /* Cores de favoritos */
+    --color-favorite: #ef4444;
+
+    /* Cores de texto */
+    --color-text-primary: #fff;
+    --color-text-secondary: #a3a3a3;
+    --color-text-tertiary: #737373;
+  }
 }
