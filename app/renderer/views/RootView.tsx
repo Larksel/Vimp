@@ -35,7 +35,7 @@ export default function RootView() {
     const playlists = sortByName(res, 'title');
 
     libraryAPI.setPlaylists(playlists);
-  }
+  };
 
   useEffect(() => {
     window.VimpAPI.app.onDBChanged(
@@ -63,25 +63,27 @@ export default function RootView() {
     '--appbar-height': `${appBarHeight}px`,
     '--playconsole-height': `${playConsoleHeight}px`,
     '--sidebar-width': `${collapsed ? sidebarSmall : sidebarLarge}px`,
+    '--content-height': `calc(100vh - ${appBarHeight}px - ${playConsoleHeight}px)`,
+    '--content-width': `calc(100vw - 24px - var(--sidebar-width))`,
   } as CSSProperties;
 
   return (
     <div
       style={cssVars}
-      className='grid h-screen w-full grid-cols-4 grid-rows-[var(--appbar-height),1fr,var(--playconsole-height)] overflow-hidden bg-black transition-all'
+      className='flex h-screen w-screen flex-col overflow-hidden bg-black transition-all'
     >
       <AppBar />
 
-      <div className='col-span-4 row-span-1 grid max-h-[calc(100vh-var(--appbar-height)-var(--playconsole-height))] grid-cols-[var(--sidebar-width),repeat(3,1fr)] grid-rows-2 gap-2 overflow-clip p-2 transition-all'>
+      <div className='flex h-[var(--content-height)] gap-2 overflow-clip p-2 transition-all'>
         <SideBar
           toggle={() => setCollapsed(!collapsed)}
           collapsed={collapsed}
         />
 
-        <div className='relative col-span-3 row-span-2 overflow-clip rounded-lg bg-[#121212]'>
+        <div className='relative overflow-clip rounded-lg bg-[#121212]'>
           <Header />
           <ScrollArea className='relative h-full w-full'>
-            <div className='h-full w-[calc(100vw-24px-var(--sidebar-width))] p-4 pt-16 transition-all *:h-full'>
+            <div className='h-full w-[var(--content-width)] p-4 pt-16 transition-all *:h-full'>
               <Outlet />
             </div>
             <ScrollBar orientation='vertical' />

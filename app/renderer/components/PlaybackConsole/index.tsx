@@ -9,7 +9,7 @@ export default function PlaybackConsole() {
   useMediaSession();
 
   return (
-    <div className='z-10 col-span-4 row-span-1 flex h-full w-full items-center justify-between overflow-hidden bg-black px-2'>
+    <div className='z-10 flex h-[var(--playconsole-height)] w-full items-center justify-between overflow-hidden bg-black px-2'>
       <PlayerEvents />
       <MusicInfo />
 
