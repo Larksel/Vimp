@@ -56,11 +56,12 @@ export default function MusicInfo() {
         </div>
         {track && (
           <Button
-            className='aspect-square shrink-0 rounded-full bg-transparent p-0'
+            variant={'glass'}
+            className='aspect-square size-6 shrink-0 rounded-full p-0'
             onClick={toggleFavorite}
           >
             <HeartStraight
-              size={20}
+              size={24}
               weight={`${track.favorite ? 'fill' : 'regular'}`}
               className={`${track.favorite ? 'text-red-500' : ''} transition-all`}
             />
