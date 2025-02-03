@@ -18,7 +18,7 @@ export default function TrackRow(props: TrackRowProps) {
   return (
     <div
       onClick={() => onClick(track._id)}
-      className={`grid h-16 w-full grid-cols-[16px_6fr_4fr_3fr_1fr] items-center gap-4 rounded-md px-4 text-sm tracking-normal hover:cursor-pointer hover:bg-neutral-700/70 ${isPlaying ? 'bg-white/10 text-green-500' : 'text-neutral-400'}`}
+      className={`hover:bg-background-surface-highlight grid h-16 w-full grid-cols-[16px_6fr_4fr_3fr_1fr] items-center gap-4 rounded-md px-4 text-sm tracking-normal hover:cursor-pointer ${isPlaying ? 'bg-background-surface-highlight text-essential-accent' : 'text-text-secondary'}`}
     >
       <span className='flex items-center justify-center'>{index + 1}</span>
 
@@ -31,11 +31,11 @@ export default function TrackRow(props: TrackRowProps) {
 
         <div className='flex h-full w-full flex-col justify-center truncate'>
           <span
-            className={`truncate ${isPlaying ? 'text-green-500' : 'text-white'}`}
+            className={`truncate ${isPlaying ? 'text-essential-accent' : 'text-text-primary'}`}
           >
             {track.title}
           </span>
-          <span className='text-xs text-neutral-400'>{track.artist[0]}</span>
+          <span className='text-text-secondary text-xs'>{track.artist[0]}</span>
         </div>
       </div>
 

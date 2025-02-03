@@ -46,12 +46,11 @@ export default function NavButtons({ collapsed }: NavButtonsProps) {
       {navButtons.map(({ text, icon, page }, index) => (
         <Button
           key={text}
-          variant='default'
+          variant={'surface'}
           onClick={() => {
-            if (location.pathname.replace('/', '') !== page)
-              navigate(page);
+            if (location.pathname.replace('/', '') !== page) navigate(page);
           }}
-          className='text-md h-14 w-full justify-start gap-3 rounded-none bg-transparent px-[18px]'
+          className='text-md h-14 w-full justify-start gap-3 px-[18px]'
         >
           {icon}
           <p

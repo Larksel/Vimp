@@ -9,25 +9,26 @@
   --font-sans: Roboto;
 
   /* Background Colors */
-  --color-background-base: #121212;
-  --color-background-highlight: #1f1f1f;
-  --color-background-click: #000000;
-  --color-background-surface-base: #181818;
-  --color-background-surface-highlight: #262626;
-  --color-background-surface-click: #424242;
-  --color-background-glass-base: rgba(0, 0, 0, 0.1);
-  --color-background-glass-highlight: rgba(0, 0, 0, 0.14);
-  --color-background-glass-click: rgba(0, 0, 0, 0.21);
+  --color-background-base: #000000;
+  --color-background-surface-base: #121212;
+  --color-background-surface-highlight: #242424;
+  --color-background-surface-click: #363636;
+  --color-background-elevated-base: #181818;
+  --color-background-elevated-highlight: #262626;
+  --color-background-elevated-click: #343434;
+  --color-background-glass-base: hsla(0, 0%, 0%, 0.6);
+  --color-background-glass-highlight: hsla(0, 0%, 0%, 1);
+  --color-background-glass-click: hsla(0, 0%, 0%, 0.8);
 
   /* Text Colors */
   --color-text-primary: #ffffff;
-  --color-text-secondary: #a3a3a3;
-  --color-text-dark: #737373;
+  --color-text-secondary: #878787;
+  --color-text-sub: #333333;
+  --color-text-black: #000000;
 
   /* Essential Colors */
   --color-essential-base: #ffffff;
-  --color-essential-accent: #22c55e;
-  --color-essential-subdued: #7c7c7c;
+  --color-essential-accent: #00c850;
   --color-essential-danger: #bd0000;
   --color-essential-info: #5db6dc;
   --color-essential-success: #009f55;
@@ -73,13 +74,11 @@
   }
 }
 
-@layer base {
-  body {
-    color: white;
-    font-family: Roboto, sans-serif;
-  }
+body {
+  color: var(--color-text-primary);
+  font-family: Roboto, sans-serif;
+}
 
-  ::-webkit-scrollbar {
-    width: 0;
-  }
+::-webkit-scrollbar {
+  width: 0;
 }

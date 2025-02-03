@@ -12,35 +12,32 @@ export default function Header() {
     <div className='absolute z-10 flex h-16 w-full items-center justify-between gap-2 p-4'>
       <div className='flex flex-row gap-2'>
         <Button
-          variant='ghost'
+          variant='glass'
           onClick={() => navigate(-1)}
-          className='aspect-square rounded-full bg-[#0009] p-0 text-neutral-400 hover:scale-110 hover:bg-[#0009] hover:text-white active:bg-[#fff3]'
+          className='aspect-square rounded-full p-0'
         >
           <CaretLeft size={20} />
         </Button>
         <Button
-          variant='ghost'
+          variant='glass'
           onClick={() => navigate(1)}
-          className='aspect-square rounded-full bg-[#0009] p-0 text-neutral-400 hover:scale-110 hover:bg-[#0009] hover:text-white active:bg-[#fff3]'
+          className='aspect-square rounded-full p-0'
         >
           <CaretRight size={20} />
         </Button>
       </div>
 
       <div className='flex flex-row gap-2'>
-        <Button
-          variant='ghost'
-          className='aspect-square rounded-full bg-[#0009] p-0 text-neutral-400 hover:scale-110 hover:bg-[#0009] hover:text-white active:bg-[#fff3]'
-        >
+        <Button variant='glass' className='aspect-square rounded-full p-0'>
           <Bell size={20} />
         </Button>
         <Button
-          variant='ghost'
+          variant='glass'
           onClick={() => {
             if (location.pathname.replace('/', '') !== routes.SETTINGS)
-              navigate(routes.SETTINGS)
+              navigate(routes.SETTINGS);
           }}
-          className='aspect-square rounded-full bg-[#0009] p-0 text-neutral-400 hover:scale-110 hover:bg-[#0009] hover:text-white active:bg-[#fff3]'
+          className='aspect-square rounded-full p-0'
         >
           <Gear size={20} />
         </Button>

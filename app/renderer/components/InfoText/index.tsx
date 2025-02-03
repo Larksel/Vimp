@@ -4,8 +4,8 @@ import { cn } from '@render-utils/utils';
 const textVariants = cva('w-fit whitespace-nowrap font-normal', {
   variants: {
     variant: {
-      primary: 'text-base text-white',
-      secondary: 'text-sm tracking-normal text-neutral-400',
+      primary: 'text-base text-text-primary',
+      secondary: 'text-sm tracking-normal text-text-secondary',
     },
   },
 });
@@ -21,10 +21,5 @@ export default function InfoText({
   variant,
   className,
 }: InfoTextProps) {
-
-  return (
-    <p className={cn(textVariants({ variant, className }))}>
-      {children}
-    </p>
-  );
+  return <p className={cn(textVariants({ variant, className }))}>{children}</p>;
 }

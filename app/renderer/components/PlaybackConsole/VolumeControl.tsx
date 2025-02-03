@@ -4,6 +4,7 @@ import {
   SpeakerSimpleX,
 } from '@phosphor-icons/react';
 
+import { Button } from '@components/common/button';
 import { Slider } from '@components/common/slider';
 
 import usePlayerStore, { usePlayerAPI } from '@stores/usePlayerStore';
@@ -37,12 +38,13 @@ export default function VolumeControl() {
 
   return (
     <div className='flex flex-row items-center justify-center gap-2'>
-      <button
+      <Button
         onClick={() => playerAPI.setIsMuted(!isMuted)}
-        className='text-neutral-400 transition-colors hover:text-neutral-100'
+        variant={'glass'}
+        className='aspect-square size-6 rounded-full p-0'
       >
         {volumeIcons()}
-      </button>
+      </Button>
 
       <Slider
         value={[volume]}

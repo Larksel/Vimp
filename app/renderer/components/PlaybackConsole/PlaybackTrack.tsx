@@ -16,7 +16,7 @@ export default function PlaybackTrack() {
 
   return (
     <div className='flex w-full flex-row items-center justify-between gap-3'>
-      <p className='min-w-10 text-right text-xs text-neutral-500'>
+      <p className='text-text-secondary min-w-10 text-right text-xs'>
         {formatDuration(songProgress)}
       </p>
 
@@ -28,7 +28,7 @@ export default function PlaybackTrack() {
         onValueChange={(value) => handleProgressChange(value[0])}
       />
 
-      <p className='min-w-10 text-left text-xs text-neutral-500'>
+      <p className='text-text-secondary min-w-10 text-left text-xs'>
         {formatDuration(currentTrack ? currentTrack.duration : 0)}
       </p>
     </div>

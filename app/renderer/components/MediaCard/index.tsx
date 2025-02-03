@@ -1,4 +1,3 @@
-import { Card, CardContent, CardHeader } from '@components/common/card';
 import InfoText from '@components/InfoText';
 
 import { Play } from '@phosphor-icons/react';
@@ -22,27 +21,27 @@ export default function MediaCard(props: MediaCardProps) {
   };
 
   return (
-    <Card
+    <div
       onClick={playTrack}
-      className='group relative flex h-72 w-56 flex-col space-y-2 overflow-hidden border-0 bg-[#181818] p-4 transition-all duration-300 hover:cursor-pointer hover:bg-neutral-800'
+      className='group bg-background-elevated-base hover:bg-background-elevated-highlight active:bg-background-elevated-click relative flex h-72 w-56 flex-col space-y-2 overflow-hidden rounded-lg p-4 shadow-xs transition-all duration-300 hover:cursor-pointer'
     >
-      <CardHeader className='relative space-y-0 p-0'>
-        <button className='absolute bottom-0 right-2 flex size-10 items-center justify-center rounded-full bg-green-500 opacity-0 shadow-xs transition-all duration-300 group-hover:bottom-2 group-hover:opacity-100'>
+      <div className='relative'>
+        <div className='bg-essential-accent absolute right-2 bottom-0 flex size-10 items-center justify-center rounded-full opacity-0 shadow-xs transition-all duration-300 group-hover:bottom-2 group-hover:opacity-100'>
           <Play weight='fill' size={20} />
-        </button>
+        </div>
         <img
           src={item.cover || placeholder}
           alt=''
-          className='aspect-square w-full select-none rounded-sm object-cover'
+          className='aspect-square w-full rounded-sm object-cover select-none'
         />
-      </CardHeader>
-      <CardContent className='overflow-hidden p-0'>
+      </div>
+      <div className='overflow-hidden p-0'>
         <InfoText variant='primary'>{item.title}</InfoText>
         <InfoText variant='secondary'>{item.artist[0]}</InfoText>
-      </CardContent>
-      <p className='absolute bottom-4 right-4 w-fit text-sm text-neutral-400'>
+      </div>
+      <p className='text-text-secondary absolute right-4 bottom-4 w-fit text-sm'>
         {formatDuration(item.duration)}
       </p>
-    </Card>
+    </div>
   );
 }

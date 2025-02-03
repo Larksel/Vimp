@@ -3,6 +3,7 @@ import { Input } from '@components/common/input';
 import { cn } from '@render-utils/utils';
 import { MagnifyingGlass } from '@phosphor-icons/react';
 import debounce from 'lodash/debounce';
+import { Button } from '@components/common/button';
 
 interface SearchBoxProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
@@ -50,23 +51,24 @@ export default function SearchBox(props: SearchBoxProps) {
   return (
     <div
       className={cn(
-        `relative flex h-8 w-full items-center overflow-hidden rounded-sm`,
+        `relative flex h-full max-h-8 w-full items-center overflow-hidden rounded-sm`,
         className,
       )}
     >
-      <button
+      <Button
         onClick={toggleVisibility}
-        className={`absolute left-0 flex aspect-square h-full items-center justify-center text-neutral-400 transition-all ${canChangeVisibility && 'hover:text-white'} ${!isVisible && 'rounded-full'}`}
+        variant={'surface'}
+        className={`text-text-secondary absolute left-0 flex aspect-square h-full items-center justify-center p-0 transition-all ${canChangeVisibility ? 'hover:text-text-primary' : 'cursor-default hover:bg-transparent active:bg-transparent'} ${isVisible ? 'bg-transparent hover:bg-transparent active:bg-transparent' : 'rounded-full'}`}
       >
         <MagnifyingGlass className='size-full max-w-5' />
-      </button>
+      </Button>
       <Input
         type='search'
         name={name}
         id={name}
         value={searchTerm}
         placeholder={isVisible ? (placeholder ?? 'Pesquisar...') : ''}
-        className={`h-full pl-8 pr-2 transition-all ${!isVisible && 'invisible w-8 px-0'}`}
+        className={`h-full pr-2 pl-8 transition-all ${!isVisible && 'invisible w-8 rounded-full px-0'}`}
         onChange={({ target }) => handleSearchChange(target.value)}
         {...rest}
       />

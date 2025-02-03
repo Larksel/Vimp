@@ -14,14 +14,14 @@ export default function TrackList(props: TrackListProps) {
 
   return (
     <div className='flex h-full flex-col items-center justify-start'>
-      <div className='grid h-9 w-full grid-cols-[16px_6fr_4fr_3fr_1fr] gap-4 px-4 text-sm text-neutral-300'>
+      <div className='text-text-primary grid h-9 w-full grid-cols-[16px_6fr_4fr_3fr_1fr] gap-4 px-4 text-sm'>
         <span className='flex items-center justify-center'>#</span>
         <span className='flex items-center'>Titulo</span>
         <span className='flex items-center'>Album</span>
         <span className='flex items-center justify-center'>Status</span>
         <span className='flex items-center justify-end'>Duração</span>
       </div>
-      <div className='h-[1px] w-full bg-white/20' />
+      <div className='bg-background-surface-click h-[1px] w-full' />
       {queue.length > 0 ? (
         <Virtuoso
           components={{
@@ -45,10 +45,8 @@ export default function TrackList(props: TrackListProps) {
           }}
         />
       ) : (
-        <div className='flex size-full items-center justify-center text-neutral-400'>
-          <p>
-            Lista vazia
-          </p>
+        <div className='text-text-secondary flex size-full items-center justify-center'>
+          <p>Lista vazia</p>
         </div>
       )}
     </div>

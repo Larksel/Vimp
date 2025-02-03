@@ -10,6 +10,7 @@ import {
 
 import usePlayerStore, { usePlayerAPI } from '@stores/usePlayerStore';
 import { PlayerStatus } from '@shared/types/vimp';
+import { Button } from '@components/common/button';
 
 export default function PlaybackButtons() {
   const playerAPI = usePlayerAPI();
@@ -32,50 +33,58 @@ export default function PlaybackButtons() {
 
   const repeatIcons = {
     off: <Repeat size={20} />,
-    all: <Repeat size={20} className='text-green-500' />,
-    one: <RepeatOnce size={20} className='text-green-500' />,
+    all: <Repeat size={20} className='text-essential-accent' />,
+    one: <RepeatOnce size={20} className='text-essential-accent' />,
   };
 
   return (
     <div className='flex w-full items-center justify-center gap-4'>
-      <button
-        className='flex size-8 items-center justify-center text-neutral-400 transition-colors hover:text-neutral-100'
+      <Button
+        variant={'glass'}
+        className='flex size-8 items-center justify-center rounded-full p-0'
         onClick={() => playerAPI.toggleShuffle()}
       >
-        <Shuffle size={20} className={`${shuffle ? 'text-green-500' : ''}`} />
-      </button>
+        <Shuffle
+          size={20}
+          className={`${shuffle ? 'text-essential-accent' : ''}`}
+        />
+      </Button>
 
-      <button
-        className='flex size-8 items-center justify-center text-neutral-400 transition-colors hover:text-neutral-100'
+      <Button
+        variant={'glass'}
+        className='flex size-8 items-center justify-center rounded-full p-0'
         onClick={() => playerAPI.previous()}
       >
         <SkipBack size={20} />
-      </button>
+      </Button>
 
-      <button
+      <Button
+        variant={'filled'}
         onClick={() => playerAPI.playPause()}
-        className='flex size-8 items-center justify-center rounded-full bg-white text-black'
+        className='flex size-8 items-center justify-center rounded-full p-0'
       >
         {isPlaying() ? (
           <Pause weight='fill' size={16} />
         ) : (
           <Play weight='fill' size={16} />
         )}
-      </button>
+      </Button>
 
-      <button
-        className='flex size-8 items-center justify-center text-neutral-400 transition-colors hover:text-neutral-100'
+      <Button
+        variant={'glass'}
+        className='flex size-8 items-center justify-center rounded-full p-0'
         onClick={() => playerAPI.next()}
       >
         <SkipForward size={20} />
-      </button>
+      </Button>
 
-      <button
-        className='flex size-8 items-center justify-center text-neutral-400 transition-colors hover:text-neutral-100'
+      <Button
+        variant={'glass'}
+        className='flex size-8 items-center justify-center rounded-full p-0'
         onClick={() => playerAPI.toggleRepeat()}
       >
         {repeatIcons[repeat]}
-      </button>
+      </Button>
     </div>
   );
 }

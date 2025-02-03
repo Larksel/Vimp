@@ -5,18 +5,20 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@render-utils/utils';
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-hidden disabled:pointer-events-none disabled:opacity-5',
+  'flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-hidden disabled:pointer-events-none disabled:opacity-50 cursor-pointer text-text-primary',
   {
     variants: {
       variant: {
         default:
-          'bg-neutral-900 text-neutral-50 hover:bg-neutral-800/90 active:bg-neutral-700/90',
-        destructive: 'bg-red-500 text-neutral-50 hover:bg-red-700/90',
+          'bg-background-elevated-base hover:bg-background-elevated-highlight active:bg-background-elevated-click',
+        surface:
+          'bg-transparent hover:bg-background-surface-highlight active:bg-background-surface-click rounded-none',
+        glass:
+          'bg-background-glass-base hover:bg-background-glass-highlight active:bg-background-glass-click text-text-secondary hover:text-text-primary',
+        destructive: 'bg-essential-danger',
         outline:
-          'border border-neutral-200 hover:bg-neutral-100 hover:text-neutral-900',
-        secondary: 'bg-neutral-800  text-neutral-50 hover:bg-neutral-800/50',
-        ghost: 'hover:bg-neutral-100 hover:text-neutral-900',
-        link: 'text-neutral-50 underline-offset-4 hover:underline',
+          'border border-text-secondary text-text-secondary hover:bg-text-primary hover:text-text-black',
+        filled: 'bg-text-primary text-text-black',
       },
       size: {
         default: 'h-10 px-4 py-2',

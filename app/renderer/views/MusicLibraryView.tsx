@@ -51,7 +51,7 @@ export default function MusicLibraryView() {
       )}
       {tracks.length === 0 && (
         <div className='flex h-full w-full items-center justify-center'>
-          <div className='flex h-80 flex-col items-center justify-center space-y-4 text-neutral-400'>
+          <div className='text-text-secondary flex h-80 flex-col items-center justify-center space-y-4'>
             <h1>Sua biblioteca está vazia</h1>
             <Button variant={'outline'} onClick={forceScan}>
               Escanear arquivos

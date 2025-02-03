@@ -10,15 +10,15 @@ const Slider = forwardRef<
   <SliderPrimitive.Root
     ref={ref}
     className={cn(
-      'group relative flex w-full touch-none select-none items-center py-1',
+      'group relative flex w-full touch-none items-center py-1 select-none',
       className,
     )}
     {...props}
   >
-    <SliderPrimitive.Track className='relative h-1 w-full grow overflow-hidden rounded-full bg-white/20'>
-      <SliderPrimitive.Range className='absolute h-full rounded-full bg-white transition-colors group-hover:bg-red-500' />
+    <SliderPrimitive.Track className='bg-text-sub relative h-1 w-full grow overflow-hidden rounded-full'>
+      <SliderPrimitive.Range className='bg-essential-base group-hover:bg-essential-accent absolute h-full rounded-full transition-colors' />
     </SliderPrimitive.Track>
-    <SliderPrimitive.Thumb className='block size-0 rounded-full bg-white shadow-sm transition-all focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-neutral-300 disabled:pointer-events-none disabled:opacity-50 group-hover:size-4' />
+    <SliderPrimitive.Thumb className='bg-essential-base focus-visible:ring-text-secondary block size-0 rounded-full shadow-sm transition-all group-hover:size-4 focus-visible:ring-1 focus-visible:outline-hidden disabled:pointer-events-none disabled:opacity-50' />
   </SliderPrimitive.Root>
 ));
 Slider.displayName = SliderPrimitive.Root.displayName;

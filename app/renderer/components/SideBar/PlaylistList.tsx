@@ -45,14 +45,14 @@ export default function PlaylistList({ collapsed }: PlaylistListProps) {
           {filteredPlaylists.map((pl, index) => (
             <Button
               key={pl._id}
-              variant='default'
+              variant='surface'
               onClick={() => playlistView(pl._id)}
-              className='flex h-16 w-full justify-start gap-4 rounded-none bg-transparent p-2 active:bg-[#fff3]'
+              className='flex h-16 w-full justify-start gap-4 p-2'
             >
               <img
                 src={pl.cover ?? placeholderImage}
                 alt=''
-                className='h-12 w-12 shrink-0 rounded-sm bg-neutral-800 object-cover'
+                className='h-12 w-12 shrink-0 rounded-sm object-cover'
               />
 
               <div

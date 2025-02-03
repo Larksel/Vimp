@@ -7,7 +7,7 @@ declare module 'csstype' {
 export default function AppBar() {
   return (
     <div
-      className='h-(--appbar-height) w-full select-none bg-black'
+      className='bg-background-base h-(--appbar-height) w-full select-none'
       style={{
         WebkitAppRegion: 'drag',
       }}

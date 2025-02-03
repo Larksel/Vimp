@@ -57,14 +57,8 @@ export default function SettingsView() {
             />
           </Settings.Option>
           <Settings.Option name='Rescan Tracks'>
-            {!scanning && (
-              <Button className='bg-neutral-800' onClick={rescanTracks}>
-                Rescan Now
-              </Button>
-            )}
-            {scanning && (
-              <Button className='bg-neutral-800'>Rescanning...</Button>
-            )}
+            {!scanning && <Button onClick={rescanTracks}>Rescan Now</Button>}
+            {scanning && <Button>Rescanning...</Button>}
           </Settings.Option>
         </Settings.Section>
         <Settings.Section name='Pastas de música'>
@@ -112,7 +106,7 @@ export default function SettingsView() {
         {changed && (
           <Button
             onClick={saveChanges}
-            className='max-w-40 self-center bg-green-600 transition-colors hover:bg-green-500'
+            className='bg-essential-success max-w-40 self-center transition-colors'
           >
             Save Changes
           </Button>

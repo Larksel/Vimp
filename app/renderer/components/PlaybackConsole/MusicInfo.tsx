@@ -29,7 +29,7 @@ export default function MusicInfo() {
       <div className='flex h-full w-[30%] items-center'>
         <div
           onClick={toggleVisible}
-          className={`flex h-full w-full select-none items-center ${visible ? 'gap-0' : 'gap-2'} overflow-hidden rounded-lg p-2 transition-all hover:bg-white/20`}
+          className={`flex h-full w-full items-center select-none ${visible ? 'gap-0' : 'gap-2'} hover:bg-background-surface-highlight overflow-hidden rounded-lg p-2 transition-all`}
         >
           <img
             src={track ? track.cover || placeholderImage : placeholderImage}
@@ -38,7 +38,7 @@ export default function MusicInfo() {
           />
 
           <div
-            className='flex w-full flex-col overflow-hidden whitespace-nowrap px-2'
+            className='flex w-full flex-col overflow-hidden px-2 whitespace-nowrap'
             style={{
               maskImage:
                 'linear-gradient(90deg,transparent 0,#000 8px,#000 calc(100% - 12px),transparent)',

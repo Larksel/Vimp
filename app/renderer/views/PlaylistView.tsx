@@ -68,12 +68,12 @@ export default function PlaylistView() {
         className='absolute inset-0 z-0 h-full w-full object-cover blur-md brightness-[0.3]'
       />
       <div
-        className={`z-1 flex max-h-[50vh] min-h-24 gap-4 rounded-lg bg-black/50 backdrop-blur-lg transition-all duration-300 ${scroll > 0 ? 'h-[20%]' : 'h-full'}`}
+        className={`bg-background-glass-base z-1 flex max-h-[50vh] min-h-24 gap-4 rounded-lg backdrop-blur-lg transition-all duration-300 ${scroll > 0 ? 'h-[20%]' : 'h-full'}`}
       >
         <img
           src={playlist.cover ?? placeholder}
           alt=''
-          className='z-1 aspect-square h-full rounded-lg border border-black/30 object-cover shadow-md transition-all'
+          className='z-1 aspect-square h-full rounded-lg object-cover shadow-md transition-all'
         />
         <div
           className={`relative flex w-full flex-col justify-center overflow-hidden p-4 *:transition-all ${scroll === 0 && 'gap-2'}`}
@@ -100,7 +100,7 @@ export default function PlaylistView() {
           {playlist.description && (
             <InfoText
               variant={'secondary'}
-              className={`w-full whitespace-normal text-sm ${scroll > 0 ? 'hidden' : 'line-clamp-2 sm:line-clamp-3 md:line-clamp-4 lg:line-clamp-6'}`}
+              className={`w-full text-sm whitespace-normal ${scroll > 0 ? 'hidden' : 'line-clamp-2 sm:line-clamp-3 md:line-clamp-4 lg:line-clamp-6'}`}
             >
               {playlist.description}
             </InfoText>
@@ -110,7 +110,7 @@ export default function PlaylistView() {
             className={`flex gap-2 ${scroll > 0 ? 'absolute right-4' : 'mt-auto'}`}
           >
             <Button
-              className='aspect-square shrink-0 rounded-full bg-green-500 p-0 hover:bg-green-600'
+              className='bg-essential-accent aspect-square shrink-0 rounded-full p-0'
               onClick={playTracks}
             >
               <Play size={20} weight='fill' />
@@ -122,13 +122,13 @@ export default function PlaylistView() {
               <HeartStraight
                 size={28}
                 weight={`${playlist.favorite ? 'fill' : 'regular'}`}
-                className={`${playlist.favorite ? 'text-red-500' : ''} transition-all`}
+                className={`${playlist.favorite ? 'text-essential-danger' : ''} transition-all`}
               />
             </Button>
           </div>
         </div>
       </div>
-      <div className='z-1 h-full rounded-lg bg-black/50 backdrop-blur-lg'>
+      <div className='bg-background-glass-base z-1 h-full rounded-lg backdrop-blur-lg'>
         <TrackList
           queue={tracks}
           onItemClick={handleItemClick}
