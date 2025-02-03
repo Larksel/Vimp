@@ -57,7 +57,7 @@ export default function MusicInfo() {
         {track && (
           <Button
             variant={'glass'}
-            className='aspect-square size-6 shrink-0 rounded-full p-0'
+            className='mx-2 aspect-square size-6 shrink-0 rounded-full p-0'
             onClick={toggleFavorite}
           >
             <HeartStraight

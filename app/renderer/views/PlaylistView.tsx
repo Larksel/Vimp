@@ -110,17 +110,19 @@ export default function PlaylistView() {
             className={`flex gap-2 ${scroll > 0 ? 'absolute right-4' : 'mt-auto'}`}
           >
             <Button
-              className='bg-essential-accent aspect-square shrink-0 rounded-full p-0'
+              variant={'filled'}
+              className='bg-essential-accent text-text-primary aspect-square size-10 shrink-0 rounded-full p-0'
               onClick={playTracks}
             >
               <Play size={20} weight='fill' />
             </Button>
             <Button
-              className='aspect-square shrink-0 rounded-full bg-transparent p-0'
+              variant={'glass'}
+              className='aspect-square size-10 shrink-0 rounded-full bg-transparent p-0'
               onClick={toggleFavorite}
             >
               <HeartStraight
-                size={28}
+                size={24}
                 weight={`${playlist.favorite ? 'fill' : 'regular'}`}
                 className={`${playlist.favorite ? 'text-essential-danger' : ''} transition-all`}
               />
