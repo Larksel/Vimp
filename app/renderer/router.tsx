@@ -57,10 +57,10 @@ function GlobalErrorBoundary() {
 
   return (
     <div className='flex h-screen flex-col items-center justify-center'>
-      <div className='bg-background-surface-base flex flex-col items-center justify-center gap-4 rounded-lg p-4'>
+      <div className='bg-surface-base flex flex-col items-center justify-center gap-4 rounded-lg p-4'>
         <h1 className='text-2xl'>💥 Pagina não encontrada 💥</h1>
         <button
-          className='bg-essential-accent rounded-sm p-2'
+          className='bg-accent rounded-sm p-2'
           onClick={() => navigate(-1)}
         >
           Voltar

@@ -68,7 +68,7 @@ export default function PlaylistView() {
         className='absolute inset-0 z-0 h-full w-full object-cover blur-md brightness-[0.3]'
       />
       <div
-        className={`bg-background-glass-base z-1 flex max-h-[50vh] min-h-24 gap-4 rounded-lg backdrop-blur-lg transition-all duration-300 ${scroll > 0 ? 'h-[20%]' : 'h-full'}`}
+        className={`bg-glass-base z-1 flex max-h-[50vh] min-h-24 gap-4 rounded-lg backdrop-blur-lg transition-all duration-300 ${scroll > 0 ? 'h-[20%]' : 'h-full'}`}
       >
         <img
           src={playlist.cover ?? placeholder}
@@ -111,7 +111,7 @@ export default function PlaylistView() {
           >
             <Button
               variant={'filled'}
-              className='bg-essential-accent text-text-primary aspect-square size-10 shrink-0 rounded-full p-0'
+              className='bg-accent text-text-primary aspect-square size-10 shrink-0 rounded-full p-0'
               onClick={playTracks}
             >
               <Play size={20} weight='fill' />
@@ -124,13 +124,13 @@ export default function PlaylistView() {
               <HeartStraight
                 size={24}
                 weight={`${playlist.favorite ? 'fill' : 'regular'}`}
-                className={`${playlist.favorite ? 'text-essential-danger' : ''} transition-all`}
+                className={`${playlist.favorite ? 'text-danger' : ''} transition-all`}
               />
             </Button>
           </div>
         </div>
       </div>
-      <div className='bg-background-glass-base z-1 h-full rounded-lg backdrop-blur-lg'>
+      <div className='bg-glass-base z-1 h-full rounded-lg backdrop-blur-lg'>
         <TrackList
           queue={tracks}
           onItemClick={handleItemClick}

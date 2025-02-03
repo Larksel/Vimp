@@ -23,10 +23,10 @@ export default function MediaCard(props: MediaCardProps) {
   return (
     <div
       onClick={playTrack}
-      className='group bg-background-elevated-base hover:bg-background-elevated-highlight active:bg-background-elevated-click relative flex h-72 w-56 flex-col space-y-2 overflow-hidden rounded-lg p-4 shadow-xs transition-all duration-300 hover:cursor-pointer'
+      className='group bg-elevated-base hover:bg-elevated-highlight active:bg-elevated-active relative flex h-72 w-56 flex-col space-y-2 overflow-hidden rounded-lg p-4 shadow-xs transition-all duration-300 hover:cursor-pointer'
     >
       <div className='relative'>
-        <div className='bg-essential-accent absolute right-2 bottom-0 flex size-10 items-center justify-center rounded-full opacity-0 shadow-xs transition-all duration-300 group-hover:bottom-2 group-hover:opacity-100'>
+        <div className='bg-accent absolute right-2 bottom-0 flex size-10 items-center justify-center rounded-full opacity-0 shadow-xs transition-all duration-300 group-hover:bottom-2 group-hover:opacity-100'>
           <Play weight='fill' size={20} />
         </div>
         <img

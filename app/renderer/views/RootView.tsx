@@ -70,7 +70,7 @@ export default function RootView() {
   return (
     <div
       style={cssVars}
-      className='bg-background-base flex h-screen w-screen flex-col overflow-hidden transition-all'
+      className='bg-background flex h-screen w-screen flex-col overflow-hidden transition-all'
     >
       <AppBar />
 
@@ -80,7 +80,7 @@ export default function RootView() {
           collapsed={collapsed}
         />
 
-        <div className='bg-background-surface-base relative overflow-clip rounded-lg'>
+        <div className='bg-surface-base relative overflow-clip rounded-lg'>
           <Header />
           <ScrollArea className='relative h-full w-full'>
             <div className='h-full w-(--content-width) p-4 pt-16 transition-all *:h-full'>

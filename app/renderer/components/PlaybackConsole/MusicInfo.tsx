@@ -29,7 +29,7 @@ export default function MusicInfo() {
       <div className='flex h-full w-[30%] items-center'>
         <div
           onClick={toggleVisible}
-          className={`flex h-full w-full items-center select-none ${visible ? 'gap-0' : 'gap-2'} hover:bg-background-surface-highlight overflow-hidden rounded-lg p-2 transition-all`}
+          className={`flex h-full w-full items-center select-none ${visible ? 'gap-0' : 'gap-2'} hover:bg-surface-highlight overflow-hidden rounded-lg p-2 transition-all`}
         >
           <img
             src={track ? track.cover || placeholderImage : placeholderImage}

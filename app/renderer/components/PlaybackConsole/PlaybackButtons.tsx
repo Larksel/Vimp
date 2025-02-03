@@ -33,8 +33,8 @@ export default function PlaybackButtons() {
 
   const repeatIcons = {
     off: <Repeat size={20} />,
-    all: <Repeat size={20} className='text-essential-accent' />,
-    one: <RepeatOnce size={20} className='text-essential-accent' />,
+    all: <Repeat size={20} className='text-accent' />,
+    one: <RepeatOnce size={20} className='text-accent' />,
   };
 
   return (
@@ -46,7 +46,7 @@ export default function PlaybackButtons() {
       >
         <Shuffle
           size={20}
-          className={`${shuffle ? 'text-essential-accent' : ''}`}
+          className={`${shuffle ? 'text-accent' : ''}`}
         />
       </Button>
 

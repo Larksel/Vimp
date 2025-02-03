@@ -14,7 +14,7 @@ interface SideBarProps {
 export default function SideBar({ toggle, collapsed }: SideBarProps) {
   return (
     <div className='flex w-(--sidebar-width) flex-col items-center gap-2 overflow-clip rounded-lg transition-all select-none'>
-      <div className='bg-background-surface-base flex h-auto w-full shrink-0 flex-col items-center justify-center overflow-clip rounded-lg'>
+      <div className='bg-surface-base flex h-auto w-full shrink-0 flex-col items-center justify-center overflow-clip rounded-lg'>
         <Button
           onClick={toggle}
           variant={'surface'}
@@ -36,7 +36,7 @@ export default function SideBar({ toggle, collapsed }: SideBarProps) {
         <NavButtons collapsed={collapsed} />
       </div>
 
-      <div className='bg-background-surface-base h-full w-full overflow-hidden rounded-lg'>
+      <div className='bg-surface-base h-full w-full overflow-hidden rounded-lg'>
         <PlaylistList collapsed={collapsed} />
       </div>
     </div>

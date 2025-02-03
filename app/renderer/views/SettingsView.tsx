@@ -106,7 +106,7 @@ export default function SettingsView() {
         {changed && (
           <Button
             onClick={saveChanges}
-            className='bg-essential-success max-w-40 self-center transition-colors'
+            className='bg-success max-w-40 self-center transition-colors'
           >
             Save Changes
           </Button>

@@ -21,7 +21,7 @@ export default function TrackList(props: TrackListProps) {
         <span className='flex items-center justify-center'>Status</span>
         <span className='flex items-center justify-end'>Duração</span>
       </div>
-      <div className='bg-background-surface-click h-[1px] w-full' />
+      <div className='bg-surface-active h-[1px] w-full' />
       {queue.length > 0 ? (
         <Virtuoso
           components={{

@@ -10,7 +10,7 @@ export default function ExpandedView({ visible }: ExpandedViewProps) {
 
   return (
     <div
-      className={`${visible ? 'top-0 opacity-100' : 'invisible top-full opacity-0'} bg-background-base absolute right-0 bottom-[80px] left-0 transition-all`}
+      className={`${visible ? 'top-0 opacity-100' : 'invisible top-full opacity-0'} bg-background absolute right-0 bottom-[80px] left-0 transition-all`}
     >
       <img
         src={track?.cover ?? placeholder}

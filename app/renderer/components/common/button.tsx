@@ -10,12 +10,12 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          'bg-background-elevated-base hover:bg-background-elevated-highlight active:bg-background-elevated-click',
+          'bg-elevated-base hover:bg-elevated-highlight active:bg-elevated-active',
         surface:
-          'bg-transparent hover:bg-background-surface-highlight active:bg-background-surface-click rounded-none',
+          'bg-transparent hover:bg-surface-highlight active:bg-surface-active rounded-none',
         glass:
-          'bg-background-glass-base hover:bg-background-glass-highlight active:bg-background-glass-click text-text-secondary hover:text-text-primary',
-        destructive: 'bg-essential-danger',
+          'bg-glass-base hover:bg-glass-highlight active:bg-glass-active text-text-secondary hover:text-text-primary',
+        destructive: 'bg-danger',
         outline:
           'border border-text-secondary text-text-secondary hover:bg-text-primary hover:text-text-black',
         filled: 'bg-text-primary text-text-black',
