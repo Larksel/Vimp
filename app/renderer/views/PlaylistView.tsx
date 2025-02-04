@@ -61,22 +61,17 @@ export default function PlaylistView() {
   };
 
   return (
-    <div className='z-1 flex flex-col gap-4'>
-      <img
-        src={playlist.cover ?? placeholder}
-        alt=''
-        className='absolute inset-0 z-0 h-full w-full object-cover blur-md brightness-[0.3]'
-      />
+    <div className='z-1 flex flex-col'>
       <div
-        className={`bg-glass-base z-1 flex max-h-[50vh] min-h-24 gap-4 rounded-lg backdrop-blur-lg transition-all duration-300 ${scroll > 0 ? 'h-[20%]' : 'h-full'}`}
+        className={`z-1 flex max-h-[50vh] min-h-24 gap-4 px-4 pb-4 transition-all duration-300 ${scroll > 0 ? 'h-[20%]' : 'h-full'}`}
       >
         <img
           src={playlist.cover ?? placeholder}
           alt=''
-          className='z-1 aspect-square h-full rounded-lg object-cover shadow-md transition-all'
+          className='z-1 aspect-square h-full rounded-lg object-cover shadow-md transition-all select-none'
         />
         <div
-          className={`relative flex w-full flex-col justify-center overflow-hidden p-4 *:transition-all ${scroll === 0 && 'gap-2'}`}
+          className={`relative flex w-full flex-col justify-center overflow-hidden *:transition-all ${scroll === 0 && 'gap-2'}`}
         >
           <InfoText
             variant={'secondary'}
@@ -100,14 +95,14 @@ export default function PlaylistView() {
           {playlist.description && (
             <InfoText
               variant={'secondary'}
-              className={`w-full text-sm whitespace-normal ${scroll > 0 ? 'hidden' : 'line-clamp-2 sm:line-clamp-3 md:line-clamp-4 lg:line-clamp-6'}`}
+              className={`line-clamp-2 w-full text-sm whitespace-normal sm:line-clamp-3 md:line-clamp-4 ${scroll > 0 && 'hidden'}`}
             >
               {playlist.description}
             </InfoText>
           )}
 
           <div
-            className={`flex gap-2 ${scroll > 0 ? 'absolute right-4' : 'mt-auto'}`}
+            className={`flex gap-2 ${scroll > 0 ? 'absolute right-0' : 'mt-auto'}`}
           >
             <Button
               variant={'filled'}
@@ -123,20 +118,25 @@ export default function PlaylistView() {
             >
               <HeartStraight
                 size={24}
-                weight={`${playlist.favorite ? 'fill' : 'regular'}`}
-                className={`${playlist.favorite ? 'text-danger' : ''} transition-all`}
+                weight={playlist.favorite ? 'fill' : 'regular'}
+                className={`transition-all ${playlist.favorite && 'text-danger'}`}
               />
             </Button>
           </div>
         </div>
       </div>
-      <div className='bg-glass-base z-1 h-full rounded-lg backdrop-blur-lg'>
+      <div className='z-1 h-full'>
         <TrackList
           queue={tracks}
           onItemClick={handleItemClick}
           onScroll={handleScroll}
         />
       </div>
+      <img
+        src={playlist.cover ?? placeholder}
+        alt=''
+        className='absolute inset-0 z-0 h-full w-full object-cover blur-lg brightness-[0.2]'
+      />
     </div>
   );
 }
