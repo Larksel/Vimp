@@ -28,7 +28,7 @@ export default function MusicLibraryView() {
   };
 
   return (
-    <div className='flex flex-col items-center'>
+    <div className='flex flex-col items-center px-4 pb-4'>
       <SearchBox
         name='search-music'
         canChangeVisibility={false}

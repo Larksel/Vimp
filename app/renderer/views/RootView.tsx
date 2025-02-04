@@ -83,7 +83,7 @@ export default function RootView() {
         <div className='bg-surface-base relative overflow-clip rounded-lg'>
           <Header />
           <ScrollArea className='relative h-full w-full'>
-            <div className='h-full w-(--content-width) p-4 pt-16 transition-all *:h-full'>
+            <div className='h-full w-(--content-width) pt-16 transition-all *:h-full'>
               <Outlet />
             </div>
             <ScrollBar orientation='vertical' />

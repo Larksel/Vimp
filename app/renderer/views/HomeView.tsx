@@ -52,7 +52,7 @@ export default function HomeView() {
   };
 
   return (
-    <div className='space-y-10'>
+    <div className='space-y-10 p-4'>
       {recents.length > 0 && (
         <div>
           <h1>Músicas recentemente tocadas</h1>
@@ -78,11 +78,13 @@ export default function HomeView() {
         </div>
       )}
       {tracks.length === 0 && (
-        <div className='text-text-secondary flex h-80 flex-col items-center justify-center space-y-4'>
-          <h1>Sua biblioteca está vazia</h1>
-          <Button variant={'outline'} onClick={forceScan}>
-            Escanear arquivos
-          </Button>
+        <div className='flex h-full w-full items-center justify-center'>
+          <div className='text-text-secondary flex h-80 flex-col items-center justify-center space-y-4'>
+            <h1>Sua biblioteca está vazia</h1>
+            <Button variant={'outline'} onClick={forceScan}>
+              Escanear arquivos
+            </Button>
+          </div>
         </div>
       )}
     </div>
