@@ -30,7 +30,7 @@ export default function MusicLibraryView() {
   return (
     <div className='flex flex-col items-center px-4 pb-4'>
       <SearchBox
-        name='search-music'
+        name='music-search'
         canChangeVisibility={false}
         placeholder='Buscar música...'
         onSearch={handleSearch}

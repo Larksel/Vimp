@@ -51,14 +51,14 @@ export default function SearchBox(props: SearchBoxProps) {
   return (
     <div
       className={cn(
-        `relative flex h-full max-h-8 w-full items-center overflow-hidden rounded-sm`,
+        `relative flex h-full max-h-10 w-full items-center overflow-hidden rounded-full`,
         className,
       )}
     >
       <Button
         onClick={toggleVisibility}
         variant={'surface'}
-        className={`text-text-secondary absolute left-0 flex aspect-square h-full items-center justify-center p-0 transition-all ${canChangeVisibility ? 'hover:text-text-primary' : 'cursor-default hover:bg-transparent active:bg-transparent'} ${isVisible ? 'bg-transparent hover:bg-transparent active:bg-transparent' : 'rounded-full'}`}
+        className={`text-text-secondary absolute left-0 flex aspect-square h-full max-h-10 items-center justify-center p-0 transition-all ${canChangeVisibility ? 'hover:text-text-primary' : 'cursor-default hover:bg-transparent active:bg-transparent'} ${isVisible ? 'bg-transparent hover:bg-transparent active:bg-transparent' : 'rounded-full'}`}
       >
         <MagnifyingGlass className='size-full max-w-5' />
       </Button>

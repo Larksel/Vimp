@@ -23,7 +23,7 @@ export default function ListHeader(props: ListHeaderProps) {
         className={`flex h-full items-center ${collapsed ? 'w-0 overflow-clip' : 'w-full'}`}
       >
         <SearchBox
-          name='search-playlist'
+          name='playlist-search'
           canChangeVisibility={true}
           onSearch={searchHandler}
         />
