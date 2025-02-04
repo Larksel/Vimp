@@ -14,7 +14,7 @@ export default function TrackList(props: TrackListProps) {
 
   return (
     <div className='flex h-full flex-col items-center justify-start'>
-      <div className='text-text-primary grid h-9 w-full grid-cols-[16px_6fr_4fr_3fr_1fr] gap-4 px-4 text-sm'>
+      <div className='text-text-primary grid h-9 w-full grid-cols-[16px_6fr_4fr_3fr_1fr] gap-4 px-4 text-sm select-none'>
         <span className='flex items-center justify-center'>#</span>
         <span className='flex items-center'>Titulo</span>
         <span className='flex items-center'>Album</span>
