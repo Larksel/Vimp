@@ -9,8 +9,8 @@ export default function Header() {
   const location = useLocation();
 
   return (
-    <div className='absolute z-10 flex h-16 w-full items-center justify-between gap-2 p-4'>
-      <div className='flex flex-row gap-2'>
+    <div className='absolute z-10 flex h-16 w-full items-center justify-between gap-2 px-4'>
+      <div className='flex h-full flex-row items-center gap-2'>
         <Button
           variant='glass'
           onClick={() => navigate(-1)}
