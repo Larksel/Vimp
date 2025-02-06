@@ -1,0 +1,49 @@
+/* Default theme. Override only the necessary colors when creating a new theme. */
+:root {
+  /* Background Colors */
+  --background: #000000;
+  --surface-base: #121212;
+  --surface-highlight: #242424;
+  --surface-active: #363636;
+  --elevated-base: #181818;
+  --elevated-highlight: #262626;
+  --elevated-active: #343434;
+  --glass-base: hsla(0, 0%, 0%, 0.6);
+  --glass-highlight: hsla(0, 0%, 0%, 1);
+  --glass-active: hsla(0, 0%, 0%, 0.8);
+
+  /* Text Colors */
+  --text-primary: #ffffff;
+  --text-secondary: #878787;
+  --text-sub: #333333;
+  --text-black: #000000;
+
+  /* Essential Colors */
+  --base: #ffffff;
+  --accent: #00c850;
+  --danger: #bd0000;
+  --info: #5db6dc;
+  --success: #009f55;
+  --warning: #ffc107;
+
+  /* Logo Colors */
+  --decoration-base: #ff4057;
+  --decoration-background: #282634;
+}
+
+[data-theme='alternative'] {
+  /* Background Colors */
+  --background: #020008;
+  --surface-base: #161422;
+  --surface-highlight: #282634;
+  --surface-active: #403846;
+  --elevated-base: #282634;
+  --elevated-highlight: #363442;
+  --elevated-active: #444250;
+  --glass-base: hsla(255, 100%, 2%, 0.6);
+  --glass-highlight: hsla(255, 100%, 2%, 1);
+  --glass-active: hsla(255, 100%, 2%, 0.8);
+
+  /* Essential Colors */
+  --accent: #ff4057;
+}
