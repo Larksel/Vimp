@@ -33,6 +33,10 @@
   --color-success: #009f55;
   --color-warning: #ffc107;
 
+  /* Logo Colors */
+  --color-decoration-base: #ff4057;
+  --color-decoration-background: #282634;
+
   --breakpoint-*: initial;
   --breakpoint-xs: 1024px;
   --breakpoint-sm: 1280px;
