@@ -68,7 +68,7 @@ export default function SearchBox(props: SearchBoxProps) {
         id={name}
         value={searchTerm}
         placeholder={isVisible ? (placeholder ?? 'Pesquisar...') : ''}
-        className={`h-full pr-2 pl-8 transition-all ${!isVisible && 'invisible w-8 rounded-full px-0'}`}
+        className={`h-full pr-2 pl-8 transition-all ${!isVisible && 'invisible w-8 rounded-full'}`}
         onChange={({ target }) => handleSearchChange(target.value)}
         {...rest}
       />
