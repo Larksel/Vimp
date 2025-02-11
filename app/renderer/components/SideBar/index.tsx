@@ -36,9 +36,7 @@ export default function SideBar({ toggle, collapsed }: SideBarProps) {
         <NavButtons collapsed={collapsed} />
       </div>
 
-      <div className='bg-surface-base h-full w-full overflow-hidden rounded-lg'>
-        <PlaylistList collapsed={collapsed} />
-      </div>
+      <PlaylistList collapsed={collapsed} />
     </div>
   );
 }

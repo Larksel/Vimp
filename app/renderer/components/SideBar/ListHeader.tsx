@@ -36,7 +36,7 @@ export default function ListHeader(props: ListHeaderProps) {
       const newPlaylist: Playlist = {
         ...createGenericPlaylist(),
         title: playlistName,
-      }
+      };
 
       await window.VimpAPI.playlistsDB.create(newPlaylist);
       log.info('[SideBar] Creating playlist:', newPlaylist.title);
