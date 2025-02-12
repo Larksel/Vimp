@@ -7,6 +7,7 @@ import {
   ElementRef,
   forwardRef,
   HTMLAttributes,
+  ReactNode,
 } from 'react';
 
 const itemColors =
@@ -34,14 +35,14 @@ const ContextMenuSubTrigger = forwardRef<
     ref={ref}
     className={cn(
       itemColors,
-      'text-text-primary data-[state=open]:bg-elevated-highlight flex cursor-default items-center rounded-sm px-2 py-1.5 text-sm outline-none select-none',
+      'text-text-primary data-[state=open]:bg-elevated-highlight flex h-10 cursor-default items-center gap-2 pr-4 pl-11 text-sm outline-none select-none',
       inset && 'pl-8',
       className,
     )}
     {...props}
   >
     {children}
-    <CaretRight className='ml-auto h-4 w-4' />
+    <CaretRight className='ml-auto size-5' />
   </ContextMenuPrimitive.SubTrigger>
 ));
 ContextMenuSubTrigger.displayName = ContextMenuPrimitive.SubTrigger.displayName;
@@ -82,17 +83,23 @@ const ContextMenuItem = forwardRef<
   ElementRef<typeof ContextMenuPrimitive.Item>,
   ComponentPropsWithoutRef<typeof ContextMenuPrimitive.Item> & {
     inset?: boolean;
+    icon?: ReactNode;
   }
->(({ className, inset, ...props }, ref) => (
+>(({ className, inset, icon, children, ...props }, ref) => (
   <ContextMenuPrimitive.Item
     ref={ref}
     className={cn(
-      'hover:bg-elevated-highlight active:bg-elevated-active relative flex cursor-default items-center px-2 py-1.5 text-sm outline-none select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
+      'hover:bg-elevated-highlight active:bg-elevated-active relative flex h-10 cursor-default items-center pr-4 pl-11 text-sm outline-none select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
       inset && 'pl-8',
       className,
     )}
     {...props}
-  />
+  >
+    <span className='absolute left-4 flex size-5 items-center justify-center'>
+      {icon}
+    </span>
+    {children}
+  </ContextMenuPrimitive.Item>
 ));
 ContextMenuItem.displayName = ContextMenuPrimitive.Item.displayName;
 
@@ -104,15 +111,15 @@ const ContextMenuCheckboxItem = forwardRef<
     ref={ref}
     className={cn(
       itemColors,
-      'relative flex cursor-default items-center rounded-sm py-1.5 pr-2 pl-8 text-sm outline-none select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
+      'relative flex h-10 cursor-default items-center pr-4 pl-11 text-sm outline-none select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
       className,
     )}
     checked={checked}
     {...props}
   >
-    <span className='absolute left-2 flex h-3.5 w-3.5 items-center justify-center'>
+    <span className='absolute left-4 flex size-5 items-center justify-center'>
       <ContextMenuPrimitive.ItemIndicator>
-        <Check className='h-4 w-4' />
+        <Check className='size-5' />
       </ContextMenuPrimitive.ItemIndicator>
     </span>
     {children}
@@ -129,14 +136,14 @@ const ContextMenuRadioItem = forwardRef<
     ref={ref}
     className={cn(
       itemColors,
-      'relative flex cursor-default items-center rounded-sm py-1.5 pr-2 pl-8 text-sm outline-none select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
+      'relative flex h-10 cursor-default items-center pr-4 pl-11 text-sm outline-none select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
       className,
     )}
     {...props}
   >
-    <span className='absolute left-2 flex h-3.5 w-3.5 items-center justify-center'>
+    <span className='absolute left-4 flex size-5 items-center justify-center'>
       <ContextMenuPrimitive.ItemIndicator>
-        <Circle weight='fill' className='text-text-primary h-2 w-2' />
+        <Circle weight='fill' className='text-text-primary size-3' />
       </ContextMenuPrimitive.ItemIndicator>
     </span>
     {children}
@@ -153,7 +160,7 @@ const ContextMenuLabel = forwardRef<
   <ContextMenuPrimitive.Label
     ref={ref}
     className={cn(
-      'text-text-primary px-2 py-1.5 text-sm font-semibold',
+      'text-text-primary flex h-10 items-center px-4 text-sm font-semibold',
       inset && 'pl-8',
       className,
     )}
