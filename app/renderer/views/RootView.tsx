@@ -74,7 +74,7 @@ export default function RootView() {
     >
       <AppBar />
 
-      <div className='flex h-(--content-height) gap-2 overflow-clip p-2 transition-all'>
+      <div className='flex h-(--content-height) shrink-0 gap-2 overflow-clip p-2 transition-all'>
         <SideBar
           toggle={() => setCollapsed(!collapsed)}
           collapsed={collapsed}
