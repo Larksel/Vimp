@@ -47,7 +47,7 @@ export default function useMediaSession() {
         currentTrack.title,
       );
       navigator.mediaSession.setPositionState({
-        duration: player.getTrackDuration(),
+        duration: currentTrack.duration,
         playbackRate: player.getAudio().playbackRate,
         position: currentTime,
       });
@@ -58,6 +58,8 @@ export default function useMediaSession() {
    * Configure MediaSession action handlers.
    */
   const configureActionHandlers = useCallback(() => {
+    if (!currentTrack) return;
+
     navigator.mediaSession.setActionHandler('play', () => {
       log.debug('[useMediaSession] Play action triggered');
       playerAPI.play();
@@ -86,7 +88,7 @@ export default function useMediaSession() {
     navigator.mediaSession.setActionHandler('seekforward', () => {
       log.debug('[useMediaSession] SeekForward 10s action triggered');
       player.setCurrentTime(
-        Math.min(player.getCurrentTime() + 10, player.getTrackDuration()),
+        Math.min(player.getCurrentTime() + 10, currentTrack.duration ?? 0),
       );
     });
 

@@ -50,11 +50,7 @@ class Player {
       await this.audio.play();
       log.info(`[Player] Playing ${this.track.path}`);
 
-      if (
-        !this.hasPlayed &&
-        this.track._id &&
-        this.track._id !== ''
-      ) {
+      if (!this.hasPlayed && this.track._id && this.track._id !== '') {
         await window.VimpAPI.tracksDB.updateLastPlayed(this.track._id);
         await window.VimpAPI.tracksDB.incrementPlayCount(this.track._id);
         this.hasPlayed = true;
@@ -104,10 +100,6 @@ class Player {
 
   getTrack() {
     return this.track;
-  }
-
-  getTrackDuration() {
-    return this.audio.duration;
   }
 
   /**
