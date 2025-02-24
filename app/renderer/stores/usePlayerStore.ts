@@ -10,7 +10,6 @@ interface PlayerState {
   queue: TrackModel[];
   originalQueue: TrackModel[];
   queuePosition: number | null;
-  queueOrigin: string | null;
   shuffle: boolean;
   repeat: RepeatMode;
   playerStatus: PlayerStatus;
@@ -25,6 +24,7 @@ interface PlayerState {
     stop: () => void;
     previous: () => Promise<void>;
     next: () => Promise<void>;
+    addToQueue: (tracks: TrackModel | TrackModel[]) => void;
     jumpToTrack: (_id: string) => Promise<void>;
     setVolume: (volume: number) => void;
     setIsMuted: (muted?: boolean) => void;
@@ -43,7 +43,6 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => ({
   queue: [],
   originalQueue: [],
   queuePosition: null,
-  queueOrigin: null,
   shuffle: config.__initialConfig['audioShuffle'],
   repeat: config.__initialConfig['audioRepeatMode'],
   playerStatus: PlayerStatus.STOP,
@@ -110,6 +109,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => ({
 
       set({
         queue: [],
+        originalQueue: [],
         queuePosition: null,
         playerStatus: PlayerStatus.STOP,
       });
@@ -203,6 +203,29 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => ({
           api.stop();
         }
       }
+    },
+    addToQueue: (tracks) => {
+      const { queue, originalQueue } = get();
+      const tracksArray = Array.isArray(tracks) ? tracks : [tracks];
+
+      const newQueue = [...queue, ...tracksArray];
+      const newOriginalQueue = [...originalQueue, ...tracksArray];
+
+      if (queue.length === 0) {
+        const newQueuePosition = 0;
+        const track = newQueue[newQueuePosition];
+
+        player.setTrack(track);
+        set({
+          queuePosition: newQueuePosition,
+        });
+      }
+
+      set({
+        queue: newQueue,
+        originalQueue: newOriginalQueue,
+        playerStatus: PlayerStatus.PAUSE,
+      });
     },
     jumpToTrack: async (_id) => {
       const { queue } = get();
