@@ -208,9 +208,12 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => ({
     addToQueue: (tracks) => {
       const { queue, originalQueue } = get();
       const tracksArray = Array.isArray(tracks) ? tracks : [tracks];
+      const filteredArray = tracksArray.filter(
+        (track) => !queue.includes(track),
+      );
 
-      const newQueue = [...queue, ...tracksArray];
-      const newOriginalQueue = [...originalQueue, ...tracksArray];
+      const newQueue = [...queue, ...filteredArray];
+      const newOriginalQueue = [...originalQueue, ...filteredArray];
 
       if (queue.length === 0) {
         const newQueuePosition = 0;
@@ -231,6 +234,9 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => ({
     playNext: (tracks) => {
       const { queue, originalQueue, queuePosition } = get();
       const tracksArray = Array.isArray(tracks) ? tracks : [tracks];
+      const filteredArray = tracksArray.filter(
+        (track) => !queue.includes(track),
+      );
       let newQueue: TrackModel[] = [];
       let newOriginalQueue: TrackModel[] = [];
 
@@ -246,11 +252,11 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => ({
           (track) => track._id === currentTrack._id,
         );
 
-        newQueue.splice(index + 1, 0, ...tracksArray);
-        newOriginalQueue.splice(originalIndex + 1, 0, ...tracksArray);
+        newQueue.splice(index + 1, 0, ...filteredArray);
+        newOriginalQueue.splice(originalIndex + 1, 0, ...filteredArray);
       } else {
-        newQueue = [...tracksArray];
-        newOriginalQueue = [...tracksArray];
+        newQueue = [...filteredArray];
+        newOriginalQueue = [...filteredArray];
 
         const newQueuePosition = 0;
         const track = newQueue[newQueuePosition];
