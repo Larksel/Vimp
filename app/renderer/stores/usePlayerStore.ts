@@ -25,6 +25,7 @@ interface PlayerState {
     previous: () => Promise<void>;
     next: () => Promise<void>;
     addToQueue: (tracks: TrackModel | TrackModel[]) => void;
+    playNext: (tracks: TrackModel | TrackModel[]) => void;
     jumpToTrack: (_id: string) => Promise<void>;
     setVolume: (volume: number) => void;
     setIsMuted: (muted?: boolean) => void;
@@ -225,6 +226,45 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => ({
         queue: newQueue,
         originalQueue: newOriginalQueue,
         playerStatus: PlayerStatus.PAUSE,
+      });
+    },
+    playNext: (tracks) => {
+      const { queue, originalQueue, queuePosition } = get();
+      const tracksArray = Array.isArray(tracks) ? tracks : [tracks];
+      let newQueue: TrackModel[] = [];
+      let newOriginalQueue: TrackModel[] = [];
+
+      if (queue.length !== 0 && queuePosition !== null) {
+        newQueue = [...queue];
+        newOriginalQueue = [...originalQueue];
+
+        const currentTrack = queue[queuePosition];
+        const index = newQueue.findIndex(
+          (track) => track._id === currentTrack._id,
+        );
+        const originalIndex = newOriginalQueue.findIndex(
+          (track) => track._id === currentTrack._id,
+        );
+
+        newQueue.splice(index + 1, 0, ...tracksArray);
+        newOriginalQueue.splice(originalIndex + 1, 0, ...tracksArray);
+      } else {
+        newQueue = [...tracksArray];
+        newOriginalQueue = [...tracksArray];
+
+        const newQueuePosition = 0;
+        const track = newQueue[newQueuePosition];
+
+        player.setTrack(track);
+        set({
+          queuePosition: newQueuePosition,
+          playerStatus: PlayerStatus.PAUSE,
+        });
+      }
+
+      set({
+        queue: newQueue,
+        originalQueue: newOriginalQueue,
       });
     },
     jumpToTrack: async (_id) => {
