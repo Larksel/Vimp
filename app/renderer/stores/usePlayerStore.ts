@@ -26,6 +26,7 @@ interface PlayerState {
     next: () => Promise<void>;
     addToQueue: (tracks: TrackModel | TrackModel[]) => void;
     playNext: (tracks: TrackModel | TrackModel[]) => void;
+    removeFromQueue: (tracks: string | string[]) => Promise<void>;
     jumpToTrack: (_id: string) => Promise<void>;
     setVolume: (volume: number) => void;
     setIsMuted: (muted?: boolean) => void;
@@ -271,6 +272,48 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => ({
       set({
         queue: newQueue,
         originalQueue: newOriginalQueue,
+      });
+    },
+    removeFromQueue: async (tracks) => {
+      const { queue, originalQueue, queuePosition, playerStatus, api } = get();
+      const trackIDs = Array.isArray(tracks) ? tracks : [tracks];
+
+      if (queue.length === 0 || queuePosition == null) return;
+
+      let newPosition = queuePosition;
+      const removedTracks = queue
+        .map((track, index) => (trackIDs.includes(track._id) ? index : -1))
+        .filter((index) => index !== -1);
+
+      const newQueue = queue.filter((track) => {
+        return !trackIDs.includes(track._id);
+      });
+
+      if (newQueue.length === 0) {
+        api.stop();
+        return;
+      }
+
+      removedTracks.forEach((trackIndex) => {
+        if (trackIndex <= newPosition)
+          newPosition = Math.max(newPosition - 1, 0);
+      });
+
+      if (trackIDs.includes(queue[queuePosition]._id)) {
+        const track = newQueue[newPosition];
+        player.setTrack(track);
+
+        if (playerStatus === PlayerStatus.PLAY) {
+          await player.play();
+        }
+      }
+
+      set({
+        queue: newQueue,
+        originalQueue: originalQueue.filter((track) =>
+          newQueue.includes(track),
+        ),
+        queuePosition: newPosition,
       });
     },
     jumpToTrack: async (_id) => {
