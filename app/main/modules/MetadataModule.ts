@@ -112,7 +112,7 @@ export default class MetadataModule
         (common.artist && [common.artist]) ||
         (common.albumartist && [common.albumartist]) || ['Unknown artist'],
       genre: common.genre || ['Unknown'],
-      duration: format.duration,
+      duration: format.duration ?? 0,
       dateModified: dateModified,
     };
 

@@ -54,7 +54,7 @@ export default function PlaylistView() {
     let totalSeconds = 0;
 
     tracks.forEach(({ duration }) => {
-      totalSeconds += duration ?? 0;
+      totalSeconds += duration;
     });
 
     return formatDuration(totalSeconds);

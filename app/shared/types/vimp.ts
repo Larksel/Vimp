@@ -40,7 +40,7 @@ export interface Track extends CommonData {
   album?: string;
   artist: string | string[];
   genre: string | string[];
-  duration?: number;
+  duration: number;
   path: string;
   cover: string;
   albumartist?: string;

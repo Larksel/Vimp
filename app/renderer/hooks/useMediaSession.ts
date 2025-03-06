@@ -58,8 +58,6 @@ export default function useMediaSession() {
    * Configure MediaSession action handlers.
    */
   const configureActionHandlers = useCallback(() => {
-    if (!currentTrack) return;
-
     navigator.mediaSession.setActionHandler('play', () => {
       log.debug('[useMediaSession] Play action triggered');
       playerAPI.play();
@@ -88,7 +86,10 @@ export default function useMediaSession() {
     navigator.mediaSession.setActionHandler('seekforward', () => {
       log.debug('[useMediaSession] SeekForward 10s action triggered');
       player.setCurrentTime(
-        Math.min(player.getCurrentTime() + 10, currentTrack.duration ?? 0),
+        Math.min(
+          player.getCurrentTime() + 10,
+          currentTrack ? currentTrack.duration : 0,
+        ),
       );
     });
 
