@@ -15,7 +15,7 @@ class Downloader:
         # Carrega todos os atributos necessarios
         self.link = link
 
-        self.yt = YouTube(self.link, 'WEB', on_progress_callback=on_progress)
+        self.yt = YouTube(self.link, on_progress_callback=on_progress)
         if "&list=" in self.link:
             try:
                 self.pl = Playlist(self.link)
@@ -37,7 +37,6 @@ class Downloader:
         #   Video    |     Playlist
         #     V                X        Video Unico
         #     V                V          Playlist
-
 
     def get_thumbnail(self) -> None:
         opener = urllib.request.build_opener()
@@ -62,27 +61,32 @@ class Downloader:
         dirmanager.make_dir(dirmanager.videofolder)
 
         video = self.yt.streams.get_highest_resolution()
-        video.download(dirmanager.videofolder)
-
+        if video is not None:
+            video.download(dirmanager.videofolder)
 
     def get_music(self) -> None:
         print(f"Downloading: {self.title}")
         dirmanager.make_dir(dirmanager.tempfolder)
+
+        video = self.yt.streams.get_audio_only()
+
+        if video is None:
+            return
 
         mp4_file = dirmanager.tempfolder + f"{self.formatted_title}.mp4"
         mp3_file = dirmanager.musicfolder + f"{self.formatted_title}.mp3"
 
         self.get_thumbnail()
 
-        video = self.yt.streams.get_audio_only()
         video.download(dirmanager.tempfolder, f"{self.formatted_title}.mp4")
 
         # Convert to mp3
         dirmanager.make_dir(dirmanager.musicfolder)
-        
+
         Converter.video_to_audio(mp4_file, mp3_file)
         FileManager.set_audio_metadata(mp3_file, self.title, self.thumbnail_path)
 
+        # Clean temp files
         FileManager.remove_tempfile(mp4_file)
         FileManager.remove_tempfile(self.thumbnail_path)
 
