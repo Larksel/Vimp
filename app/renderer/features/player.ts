@@ -9,6 +9,9 @@ interface PlayerOptions {
 
 class Player {
   private readonly audio: HTMLAudioElement;
+  private readonly audioCtx: AudioContext;
+  private readonly audioSource: MediaElementAudioSourceNode;
+  private readonly analyser: AnalyserNode;
   private track: TrackModel | null;
   protected hasPlayed: boolean;
 
@@ -21,6 +24,17 @@ class Player {
     };
 
     this.audio = new Audio();
+    this.audioCtx = new AudioContext();
+    this.audioSource = this.audioCtx.createMediaElementSource(this.audio);
+    this.analyser = this.audioCtx.createAnalyser();
+
+    this.audioSource.connect(this.analyser);
+    this.analyser.connect(this.audioCtx.destination);
+    this.analyser.fftSize = 2048;
+    this.analyser.smoothingTimeConstant = 0.8;
+    this.analyser.maxDecibels = -10;
+    this.analyser.minDecibels = -100;
+
     this.track = null;
     this.hasPlayed = false;
 
@@ -47,6 +61,7 @@ class Player {
     }
 
     try {
+      await this.audioCtx.resume();
       await this.audio.play();
       log.info(`[Player] Playing ${this.track.path}`);
 
@@ -64,13 +79,15 @@ class Player {
   pause() {
     log.debug('[Player] Player paused');
     this.audio.pause();
+    this.audioCtx.suspend();
   }
 
   stop() {
-    log.debug('[Player] Player stoped');
+    log.debug('[Player] Player stopped');
     this.audio.pause();
     this.track = null;
     this.audio.src = '';
+    this.audioCtx.suspend();
   }
 
   mute() {
@@ -100,6 +117,14 @@ class Player {
 
   getTrack() {
     return this.track;
+  }
+
+  getBufferSize() {
+    return this.analyser.frequencyBinCount;
+  }
+
+  getAnalyserData(dataArray: Uint8Array) {
+    this.analyser.getByteFrequencyData(dataArray);
   }
 
   /**
