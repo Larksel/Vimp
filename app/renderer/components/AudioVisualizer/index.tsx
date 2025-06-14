@@ -4,6 +4,8 @@ import { useEffect, useRef } from 'react';
 export default function AudioVisualizer() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const audio = player.getAudio();
+  const style = getComputedStyle(document.documentElement);
+  const barColor = style.getPropertyValue('--color-accent').trim();
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -24,7 +26,7 @@ export default function AudioVisualizer() {
 
       for (let i = 0; i < bufferSize; i++) {
         const barHeight = dataArray[i] * 2;
-        ctx.fillStyle = 'white';
+        ctx.fillStyle = barColor;
         ctx.fillRect(x, canvas.height - barHeight, barWidth, barHeight);
         x += barWidth;
       }
@@ -33,7 +35,7 @@ export default function AudioVisualizer() {
     };
 
     animate();
-  }, [audio]);
+  }, [audio, barColor]);
 
   return (
     <div className='z-10 flex h-full w-full items-center justify-center bg-transparent'>
