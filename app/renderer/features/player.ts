@@ -30,7 +30,7 @@ class Player {
 
     this.audioSource.connect(this.analyser);
     this.analyser.connect(this.audioCtx.destination);
-    this.analyser.fftSize = 2048;
+    this.analyser.fftSize = 4096;
     this.analyser.smoothingTimeConstant = 0.8;
     this.analyser.maxDecibels = -10;
     this.analyser.minDecibels = -100;
