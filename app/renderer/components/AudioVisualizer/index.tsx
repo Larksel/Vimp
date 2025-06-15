@@ -3,23 +3,31 @@ import { betweenMinMax } from '@render-utils/utils';
 import { useEffect, useRef } from 'react';
 
 interface AudioVisualizerProps {
-  waveScale: number;
-  frequencyGroups: number;
-  bufferScale: number;
+  waveColor?: string | null;
+  waveScale?: number;
+  frequencyGroups?: number;
+  bufferScale?: number;
+  glowColor?: string | null;
+  glowSize?: number;
 }
 
 export default function AudioVisualizer({
   waveScale = 2.5,
   frequencyGroups = 128,
   bufferScale = 0.14,
+  waveColor,
+  glowColor,
+  glowSize = 30,
 }: AudioVisualizerProps) {
-  waveScale = betweenMinMax(waveScale, 0.5, 3);
-  frequencyGroups = betweenMinMax(frequencyGroups, 32, 128);
-  bufferScale = betweenMinMax(bufferScale, 0.07, 0.63);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const audio = player.getAudio();
   const style = getComputedStyle(document.documentElement);
-  const barColor = style.getPropertyValue('--color-accent').trim();
+  const accentColor = style.getPropertyValue('--color-accent').trim();
+  waveScale = betweenMinMax(waveScale, 0.5, 3);
+  frequencyGroups = betweenMinMax(frequencyGroups, 32, 128);
+  bufferScale = betweenMinMax(bufferScale, 0.07, 0.63);
+  waveColor = waveColor ?? (accentColor === '' ? '#FFF' : accentColor);
+  glowColor = glowColor ?? waveColor;
 
   function groupFrequencies(
     data: Uint8Array,
@@ -88,6 +96,8 @@ export default function AudioVisualizer({
     // Fechar caminho e preencher
     ctx.closePath();
     ctx.fillStyle = color;
+    ctx.shadowBlur = glowSize;
+    ctx.shadowColor = `${glowColor}`;
     ctx.fill();
   }
 
@@ -117,13 +127,14 @@ export default function AudioVisualizer({
       player.getAnalyserData(dataArray);
       const grouped = groupFrequencies(dataArray, frequencyGroups, waveScale);
 
-      drawWaveform(ctx, grouped, canvas.width, canvas.height, barColor);
+      drawWaveform(ctx, grouped, canvas.width, canvas.height, waveColor);
 
       requestAnimationFrame(animate);
     };
 
     animate();
-  }, [audio, barColor]);
+    // TODO Ativar useEffect a partir da mudança no PlayerStatus
+  }, [audio, waveColor]);
 
   return (
     <div className='z-10 flex h-full w-full items-center justify-center bg-transparent'>
