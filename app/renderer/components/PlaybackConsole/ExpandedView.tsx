@@ -11,11 +11,13 @@ export default function ExpandedView({ visible }: ExpandedViewProps) {
 
   return (
     <div
-      className={`${visible ? 'top-0 opacity-100' : 'invisible top-full opacity-0'} bg-background absolute right-0 bottom-[80px] left-0 flex items-center justify-center pl-72 p-4 transition-all`}
+      className={`${visible ? 'top-0 opacity-100' : 'invisible top-full opacity-0'} bg-background absolute right-0 bottom-[80px] left-0 flex items-center justify-center p-4 pl-72 transition-all`}
     >
-      <div className='h-64 z-10 w-full self-end'>
-        <AudioVisualizer />
-      </div>
+      {visible && (
+        <div className='z-10 h-64 w-full self-end'>
+          <AudioVisualizer />
+        </div>
+      )}
       <img
         src={track?.cover ?? placeholder}
         alt=''
