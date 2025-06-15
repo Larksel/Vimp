@@ -33,7 +33,7 @@ class Player {
     this.analyser.fftSize = 4096;
     this.analyser.smoothingTimeConstant = 0.65;
     this.analyser.maxDecibels = -10;
-    this.analyser.minDecibels = -100;
+    this.analyser.minDecibels = -75;
 
     this.track = null;
     this.hasPlayed = false;

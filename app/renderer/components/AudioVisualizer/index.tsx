@@ -7,6 +7,26 @@ export default function AudioVisualizer() {
   const style = getComputedStyle(document.documentElement);
   const barColor = style.getPropertyValue('--color-accent').trim();
 
+  function smoothData(data: Uint8Array, windowSize = 5): Uint8Array {
+    const smoothed = new Uint8Array(data.length);
+    for (let i = 0; i < data.length; i++) {
+      let sum = 0;
+      let count = 0;
+      for (
+        let j = -Math.floor(windowSize / 2);
+        j <= Math.floor(windowSize / 2);
+        j++
+      ) {
+        if (data[i + j] !== undefined) {
+          sum += data[i + j];
+          count++;
+        }
+      }
+      smoothed[i] = sum / count;
+    }
+    return smoothed;
+  }
+
   useEffect(() => {
     const canvas = canvasRef.current;
 
@@ -16,22 +36,23 @@ export default function AudioVisualizer() {
     if (!ctx) return;
 
     const bufferSize = player.getBufferSize() * 0.63;
-    const dataArray = new Uint8Array(bufferSize);
     const barWidth = canvas.width / bufferSize;
 
     const animate = () => {
       let x = 0;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      player.getAnalyserData(dataArray);
+      const rawData = new Uint8Array(bufferSize);
+      player.getAnalyserData(rawData);
+      const dataArray = smoothData(rawData, 5);
 
       for (let i = 0; i < bufferSize; i++) {
-        const barHeight = dataArray[i];
+        const barHeight = dataArray[i] * 2;
         ctx.fillStyle = barColor;
         ctx.fillRect(
           x,
-          canvas.height / 1.25 - barHeight,
-          barWidth+1,
-          barHeight * 2 + 0.5,
+          canvas.height / 2 - barHeight,
+          barWidth + 1,
+          barHeight * 2,
         );
         x += barWidth;
       }
