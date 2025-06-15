@@ -1,7 +1,21 @@
 import player from '@features/player';
+import { betweenMinMax } from '@render-utils/utils';
 import { useEffect, useRef } from 'react';
 
-export default function AudioVisualizer() {
+interface AudioVisualizerProps {
+  waveScale: number;
+  frequencyGroups: number;
+  bufferScale: number;
+}
+
+export default function AudioVisualizer({
+  waveScale = 2.5,
+  frequencyGroups = 128,
+  bufferScale = 0.14,
+}: AudioVisualizerProps) {
+  waveScale = betweenMinMax(waveScale, 0.5, 3);
+  frequencyGroups = betweenMinMax(frequencyGroups, 32, 128);
+  bufferScale = betweenMinMax(bufferScale, 0.07, 0.63);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const audio = player.getAudio();
   const style = getComputedStyle(document.documentElement);
@@ -91,7 +105,7 @@ export default function AudioVisualizer() {
      * * Mínimo: 0.7, abrange partes mais graves
      * * Esse valor é inversamente proporcional ao fator de escalamento das ondas para que haja equilíbrio
      */
-    const bufferSize = player.getBufferSize() * 0.14;
+    const bufferSize = player.getBufferSize() * bufferScale;
     const dataArray = new Uint8Array(bufferSize);
 
     // TODO Tornar valores personalizaveis
@@ -101,7 +115,7 @@ export default function AudioVisualizer() {
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       player.getAnalyserData(dataArray);
-      const grouped = groupFrequencies(dataArray, 128, 2.5);
+      const grouped = groupFrequencies(dataArray, frequencyGroups, waveScale);
 
       drawWaveform(ctx, grouped, canvas.width, canvas.height, barColor);
 
