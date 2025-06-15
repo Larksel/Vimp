@@ -7,24 +7,74 @@ export default function AudioVisualizer() {
   const style = getComputedStyle(document.documentElement);
   const barColor = style.getPropertyValue('--color-accent').trim();
 
-  function smoothData(data: Uint8Array, windowSize = 5): Uint8Array {
-    const smoothed = new Uint8Array(data.length);
-    for (let i = 0; i < data.length; i++) {
-      let sum = 0;
-      let count = 0;
-      for (
-        let j = -Math.floor(windowSize / 2);
-        j <= Math.floor(windowSize / 2);
-        j++
-      ) {
-        if (data[i + j] !== undefined) {
-          sum += data[i + j];
-          count++;
-        }
-      }
-      smoothed[i] = sum / count;
+  function groupFrequencies(
+    data: Uint8Array,
+    groupCount: number,
+    scaleFactor = 1,
+  ): number[] {
+    const groupSize = Math.floor(data.length / groupCount);
+    const grouped: number[] = [];
+
+    for (let i = 0; i < groupCount; i++) {
+      const start = i * groupSize;
+      const end = start + groupSize;
+      const slice = data.slice(start, end);
+
+      const avg =
+        slice.reduce((sum, val) => sum + val, 0) / (slice.length || 1);
+      grouped.push(avg * scaleFactor);
     }
-    return smoothed;
+
+    return grouped;
+  }
+
+  function drawWaveform(
+    ctx: CanvasRenderingContext2D,
+    data: number[],
+    width: number,
+    height: number,
+    color: string,
+  ) {
+    const step = width / (data.length - 1);
+    const centerY = height / 2;
+
+    ctx.beginPath();
+
+    // Começa no primeiro ponto da curva superior
+    ctx.moveTo(0, centerY - data[0]);
+
+    // Curva superior (esquerda → direita)
+    for (let i = 0; i < data.length - 1; i++) {
+      const x1 = i * step;
+      const x2 = (i + 1) * step;
+      const y1 = centerY - data[i];
+      const y2 = centerY - data[i + 1];
+      const xc = (x1 + x2) / 2;
+      const yc = (y1 + y2) / 2;
+      ctx.quadraticCurveTo(x1, y1, xc, yc);
+    }
+
+    // Último ponto superior
+    ctx.lineTo(width, centerY - data[data.length - 1]);
+
+    // Curva inferior (direita ← esquerda)
+    for (let i = data.length - 1; i > 0; i--) {
+      const x1 = i * step;
+      const x2 = (i - 1) * step;
+      const y1 = centerY + data[i];
+      const y2 = centerY + data[i - 1];
+      const xc = (x1 + x2) / 2;
+      const yc = (y1 + y2) / 2;
+      ctx.quadraticCurveTo(x1, y1, xc, yc);
+    }
+
+    // Último ponto inferior
+    ctx.lineTo(0, centerY + data[0]);
+
+    // Fechar caminho e preencher
+    ctx.closePath();
+    ctx.fillStyle = color;
+    ctx.fill();
   }
 
   useEffect(() => {
@@ -35,27 +85,25 @@ export default function AudioVisualizer() {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    const bufferSize = player.getBufferSize() * 0.63;
-    const barWidth = canvas.width / bufferSize;
+    /**
+     * Controla o quanto do espectro da música é representado
+     * * Máximo: 0.63, valores acima disso pegam frequências silenciosas
+     * * Mínimo: 0.7, abrange partes mais graves
+     * * Esse valor é inversamente proporcional ao fator de escalamento das ondas para que haja equilíbrio
+     */
+    const bufferSize = player.getBufferSize() * 0.14;
+    const dataArray = new Uint8Array(bufferSize);
 
+    // TODO Tornar valores personalizaveis
+    // TODO - Escala das ondas (1 - 3), incremento: 0.5, padrão: 2
+    // TODO - Grupos de frequência (32 - 128), incremento: 32, padrão: 128
+    // TODO - Tamanho do buffer (0.07 - 0.63), incremento: 0.07, padrão: 0.14
     const animate = () => {
-      let x = 0;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      const rawData = new Uint8Array(bufferSize);
-      player.getAnalyserData(rawData);
-      const dataArray = smoothData(rawData, 5);
+      player.getAnalyserData(dataArray);
+      const grouped = groupFrequencies(dataArray, 128, 2.5);
 
-      for (let i = 0; i < bufferSize; i++) {
-        const barHeight = dataArray[i] * 2;
-        ctx.fillStyle = barColor;
-        ctx.fillRect(
-          x,
-          canvas.height / 2 - barHeight,
-          barWidth + 1,
-          barHeight * 2,
-        );
-        x += barWidth;
-      }
+      drawWaveform(ctx, grouped, canvas.width, canvas.height, barColor);
 
       requestAnimationFrame(animate);
     };
