@@ -5,6 +5,7 @@ import {
   MagnifyingGlass,
   MusicNote,
   MonitorPlay,
+  DownloadSimple,
 } from '@phosphor-icons/react';
 import { Button } from '@components/common/button';
 
@@ -30,6 +31,11 @@ const navButtons = [
     text: 'Video Library',
     icon: <MonitorPlay size={28} className='shrink-0' />,
     page: routes.VIDEO_LIBRARY,
+  },
+  {
+    text: 'Downloader',
+    icon: <DownloadSimple size={28} className='shrink-0' />,
+    page: routes.DOWNLOADER,
   },
 ];
 

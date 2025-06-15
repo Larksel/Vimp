@@ -6,6 +6,7 @@ const routes = {
   VIDEO_LIBRARY: 'video_library',
   SETTINGS: 'settings',
   PLAYLIST: 'playlist/:id',
+  DOWNLOADER: 'downloader',
 };
 
 export default routes;
