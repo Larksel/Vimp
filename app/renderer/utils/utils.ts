@@ -8,7 +8,7 @@ export function cn(...inputs: ClassValue[]) {
 /**
  * Format seconds to a readable string
  */
-export const formatDuration = (value: number | undefined) => {
+export const formatDuration = (value?: number) => {
   if (value && value !== 0) {
     const hours = Math.trunc(value / 3600);
     const minutes = Math.trunc((value % 3600) / 60);
@@ -22,4 +22,26 @@ export const formatDuration = (value: number | undefined) => {
   }
 
   return '00:00';
+};
+
+/**
+ * Clamps a number within the optional minimum and maximum bounds.
+ *
+ * Returns:
+ * - the minimum (`min`) if `value` is less than `min`;
+ * - the maximum (`max`) if `value` is greater than `max`;
+ * - the original `value` if it lies within the range or if no bounds are provided.
+ */
+export const betweenMinMax = (
+  value: number,
+  min?: number,
+  max?: number,
+): number => {
+  if (min !== undefined && value < min) {
+    return min;
+  } else if (max !== undefined && value > max) {
+    return max;
+  }
+
+  return value;
 };
