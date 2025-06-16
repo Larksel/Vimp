@@ -16,7 +16,7 @@ type OptionProps = {
 export function Section(props: SectionProps) {
   return (
     <section className={props.className}>
-      <h3 className='text-lg font-bold'>{props.name}</h3>
+      <h3 className='text-lg font-semibold'>{props.name}</h3>
       {props.children}
     </section>
   );

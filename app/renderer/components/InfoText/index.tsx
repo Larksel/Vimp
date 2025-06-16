@@ -4,7 +4,7 @@ import { cn } from '@render-utils/utils';
 const textVariants = cva('w-fit whitespace-nowrap font-normal', {
   variants: {
     variant: {
-      primary: 'text-base text-text-primary',
+      primary: 'text-text-primary',
       secondary: 'text-sm tracking-normal text-text-secondary',
     },
   },
