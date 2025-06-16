@@ -11,6 +11,7 @@ import { FormEvent, useState } from 'react';
 import log from 'electron-log/renderer';
 import { Playlist } from '@shared/types/vimp';
 import { createGenericPlaylist } from '@shared/utils/utils';
+import { PlaylistPersistenceService } from '@features/data';
 
 interface ListHeaderProps {
   collapsed: boolean;
@@ -38,7 +39,7 @@ export default function ListHeader(props: ListHeaderProps) {
         title: playlistName,
       };
 
-      await window.VimpAPI.playlistsDB.create(newPlaylist);
+      await PlaylistPersistenceService.create(newPlaylist);
       log.info('[SideBar] Creating playlist:', newPlaylist.title);
     }
 

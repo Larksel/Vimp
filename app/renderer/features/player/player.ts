@@ -1,5 +1,6 @@
 import log from 'electron-log/renderer';
 import { TrackModel } from '@shared/types/vimp';
+import { TrackPersistenceService } from '@features/data';
 
 interface PlayerOptions {
   playbackRate?: number;
@@ -66,8 +67,8 @@ class Player {
       log.info(`[Player] Playing ${this.track.path}`);
 
       if (!this.hasPlayed && this.track._id && this.track._id !== '') {
-        await window.VimpAPI.tracksDB.updateLastPlayed(this.track._id);
-        await window.VimpAPI.tracksDB.incrementPlayCount(this.track._id);
+        await TrackPersistenceService.updateLastPlayed(this.track._id);
+        await TrackPersistenceService.incrementPlayCount(this.track._id);
         this.hasPlayed = true;
       }
     } catch (err) {

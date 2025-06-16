@@ -5,6 +5,7 @@ import { storeUtils } from '@render-utils/storeUtils';
 import { PlayerConfigService } from '@features/player/playerConfig';
 import { PlayerService } from '@features/player';
 import { QueueUtils } from '@renderer/utils/queueUtils';
+import { TrackPersistenceService } from '@features/data';
 
 interface PlayerState {
   queue: TrackModel[];
@@ -363,7 +364,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
 
         if (queuePosition > -1) {
           const track = queue[queuePosition];
-          await window.VimpAPI.tracksDB.updateFavorite(track._id);
+          await TrackPersistenceService.updateFavorite(track._id);
 
           log.debug(`[PlayerStore] Favorited track: ${track.title}`);
 

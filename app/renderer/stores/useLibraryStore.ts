@@ -3,6 +3,7 @@ import log from 'electron-log/renderer';
 
 import { PlaylistModel, TrackModel } from '@shared/types/vimp';
 import { storeUtils } from '@render-utils/storeUtils';
+import { PlaylistPersistenceService } from '@features/data';
 
 interface LibraryState {
   loading: {
@@ -47,56 +48,48 @@ const useLibraryStore = createLibraryStore<LibraryState>((set, get) => {
       setTracks: (tracks) => {
         if (!tracks) return;
 
-        const { loading, contents } = get();
-
         log.info('[LibraryStore] Updated tracks');
-        set({
+        set((state) => ({
           loading: {
-            ...loading,
+            ...state.loading,
             tracks: false,
           },
           contents: {
-            ...contents,
+            ...state.contents,
             tracks: tracks,
           },
-        });
+        }));
       },
       setPlaylists: (playlists) => {
         if (!playlists) return;
 
-        const { loading, contents } = get();
-
         log.info('[LibraryStore] Updated playlists');
-        set({
+        set((state) => ({
           loading: {
-            ...loading,
+            ...state.loading,
             playlists: false,
           },
           contents: {
-            ...contents,
+            ...state.contents,
             playlists: playlists,
           },
-        });
+        }));
       },
       getPlaylistFromID: (playlistID) => {
         if (!playlistID || playlistID === '') return null;
 
         const { playlists } = get().contents;
-
-        const playlist = playlists.find(
-          (playlist) => playlist._id === playlistID,
+        return (
+          playlists.find((playlist) => playlist._id === playlistID) ?? null
         );
-
-        if (!playlist) return null;
-        return playlist;
       },
       getTracksFromIDs: (trackIDs) => {
         if (!trackIDs || trackIDs.length === 0) return [];
         const { tracks } = get().contents;
 
-        return trackIDs
-          .map((id) => tracks.find((track) => track._id === id))
-          .filter((track) => !!track);
+        // Use a Set for faster lookups if trackIDs array is large
+        const trackIDSet = new Set(trackIDs);
+        return [...tracks.filter((track) => trackIDSet.has(track._id))];
       },
     },
     playlistApi: {
@@ -104,53 +97,109 @@ const useLibraryStore = createLibraryStore<LibraryState>((set, get) => {
         const { getPlaylistFromID } = get().api;
         const playlist = getPlaylistFromID(playlistID);
 
-        const tracksArray = Array.isArray(tracks) ? tracks : [tracks];
-        const addedTracksIDs = tracksArray.map((track) => track._id);
+        if (!playlist) return;
 
-        if (playlist) {
-          const updatedPlaylist = {
-            ...playlist,
-            tracks: [...playlist.tracks, ...addedTracksIDs],
-          };
+        const tracksArray = Array.isArray(tracks) ? tracks : [tracks];
+        const addedTrackIDs = tracksArray.map((track) => track._id);
+
+        // Filter out tracks that are already in the playlist to avoid duplicates
+        const newTracksToAdd = addedTrackIDs.filter(
+          (trackID) => !playlist.tracks.includes(trackID),
+        );
+
+        if (newTracksToAdd.length === 0) {
           log.debug(
-            `[LibraryStore] Added ${addedTracksIDs.length} tracks to playlist: ${playlist.title}`,
+            `[LibraryStore] No new tracks to add to playlist: ${playlist.title}`,
           );
-          await window.VimpAPI.playlistsDB.update(updatedPlaylist);
+          return;
         }
+
+        const updatedPlaylist = {
+          ...playlist,
+          tracks: [...playlist.tracks, ...newTracksToAdd],
+        };
+
+        log.debug(
+          `[LibraryStore] Added ${newTracksToAdd.length} tracks to playlist: ${playlist.title}`,
+        );
+        await PlaylistPersistenceService.update(updatedPlaylist);
+
+        set((state) => ({
+          contents: {
+            ...state.contents,
+            playlists: state.contents.playlists.map((p) =>
+              p._id === playlistID ? updatedPlaylist : p,
+            ),
+          },
+        }));
       },
       removeTracks: async (playlistID, tracks) => {
         const { getPlaylistFromID } = get().api;
         const playlist = getPlaylistFromID(playlistID);
 
+        if (!playlist) return;
+
         const tracksArray = Array.isArray(tracks) ? tracks : [tracks];
-        const removedTracksIDs = tracksArray.map((track) => track._id);
+        const removedTrackIDs = new Set(tracksArray.map((track) => track._id));
 
-        if (playlist) {
-          const updatedTracks = playlist.tracks.filter((trackID) =>
-            removedTracksIDs.some((removedID) => trackID !== removedID),
-          );
+        const updatedTracks = playlist.tracks.filter(
+          (trackID) => !removedTrackIDs.has(trackID),
+        );
 
-          const updatedPlaylist = {
-            ...playlist,
-            tracks: updatedTracks,
-          };
-
+        // Check if any tracks were actually removed to avoid unnecessary updates
+        if (updatedTracks.length === playlist.tracks.length) {
           log.debug(
-            `[LibraryStore] Removed ${removedTracksIDs.length} tracks from playlist: ${playlist.title}`,
+            `[LibraryStore] No tracks to remove from playlist: ${playlist.title}`,
           );
-          await window.VimpAPI.playlistsDB.update(updatedPlaylist);
+          return;
         }
+
+        const updatedPlaylist = {
+          ...playlist,
+          tracks: updatedTracks,
+        };
+
+        log.debug(
+          `[LibraryStore] Removed ${playlist.tracks.length - updatedTracks.length} tracks from playlist: ${playlist.title}`,
+        );
+        await PlaylistPersistenceService.update(updatedPlaylist);
+
+        set((state) => ({
+          contents: {
+            ...state.contents,
+            playlists: state.contents.playlists.map((p) =>
+              p._id === playlistID ? updatedPlaylist : p,
+            ),
+          },
+        }));
+
       },
       toggleFavorite: async (playlistID) => {
         const { getPlaylistFromID } = get().api;
         const playlist = getPlaylistFromID(playlistID);
 
         if (playlist) {
-          log.debug(`[LibraryStore] Favorited playlist: ${playlist.title}`);
-          await window.VimpAPI.playlistsDB.updateFavorite(playlist._id);
+          log.debug(
+            `[LibraryStore] Toggling favorite for playlist: ${playlist.title}`,
+          );
+          await PlaylistPersistenceService.updateFavorite(playlist._id);
+
+          set((state) => ({
+            contents: {
+              ...state.contents,
+              playlists: state.contents.playlists.map((p) =>
+                p._id === playlistID ? { ...p, favorite: !p.favorite } : p,
+              ),
+            },
+          }));
         }
       },
       renamePlaylist: async (playlistID, newTitle) => {
+        if (!newTitle || newTitle.trim() === '') {
+          log.warn('[LibraryStore] Playlist title cannot be empty.');
+          return;
+        }
+
         const { getPlaylistFromID } = get().api;
         const playlist = getPlaylistFromID(playlistID);
 
@@ -163,7 +212,16 @@ const useLibraryStore = createLibraryStore<LibraryState>((set, get) => {
           log.debug(
             `[LibraryStore] Renamed playlist: ${playlist.title} to ${newTitle}`,
           );
-          await window.VimpAPI.playlistsDB.update(updatedPlaylist);
+          await PlaylistPersistenceService.update(updatedPlaylist);
+
+          set((state) => ({
+            contents: {
+              ...state.contents,
+              playlists: state.contents.playlists.map((p) =>
+                p._id === playlistID ? updatedPlaylist : p,
+              ),
+            },
+          }));
         }
       },
     },

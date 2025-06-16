@@ -8,6 +8,7 @@ import { useLoaderData } from 'react-router-dom';
 import { Config } from '@shared/types/vimp';
 
 import * as Settings from '@components/Settings';
+import { TrackPersistenceService } from '@features/data';
 
 export default function SettingsView() {
   const { config } = useLoaderData() as SettingsLoaderData;
@@ -36,7 +37,7 @@ export default function SettingsView() {
   };
 
   const clearTracksDB = async () => {
-    await window.VimpAPI.tracksDB.clear();
+    await TrackPersistenceService.clear();
     log.info('[SettingsView] TracksDB limpo');
   };
 

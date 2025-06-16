@@ -13,6 +13,10 @@ import useCurrentTrack from '@hooks/useCurrentTrack';
 import { sortUtils } from '@render-utils/sortUtils';
 import { useLibraryAPI } from '@stores/useLibraryStore';
 import { usePlayerAPI } from '@stores/usePlayerStore';
+import {
+  PlaylistPersistenceService,
+  TrackPersistenceService,
+} from '@features/data';
 
 export default function RootView() {
   const [collapsed, setCollapsed] = useState(false);
@@ -22,7 +26,7 @@ export default function RootView() {
 
   const loadTracks = async () => {
     log.debug('[RootView] Loading tracks');
-    const dbTracks = await window.VimpAPI.tracksDB.getAll();
+    const dbTracks = await TrackPersistenceService.getAll();
 
     const tracks = sortUtils.sortByString(dbTracks, 'title');
     libraryAPI.setTracks(tracks);
@@ -31,7 +35,7 @@ export default function RootView() {
 
   const loadPlaylists = async () => {
     log.debug('[RootView] Loading playlists');
-    const dbPlaylists = await window.VimpAPI.playlistsDB.getAll();
+    const dbPlaylists = await PlaylistPersistenceService.getAll();
     const playlists = sortUtils.sortByString(dbPlaylists, 'title');
 
     libraryAPI.setPlaylists(playlists);
