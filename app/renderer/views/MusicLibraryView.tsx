@@ -1,11 +1,10 @@
 import { useState, useMemo } from 'react';
-import log from 'electron-log/renderer';
 import { VirtuosoGrid } from 'react-virtuoso';
 
 import MediaCard from '@components/MediaCard';
-import { Button } from '@components/common/button';
 import useLibraryStore from '@stores/useLibraryStore';
 import SearchBox from '@components/SearchBox';
+import EmptyLibrary from '@components/EmptyLibrary';
 
 export default function MusicLibraryView() {
   const [search, setSearch] = useState('');
@@ -20,12 +19,6 @@ export default function MusicLibraryView() {
       track.title.toLowerCase().includes(search.toLowerCase()),
     );
   }, [tracks, search]);
-
-  const forceScan = async () => {
-    log.debug('[MusicLibraryView] Triggered library scan and save');
-    const importedFiles = await window.VimpAPI.library.scanAndSave();
-    console.log(importedFiles);
-  };
 
   return (
     <div className='flex flex-col items-center px-4 pb-4'>
@@ -49,16 +42,7 @@ export default function MusicLibraryView() {
           />
         </div>
       )}
-      {tracks.length === 0 && (
-        <div className='flex h-full w-full items-center justify-center'>
-          <div className='text-text-secondary flex h-80 flex-col items-center justify-center space-y-4'>
-            <h1>Sua biblioteca está vazia</h1>
-            <Button variant={'outline'} onClick={forceScan}>
-              Escanear arquivos
-            </Button>
-          </div>
-        </div>
-      )}
+      {tracks.length === 0 && <EmptyLibrary viewName='MusicLibrary' />}
     </div>
   );
 }
