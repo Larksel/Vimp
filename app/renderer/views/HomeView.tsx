@@ -1,7 +1,5 @@
-import log from 'electron-log/renderer';
-
 import CardList from '@components/CardList';
-import { Button } from '@components/common/button';
+import EmptyLibrary from '@components/EmptyLibrary';
 import useLibraryStore from '@stores/useLibraryStore';
 
 export default function HomeView() {
@@ -45,48 +43,41 @@ export default function HomeView() {
       return 0;
     });
 
-  const forceScan = async () => {
-    log.debug('[HomeView] Triggered library scan and save');
-    const importedFiles = await window.VimpAPI.library.scanAndSave();
-    console.log(importedFiles);
-  };
-
   return (
-    <div className='space-y-10 p-4'>
+    <div className='flex flex-col gap-4 p-4'>
       {recents.length > 0 && (
         <div>
-          <h1>Músicas recentemente tocadas</h1>
+          <h3 className='text-text-primary mb-2 text-lg font-semibold capitalize'>
+            Recentemente Tocadas
+          </h3>
           <CardList max={5} data={recents} />
         </div>
       )}
       {favorites.length > 0 && (
         <div>
-          <h1>Favoritas</h1>
+          <h3 className='text-text-primary mb-2 text-lg font-semibold capitalize'>
+            Favoritas
+          </h3>
           <CardList max={5} data={favorites} />
         </div>
       )}
       {mostPlayed.length > 0 && (
         <div>
-          <h1>Mais tocadas</h1>
+          <h3 className='text-text-primary mb-2 text-lg font-semibold capitalize'>
+            Mais Tocadas
+          </h3>
           <CardList max={5} data={mostPlayed} />
         </div>
       )}
       {recentlyAdded.length > 0 && (
         <div>
-          <h1>Recentemente Adicionadas</h1>
+          <h3 className='text-text-primary mb-2 text-lg font-semibold capitalize'>
+            Recentemente Adicionadas
+          </h3>
           <CardList max={10} data={recentlyAdded} />
         </div>
       )}
-      {tracks.length === 0 && (
-        <div className='flex h-full w-full items-center justify-center'>
-          <div className='text-text-secondary flex h-80 flex-col items-center justify-center space-y-4'>
-            <h1>Sua biblioteca está vazia</h1>
-            <Button variant={'outline'} onClick={forceScan}>
-              Escanear arquivos
-            </Button>
-          </div>
-        </div>
-      )}
+      {tracks.length === 0 && <EmptyLibrary viewName='HomeView' />}
     </div>
   );
 }
