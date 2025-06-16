@@ -4,7 +4,7 @@ import log from 'electron-log/renderer';
 import { TrackModel } from '@shared/types/vimp';
 import { storeUtils } from '@render-utils/storeUtils';
 import { PlaylistPersistenceService } from '@features/data';
-import { useLibraryAPI } from './useLibraryStore';
+import useLibraryStore from './useLibraryStore';
 
 interface PlaylistState {
   api: {
@@ -22,7 +22,7 @@ interface PlaylistState {
 }
 
 const usePlaylistStore = createPlaylistStore<PlaylistState>(() => {
-  const libraryAPI = useLibraryAPI();
+  const libraryAPI = useLibraryStore.getState().api;
 
   return {
     api: {
@@ -41,7 +41,7 @@ const usePlaylistStore = createPlaylistStore<PlaylistState>(() => {
 
         if (newTracksToAdd.length === 0) {
           log.debug(
-            `[LibraryStore] No new tracks to add to playlist: ${playlist.title}`,
+            `[PlaylistStore] No new tracks to add to playlist: ${playlist.title}`,
           );
           return;
         }
@@ -52,7 +52,7 @@ const usePlaylistStore = createPlaylistStore<PlaylistState>(() => {
         };
 
         log.debug(
-          `[LibraryStore] Added ${newTracksToAdd.length} tracks to playlist: ${playlist.title}`,
+          `[PlaylistStore] Added ${newTracksToAdd.length} tracks to playlist: ${playlist.title}`,
         );
         await PlaylistPersistenceService.update(updatedPlaylist);
       },
@@ -71,7 +71,7 @@ const usePlaylistStore = createPlaylistStore<PlaylistState>(() => {
         // Check if any tracks were actually removed to avoid unnecessary updates
         if (updatedTracks.length === playlist.tracks.length) {
           log.debug(
-            `[LibraryStore] No tracks to remove from playlist: ${playlist.title}`,
+            `[PlaylistStore] No tracks to remove from playlist: ${playlist.title}`,
           );
           return;
         }
@@ -82,7 +82,7 @@ const usePlaylistStore = createPlaylistStore<PlaylistState>(() => {
         };
 
         log.debug(
-          `[LibraryStore] Removed ${playlist.tracks.length - updatedTracks.length} tracks from playlist: ${playlist.title}`,
+          `[PlaylistStore] Removed ${playlist.tracks.length - updatedTracks.length} tracks from playlist: ${playlist.title}`,
         );
         await PlaylistPersistenceService.update(updatedPlaylist);
       },
@@ -91,14 +91,14 @@ const usePlaylistStore = createPlaylistStore<PlaylistState>(() => {
 
         if (playlist) {
           log.debug(
-            `[LibraryStore] Toggling favorite for playlist: ${playlist.title}`,
+            `[PlaylistStore] Toggling favorite for playlist: ${playlist.title}`,
           );
           await PlaylistPersistenceService.updateFavorite(playlist._id);
         }
       },
       renamePlaylist: async (playlistID, newTitle) => {
         if (!newTitle || newTitle.trim() === '') {
-          log.warn('[LibraryStore] Playlist title cannot be empty.');
+          log.warn('[PlaylistStore] Playlist title cannot be empty.');
           return;
         }
 
@@ -111,7 +111,7 @@ const usePlaylistStore = createPlaylistStore<PlaylistState>(() => {
           };
 
           log.debug(
-            `[LibraryStore] Renamed playlist: ${playlist.title} to ${newTitle}`,
+            `[PlaylistStore] Renamed playlist: ${playlist.title} to ${newTitle}`,
           );
           await PlaylistPersistenceService.update(updatedPlaylist);
         }
