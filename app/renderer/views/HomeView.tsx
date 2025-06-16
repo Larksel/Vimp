@@ -1,47 +1,21 @@
 import CardList from '@components/CardList';
 import EmptyLibrary from '@components/EmptyLibrary';
+import { sortByDate, sortByNumber } from '@render-utils/utils-sort';
+import { TrackModel } from '@shared/types/vimp';
 import useLibraryStore from '@stores/useLibraryStore';
 
 export default function HomeView() {
   const tracks = useLibraryStore((state) => state.contents.tracks);
 
-  const recents = tracks
-    .filter((track) => track.lastPlayed !== undefined)
-    .toSorted((a, b) => {
-      if (a.lastPlayed && b.lastPlayed) {
-        return (
-          new Date(b.lastPlayed).getTime() - new Date(a.lastPlayed).getTime()
-        );
-      }
-      return 0;
-    });
-
-  const favorites = tracks
-    .filter((track) => track.favorite === true)
-    .toSorted((a, b) => {
-      if (a.dateFavorited && b.dateFavorited) {
-        return (
-          new Date(b.dateFavorited).getTime() -
-          new Date(a.dateFavorited).getTime()
-        );
-      }
-      return 0;
-    });
-
-  const mostPlayed = tracks
-    .filter((track) => track.playCount > 0)
-    .toSorted((a, b) => b.playCount - a.playCount);
-
-  const recentlyAdded = tracks
-    .filter((track) => track.dateAdded !== undefined)
-    .toSorted((a, b) => {
-      if (a.dateAdded && b.dateAdded) {
-        return (
-          new Date(b.dateAdded).getTime() - new Date(a.dateAdded).getTime()
-        );
-      }
-      return 0;
-    });
+  const recents = sortByDate<TrackModel>(tracks, 'lastPlayed', 'desc');
+  const favorites = sortByDate<TrackModel>(tracks, 'dateFavorited', 'desc');
+  const mostPlayed = sortByNumber<TrackModel>(
+    tracks,
+    'playCount',
+    'desc',
+    true,
+  );
+  const recentlyAdded = sortByDate<TrackModel>(tracks, 'dateAdded', 'desc');
 
   return (
     <div className='flex flex-col gap-4 p-4'>
