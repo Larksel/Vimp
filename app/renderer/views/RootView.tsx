@@ -10,7 +10,7 @@ import Header from '@components/Header';
 import PlaybackConsole from '@components/PlaybackConsole';
 import IPCChannels from '@shared/constants/IPCChannels';
 import useCurrentTrack from '@hooks/useCurrentTrack';
-import { sortByString } from '@render-utils/utils-sort';
+import { sortUtils } from '@render-utils/sortUtils';
 import { useLibraryAPI } from '@stores/useLibraryStore';
 import { usePlayerAPI } from '@stores/usePlayerStore';
 
@@ -24,7 +24,7 @@ export default function RootView() {
     log.debug('[RootView] Loading tracks');
     const dbTracks = await window.VimpAPI.tracksDB.getAll();
 
-    const tracks = sortByString(dbTracks, 'title');
+    const tracks = sortUtils.sortByString(dbTracks, 'title');
     libraryAPI.setTracks(tracks);
     playerAPI.updateQueue(tracks);
   };
@@ -32,7 +32,7 @@ export default function RootView() {
   const loadPlaylists = async () => {
     log.debug('[RootView] Loading playlists');
     const dbPlaylists = await window.VimpAPI.playlistsDB.getAll();
-    const playlists = sortByString(dbPlaylists, 'title');
+    const playlists = sortUtils.sortByString(dbPlaylists, 'title');
 
     libraryAPI.setPlaylists(playlists);
   };

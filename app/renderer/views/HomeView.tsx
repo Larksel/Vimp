@@ -1,21 +1,33 @@
 import CardList from '@components/CardList';
 import EmptyLibrary from '@components/EmptyLibrary';
-import { sortByDate, sortByNumber } from '@render-utils/utils-sort';
+import { sortUtils } from '@render-utils/sortUtils';
 import { TrackModel } from '@shared/types/vimp';
 import useLibraryStore from '@stores/useLibraryStore';
 
 export default function HomeView() {
   const tracks = useLibraryStore((state) => state.contents.tracks);
 
-  const recents = sortByDate<TrackModel>(tracks, 'lastPlayed', 'desc');
-  const favorites = sortByDate<TrackModel>(tracks, 'dateFavorited', 'desc');
-  const mostPlayed = sortByNumber<TrackModel>(
+  const recents = sortUtils.sortByDate<TrackModel>(
+    tracks,
+    'lastPlayed',
+    'desc',
+  );
+  const favorites = sortUtils.sortByDate<TrackModel>(
+    tracks,
+    'dateFavorited',
+    'desc',
+  );
+  const mostPlayed = sortUtils.sortByNumber<TrackModel>(
     tracks,
     'playCount',
     'desc',
     true,
   );
-  const recentlyAdded = sortByDate<TrackModel>(tracks, 'dateAdded', 'desc');
+  const recentlyAdded = sortUtils.sortByDate<TrackModel>(
+    tracks,
+    'dateAdded',
+    'desc',
+  );
 
   return (
     <div className='flex flex-col gap-4 p-4'>

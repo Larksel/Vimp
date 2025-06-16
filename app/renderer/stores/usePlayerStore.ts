@@ -1,7 +1,7 @@
 import { StateCreator } from 'zustand';
 import log from 'electron-log/renderer';
 import { PlayerStatus, RepeatMode, TrackModel } from '@shared/types/vimp';
-import { createStore } from '@render-utils/utils-store';
+import { storeUtils } from '@render-utils/storeUtils';
 import { PlayerConfigService } from '@features/player/playerConfig';
 import { PlayerService } from '@features/player';
 import { QueueUtils } from '@renderer/utils/queueUtils';
@@ -474,5 +474,5 @@ export function usePlayerAPI() {
 }
 
 function createPlayerStore<T extends PlayerState>(store: StateCreator<T>) {
-  return createStore(store);
+  return storeUtils.createStore(store);
 }

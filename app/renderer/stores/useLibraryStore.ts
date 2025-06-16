@@ -2,7 +2,7 @@ import { StateCreator } from 'zustand';
 import log from 'electron-log/renderer';
 
 import { PlaylistModel, TrackModel } from '@shared/types/vimp';
-import { createStore } from '@render-utils/utils-store';
+import { storeUtils } from '@render-utils/storeUtils';
 
 interface LibraryState {
   loading: {
@@ -179,5 +179,5 @@ export function usePlaylistAPI() {
 }
 
 function createLibraryStore<T extends LibraryState>(store: StateCreator<T>) {
-  return createStore(store);
+  return storeUtils.createStore(store);
 }
