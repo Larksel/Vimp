@@ -74,7 +74,12 @@ export type GenericModel<T> = PouchDB.Core.ExistingDocument<
 export type TrackModel = GenericModel<Track>;
 export type PlaylistModel = GenericModel<Playlist>;
 
-export interface Config {
+export interface Config extends PlayerConfig {
+  musicFolders: string[];
+  displayNotifications: boolean;
+}
+
+export interface PlayerConfig {
   audioVolume: number;
   audioPlaybackRate: number;
   audioMuted: boolean;
@@ -82,9 +87,6 @@ export interface Config {
   audioRepeatMode: RepeatMode;
   audioGaplessPlayback: boolean;
   audioCrossfadeDuration: number;
-  musicFolders: string[];
-
-  displayNotifications: boolean;
 }
 
 /**

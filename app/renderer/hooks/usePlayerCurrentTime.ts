@@ -1,22 +1,24 @@
 import { useCallback, useEffect, useState } from 'react';
 
-import player from '@features/player';
+import { PlayerService } from '@features/player';
 
 /**
  * Returns the current track elapsed time
  */
 export default function usePlayerCurrentTime(): number {
-  const [currentTime, setCurrentTime] = useState(player.getCurrentTime());
+  const [currentTime, setCurrentTime] = useState(
+    PlayerService.getCurrentTime(),
+  );
 
   const tick = useCallback(() => {
-    setCurrentTime(player.getCurrentTime());
+    setCurrentTime(PlayerService.getCurrentTime());
   }, [setCurrentTime]);
 
   useEffect(() => {
-    player.getAudio().addEventListener('timeupdate', tick);
+    PlayerService.getAudio().addEventListener('timeupdate', tick);
 
     return () => {
-      player.getAudio().removeEventListener('timeupdate', tick);
+      PlayerService.getAudio().removeEventListener('timeupdate', tick);
     };
   }, [tick]);
 

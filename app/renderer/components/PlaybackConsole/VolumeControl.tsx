@@ -9,11 +9,11 @@ import { Slider } from '@components/common/slider';
 
 import usePlayerStore, { usePlayerAPI } from '@stores/usePlayerStore';
 import { useState } from 'react';
-import player from '@features/player';
+import { PlayerService } from '@features/player';
 
 export default function VolumeControl() {
   const playerAPI = usePlayerAPI();
-  const audio = player.getAudio();
+  const audio = PlayerService.getAudio();
 
   const isMuted = usePlayerStore((state) => state.isMuted);
   const [volume, setVolume] = useState(audio.volume);

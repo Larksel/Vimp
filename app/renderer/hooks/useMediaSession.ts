@@ -3,7 +3,7 @@ import log from 'electron-log/renderer';
 
 import useCurrentTrack from '@hooks/useCurrentTrack';
 import usePlayerCurrentTime from '@hooks/usePlayerCurrentTime';
-import player from '@features/player';
+import { PlayerService } from '@features/player';
 import { usePlayerAPI } from '@stores/usePlayerStore';
 
 /**
@@ -48,7 +48,7 @@ export default function useMediaSession() {
       );
       navigator.mediaSession.setPositionState({
         duration: currentTrack.duration,
-        playbackRate: player.getAudio().playbackRate,
+        playbackRate: PlayerService.getAudio().playbackRate,
         position: currentTime,
       });
     }
@@ -80,14 +80,16 @@ export default function useMediaSession() {
 
     navigator.mediaSession.setActionHandler('seekbackward', () => {
       log.debug('[useMediaSession] SeekBackward 10s action triggered');
-      player.setCurrentTime(Math.max(player.getCurrentTime() - 10, 0));
+      PlayerService.setCurrentTime(
+        Math.max(PlayerService.getCurrentTime() - 10, 0),
+      );
     });
 
     navigator.mediaSession.setActionHandler('seekforward', () => {
       log.debug('[useMediaSession] SeekForward 10s action triggered');
-      player.setCurrentTime(
+      PlayerService.setCurrentTime(
         Math.min(
-          player.getCurrentTime() + 10,
+          PlayerService.getCurrentTime() + 10,
           currentTrack ? currentTrack.duration : 0,
         ),
       );
