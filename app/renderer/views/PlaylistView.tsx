@@ -2,13 +2,14 @@ import { useState } from 'react';
 import TrackList from '@components/TrackList';
 import placeholder from '@assets/images/placeholder.png';
 import { HeartStraight, Play } from '@phosphor-icons/react';
-import useLibraryStore, { usePlaylistAPI } from '@stores/useLibraryStore';
+import useLibraryStore from '@stores/useLibraryStore';
 import { usePlayerAPI } from '@stores/usePlayerStore';
 import { useParams } from 'react-router-dom';
 import InfoText from '@components/InfoText';
 import { Button } from '@components/common/button';
 import usePlaylistLoader from '@hooks/usePlaylistLoader';
 import { formatDuration } from '@render-utils/utils';
+import { usePlaylistAPI } from '@stores/usePlaylistStore';
 
 export default function PlaylistView() {
   const { id } = useParams();

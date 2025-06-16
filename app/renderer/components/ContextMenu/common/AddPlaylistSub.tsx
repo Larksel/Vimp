@@ -5,9 +5,10 @@ import {
   ContextMenuSubContent,
   ContextMenuSubTrigger,
 } from '@components/common/context-menu';
-import useLibraryStore, { usePlaylistAPI } from '@stores/useLibraryStore';
+import useLibraryStore from '@stores/useLibraryStore';
 import { Plus } from '@phosphor-icons/react';
 import { PlaylistModel, TrackModel } from '@shared/types/vimp';
+import { usePlaylistAPI } from '@stores/usePlaylistStore';
 
 interface AddPlaylistSubProps {
   track: TrackModel;
