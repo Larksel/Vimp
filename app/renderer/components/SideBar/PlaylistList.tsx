@@ -5,6 +5,7 @@ import useLibraryStore from '@stores/useLibraryStore';
 import routes from '@renderer/routes';
 import ListHeader from './ListHeader';
 import PlaylistItem from './PlaylistItem';
+import PlaylistMenu from '@components/ContextMenu/PlaylistMenu';
 
 interface PlaylistListProps {
   collapsed: boolean;
@@ -38,14 +39,15 @@ export default function PlaylistList({ collapsed }: PlaylistListProps) {
     <div className='bg-surface-base flex h-full w-full flex-col overflow-hidden rounded-lg'>
       <ListHeader collapsed={collapsed} searchHandler={handleSearch} />
       <ScrollArea>
-        {filteredPlaylists.map((pl, index) => (
-          <PlaylistItem
-            key={pl._id}
-            collapsed={collapsed}
-            playlist={pl}
-            index={index}
-            onClick={playlistView}
-          />
+        {filteredPlaylists.map((playlist, index) => (
+          <PlaylistMenu key={playlist._id} playlist={playlist}>
+            <PlaylistItem
+              collapsed={collapsed}
+              playlist={playlist}
+              index={index}
+              onClick={playlistView}
+            />
+          </PlaylistMenu>
         ))}
         <ScrollBar orientation='vertical' />
       </ScrollArea>

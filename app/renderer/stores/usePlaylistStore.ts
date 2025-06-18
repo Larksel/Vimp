@@ -1,7 +1,7 @@
 import { StateCreator } from 'zustand';
 import log from 'electron-log/renderer';
 
-import { TrackModel } from '@shared/types/vimp';
+import { PlaylistModel, TrackModel } from '@shared/types/vimp';
 import { storeUtils } from '@render-utils/storeUtils';
 import { PlaylistPersistenceService } from '@features/data';
 import useLibraryStore from './useLibraryStore';
@@ -18,6 +18,9 @@ interface PlaylistState {
     ) => Promise<void>;
     toggleFavorite: (playlistID: string) => Promise<void>;
     renamePlaylist: (playlistID: string, newTitle: string) => Promise<void>;
+    removePlaylist: (
+      playlists: PlaylistModel | PlaylistModel[],
+    ) => Promise<void>;
   };
 }
 
@@ -115,6 +118,9 @@ const usePlaylistStore = createPlaylistStore<PlaylistState>(() => {
           );
           await PlaylistPersistenceService.update(updatedPlaylist);
         }
+      },
+      removePlaylist: async (playlists) => {
+        await PlaylistPersistenceService.delete(playlists);
       },
     },
   };
