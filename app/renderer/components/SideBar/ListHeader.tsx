@@ -8,10 +8,12 @@ import {
 } from '@components/common/popover';
 import { Input } from '@components/common/input';
 import { FormEvent, useState } from 'react';
-import log from 'electron-log/renderer';
+import { createRendererLogger } from '@render-utils/logger';
 import { Playlist } from '@shared/types/vimp';
 import { createGenericPlaylist } from '@shared/utils/utils';
 import { PlaylistPersistenceService } from '@features/data';
+
+const logger = createRendererLogger('SideBar');
 
 interface ListHeaderProps {
   collapsed: boolean;
@@ -40,7 +42,7 @@ export default function ListHeader(props: ListHeaderProps) {
       };
 
       await PlaylistPersistenceService.create(newPlaylist);
-      log.info('[SideBar] Creating playlist:', newPlaylist.title);
+      logger.info(`Creating playlist: ${newPlaylist.title}`);
     }
 
     openClosePopoverNewPlaylist();

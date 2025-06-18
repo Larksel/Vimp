@@ -1,4 +1,4 @@
-import log from 'electron-log/main';
+import { createMainLogger } from '@main/logger';
 import { app, ipcMain } from 'electron';
 import Store from 'electron-store';
 import { Config, RepeatMode } from '@shared/types/vimp';
@@ -7,13 +7,15 @@ import IPCChannels from '@shared/constants/IPCChannels';
 import { vimpMusicFolder, userMusicFolder } from '@main-utils/utils-resources';
 import { IConfigModule } from '@interfaces/modules/IConfigModule';
 
+const logger = createMainLogger('Config');
+
 export default class ConfigModule extends BaseModule implements IConfigModule {
   private readonly config: Store<Config>;
 
   constructor() {
     super();
 
-    log.info(`[Config] Config path:`, app.getPath('userData'));
+    logger.info(`Config path: ${app.getPath('userData')}`);
 
     this.config = new Store<Config>({
       name: 'config',
@@ -44,6 +46,7 @@ export default class ConfigModule extends BaseModule implements IConfigModule {
     const config = this.config;
 
     if (config === undefined) {
+      logger.error(`Config is not defined`);
       throw new Error('Config is not defined');
     }
 

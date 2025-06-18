@@ -1,6 +1,8 @@
-import log from 'electron-log/renderer';
+import { createRendererLogger } from '@render-utils/logger';
 import { TrackModel } from '@shared/types/vimp';
 import { TrackPersistenceService } from '@features/data';
+
+const logger = createRendererLogger('Player');
 
 interface PlayerOptions {
   playbackRate?: number;
@@ -59,20 +61,20 @@ class Player {
   async play() {
     if (!this.audio.src) {
       this.stop();
-      log.error('[Player] No audio source defined');
+      logger.error('No audio source defined');
       return;
     }
 
     if (!this.track) {
       this.stop();
-      log.error('[Player] No track defined');
+      logger.error('No track defined');
       return;
     }
 
     try {
       await this.audioCtx.resume();
       await this.audio.play();
-      log.info(`[Player] Playing ${this.track.path}`);
+      logger.info(`Playing ${this.track.path}`);
 
       if (!this.hasPlayed && this.track._id && this.track._id !== '') {
         await TrackPersistenceService.updateLastPlayed(this.track._id);
@@ -81,18 +83,18 @@ class Player {
       }
     } catch (err) {
       this.stop();
-      log.error('[Player] Player error:\n', err);
+      logger.error(`Player error: \n${err}`);
     }
   }
 
   pause() {
-    log.debug('[Player] Player paused');
+    logger.debug('Player paused');
     this.audio.pause();
     this.audioCtx.suspend();
   }
 
   stop() {
-    log.debug('[Player] Player stopped');
+    logger.debug('Player stopped');
     this.audio.pause();
     this.track = null;
     this.audio.src = '';
@@ -100,12 +102,12 @@ class Player {
   }
 
   mute() {
-    log.debug('[Player] Player muted');
+    logger.debug('Player muted');
     this.gainNode.gain.value = 0;
   }
 
   unmute() {
-    log.debug('[Player] Player unmuted');
+    logger.debug('Player unmuted');
     this.gainNode.gain.value = this.volume;
   }
 
@@ -166,7 +168,7 @@ class Player {
     this.track = track;
     this.audio.src = path;
     this.hasPlayed = false;
-    log.info(`[Player] New track defined: ${track.path}`);
+    logger.info(`New track defined: ${track.path}`);
   }
 }
 

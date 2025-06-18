@@ -1,5 +1,5 @@
 import { parseFile, IAudioMetadata } from 'music-metadata';
-import log from 'electron-log/main';
+import { createMainLogger } from '@main/logger';
 import path from 'path';
 import { Track } from '@shared/types/vimp';
 import BaseModule from './BaseModule';
@@ -7,6 +7,8 @@ import { ipcMain } from 'electron';
 import IPCChannels from '@shared/constants/IPCChannels';
 import { IMetadataModule } from '@interfaces/modules/IMetadataModule';
 import { statSync } from 'fs';
+
+const logger = createMainLogger('Metadata');
 
 export default class MetadataModule
   extends BaseModule
@@ -52,7 +54,7 @@ export default class MetadataModule
 
       return metadata;
     } catch (err) {
-      log.error(`[Metadata] Erro ao ler ${trackPath}: ${err}\n`);
+      logger.error(`Erro ao ler ${trackPath}: ${err}\n`);
     }
 
     return basicMetadata;

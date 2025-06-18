@@ -1,5 +1,5 @@
 import type Store from 'electron-store';
-import log from 'electron-log/main';
+import { createMainLogger } from '@main/logger';
 import { watch } from 'chokidar';
 import path from 'path';
 import { Config, Track } from '@shared/types/vimp';
@@ -8,6 +8,8 @@ import { IDBManager } from '@interfaces/modules/IDBManager';
 import { IMetadataModule } from '@interfaces/modules/IMetadataModule';
 import BaseModule from './BaseModule';
 import { ITracksDatabase } from '@interfaces/databases/ITracksDatabase';
+
+const logger = createMainLogger('Watcher');
 
 export default class WatcherModule extends BaseModule {
   protected config: Store<Config>;
@@ -40,16 +42,14 @@ export default class WatcherModule extends BaseModule {
     watcher
       .on('add', (path) => this.handleAddedFile(path))
       .on('unlink', (path) => this.handleRemovedFile(path))
-      .on('error', (error) =>
-        log.error(`[Watcher] File watcher error: ${error}`),
-      )
+      .on('error', (error) => logger.error(`File watcher error: ${error}`))
       .on('ready', () => {
-        log.info('[Watcher] File watcher ready for changes.');
+        logger.info('File watcher ready for changes.');
       });
   }
 
   private async handleAddedFile(filePath: string) {
-    log.info(`[Watcher] DETECTED: ${filePath}`);
+    logger.info(`DETECTED: ${filePath}`);
     const resolvedPath = path.resolve(filePath);
 
     const existingDoc = await this.TracksDB.getByPath(resolvedPath);
@@ -57,14 +57,14 @@ export default class WatcherModule extends BaseModule {
     if (!existingDoc) {
       const track: Track = await this.metadataModule.getMetadata(resolvedPath);
       await this.TracksDB.create(track);
-      log.info(`[Watcher] ADDED: ${filePath}`);
+      logger.info(`ADDED: ${filePath}`);
     } else {
-      log.info(`[Watcher] SKIPPED: ${filePath}`);
+      logger.info(`SKIPPED: ${filePath}`);
     }
   }
 
   private async handleRemovedFile(filePath: string) {
-    log.info(`[Watcher] LOST: ${filePath}`);
+    logger.info(`LOST: ${filePath}`);
 
     const resolvedPath = path.resolve(filePath);
 
@@ -72,9 +72,9 @@ export default class WatcherModule extends BaseModule {
 
     if (existingDoc) {
       await this.TracksDB.delete(existingDoc);
-      log.info(`[Watcher] REMOVED: ${filePath}`);
+      logger.info(`REMOVED: ${filePath}`);
     } else {
-      log.info(`[Watcher] Track Not Found: ${filePath}`);
+      logger.info(`Track Not Found: ${filePath}`);
     }
   }
 }

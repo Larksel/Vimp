@@ -1,5 +1,4 @@
 import { CSSProperties, useEffect, useState } from 'react';
-import log from 'electron-log/renderer';
 import { Outlet } from 'react-router-dom';
 import debounce from 'lodash/debounce';
 
@@ -17,6 +16,9 @@ import {
   PlaylistPersistenceService,
   TrackPersistenceService,
 } from '@features/data';
+import { createRendererLogger } from '@render-utils/logger';
+
+const logger = createRendererLogger('RootView');
 
 export default function RootView() {
   const [collapsed, setCollapsed] = useState(false);
@@ -25,7 +27,7 @@ export default function RootView() {
   const playerAPI = usePlayerAPI();
 
   const loadTracks = async () => {
-    log.debug('[RootView] Loading tracks');
+    logger.debug('Loading tracks');
     const dbTracks = await TrackPersistenceService.getAll();
 
     const tracks = sortUtils.sortByString(dbTracks, 'title');
@@ -34,7 +36,7 @@ export default function RootView() {
   };
 
   const loadPlaylists = async () => {
-    log.debug('[RootView] Loading playlists');
+    logger.debug('Loading playlists');
     const dbPlaylists = await PlaylistPersistenceService.getAll();
     const playlists = sortUtils.sortByString(dbPlaylists, 'title');
 
@@ -44,7 +46,7 @@ export default function RootView() {
   useEffect(() => {
     window.VimpAPI.app.onDBChanged(
       debounce(() => {
-        log.debug('[RootView] DB changed');
+        logger.debug('DB changed');
         loadTracks();
         loadPlaylists();
       }, 500),

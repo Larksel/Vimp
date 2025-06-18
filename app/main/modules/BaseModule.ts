@@ -1,5 +1,7 @@
-import log from 'electron-log/main';
+import { createMainLogger } from '@main/logger';
 import { IBaseModule } from '@interfaces/modules/IBaseModule';
+
+const logger = createMainLogger('Main');
 
 export default abstract class BaseModule implements IBaseModule {
   protected loaded: boolean;
@@ -12,7 +14,7 @@ export default abstract class BaseModule implements IBaseModule {
     if (this.loaded)
       throw new TypeError(`Module ${this.constructor.name} is already loaded`);
     else {
-      log.debug(`[Main] Loading module: ${this.constructor.name}`);
+      logger.debug(`Loading module: ${this.constructor.name}`);
 
       await this.load().catch((err) => {
         throw err;

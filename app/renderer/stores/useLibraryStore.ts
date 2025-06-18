@@ -1,8 +1,10 @@
+import { createRendererLogger } from '@render-utils/logger';
 import { StateCreator } from 'zustand';
-import log from 'electron-log/renderer';
 
 import { PlaylistModel, TrackModel } from '@shared/types/vimp';
 import { storeUtils } from '@render-utils/storeUtils';
+
+const logger = createRendererLogger('LibraryStore');
 
 interface LibraryState {
   loading: {
@@ -35,7 +37,7 @@ const useLibraryStore = createLibraryStore<LibraryState>((set, get) => {
       setTracks: (tracks) => {
         if (!tracks) return;
 
-        log.debug('[LibraryStore] Updated tracks');
+        logger.debug('Updated tracks');
         set((state) => ({
           loading: {
             ...state.loading,
@@ -50,7 +52,7 @@ const useLibraryStore = createLibraryStore<LibraryState>((set, get) => {
       setPlaylists: (playlists) => {
         if (!playlists) return;
 
-        log.debug('[LibraryStore] Updated playlists');
+        logger.debug('Updated playlists');
         set((state) => ({
           loading: {
             ...state.loading,

@@ -1,10 +1,12 @@
-import log from 'electron-log/main';
+import { createMainLogger } from '@main/logger';
 import GenericDatabase from '@databases/genericDB';
 import { IPlaylistsDatabase } from '@interfaces/databases/IPlaylistsDatabase';
 import IPCChannels from '@shared/constants/IPCChannels';
 import { Playlist, PlaylistModel } from '@shared/types/vimp';
 import { BrowserWindow } from 'electron';
 import { ITracksDatabase } from '@interfaces/databases/ITracksDatabase';
+
+const logger = createMainLogger('PlaylistsDB');
 
 export default class PlaylistsDatabase
   extends GenericDatabase<Playlist>
@@ -28,7 +30,7 @@ export default class PlaylistsDatabase
   }
 
   async verifyPlaylistsTracks() {
-    log.info('[PlaylistsDB] Verifying playlists for missing track files');
+    logger.info(`Verifying playlists for missing track files`);
     const allTracks = await this.TracksDB.getAll();
     const allPlaylists = await this.getAll();
 
@@ -53,8 +55,8 @@ export default class PlaylistsDatabase
       playCount: doc.playCount + 1,
     });
 
-    log.debug(
-      `[PlaylistsDB] Play count incremented to ${doc.playCount + 1} for playlist: ${doc.title}`,
+    logger.debug(
+      `Play count incremented to ${doc.playCount + 1} for playlist: ${doc.title}`,
     );
     this.window.webContents.send(IPCChannels.DB_HAS_CHANGED);
   }
@@ -72,8 +74,8 @@ export default class PlaylistsDatabase
       dateFavorited: dateFavorited,
     });
 
-    log.debug(
-      `[PlaylistsDB] Favorite status changed to ${newFavoriteState} for playlist: ${doc.title}`,
+    logger.debug(
+      `Favorite status changed to ${newFavoriteState} for playlist: ${doc.title}`,
     );
     this.window.webContents.send(IPCChannels.DB_HAS_CHANGED);
   }
@@ -88,9 +90,7 @@ export default class PlaylistsDatabase
       lastPlayed: new Date(),
     });
 
-    log.debug(
-      `[PlaylistsDB] Last played status updated for playlist: ${doc.title}`,
-    );
+    logger.debug(`Last played status updated for playlist: ${doc.title}`);
     this.window.webContents.send(IPCChannels.DB_HAS_CHANGED);
   }
 }

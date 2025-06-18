@@ -1,6 +1,6 @@
 import { app, session } from 'electron';
 import { electronApp, optimizer } from '@electron-toolkit/utils';
-import log from 'electron-log/main';
+import setupLogger, { createMainLogger } from './logger';
 // Modules
 import * as ModulesManager from '@main-utils/utils-modules';
 import AppMenuModule from '@modules/AppMenuModule';
@@ -16,16 +16,16 @@ import IPCTracksDatabase from '@modules/ipc/IPCTracksDatabase';
 import IPCPlaylistsDatabase from '@modules/ipc/IPCPlaylistsDatabase';
 import { reactDevToolsPath } from '@main-utils/utils-resources';
 import DBManager from './dbManager';
-import setupLogger from './logger';
 
 const isDebug =
   process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true';
 
 setupLogger(isDebug);
+const logger = createMainLogger('Main');
 
-log.info('[Main] Initializing Vimp');
-log.info('[Main] Debug:', isDebug);
-log.info('[Main] Platform:', process.platform, '\n\n');
+logger.info(`Initializing Vimp`);
+logger.info(`Debug: ${isDebug}`);
+logger.info(`Platform: ${process.platform}\n\n`);
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
@@ -43,8 +43,8 @@ app.whenReady().then(async () => {
   if (isDebug) {
     await session.defaultSession
       .loadExtension(reactDevToolsPath)
-      .then((ext) => log.info('[Main] Loaded Extension:', ext.name))
-      .catch((err) => log.warn('[Main] Error on extension loading:', err));
+      .then((ext) => logger.info(`Loaded Extension: ${ext.name}`))
+      .catch((err) => logger.warn(`Error on extension loading: ${err}`));
   }
 
   // Initialize main modules first

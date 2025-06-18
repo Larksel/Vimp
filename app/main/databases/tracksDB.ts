@@ -1,10 +1,12 @@
-import log from 'electron-log/main';
+import { createMainLogger } from '@main/logger';
 import GenericDatabase from '@databases/genericDB';
 import { ITracksDatabase } from '@interfaces/databases/ITracksDatabase';
 import IPCChannels from '@shared/constants/IPCChannels';
 import { Track, TrackModel } from '@shared/types/vimp';
 import { BrowserWindow } from 'electron';
 import fs from 'fs';
+
+const logger = createMainLogger('TracksDB');
 
 export default class TracksDatabase
   extends GenericDatabase<Track>
@@ -29,20 +31,18 @@ export default class TracksDatabase
    * present on the device.
    */
   async verifyTracksDB() {
-    log.info('[TracksDB] Verifying TracksDB for missing track files');
+    logger.info(`Verifying TracksDB for missing track files`);
     const tracks = await this.getAll();
     const lostTracks = tracks.filter((track) => !fs.existsSync(track.path));
 
     if (lostTracks.length > 0) {
-      log.info(
-        `[TracksDB] Found ${lostTracks.length} missing tracks. Removing...`,
-      );
+      logger.info(`Found ${lostTracks.length} missing tracks. Removing...`);
       await this.delete(lostTracks);
     } else {
-      log.info('[TracksDB] No missing tracks found');
+      logger.info(`No missing tracks found`);
     }
 
-    log.info('[TracksDB] Verification complete');
+    logger.info(`Verification complete`);
     return lostTracks;
   }
 
@@ -65,8 +65,8 @@ export default class TracksDatabase
       playCount: doc.playCount + 1,
     });
 
-    log.debug(
-      `[TracksDB] Play count incremented to ${doc.playCount + 1} for track: ${doc.title}`,
+    logger.debug(
+      `Play count incremented to ${doc.playCount + 1} for track: ${doc.title}`,
     );
     this.window.webContents.send(IPCChannels.DB_HAS_CHANGED);
   }
@@ -84,8 +84,8 @@ export default class TracksDatabase
       dateFavorited: dateFavorited,
     });
 
-    log.debug(
-      `[TracksDB] Favorite status changed to ${newFavoriteState} for track: ${doc.title}`,
+    logger.debug(
+      `Favorite status changed to ${newFavoriteState} for track: ${doc.title}`,
     );
     this.window.webContents.send(IPCChannels.DB_HAS_CHANGED);
   }
@@ -100,7 +100,7 @@ export default class TracksDatabase
       lastPlayed: new Date(),
     });
 
-    log.debug(`[TracksDB] Last played status updated for track: ${doc.title}`);
+    logger.debug(`Last played status updated for track: ${doc.title}`);
     this.window.webContents.send(IPCChannels.DB_HAS_CHANGED);
   }
 }

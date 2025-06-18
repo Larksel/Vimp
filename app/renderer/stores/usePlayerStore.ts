@@ -1,11 +1,13 @@
 import { StateCreator } from 'zustand';
-import log from 'electron-log/renderer';
 import { PlayerStatus, RepeatMode, TrackModel } from '@shared/types/vimp';
 import { storeUtils } from '@render-utils/storeUtils';
 import { PlayerConfigService } from '@features/player/playerConfig';
 import { PlayerService } from '@features/player';
 import { QueueUtils } from '@renderer/utils/queueUtils';
 import { TrackPersistenceService } from '@features/data';
+import { createRendererLogger } from '@render-utils/logger';
+
+const logger = createRendererLogger('PlayerStore');
 
 interface PlayerState {
   queue: TrackModel[];
@@ -47,10 +49,7 @@ interface PlayerState {
 const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
   const initialConfig = PlayerConfigService.getInitialConfig();
 
-  log.info(
-    '[PlayerStore] Initializing player store with config:',
-    initialConfig,
-  );
+  logger.info(`Initializing player store with config: ${initialConfig}`);
 
   return {
     queue: [],
@@ -84,18 +83,18 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
           originalQueue: originalQueue,
         });
 
-        log.debug('[PlayerStore] New queue started');
+        logger.debug('New queue started');
 
         api.playTrackAtIndex(queuePosition);
       },
       play: () => {
         PlayerService.play();
-        log.debug('[PlayerStore] PlayerStatus changed to PLAY');
+        logger.debug('PlayerStatus changed to PLAY');
         set({ playerStatus: PlayerStatus.PLAY });
       },
       pause: () => {
         PlayerService.pause();
-        log.debug('[PlayerStore] PlayerStatus changed to PAUSE');
+        logger.debug('PlayerStatus changed to PAUSE');
         set({ playerStatus: PlayerStatus.PAUSE });
       },
       togglePlayPause: () => {
@@ -112,7 +111,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
         PlayerService.stop();
         get().api.seekTo(0);
 
-        log.debug('[PlayerStore] PlayerStatus changed to STOP');
+        logger.debug('PlayerStatus changed to STOP');
 
         set({
           queue: [],
@@ -128,7 +127,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
         if (queuePosition === null || queue.length == 0) return;
 
         if (currentTime > 5) {
-          log.info('[PlayerStore] Rewind track');
+          logger.info('Rewind track');
           api.seekTo(0);
           return;
         }
@@ -136,7 +135,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
         const isFirstTrack = queuePosition === 0;
         const newPosition = isFirstTrack ? queue.length - 1 : queuePosition - 1;
 
-        log.info('[PlayerStore] Go to previous track');
+        logger.info('Go to previous track');
 
         api.playTrackAtIndex(newPosition);
       },
@@ -148,7 +147,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
         const isLastTrack = queuePosition === queue.length - 1;
         const newPosition = isLastTrack ? 0 : queuePosition + 1;
 
-        log.info('[PlayerStore] Go to next track');
+        logger.info('Go to next track');
 
         api.playTrackAtIndex(newPosition);
       },
@@ -165,23 +164,21 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
           case RepeatMode.OFF:
             PlayerService.setTrack(queue[queuePosition]);
             api.pause();
-            log.info('[PlayerStore] Player finished playing. Pausing...');
+            logger.info('Player finished playing. Pausing...');
             return;
 
           case RepeatMode.ONE:
-            log.info('[PlayerStore] Repeating current track');
+            logger.info('Repeating current track');
             break;
 
           case RepeatMode.ALL:
             newPosition = isLastTrack ? 0 : queuePosition + 1;
-            log.info(
-              `[PlayerStore] Moving to ${isLastTrack ? 'first' : 'next'} track`,
-            );
+            logger.info(`Moving to ${isLastTrack ? 'first' : 'next'} track`);
             break;
 
           default:
             newPosition = queuePosition + 1;
-            log.info('[PlayerStore] Moving to next track');
+            logger.info('Moving to next track');
             break;
         }
 
@@ -195,13 +192,13 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
         const track = queue[index];
 
         if (!track) {
-          log.error('[PlayerStore] Failed to find track');
+          logger.error('Failed to find track');
           api.seekTo(0);
           api.stop();
           return;
         }
 
-        log.debug(`[PlayerStore] Playing track at index ${index}`);
+        logger.debug(`Playing track at index ${index}`);
 
         PlayerService.setTrack(track);
         api.play();
@@ -355,7 +352,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
         const track = queue[trackIndex];
         await TrackPersistenceService.updateFavorite(track._id);
 
-        log.info(`[PlayerStore] Favorited track: ${track.title}`);
+        logger.info(`Favorited track: ${track.title}`);
 
         const newQueue = [...queue];
         newQueue[trackIndex] = { ...track, favorite: !track.favorite };
@@ -377,7 +374,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
           newQueue = QueueUtils.shuffleTracks([...queue], queuePosition);
           newQueuePosition = 0;
 
-          log.info('[PlayerStore] Queue shuffled');
+          logger.info('Queue shuffled');
         } else {
           const currentTrackID = queue[queuePosition]._id;
           const currentTrackIndex = originalQueue.findIndex(
@@ -387,7 +384,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
           newQueue = [...originalQueue];
           newQueuePosition = currentTrackIndex !== -1 ? currentTrackIndex : 0;
 
-          log.info('[PlayerStore] Queue back to original order');
+          logger.info('Queue back to original order');
         }
 
         await PlayerConfigService.setAudioShuffle(shouldShuffle);
@@ -416,7 +413,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
             newRepeatMode = RepeatMode.OFF;
         }
 
-        log.debug(`[PlayerStore] Repeat mode set to ${newRepeatMode}`);
+        logger.debug(`Repeat mode set to ${newRepeatMode}`);
 
         await PlayerConfigService.setAudioRepeatMode(newRepeatMode);
         set({ repeatMode: newRepeatMode });
@@ -429,7 +426,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
           PlayerService.setPlaybackRate(playbackRate);
           PlayerConfigService.setPlaybackRate(playbackRate);
 
-          log.debug(`[PlayerStore] Playback rate set to ${playbackRate}`);
+          logger.debug(`Playback rate set to ${playbackRate}`);
 
           set({ playbackRate });
         }
@@ -464,7 +461,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
           }
         }
 
-        log.debug('[PlayerStore] Queue refreshed');
+        logger.debug('Queue refreshed');
 
         set({
           queue: updatedQueue,

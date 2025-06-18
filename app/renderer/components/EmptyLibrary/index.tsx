@@ -1,4 +1,4 @@
-import log from 'electron-log/renderer';
+import { createRendererLogger } from '@render-utils/logger';
 import { Button } from '@components/common/button';
 
 interface EmptyLibraryProps {
@@ -7,8 +7,9 @@ interface EmptyLibraryProps {
 
 export default function EmptyLibrary(props: EmptyLibraryProps) {
   const { viewName } = props;
+  const logger = createRendererLogger(viewName);
   const forceScan = async () => {
-    log.debug(`[${viewName}] Triggered library scan and save`);
+    logger.debug(`Triggered library scan and save`);
     const importedFiles = await window.VimpAPI.library.scanAndSave();
     console.log(importedFiles);
   };

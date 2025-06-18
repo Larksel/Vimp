@@ -1,4 +1,4 @@
-import log from 'electron-log/renderer';
+import { createRendererLogger } from '@render-utils/logger';
 import { Button } from '@components/common/button';
 import { Input } from '@components/common/input';
 import { Switch } from '@components/common/switch';
@@ -9,6 +9,8 @@ import { Config } from '@shared/types/vimp';
 
 import * as Settings from '@components/Settings';
 import { TrackPersistenceService } from '@features/data';
+
+const logger = createRendererLogger('SettingsView');
 
 export default function SettingsView() {
   const { config } = useLoaderData() as SettingsLoaderData;
@@ -29,7 +31,7 @@ export default function SettingsView() {
   const rescanTracks = async () => {
     setScanning(() => true);
 
-    log.debug('[SettingsView] Triggered library scan and save');
+    logger.debug('Triggered library scan and save');
     const importedFiles = await window.VimpAPI.library.scanAndSave();
     console.log(importedFiles);
 
@@ -38,7 +40,7 @@ export default function SettingsView() {
 
   const clearTracksDB = async () => {
     await TrackPersistenceService.clear();
-    log.info('[SettingsView] TracksDB limpo');
+    logger.info('TracksDB limpo');
   };
 
   return (
@@ -120,7 +122,7 @@ export default function SettingsView() {
 export type SettingsLoaderData = LoaderData<typeof SettingsView.loader>;
 
 SettingsView.loader = async () => {
-  log.debug('[SettingsView] Loading configs');
+  logger.debug('Loading configs');
   const config = await window.VimpAPI.config.getAll();
 
   return { config };
