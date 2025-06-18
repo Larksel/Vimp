@@ -5,4 +5,4 @@ export const storeUtils = {
   createStore: <T>(store: StateCreator<T>) => {
     return create<T>()(devtools(store));
   },
-}
+};

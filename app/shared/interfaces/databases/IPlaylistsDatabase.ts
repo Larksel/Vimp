@@ -1,5 +1,5 @@
-import { IGenericDatabase } from "./IGenericDatabase";
-import { Playlist } from "@shared/types/vimp";
+import { IGenericDatabase } from './IGenericDatabase';
+import { Playlist } from '@shared/types/vimp';
 
 export interface IPlaylistsDatabase extends IGenericDatabase<Playlist> {
   verifyPlaylistsTracks(): Promise<void>;
