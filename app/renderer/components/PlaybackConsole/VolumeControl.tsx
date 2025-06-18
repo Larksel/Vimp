@@ -13,10 +13,10 @@ import { PlayerService } from '@features/player';
 
 export default function VolumeControl() {
   const playerAPI = usePlayerAPI();
-  const audio = PlayerService.getAudio();
+  const audioVolume = PlayerService.getVolume();
 
   const isMuted = usePlayerStore((state) => state.isMuted);
-  const [volume, setVolume] = useState(audio.volume);
+  const [volume, setVolume] = useState(audioVolume);
 
   const handleVolumeChange = (value: number) => {
     if (isMuted) {

@@ -13,6 +13,8 @@ class Player {
   private readonly audioCtx: AudioContext;
   private readonly audioSource: MediaElementAudioSourceNode;
   private readonly analyser: AnalyserNode;
+  private readonly gainNode: GainNode;
+  private volume: number;
   private track: TrackModel | null;
   protected hasPlayed: boolean;
 
@@ -24,13 +26,19 @@ class Player {
       ...options,
     };
 
+    this.volume = defaultOptions.volume;
     this.audio = new Audio();
     this.audioCtx = new AudioContext();
     this.audioSource = this.audioCtx.createMediaElementSource(this.audio);
     this.analyser = this.audioCtx.createAnalyser();
+    this.gainNode = this.audioCtx.createGain();
 
+    // Conecting all nodes
     this.audioSource.connect(this.analyser);
-    this.analyser.connect(this.audioCtx.destination);
+    this.analyser.connect(this.gainNode);
+    this.gainNode.connect(this.audioCtx.destination);
+
+    // Analyser configuration
     this.analyser.fftSize = 4096;
     this.analyser.smoothingTimeConstant = 0.65;
     this.analyser.maxDecibels = -10;
@@ -39,9 +47,10 @@ class Player {
     this.track = null;
     this.hasPlayed = false;
 
+    this.gainNode.gain.value = this.volume;
+    this.audio.volume = 1;
     this.audio.defaultPlaybackRate = defaultOptions.playbackRate;
     this.audio.playbackRate = defaultOptions.playbackRate;
-    this.audio.volume = defaultOptions.volume;
     this.audio.muted = defaultOptions.muted;
   }
 
@@ -93,12 +102,12 @@ class Player {
 
   mute() {
     log.debug('[Player] Player muted');
-    this.audio.muted = true;
+    this.gainNode.gain.value = 0;
   }
 
   unmute() {
     log.debug('[Player] Player unmuted');
-    this.audio.muted = false;
+    this.gainNode.gain.value = this.volume;
   }
 
   /**
@@ -109,7 +118,7 @@ class Player {
   }
 
   getVolume() {
-    return this.audio.volume;
+    return this.volume;
   }
 
   getCurrentTime() {
@@ -132,7 +141,8 @@ class Player {
    * Set player options
    */
   setVolume(volume: number) {
-    this.audio.volume = volume;
+    this.gainNode.gain.value = volume;
+    this.volume = volume;
   }
 
   setPlaybackRate(playbackRate: number) {
