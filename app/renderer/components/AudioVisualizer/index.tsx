@@ -117,6 +117,7 @@ export default function AudioVisualizer({
      */
     const bufferSize = PlayerService.getBufferSize() * bufferScale;
     const dataArray = new Uint8Array(bufferSize);
+    let animationFrameId: number;
 
     // TODO Tornar valores personalizaveis
     // TODO - Escala das ondas (1 - 3), incremento: 0.5, padrão: 2
@@ -129,10 +130,15 @@ export default function AudioVisualizer({
 
       drawWaveform(ctx, grouped, canvas.width, canvas.height, waveColor);
 
-      requestAnimationFrame(animate);
+      animationFrameId = requestAnimationFrame(animate);
     };
 
     animate();
+
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+    };
+
     // TODO Ativar useEffect a partir da mudança no PlayerStatus
   }, [audio, waveColor]);
 
