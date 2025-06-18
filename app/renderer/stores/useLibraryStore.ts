@@ -35,7 +35,7 @@ const useLibraryStore = createLibraryStore<LibraryState>((set, get) => {
       setTracks: (tracks) => {
         if (!tracks) return;
 
-        log.info('[LibraryStore] Updated tracks');
+        log.debug('[LibraryStore] Updated tracks');
         set((state) => ({
           loading: {
             ...state.loading,
@@ -50,7 +50,7 @@ const useLibraryStore = createLibraryStore<LibraryState>((set, get) => {
       setPlaylists: (playlists) => {
         if (!playlists) return;
 
-        log.info('[LibraryStore] Updated playlists');
+        log.debug('[LibraryStore] Updated playlists');
         set((state) => ({
           loading: {
             ...state.loading,

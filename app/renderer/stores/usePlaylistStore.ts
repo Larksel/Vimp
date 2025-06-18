@@ -40,7 +40,7 @@ const usePlaylistStore = createPlaylistStore<PlaylistState>(() => {
         );
 
         if (newTracksToAdd.length === 0) {
-          log.debug(
+          log.info(
             `[PlaylistStore] No new tracks to add to playlist: ${playlist.title}`,
           );
           return;
@@ -51,7 +51,7 @@ const usePlaylistStore = createPlaylistStore<PlaylistState>(() => {
           tracks: [...playlist.tracks, ...newTracksToAdd],
         };
 
-        log.debug(
+        log.info(
           `[PlaylistStore] Added ${newTracksToAdd.length} tracks to playlist: ${playlist.title}`,
         );
         await PlaylistPersistenceService.update(updatedPlaylist);
@@ -70,7 +70,7 @@ const usePlaylistStore = createPlaylistStore<PlaylistState>(() => {
 
         // Check if any tracks were actually removed to avoid unnecessary updates
         if (updatedTracks.length === playlist.tracks.length) {
-          log.debug(
+          log.info(
             `[PlaylistStore] No tracks to remove from playlist: ${playlist.title}`,
           );
           return;
@@ -81,7 +81,7 @@ const usePlaylistStore = createPlaylistStore<PlaylistState>(() => {
           tracks: updatedTracks,
         };
 
-        log.debug(
+        log.info(
           `[PlaylistStore] Removed ${playlist.tracks.length - updatedTracks.length} tracks from playlist: ${playlist.title}`,
         );
         await PlaylistPersistenceService.update(updatedPlaylist);
@@ -90,7 +90,7 @@ const usePlaylistStore = createPlaylistStore<PlaylistState>(() => {
         const playlist = libraryAPI.getPlaylistFromID(playlistID);
 
         if (playlist) {
-          log.debug(
+          log.info(
             `[PlaylistStore] Toggling favorite for playlist: ${playlist.title}`,
           );
           await PlaylistPersistenceService.updateFavorite(playlist._id);
@@ -110,7 +110,7 @@ const usePlaylistStore = createPlaylistStore<PlaylistState>(() => {
             title: newTitle,
           };
 
-          log.debug(
+          log.info(
             `[PlaylistStore] Renamed playlist: ${playlist.title} to ${newTitle}`,
           );
           await PlaylistPersistenceService.update(updatedPlaylist);

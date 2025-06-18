@@ -45,7 +45,7 @@ interface PlayerState {
 const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
   const initialConfig = PlayerConfigService.getInitialConfig();
 
-  log.debug(
+  log.info(
     '[PlayerStore] Initializing player store with config:',
     initialConfig,
   );
@@ -138,7 +138,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
 
         if (queuePosition !== null) {
           if (currentTime > 5) {
-            log.debug('[PlayerStore] Rewind track');
+            log.info('[PlayerStore] Rewind track');
             api.setSongProgress(0);
             return;
           } else if (queuePosition === 0 && repeat === RepeatMode.ALL) {
@@ -156,7 +156,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
           const track = queue[newPosition];
 
           if (track) {
-            log.debug(debugMessage);
+            log.info(debugMessage);
             PlayerService.setTrack(track);
             await PlayerService.play();
 
@@ -185,23 +185,23 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
           case RepeatMode.OFF:
             PlayerService.setTrack(queue[queuePosition]);
             api.pause();
-            log.debug('[PlayerStore] Player finished playing. Pausing...');
+            log.info('[PlayerStore] Player finished playing. Pausing...');
             return;
 
           case RepeatMode.ONE:
-            log.debug('[PlayerStore] Repeating current track');
+            log.info('[PlayerStore] Repeating current track');
             break;
 
           case RepeatMode.ALL:
             newPosition = isLastTrack ? 0 : queuePosition + 1;
-            log.debug(
+            log.info(
               `[PlayerStore] Moving to ${isLastTrack ? 'first' : 'next'} track`,
             );
             break;
 
           default:
             newPosition = queuePosition + 1;
-            log.debug('[PlayerStore] Moving to next track');
+            log.info('[PlayerStore] Moving to next track');
             break;
         }
 
@@ -389,7 +389,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
 
         if (shuffle) {
           const newQueue = QueueUtils.shuffleTracks([...queue], queuePosition);
-          log.debug('[PlayerStore] Queue shuffled');
+          log.info('[PlayerStore] Queue shuffled');
 
           set({
             queue: newQueue,
@@ -402,7 +402,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
           const currentTrackIndex = originalQueue.findIndex(
             (track) => currentTrackID === track._id,
           );
-          log.debug('[PlayerStore] Queue back to original order');
+          log.info('[PlayerStore] Queue back to original order');
 
           set({
             queue: [...originalQueue],
