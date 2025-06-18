@@ -26,10 +26,11 @@ interface PlayerState {
     playPause: () => Promise<void>;
     stop: () => void;
     goToPrevious: () => Promise<void>;
-    handleTrackEnd: () => Promise<void>;
     skipToNext: () => Promise<void>;
+    handleTrackEnd: () => Promise<void>;
+    playTrackAt: (position: number) => Promise<void>;
     addToQueue: (tracks: TrackModel | TrackModel[]) => void;
-    playNext: (tracks: TrackModel | TrackModel[]) => void;
+    addNext: (tracks: TrackModel | TrackModel[]) => void;
     removeFromQueue: (tracks: string | string[]) => Promise<void>;
     jumpToTrack: (_id: string) => Promise<void>;
     setVolume: (volume: number) => void;
@@ -173,6 +174,16 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
           }
         }
       },
+      skipToNext: async () => {
+        const { queue, queuePosition, api } = get();
+
+        if (queuePosition === null || queue.length == 0) return;
+
+        const isLastTrack = queuePosition === queue.length - 1;
+        const newPosition = isLastTrack ? 0 : queuePosition + 1;
+
+        api.playTrackAt(newPosition);
+      },
       handleTrackEnd: async () => {
         const { queue, queuePosition, repeat, api } = get();
 
@@ -206,35 +217,17 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
             break;
         }
 
-        const track = queue[newPosition];
-
-        if (!track) {
-          log.error('[PlayerStore] Failed to retrieve next track');
-          api.setSongProgress(0);
-          api.stop();
-          return;
-        }
-
-        PlayerService.setTrack(track);
-        await PlayerService.play();
-
-        set({
-          playerStatus: PlayerStatus.PLAY,
-          queuePosition: newPosition,
-        });
+        api.playTrackAt(newPosition);
       },
-      skipToNext: async () => {
-        const { queue, queuePosition, api } = get();
+      playTrackAt: async (position) => {
+        const { queue, api } = get();
 
-        if (queuePosition === null || queue.length == 0) return;
+        if (queue.length === 0) return;
 
-        const isLastTrack = queuePosition === queue.length - 1;
-        const newPosition = isLastTrack ? 0 : queuePosition + 1;
-
-        const track = queue[newPosition];
+        const track = queue[position];
 
         if (!track) {
-          log.error('[PlayerStore] Failed to retrieve next track');
+          log.error('[PlayerStore] Failed to retrieve track');
           api.setSongProgress(0);
           api.stop();
           return;
@@ -247,7 +240,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
 
         set({
           playerStatus: PlayerStatus.PLAY,
-          queuePosition: newPosition,
+          queuePosition: position,
         });
       },
       addToQueue: (tracks) => {
@@ -272,7 +265,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
           playerStatus: PlayerStatus.PAUSE,
         });
       },
-      playNext: (tracks) => {
+      addNext: (tracks) => {
         const { queue, originalQueue, queuePosition } = get();
         const filteredTracks = QueueUtils.filterDuplicateTracks(queue, tracks);
 
