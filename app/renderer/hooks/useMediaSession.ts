@@ -97,12 +97,12 @@ export default function useMediaSession() {
 
     navigator.mediaSession.setActionHandler('previoustrack', () => {
       log.debug('[useMediaSession] PreviousTrack action triggered');
-      playerAPI.previous();
+      playerAPI.goToPrevious();
     });
 
     navigator.mediaSession.setActionHandler('nexttrack', () => {
       log.debug('[useMediaSession] NextTrack action triggered');
-      playerAPI.next();
+      playerAPI.skipToNext();
     });
   }, [playerAPI]);
 

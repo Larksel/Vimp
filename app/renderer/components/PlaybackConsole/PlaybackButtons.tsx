@@ -53,7 +53,7 @@ export default function PlaybackButtons() {
       <Button
         variant={'glass'}
         className='flex size-8 items-center justify-center rounded-full p-0'
-        onClick={() => playerAPI.previous()}
+        onClick={() => playerAPI.goToPrevious()}
       >
         <SkipBack size={20} />
       </Button>
@@ -73,7 +73,7 @@ export default function PlaybackButtons() {
       <Button
         variant={'glass'}
         className='flex size-8 items-center justify-center rounded-full p-0'
-        onClick={() => playerAPI.next()}
+        onClick={() => playerAPI.skipToNext()}
       >
         <SkipForward size={20} />
       </Button>

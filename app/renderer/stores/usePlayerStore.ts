@@ -25,8 +25,9 @@ interface PlayerState {
     pause: () => void;
     playPause: () => Promise<void>;
     stop: () => void;
-    previous: () => Promise<void>;
-    next: () => Promise<void>;
+    goToPrevious: () => Promise<void>;
+    handleTrackEnd: () => Promise<void>;
+    skipToNext: () => Promise<void>;
     addToQueue: (tracks: TrackModel | TrackModel[]) => void;
     playNext: (tracks: TrackModel | TrackModel[]) => void;
     removeFromQueue: (tracks: string | string[]) => Promise<void>;
@@ -129,7 +130,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
           playerStatus: PlayerStatus.STOP,
         });
       },
-      previous: async () => {
+      goToPrevious: async () => {
         const { queue, queuePosition, repeat, api } = get();
         const currentTime = PlayerService.getCurrentTime();
 
@@ -172,7 +173,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
           }
         }
       },
-      next: async () => {
+      handleTrackEnd: async () => {
         const { queue, queuePosition, repeat, api } = get();
 
         if (queuePosition === null || queue.length == 0) return;
@@ -213,6 +214,33 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
           api.stop();
           return;
         }
+
+        PlayerService.setTrack(track);
+        await PlayerService.play();
+
+        set({
+          playerStatus: PlayerStatus.PLAY,
+          queuePosition: newPosition,
+        });
+      },
+      skipToNext: async () => {
+        const { queue, queuePosition, api } = get();
+
+        if (queuePosition === null || queue.length == 0) return;
+
+        const isLastTrack = queuePosition === queue.length - 1;
+        const newPosition = isLastTrack ? 0 : queuePosition + 1;
+
+        const track = queue[newPosition];
+
+        if (!track) {
+          log.error('[PlayerStore] Failed to retrieve next track');
+          api.setSongProgress(0);
+          api.stop();
+          return;
+        }
+
+        log.info('[PlayerStore] Skipping to next track');
 
         PlayerService.setTrack(track);
         await PlayerService.play();
