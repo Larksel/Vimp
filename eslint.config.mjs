@@ -34,6 +34,7 @@ export default tseslint.config(
       'import/no-nodejs-modules': 'off',
       'import/no-dynamic-require': 'warn',
       'import/named': 'off',
+      'prefer-const': 'warn',
     },
   },
 );
