@@ -25,7 +25,9 @@ export default function PlaylistMenu(props: PlaylistMenuProps) {
     <ContextMenu>
       <ContextMenuTrigger>{children}</ContextMenuTrigger>
       <ContextMenuContent>
-        <ContextMenuItem onClick={handleRemove}>Excluir Playlist</ContextMenuItem>
+        <ContextMenuItem onClick={handleRemove}>
+          Excluir Playlist
+        </ContextMenuItem>
       </ContextMenuContent>
     </ContextMenu>
   );

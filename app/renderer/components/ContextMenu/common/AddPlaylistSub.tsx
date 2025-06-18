@@ -14,7 +14,8 @@ interface AddPlaylistSubProps {
   track: TrackModel;
 }
 
-export default function AddPlaylistSub({ track }: AddPlaylistSubProps) {
+export default function AddPlaylistSub(props: AddPlaylistSubProps) {
+  const { track } = props;
   const playlists = useLibraryStore((state) => state.contents.playlists);
   const playlistAPI = usePlaylistAPI();
 

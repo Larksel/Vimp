@@ -11,7 +11,8 @@ interface PlaylistListProps {
   collapsed: boolean;
 }
 
-export default function PlaylistList({ collapsed }: PlaylistListProps) {
+export default function PlaylistList(props: PlaylistListProps) {
+  const { collapsed } = props;
   const playlists = useLibraryStore((state) => state.contents.playlists);
   const [search, setSearch] = useState('');
   const navigate = useNavigate();

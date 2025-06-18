@@ -8,7 +8,9 @@ interface CardListProps {
   max: number;
 }
 
-export default function CardList({ data, max }: CardListProps) {
+export default function CardList(props: CardListProps) {
+  const { data, max } = props;
+
   return (
     <ScrollArea className='rounded-lg'>
       <div className='flex gap-6 pb-1'>

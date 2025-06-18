@@ -14,7 +14,8 @@ interface TrackMenuProps {
   track: TrackModel;
 }
 
-export default function TrackMenu({ children, track }: TrackMenuProps) {
+export default function TrackMenu(props: TrackMenuProps) {
+  const { children, track } = props;
   const playerAPI = usePlayerAPI();
 
   const handleAddToQueue = () => {

@@ -16,10 +16,7 @@ interface InfoTextProps
   children: string;
 }
 
-export default function InfoText({
-  children,
-  variant,
-  className,
-}: InfoTextProps) {
+export default function InfoText(props: InfoTextProps) {
+  const { children, variant, className } = props;
   return <p className={cn(textVariants({ variant, className }))}>{children}</p>;
 }

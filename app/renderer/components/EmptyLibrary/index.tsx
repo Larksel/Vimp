@@ -5,7 +5,8 @@ interface EmptyLibraryProps {
   viewName: string;
 }
 
-export default function EmptyLibrary({ viewName }: EmptyLibraryProps) {
+export default function EmptyLibrary(props: EmptyLibraryProps) {
+  const { viewName } = props;
   const forceScan = async () => {
     log.debug(`[${viewName}] Triggered library scan and save`);
     const importedFiles = await window.VimpAPI.library.scanAndSave();

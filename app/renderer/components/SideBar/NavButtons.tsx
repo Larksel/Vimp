@@ -43,7 +43,8 @@ interface NavButtonsProps {
   collapsed: boolean;
 }
 
-export default function NavButtons({ collapsed }: NavButtonsProps) {
+export default function NavButtons(props: NavButtonsProps) {
+  const { collapsed } = props;
   const navigate = useNavigate();
   const location = useLocation();
 

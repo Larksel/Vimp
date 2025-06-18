@@ -6,10 +6,16 @@ export default function PlayerEvents() {
   const playerAPI = usePlayerAPI();
 
   useEffect(() => {
-    PlayerService.getAudio().addEventListener('ended', playerAPI.handleTrackEnd);
+    PlayerService.getAudio().addEventListener(
+      'ended',
+      playerAPI.handleTrackEnd,
+    );
 
     return function cleanup() {
-      PlayerService.getAudio().removeEventListener('ended', playerAPI.handleTrackEnd);
+      PlayerService.getAudio().removeEventListener(
+        'ended',
+        playerAPI.handleTrackEnd,
+      );
     };
   }, [playerAPI]);
 

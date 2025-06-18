@@ -6,7 +6,8 @@ interface ExpandedViewProps {
   visible: boolean;
 }
 
-export default function ExpandedView({ visible }: ExpandedViewProps) {
+export default function ExpandedView(props: ExpandedViewProps) {
+  const { visible } = props;
   const track = useCurrentTrack();
 
   return (
