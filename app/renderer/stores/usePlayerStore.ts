@@ -174,50 +174,53 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
       },
       next: async () => {
         const { queue, queuePosition, repeat, api } = get();
-        let newPosition: number;
-        let debugMessage: string;
 
-        if (queuePosition !== null) {
-          if (repeat === RepeatMode.ONE) {
-            debugMessage = '[PlayerStore] Replay track';
-            newPosition = queuePosition;
-          } else if (
-            repeat === RepeatMode.ALL &&
-            queuePosition === queue.length - 1
-          ) {
-            debugMessage = '[PlayerStore] Go to first track';
-            newPosition = 0;
-          } else if (
-            repeat === RepeatMode.OFF &&
-            queuePosition === queue.length - 1
-          ) {
-            log.debug('[PlayerStore] Player finished playing');
+        if (queuePosition === null || queue.length == 0) return;
+
+        const isLastTrack = queuePosition === queue.length - 1;
+        let newPosition = queuePosition;
+
+        switch (repeat) {
+          // This case is treated as if the track has been fully played and is now being considered as a new playback
+          case RepeatMode.OFF:
+            PlayerService.setTrack(queue[queuePosition]);
             api.pause();
-            api.setSongProgress(0);
+            log.debug('[PlayerStore] Player finished playing. Pausing...');
             return;
-          } else {
-            // This case is treated as if the track has been fully played and is now being considered as a new playback
-            debugMessage = '[PlayerStore] Go to next track';
+
+          case RepeatMode.ONE:
+            log.debug('[PlayerStore] Repeating current track');
+            break;
+
+          case RepeatMode.ALL:
+            newPosition = isLastTrack ? 0 : queuePosition + 1;
+            log.debug(
+              `[PlayerStore] Moving to ${isLastTrack ? 'first' : 'next'} track`,
+            );
+            break;
+
+          default:
             newPosition = queuePosition + 1;
-          }
-
-          const track = queue[newPosition];
-
-          if (track) {
-            log.debug(debugMessage);
-            PlayerService.setTrack(track);
-            await PlayerService.play();
-
-            set({
-              playerStatus: PlayerStatus.PLAY,
-              queuePosition: newPosition,
-            });
-          } else {
-            log.error('[PlayerStore] Error while switching to the next track');
-            api.setSongProgress(0);
-            api.stop();
-          }
+            log.debug('[PlayerStore] Moving to next track');
+            break;
         }
+
+        const track = queue[newPosition];
+
+        if (!track) {
+          log.error('[PlayerStore] Failed to retrieve next track');
+          api.setSongProgress(0);
+          api.stop();
+          return;
+        }
+
+        PlayerService.setTrack(track);
+        await PlayerService.play();
+
+        set({
+          playerStatus: PlayerStatus.PLAY,
+          queuePosition: newPosition,
+        });
       },
       addToQueue: (tracks) => {
         const { queue, originalQueue } = get();
