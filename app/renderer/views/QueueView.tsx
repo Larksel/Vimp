@@ -7,9 +7,9 @@ export default function QueueView() {
 
   const handleItemClick = (trackID: string) => {
     if (queue.length > 0) {
-      playerAPI.jumpToTrack(trackID);
+      playerAPI.playTrackById(trackID);
     } else {
-      playerAPI.start(queue, trackID);
+      playerAPI.startPlayback(queue, trackID);
     }
   };
 

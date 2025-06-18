@@ -75,7 +75,7 @@ export default function useMediaSession() {
 
     navigator.mediaSession.setActionHandler('seekto', (e) => {
       log.debug('[useMediaSession] SeekTo action triggered');
-      if (e.seekTime) playerAPI.setSongProgress(e.seekTime);
+      if (e.seekTime) playerAPI.seekTo(e.seekTime);
     });
 
     navigator.mediaSession.setActionHandler('seekbackward', () => {
@@ -97,12 +97,12 @@ export default function useMediaSession() {
 
     navigator.mediaSession.setActionHandler('previoustrack', () => {
       log.debug('[useMediaSession] PreviousTrack action triggered');
-      playerAPI.goToPrevious();
+      playerAPI.playPreviousTrack();
     });
 
     navigator.mediaSession.setActionHandler('nexttrack', () => {
       log.debug('[useMediaSession] NextTrack action triggered');
-      playerAPI.skipToNext();
+      playerAPI.playNextTrack();
     });
   }, [playerAPI]);
 

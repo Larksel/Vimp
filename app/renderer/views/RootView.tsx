@@ -30,7 +30,7 @@ export default function RootView() {
 
     const tracks = sortUtils.sortByString(dbTracks, 'title');
     libraryAPI.setTracks(tracks);
-    playerAPI.updateQueue(tracks);
+    playerAPI.refreshQueueMetadata(tracks);
   };
 
   const loadPlaylists = async () => {

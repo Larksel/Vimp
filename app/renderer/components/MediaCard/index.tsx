@@ -18,7 +18,7 @@ export default function MediaCard(props: MediaCardProps) {
   const playerAPI = usePlayerAPI();
 
   const playTrack = () => {
-    playerAPI.start(queue, item._id);
+    playerAPI.startPlayback(queue, item._id);
   };
 
   return (

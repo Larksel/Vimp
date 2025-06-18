@@ -40,7 +40,7 @@ export default function PlaylistView() {
   const { playlist, tracks } = loaderData;
 
   const playTracks = () => {
-    playerAPI.start(tracks);
+    playerAPI.startPlayback(tracks);
   };
 
   const toggleFavorite = async () => {
@@ -48,7 +48,7 @@ export default function PlaylistView() {
   };
 
   const handleItemClick = (trackID: string) => {
-    playerAPI.start(tracks, trackID);
+    playerAPI.startPlayback(tracks, trackID);
   };
 
   const totalDuration = () => {

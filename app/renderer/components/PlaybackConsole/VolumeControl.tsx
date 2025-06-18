@@ -15,11 +15,11 @@ export default function VolumeControl() {
   const playerAPI = usePlayerAPI();
   const audioVolume = PlayerService.getVolume();
 
-  const isMuted = usePlayerStore((state) => state.isMuted);
+  const isPlayerMuted = usePlayerStore((state) => state.isPlayerMuted);
   const [volume, setVolume] = useState(audioVolume);
 
   const handleVolumeChange = (value: number) => {
-    if (isMuted) {
+    if (isPlayerMuted) {
       playerAPI.setIsMuted(false);
     }
     playerAPI.setVolume(value);
@@ -27,7 +27,7 @@ export default function VolumeControl() {
   };
 
   const volumeIcons = () => {
-    if (volume === 0 || isMuted) {
+    if (volume === 0 || isPlayerMuted) {
       return <SpeakerSimpleX size={24} />;
     } else if (volume < 0.5) {
       return <SpeakerSimpleLow size={24} />;
@@ -39,7 +39,7 @@ export default function VolumeControl() {
   return (
     <div className='flex flex-row items-center justify-center gap-2'>
       <Button
-        onClick={() => playerAPI.setIsMuted(!isMuted)}
+        onClick={() => playerAPI.setIsMuted(!isPlayerMuted)}
         variant={'glass'}
         className='aspect-square size-6 rounded-full p-0'
       >

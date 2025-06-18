@@ -11,7 +11,7 @@ export default function PlaybackTrack() {
   const songProgress = usePlayerCurrentTime();
 
   const handleProgressChange = (value: number) => {
-    playerAPI.setSongProgress(value);
+    playerAPI.seekTo(value);
   };
 
   return (

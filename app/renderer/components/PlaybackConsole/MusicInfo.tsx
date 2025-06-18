@@ -20,7 +20,7 @@ export default function MusicInfo() {
 
   const toggleFavorite = async () => {
     if (!track) return;
-    playerAPI.toggleFavorite(track._id);
+    playerAPI.toggleTrackFavorite(track._id);
   };
 
   return (

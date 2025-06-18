@@ -22,11 +22,11 @@ export default function TrackMenu({ children, track }: TrackMenuProps) {
   };
 
   const handleAddNext = () => {
-    playerAPI.addNext(track);
+    playerAPI.queueNext(track);
   };
 
   const handleRemoveFromQueue = () => {
-    playerAPI.removeFromQueue(track._id);
+    playerAPI.removeTracksFromQueue(track._id);
   };
 
   return (

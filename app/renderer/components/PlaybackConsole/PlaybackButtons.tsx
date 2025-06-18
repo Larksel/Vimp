@@ -15,8 +15,8 @@ import { Button } from '@components/common/button';
 export default function PlaybackButtons() {
   const playerAPI = usePlayerAPI();
   const playerStatus = usePlayerStore((state) => state.playerStatus);
-  const shuffle = usePlayerStore((state) => state.shuffle);
-  const repeat = usePlayerStore((state) => state.repeat);
+  const isShuffleEnabled = usePlayerStore((state) => state.isShuffleEnabled);
+  const repeatMode = usePlayerStore((state) => state.repeatMode);
 
   const isPlaying = () => {
     switch (playerStatus) {
@@ -46,21 +46,21 @@ export default function PlaybackButtons() {
       >
         <Shuffle
           size={20}
-          className={`${shuffle ? 'text-accent' : ''}`}
+          className={`${isShuffleEnabled ? 'text-accent' : ''}`}
         />
       </Button>
 
       <Button
         variant={'glass'}
         className='flex size-8 items-center justify-center rounded-full p-0'
-        onClick={() => playerAPI.goToPrevious()}
+        onClick={() => playerAPI.playPreviousTrack()}
       >
         <SkipBack size={20} />
       </Button>
 
       <Button
         variant={'filled'}
-        onClick={() => playerAPI.playPause()}
+        onClick={() => playerAPI.togglePlayPause()}
         className='flex size-8 items-center justify-center rounded-full p-0'
       >
         {isPlaying() ? (
@@ -73,7 +73,7 @@ export default function PlaybackButtons() {
       <Button
         variant={'glass'}
         className='flex size-8 items-center justify-center rounded-full p-0'
-        onClick={() => playerAPI.skipToNext()}
+        onClick={() => playerAPI.playNextTrack()}
       >
         <SkipForward size={20} />
       </Button>
@@ -81,9 +81,9 @@ export default function PlaybackButtons() {
       <Button
         variant={'glass'}
         className='flex size-8 items-center justify-center rounded-full p-0'
-        onClick={() => playerAPI.toggleRepeat()}
+        onClick={() => playerAPI.toggleRepeatMode()}
       >
-        {repeatIcons[repeat]}
+        {repeatIcons[repeatMode]}
       </Button>
     </div>
   );
