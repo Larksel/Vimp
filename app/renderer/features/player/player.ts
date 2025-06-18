@@ -47,11 +47,10 @@ class Player {
     this.track = null;
     this.hasPlayed = false;
 
-    this.gainNode.gain.value = this.volume;
+    this.gainNode.gain.value = defaultOptions.muted ? 0 : this.volume;
     this.audio.volume = 1;
     this.audio.defaultPlaybackRate = defaultOptions.playbackRate;
     this.audio.playbackRate = defaultOptions.playbackRate;
-    this.audio.muted = defaultOptions.muted;
   }
 
   /**
