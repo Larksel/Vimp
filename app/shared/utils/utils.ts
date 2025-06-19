@@ -40,7 +40,7 @@ export const createGenericTrack = (): Track => {
     playCount: 0,
     dateAdded: new Date(),
     genre: 'Unknown genre',
-    cover: '',
+    cover: null,
     path: '',
   };
 };

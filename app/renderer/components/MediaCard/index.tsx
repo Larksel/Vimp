@@ -32,7 +32,7 @@ export default function MediaCard(props: MediaCardProps) {
             <Play weight='fill' size={20} />
           </div>
           <img
-            src={item.cover || placeholder}
+            src={item.cover ?? placeholder}
             alt=''
             className='aspect-square w-full rounded-sm object-cover select-none'
           />

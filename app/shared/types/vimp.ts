@@ -42,7 +42,7 @@ export interface Track extends CommonData {
   genre: string | string[];
   duration: number;
   path: string;
-  cover: string;
+  cover: string | null;
   albumartist?: string;
 }
 

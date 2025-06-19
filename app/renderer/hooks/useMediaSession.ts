@@ -1,5 +1,6 @@
 import { createRendererLogger } from '@render-utils/logger';
 import { useEffect, useCallback } from 'react';
+import placeholderImage from '@assets/images/placeholder.png';
 
 import useCurrentTrack from '@hooks/useCurrentTrack';
 import usePlayerCurrentTime from '@hooks/usePlayerCurrentTime';
@@ -31,7 +32,7 @@ export default function useMediaSession() {
         title: currentTrack.title,
         artist: artists,
         album: currentTrack.album,
-        artwork: currentTrack.cover ? [{ src: currentTrack.cover }] : undefined,
+        artwork: [{ src: currentTrack.cover ?? placeholderImage }],
       });
     }
   }, [currentTrack]);

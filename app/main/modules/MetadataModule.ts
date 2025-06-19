@@ -94,7 +94,7 @@ export default class MetadataModule
       playCount: 0,
       favorite: false,
       path: '',
-      cover: '',
+      cover: null,
     };
   }
 
@@ -119,12 +119,15 @@ export default class MetadataModule
     };
 
     if (picture) {
+      const base64Cover = this.parseBase64(
+        picture.format,
+        picture.data.toString('base64'),
+      );
+      const cover = base64Cover !== '' ? base64Cover : null;
+
       return {
         ...metadata,
-        cover: this.parseBase64(
-          picture.format,
-          picture.data.toString('base64'),
-        ),
+        cover: cover,
       };
     }
 

@@ -26,7 +26,7 @@ export default function TrackRow(props: TrackRowProps) {
 
         <div className='flex h-full items-center gap-3 truncate'>
           <img
-            src={track.cover || placeholder}
+            src={track.cover ?? placeholder}
             alt=''
             className='size-12 shrink-0 rounded-sm object-cover'
           />

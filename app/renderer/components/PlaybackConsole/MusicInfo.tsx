@@ -32,7 +32,7 @@ export default function MusicInfo() {
           className={`flex h-full w-full items-center select-none ${visible ? 'gap-0' : 'gap-2'} hover:bg-surface-highlight overflow-hidden rounded-lg p-2 transition-all`}
         >
           <img
-            src={track ? track.cover || placeholderImage : placeholderImage}
+            src={track?.cover ?? placeholderImage}
             alt=''
             className={`size-16 rounded-sm object-cover transition-all ${visible ? 'w-0 opacity-0' : ''}`}
           />
