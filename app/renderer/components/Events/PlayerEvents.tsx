@@ -10,11 +10,19 @@ export default function PlayerEvents() {
       'ended',
       playerAPI.handleTrackEnd,
     );
+    PlayerService.getAudio().addEventListener(
+      'timeupdate',
+      playerAPI.handlePlayerTick,
+    );
 
     return function cleanup() {
       PlayerService.getAudio().removeEventListener(
         'ended',
         playerAPI.handleTrackEnd,
+      );
+      PlayerService.getAudio().removeEventListener(
+        'timeupdate',
+        playerAPI.handlePlayerTick,
       );
     };
   }, [playerAPI]);

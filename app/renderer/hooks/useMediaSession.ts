@@ -3,9 +3,8 @@ import { useEffect, useCallback } from 'react';
 import placeholderImage from '@assets/images/placeholder.png';
 
 import useCurrentTrack from '@hooks/useCurrentTrack';
-import usePlayerCurrentTime from '@hooks/usePlayerCurrentTime';
 import { PlayerService } from '@features/player';
-import { usePlayerAPI } from '@stores/usePlayerStore';
+import usePlayerStore, { usePlayerAPI } from '@stores/usePlayerStore';
 
 const logger = createRendererLogger('useMediaSession');
 
@@ -14,7 +13,7 @@ const logger = createRendererLogger('useMediaSession');
  */
 export default function useMediaSession() {
   const currentTrack = useCurrentTrack();
-  const currentTime = usePlayerCurrentTime();
+  const currentTime = usePlayerStore((state) => state.songProgress);
   const playerAPI = usePlayerAPI();
 
   /**

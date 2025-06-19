@@ -1,14 +1,13 @@
 import { Slider } from '@components/common/slider';
 
 import { formatDuration } from '@render-utils/utils';
-import { usePlayerAPI } from '@stores/usePlayerStore';
-import usePlayerCurrentTime from '@hooks/usePlayerCurrentTime';
+import usePlayerStore, { usePlayerAPI } from '@stores/usePlayerStore';
 import useCurrentTrack from '@hooks/useCurrentTrack';
 
 export default function PlaybackTrack() {
   const currentTrack = useCurrentTrack();
   const playerAPI = usePlayerAPI();
-  const songProgress = usePlayerCurrentTime();
+  const songProgress = usePlayerStore((state) => state.songProgress);
 
   const handleProgressChange = (value: number) => {
     playerAPI.seekTo(value);

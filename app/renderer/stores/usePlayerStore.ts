@@ -13,6 +13,7 @@ interface PlayerState {
   queue: TrackModel[];
   originalQueue: TrackModel[];
   queuePosition: number | null;
+  songProgress: number;
   isShuffleEnabled: boolean;
   repeatMode: RepeatMode;
   playbackRate: number;
@@ -41,6 +42,7 @@ interface PlayerState {
     toggleShuffle: () => Promise<void>;
     toggleRepeatMode: () => Promise<void>;
     seekTo: (position: number) => void;
+    handlePlayerTick: () => void;
     setPlaybackRate: (playbackRate: number) => void;
     refreshQueueMetadata: (tracks: TrackModel[]) => void;
   };
@@ -55,6 +57,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
     queue: [],
     originalQueue: [],
     queuePosition: null,
+    songProgress: 0,
     isShuffleEnabled: initialConfig.audioShuffle,
     repeatMode: initialConfig.audioRepeatMode,
     playerStatus: PlayerStatus.STOP,
@@ -193,14 +196,18 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
 
         if (!track) {
           logger.error('Failed to find track');
-          api.seekTo(0);
           api.stop();
           return;
         }
 
         logger.debug(`Playing track at index ${index}`);
 
+        /*
+          Zera o progresso da música atual antes de avançar para a próxima.
+          Evita erros de discordancia entre o progresso atual e a duração da música ao trocar para uma com duração inferior.
+        */
         PlayerService.setTrack(track);
+        api.seekTo(0);
         api.play();
 
         set({
@@ -420,6 +427,11 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
       },
       seekTo: (position) => {
         PlayerService.setCurrentTime(position);
+        set({ songProgress: position });
+      },
+      handlePlayerTick: () => {
+        const currentTime = PlayerService.getCurrentTime();
+        set({ songProgress: currentTime });
       },
       setPlaybackRate: (playbackRate) => {
         if (playbackRate >= 0.25 && playbackRate <= 2) {
