@@ -13,7 +13,7 @@ const logger = createRendererLogger('useMediaSession');
  */
 export default function useMediaSession() {
   const currentTrack = useCurrentTrack();
-  const currentTime = usePlayerStore((state) => state.songProgress);
+  const currentTime = usePlayerStore((state) => state.currentTime);
   const playerAPI = usePlayerAPI();
 
   /**

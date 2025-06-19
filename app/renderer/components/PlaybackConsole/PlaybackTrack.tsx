@@ -7,7 +7,7 @@ import useCurrentTrack from '@hooks/useCurrentTrack';
 export default function PlaybackTrack() {
   const currentTrack = useCurrentTrack();
   const playerAPI = usePlayerAPI();
-  const songProgress = usePlayerStore((state) => state.songProgress);
+  const currentTime = usePlayerStore((state) => state.currentTime);
 
   const handleProgressChange = (value: number) => {
     playerAPI.seekTo(value);
@@ -16,11 +16,11 @@ export default function PlaybackTrack() {
   return (
     <div className='flex w-full flex-row items-center justify-between gap-3'>
       <p className='text-text-secondary min-w-10 text-right text-xs'>
-        {formatDuration(songProgress)}
+        {formatDuration(currentTime)}
       </p>
 
       <Slider
-        value={[songProgress]}
+        value={[currentTime]}
         min={0}
         max={currentTrack ? currentTrack.duration : 0}
         step={0.1}

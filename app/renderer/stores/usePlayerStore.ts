@@ -13,7 +13,7 @@ interface PlayerState {
   queue: TrackModel[];
   originalQueue: TrackModel[];
   queuePosition: number | null;
-  songProgress: number;
+  currentTime: number;
   isShuffleEnabled: boolean;
   repeatMode: RepeatMode;
   playbackRate: number;
@@ -57,7 +57,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
     queue: [],
     originalQueue: [],
     queuePosition: null,
-    songProgress: 0,
+    currentTime: 0,
     isShuffleEnabled: initialConfig.audioShuffle,
     repeatMode: initialConfig.audioRepeatMode,
     playerStatus: PlayerStatus.STOP,
@@ -427,11 +427,11 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
       },
       seekTo: (position) => {
         PlayerService.setCurrentTime(position);
-        set({ songProgress: position });
+        set({ currentTime: position });
       },
       handlePlayerTick: () => {
         const currentTime = PlayerService.getCurrentTime();
-        set({ songProgress: currentTime });
+        set({ currentTime });
       },
       setPlaybackRate: (playbackRate) => {
         if (playbackRate >= 0.25 && playbackRate <= 2) {
