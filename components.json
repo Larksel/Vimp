@@ -4,7 +4,7 @@
   "rsc": false,
   "tsx": true,
   "tailwind": {
-    "config": "tailwind.config.js",
+    "config": "",
     "css": "app/renderer/index.css",
     "baseColor": "neutral",
     "cssVariables": false,
@@ -13,6 +13,8 @@
   "aliases": {
     "components": "@components",
     "utils": "@render-utils/utils",
-    "ui": "@components/common"
+    "ui": "@components/common",
+    "hooks": "@hooks",
+    "lib": "@render-utils"
   }
 }
