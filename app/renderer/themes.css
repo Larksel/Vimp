@@ -1,49 +1,49 @@
 /* Default theme. Override only the necessary colors when creating a new theme. */
 :root {
   /* Background Colors */
-  --background: #000000;
-  --surface-base: #121212;
-  --surface-highlight: #242424;
-  --surface-active: #363636;
-  --elevated-base: #181818;
-  --elevated-highlight: #262626;
-  --elevated-active: #343434;
+  --background: hsl(0, 0%, 0%);
+  --surface-base: hsl(0, 0%, 7%);
+  --surface-highlight: hsl(0, 0%, 14%);
+  --surface-active: hsl(0, 0%, 21%);
+  --elevated-base: hsl(0, 0%, 9%);
+  --elevated-highlight: hsl(0, 0%, 15%);
+  --elevated-active: hsl(0, 0%, 20%);
   --glass-base: hsla(0, 0%, 0%, 0.6);
-  --glass-highlight: hsla(0, 0%, 0%, 1);
-  --glass-active: hsla(0, 0%, 0%, 0.8);
+  --glass-highlight: hsla(0, 0%, 0%, 0.8);
+  --glass-active: hsla(0, 0%, 0%, 1);
 
   /* Text Colors */
-  --text-primary: #ffffff;
-  --text-secondary: #878787;
-  --text-sub: #333333;
-  --text-black: #000000;
+  --text-primary: hsl(0, 0%, 90%);
+  --text-secondary: hsl(0, 0%, 50%);
+  --text-sub: hsl(0, 0%, 20%);
+  --text-black: hsl(0, 0%, 0%);
 
   /* Essential Colors */
-  --base: #ffffff;
-  --accent: #00c850;
-  --danger: #bd0000;
-  --info: #5db6dc;
-  --success: #009f55;
-  --warning: #ffc107;
+  --base: hsl(0, 0%, 100%);
+  --accent: hsl(144, 100%, 39%);
+  --danger: hsl(0, 100%, 37%);
+  --info: hsl(198, 64%, 61%);
+  --success: hsl(152, 100%, 31%);
+  --warning: hsl(45, 100%, 51%);
 
   /* Logo Colors */
-  --decoration-base: #ff4057;
-  --decoration-background: #282634;
+  --decoration-base: hsl(353, 100%, 63%);
+  --decoration-background: hsl(249, 16%, 18%);
 }
 
 [data-theme='alternative'] {
   /* Background Colors */
-  --background: #020008;
-  --surface-base: #161422;
-  --surface-highlight: #282634;
-  --surface-active: #403846;
-  --elevated-base: #282634;
-  --elevated-highlight: #363442;
-  --elevated-active: #444250;
-  --glass-base: hsla(255, 100%, 2%, 0.6);
-  --glass-highlight: hsla(255, 100%, 2%, 1);
-  --glass-active: hsla(255, 100%, 2%, 0.8);
+  --background: hsl(249, 100%, 2%);
+  --surface-base: hsl(249, 26%, 11%);
+  --surface-highlight: hsl(249, 16%, 18%);
+  --surface-active: hsl(249, 16%, 25%);
+  --elevated-base: hsl(249, 16%, 18%);
+  --elevated-highlight: hsl(249, 16%, 23%);
+  --elevated-active: hsl(249, 16%, 29%);
+  --glass-base: hsla(249, 100%, 2%, 0.6);
+  --glass-highlight: hsla(249, 100%, 2%, 1);
+  --glass-active: hsla(249, 100%, 2%, 0.8);
 
   /* Essential Colors */
-  --accent: #ff4057;
+  --accent: hsl(353, 100%, 63%);
 }
