@@ -27,7 +27,6 @@ export const sortUtils = {
         : strB.localeCompare(strA);
     });
   },
-
   sortByDate: <T>(
     array: T[],
     property: keyof T,
