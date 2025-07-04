@@ -33,7 +33,7 @@ export default function HomeView() {
     <div className='flex flex-col gap-4 p-4'>
       {recents.length > 0 && (
         <div>
-          <h3 className='text-text-primary mb-2 text-lg font-semibold capitalize'>
+          <h3 className='text-text-primary mb-2 font-semibold capitalize'>
             Recentemente Tocadas
           </h3>
           <CardList max={5} data={recents} />
@@ -41,7 +41,7 @@ export default function HomeView() {
       )}
       {favorites.length > 0 && (
         <div>
-          <h3 className='text-text-primary mb-2 text-lg font-semibold capitalize'>
+          <h3 className='text-text-primary mb-2 font-semibold capitalize'>
             Favoritas
           </h3>
           <CardList max={5} data={favorites} />
@@ -49,7 +49,7 @@ export default function HomeView() {
       )}
       {mostPlayed.length > 0 && (
         <div>
-          <h3 className='text-text-primary mb-2 text-lg font-semibold capitalize'>
+          <h3 className='text-text-primary mb-2 font-semibold capitalize'>
             Mais Tocadas
           </h3>
           <CardList max={5} data={mostPlayed} />
@@ -57,7 +57,7 @@ export default function HomeView() {
       )}
       {recentlyAdded.length > 0 && (
         <div>
-          <h3 className='text-text-primary mb-2 text-lg font-semibold capitalize'>
+          <h3 className='text-text-primary mb-2 font-semibold capitalize'>
             Recentemente Adicionadas
           </h3>
           <CardList max={10} data={recentlyAdded} />
