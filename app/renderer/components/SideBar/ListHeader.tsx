@@ -50,7 +50,7 @@ export default function ListHeader(props: ListHeaderProps) {
 
   return (
     <div className='z-10 flex h-12 w-full items-center justify-between gap-1 px-2 py-1 transition-all'>
-      <Popover open={popoverNewPlaylist}>
+      <Popover open={popoverNewPlaylist} modal>
         <PopoverTrigger asChild>
           <Button
             variant='surface'
@@ -60,7 +60,11 @@ export default function ListHeader(props: ListHeaderProps) {
             <Plus size={20} />
           </Button>
         </PopoverTrigger>
-        <PopoverContent align='center'>
+        <PopoverContent
+          align='center'
+          onEscapeKeyDown={openClosePopoverNewPlaylist}
+          onInteractOutside={openClosePopoverNewPlaylist}
+        >
           <form
             onSubmit={(e) => createPlaylist(e)}
             className='flex flex-col gap-2'
