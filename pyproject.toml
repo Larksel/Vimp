@@ -1,0 +1,45 @@
+[project]
+name = "vimp"
+version = "0.1.0"
+description = "Vimp"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "altgraph==0.17.4",
+    "auto-py-to-exe==2.45.1",
+    "bottle==0.12.25",
+    "bottle-websocket==0.2.9",
+    "certifi==2024.6.2",
+    "cffi==1.16.0",
+    "charset-normalizer==3.3.2",
+    "colorama==0.4.6",
+    "decorator==4.4.2",
+    "eel==0.16.0",
+    "future==1.0.0",
+    "gevent==24.2.1",
+    "gevent-websocket==0.10.1",
+    "greenlet==3.0.3",
+    "idna==3.7",
+    "imageio==2.34.1",
+    "imageio-ffmpeg==0.5.0",
+    "moviepy==1.0.3",
+    "music-tag==0.4.3",
+    "mutagen==1.47.0",
+    "numpy==1.26.4",
+    "packaging==24.0",
+    "pefile==2023.2.7",
+    "pillow==10.3.0",
+    "proglog==0.1.10",
+    "pycparser==2.22",
+    "pyinstaller==6.12.0",
+    "pyinstaller-hooks-contrib==2025.1",
+    "pyparsing==3.1.2",
+    "pytubefix==8.13.1",
+    "pywin32-ctypes==0.2.2",
+    "requests==2.32.3",
+    "tqdm==4.66.4",
+    "urllib3==2.2.1",
+    "whichcraft==0.6.1",
+    "zope-event==5.0",
+    "zope-interface==6.4.post2",
+]
