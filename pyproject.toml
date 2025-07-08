@@ -9,7 +9,7 @@ dependencies = [
     "auto-py-to-exe==2.45.1",
     "bottle==0.12.25",
     "bottle-websocket==0.2.9",
-    "certifi==2024.6.2",
+    "certifi==2024.7.4",
     "cffi==1.16.0",
     "charset-normalizer==3.3.2",
     "colorama==0.4.6",
