@@ -49,7 +49,7 @@ def ListMusic():
         if link == "0" or link == "":
             break
         downloader = Downloader(link)
-        downloader.get_music_playlist()
+        downloader.get_music_from_playlist()
 
 
 def ListVideo():
@@ -64,7 +64,7 @@ def ListVideo():
         if link == "0" or link == "":
             break
         downloader = Downloader(link)
-        downloader.get_video_playlist()
+        downloader.get_video_from_playlist()
 
 
 def ThumbMode():

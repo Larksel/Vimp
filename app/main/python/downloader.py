@@ -11,7 +11,7 @@ if __name__ != "__main__":
 
 
 class Downloader:
-    def __init__(self, link) -> None:
+    def __init__(self, link: str) -> None:
         # Carrega todos os atributos necessarios
         self.link = link
 
@@ -27,16 +27,12 @@ class Downloader:
                 if ind != -1:
                     self.link = self.link.replace(self.link[ind:], "")
                 else:
-                    print("Nao foi possivel alcancar o link do video")
+                    print("Não foi possível alcançar o link do vídeo")
 
         self.title = self.yt.title
         self.formatted_title = FileManager.format_filename(self.title)
         self.thumbnail_url = self.yt.thumbnail_url
-        self.thumbnail_path = dirmanager.tempfolder + f"{self.formatted_title}.jpg"
-
-        #   Video    |     Playlist
-        #     V                X        Video Unico
-        #     V                V          Playlist
+        self.thumbnail_path = dirmanager.TEMP_FOLDER + f"{self.formatted_title}.jpg"
 
     def get_thumbnail(self) -> None:
         opener = urllib.request.build_opener()
@@ -58,30 +54,30 @@ class Downloader:
     def get_video(self) -> None:
         print(f"Downloading: {self.title}")
 
-        dirmanager.make_dir(dirmanager.videofolder)
+        dirmanager.make_dir(dirmanager.VIDEO_FOLDER)
 
         video = self.yt.streams.get_highest_resolution()
         if video is not None:
-            video.download(dirmanager.videofolder)
+            video.download(dirmanager.VIDEO_FOLDER)
 
     def get_music(self) -> None:
         print(f"Downloading: {self.title}")
-        dirmanager.make_dir(dirmanager.tempfolder)
+        dirmanager.make_dir(dirmanager.TEMP_FOLDER)
 
         video = self.yt.streams.get_audio_only()
 
         if video is None:
             return
 
-        mp4_file = dirmanager.tempfolder + f"{self.formatted_title}.mp4"
-        mp3_file = dirmanager.musicfolder + f"{self.formatted_title}.mp3"
+        mp4_file = dirmanager.TEMP_FOLDER + f"{self.formatted_title}.mp4"
+        mp3_file = dirmanager.MUSIC_FOLDER + f"{self.formatted_title}.mp3"
 
         self.get_thumbnail()
 
-        video.download(dirmanager.tempfolder, f"{self.formatted_title}.mp4")
+        video.download(dirmanager.TEMP_FOLDER, f"{self.formatted_title}.mp4")
 
         # Convert to mp3
-        dirmanager.make_dir(dirmanager.musicfolder)
+        dirmanager.make_dir(dirmanager.MUSIC_FOLDER)
 
         Converter.video_to_audio(mp4_file, mp3_file)
         FileManager.set_audio_metadata(mp3_file, self.title, self.thumbnail_path)
@@ -91,7 +87,7 @@ class Downloader:
         FileManager.remove_tempfile(self.thumbnail_path)
 
     # Downloads every music from a playlist.
-    def get_music_playlist(self) -> None:
+    def get_music_from_playlist(self) -> None:
         print(f"Downloading {self.pl_length} audios from {self.pl_title}")
 
         for url in self.pl_list:
@@ -99,7 +95,7 @@ class Downloader:
             downloader.get_music()
 
     # Downloads every video from a playlist.
-    def get_video_playlist(self) -> None:
+    def get_video_from_playlist(self) -> None:
         print(f"Downloading {self.pl_length} videos from {self.pl_title}")
 
         for url in self.pl_list:

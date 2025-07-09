@@ -5,20 +5,20 @@ import music_tag
 
 class FileManager:
     @staticmethod
-    def set_audio_metadata(audiofile, titulo, thumbimg):
-        file = music_tag.load_file(audiofile)
+    def set_audio_metadata(file_path: str, title: str, img_path: str) -> None:
+        audio_file = music_tag.load_file(file_path)
 
-        file['album'] = titulo
-        with open(thumbimg, 'rb') as img:
-            file['artwork'] = img.read()
-        file['tracktitle'] = titulo
+        audio_file["album"] = title
+        with open(img_path, "rb") as img:
+            audio_file["artwork"] = img.read()
+        audio_file["tracktitle"] = title
 
-        file.save()
+        audio_file.save()
 
-    #TODO use regex
+    # TODO use regex
     # Removes every non-supported character from the filename
     @staticmethod
-    def format_filename(filename):
+    def format_filename(filename: str) -> str:
         blacklist = set("?*<>|:\\/" + '"')
         for ch in filename:
             if ch in blacklist:
@@ -26,7 +26,7 @@ class FileManager:
         return filename
 
     @staticmethod
-    def remove_tempfile(file):
+    def remove_tempfile(file: str) -> None:
         if os.path.exists(file):
             os.remove(file)
 
@@ -34,29 +34,25 @@ class FileManager:
 class DirManager:
     def __init__(self):
         self.USER_FOLDER = os.path.expanduser("~")
-        self.tempfolder = self.USER_FOLDER + "/Documents/Vimp Temp/"
-        self.musicfolder = self.USER_FOLDER + "/Desktop/Vimp Music/"
-        self.videofolder = self.USER_FOLDER + "/Desktop/Vimp Videos/"
+        self.TEMP_FOLDER = self.USER_FOLDER + "/Documents/Vimp Temp/"
+        self.MUSIC_FOLDER = self.USER_FOLDER + "/Desktop/Vimp Music/"
+        self.VIDEO_FOLDER = self.USER_FOLDER + "/Desktop/Vimp Videos/"
 
     @staticmethod
-    def make_dir(dir):
+    def make_dir(dir: str) -> None:
         if not os.path.exists(dir):
             os.mkdir(dir)
 
     @staticmethod
-    def remove_dir(dir):
+    def remove_dir(dir: str) -> None:
         if os.path.exists(dir):
             os.rmdir(dir)
 
-    def open_music_dir(self):
-        os.startfile(self.musicfolder)
+    def open_music_dir(self) -> None:
+        os.startfile(self.MUSIC_FOLDER)
 
-    def open_video_dir(self):
-        os.startfile(self.videofolder)
+    def open_video_dir(self) -> None:
+        os.startfile(self.VIDEO_FOLDER)
 
-    def open_temp_dir(self):
-        os.startfile(self.tempfolder)
-
-
-class DependenciesManager:
-    pass
+    def open_temp_dir(self) -> None:
+        os.startfile(self.TEMP_FOLDER)
