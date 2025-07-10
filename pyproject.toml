@@ -42,6 +42,7 @@ dependencies = [
     "typer>=0.16.0",
     "urllib3==2.2.1",
     "whichcraft==0.6.1",
+    "yt-dlp[default]>=2025.6.30",
     "zope-event==5.0",
     "zope-interface==6.4.post2",
 ]
