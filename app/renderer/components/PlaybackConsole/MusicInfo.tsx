@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { HeartStraight } from '@phosphor-icons/react';
+import { HeartStraightIcon } from '@phosphor-icons/react';
 
 import placeholderImage from '@assets/images/placeholder.png';
 import useCurrentTrack from '@hooks/useCurrentTrack';
@@ -60,7 +60,7 @@ export default function MusicInfo() {
             className='mx-2 aspect-square size-6 shrink-0 rounded-full p-0'
             onClick={toggleFavorite}
           >
-            <HeartStraight
+            <HeartStraightIcon
               size={24}
               weight={`${track.favorite ? 'fill' : 'regular'}`}
               className={`${track.favorite ? 'text-red-500' : ''} transition-all`}

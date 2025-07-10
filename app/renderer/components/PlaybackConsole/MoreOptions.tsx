@@ -1,4 +1,4 @@
-import { Playlist, Info } from '@phosphor-icons/react';
+import { PlaylistIcon, InfoIcon } from '@phosphor-icons/react';
 
 import VolumeControl from './VolumeControl';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -12,7 +12,7 @@ export default function MoreOptions() {
   const buttons = [
     {
       id: 'queue',
-      icon: <Playlist size={24} />,
+      icon: <PlaylistIcon size={24} />,
       action: () => {
         if (location.pathname.replace('/', '') !== routes.QUEUE)
           navigate(routes.QUEUE);
@@ -20,7 +20,7 @@ export default function MoreOptions() {
     },
     {
       id: 'moreinfo',
-      icon: <Info size={24} />,
+      icon: <InfoIcon size={24} />,
       action: () => console.log('Show extended music info'),
     },
   ];

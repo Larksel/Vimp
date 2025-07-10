@@ -1,6 +1,6 @@
 import { formatDuration } from '@render-utils/utils';
 import placeholder from '@assets/images/placeholder.png';
-import { HeartStraight, PlayCircle } from '@phosphor-icons/react';
+import { HeartStraightIcon, PlayCircleIcon } from '@phosphor-icons/react';
 import { TrackModel } from '@shared/types/vimp';
 import useCurrentTrack from '@hooks/useCurrentTrack';
 import TrackMenu from '@components/ContextMenu/TrackMenu';
@@ -47,12 +47,12 @@ export default function TrackRow(props: TrackRowProps) {
 
         <div className='grid h-full grid-cols-2 items-center justify-items-center'>
           {track.favorite ? (
-            <HeartStraight weight='fill' size={20} />
+            <HeartStraightIcon weight='fill' size={20} />
           ) : (
-            <HeartStraight size={20} />
+            <HeartStraightIcon size={20} />
           )}
           <span className='flex items-center justify-start gap-1 justify-self-start'>
-            <PlayCircle size={20} />
+            <PlayCircleIcon size={20} />
             <span>{track.playCount}</span>
           </span>
         </div>

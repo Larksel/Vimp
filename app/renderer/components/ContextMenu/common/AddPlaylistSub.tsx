@@ -6,7 +6,7 @@ import {
   ContextMenuSubTrigger,
 } from '@components/common/context-menu';
 import useLibraryStore from '@stores/useLibraryStore';
-import { Plus } from '@phosphor-icons/react';
+import { PlusIcon } from '@phosphor-icons/react';
 import { PlaylistModel, TrackModel } from '@shared/types/vimp';
 import { usePlaylistAPI } from '@stores/usePlaylistStore';
 
@@ -33,7 +33,7 @@ export default function AddPlaylistSub(props: AddPlaylistSubProps) {
     <ContextMenuSub>
       <ContextMenuSubTrigger>Adicionar à playlist</ContextMenuSubTrigger>
       <ContextMenuSubContent>
-        <ContextMenuItem icon={<Plus size={20} />}>
+        <ContextMenuItem icon={<PlusIcon size={20} />}>
           Nova Playlist
         </ContextMenuItem>
         {playlists.map((pl) => {

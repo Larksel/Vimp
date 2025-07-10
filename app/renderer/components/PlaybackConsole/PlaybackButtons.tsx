@@ -1,11 +1,11 @@
 import {
-  Shuffle,
-  SkipBack,
-  Play,
-  Pause,
-  SkipForward,
-  Repeat,
-  RepeatOnce,
+  ShuffleIcon,
+  SkipBackIcon,
+  PlayIcon,
+  PauseIcon,
+  SkipForwardIcon,
+  RepeatIcon,
+  RepeatOnceIcon,
 } from '@phosphor-icons/react';
 
 import usePlayerStore, { usePlayerAPI } from '@stores/usePlayerStore';
@@ -32,9 +32,9 @@ export default function PlaybackButtons() {
   };
 
   const repeatIcons = {
-    off: <Repeat size={20} />,
-    all: <Repeat size={20} className='text-accent' />,
-    one: <RepeatOnce size={20} className='text-accent' />,
+    off: <RepeatIcon size={20} />,
+    all: <RepeatIcon size={20} className='text-accent' />,
+    one: <RepeatOnceIcon size={20} className='text-accent' />,
   };
 
   return (
@@ -44,7 +44,7 @@ export default function PlaybackButtons() {
         className='flex size-8 items-center justify-center rounded-full p-0'
         onClick={() => playerAPI.toggleShuffle()}
       >
-        <Shuffle
+        <ShuffleIcon
           size={20}
           className={`${isShuffleEnabled ? 'text-accent' : ''}`}
         />
@@ -55,7 +55,7 @@ export default function PlaybackButtons() {
         className='flex size-8 items-center justify-center rounded-full p-0'
         onClick={() => playerAPI.playPreviousTrack()}
       >
-        <SkipBack size={20} />
+        <SkipBackIcon size={20} />
       </Button>
 
       <Button
@@ -64,9 +64,9 @@ export default function PlaybackButtons() {
         className='flex size-8 items-center justify-center rounded-full p-0'
       >
         {isPlaying() ? (
-          <Pause weight='fill' size={16} />
+          <PauseIcon weight='fill' size={16} />
         ) : (
-          <Play weight='fill' size={16} />
+          <PlayIcon weight='fill' size={16} />
         )}
       </Button>
 
@@ -75,7 +75,7 @@ export default function PlaybackButtons() {
         className='flex size-8 items-center justify-center rounded-full p-0'
         onClick={() => playerAPI.playNextTrack()}
       >
-        <SkipForward size={20} />
+        <SkipForwardIcon size={20} />
       </Button>
 
       <Button

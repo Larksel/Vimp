@@ -1,6 +1,6 @@
 import InfoText from '@components/InfoText';
 
-import { Play } from '@phosphor-icons/react';
+import { PlayIcon } from '@phosphor-icons/react';
 
 import placeholder from '@assets/images/placeholder.png';
 import { TrackModel } from '@shared/types/vimp';
@@ -29,7 +29,7 @@ export default function MediaCard(props: MediaCardProps) {
       >
         <div className='relative'>
           <div className='bg-accent absolute right-2 bottom-0 flex size-10 items-center justify-center rounded-full opacity-0 shadow-xs transition-all duration-300 group-hover:bottom-2 group-hover:opacity-100'>
-            <Play weight='fill' size={20} />
+            <PlayIcon weight='fill' size={20} />
           </div>
           <img
             src={item.cover ?? placeholder}

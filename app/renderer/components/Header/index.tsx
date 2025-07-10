@@ -1,5 +1,10 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import { CaretLeft, CaretRight, Bell, Gear } from '@phosphor-icons/react';
+import {
+  CaretLeftIcon,
+  CaretRightIcon,
+  BellIcon,
+  GearIcon,
+} from '@phosphor-icons/react';
 import { Button } from '@components/common/button';
 
 import routes from '@renderer/routes';
@@ -16,20 +21,20 @@ export default function Header() {
           onClick={() => navigate(-1)}
           className='aspect-square rounded-full p-0'
         >
-          <CaretLeft size={20} />
+          <CaretLeftIcon size={20} />
         </Button>
         <Button
           variant='glass'
           onClick={() => navigate(1)}
           className='aspect-square rounded-full p-0'
         >
-          <CaretRight size={20} />
+          <CaretRightIcon size={20} />
         </Button>
       </div>
 
       <div className='flex flex-row gap-2'>
         <Button variant='glass' className='aspect-square rounded-full p-0'>
-          <Bell size={20} />
+          <BellIcon size={20} />
         </Button>
         <Button
           variant='glass'
@@ -39,7 +44,7 @@ export default function Header() {
           }}
           className='aspect-square rounded-full p-0'
         >
-          <Gear size={20} />
+          <GearIcon size={20} />
         </Button>
       </div>
     </div>

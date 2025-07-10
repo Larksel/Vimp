@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import TrackList from '@components/TrackList';
 import placeholder from '@assets/images/placeholder.png';
-import { HeartStraight, Play } from '@phosphor-icons/react';
+import { HeartStraightIcon, PlayIcon } from '@phosphor-icons/react';
 import useLibraryStore from '@stores/useLibraryStore';
 import { usePlayerAPI } from '@stores/usePlayerStore';
 import { useParams } from 'react-router-dom';
@@ -110,14 +110,14 @@ export default function PlaylistView() {
               className='bg-accent text-text-primary aspect-square size-10 shrink-0 rounded-full p-0'
               onClick={playTracks}
             >
-              <Play size={20} weight='fill' />
+              <PlayIcon size={20} weight='fill' />
             </Button>
             <Button
               variant={'glass'}
               className='aspect-square size-10 shrink-0 rounded-full bg-transparent p-0'
               onClick={toggleFavorite}
             >
-              <HeartStraight
+              <HeartStraightIcon
                 size={24}
                 weight={playlist.favorite ? 'fill' : 'regular'}
                 className={`transition-all ${playlist.favorite && 'text-danger'}`}

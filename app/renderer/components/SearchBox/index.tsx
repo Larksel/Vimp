@@ -1,7 +1,7 @@
 import { InputHTMLAttributes, useCallback, useState } from 'react';
 import { Input } from '@components/common/input';
 import { cn } from '@render-utils/utils';
-import { MagnifyingGlass } from '@phosphor-icons/react';
+import { MagnifyingGlassIcon } from '@phosphor-icons/react';
 import debounce from 'lodash/debounce';
 import { Button } from '@components/common/button';
 
@@ -60,7 +60,7 @@ export default function SearchBox(props: SearchBoxProps) {
         variant={'surface'}
         className={`text-text-secondary absolute left-0 flex aspect-square h-full max-h-10 items-center justify-center p-0 transition-all ${canChangeVisibility ? 'hover:text-text-primary' : 'cursor-default hover:bg-transparent active:bg-transparent'} ${isVisible ? 'bg-transparent hover:bg-transparent active:bg-transparent' : 'rounded-full'}`}
       >
-        <MagnifyingGlass className='size-full max-w-5' />
+        <MagnifyingGlassIcon className='size-full max-w-5' />
       </Button>
       <Input
         type='search'

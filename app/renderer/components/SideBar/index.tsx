@@ -1,4 +1,4 @@
-import { CaretLeft, CaretRight } from '@phosphor-icons/react';
+import { CaretLeftIcon, CaretRightIcon } from '@phosphor-icons/react';
 
 import logo from '@assets/images/logo.png';
 
@@ -24,11 +24,11 @@ export default function SideBar(props: SideBarProps) {
         >
           <img src={logo} className='max-h-8 select-none' alt='vimp logo' />
           <div className='absolute right-0 left-0 flex items-center justify-between'>
-            <CaretRight
+            <CaretRightIcon
               weight='bold'
               className={`absolute ${collapsed ? 'left-[-100%] opacity-0' : 'left-4 w-5 opacity-100'} h-5 transition-all`}
             />
-            <CaretLeft
+            <CaretLeftIcon
               weight='bold'
               className={`absolute ${collapsed ? 'right-[-100%] opacity-0' : 'right-4 w-5 opacity-100'} h-5 transition-all`}
             />

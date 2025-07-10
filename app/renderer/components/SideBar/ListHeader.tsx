@@ -1,4 +1,4 @@
-import { Plus, ListBullets } from '@phosphor-icons/react';
+import { PlusIcon, ListBulletsIcon } from '@phosphor-icons/react';
 import { Button } from '@components/common/button';
 import SearchBox from '@components/SearchBox';
 import {
@@ -63,7 +63,7 @@ export default function ListHeader(props: ListHeaderProps) {
             onClick={openClosePopoverNewPlaylist}
             className={`text-text-secondary hover:text-text-primary flex aspect-square rounded-full p-0 transition-all ${collapsed && 'mx-1'}`}
           >
-            <Plus size={20} />
+            <PlusIcon size={20} />
           </Button>
         </PopoverTrigger>
         <PopoverContent
@@ -110,7 +110,7 @@ export default function ListHeader(props: ListHeaderProps) {
             onClick={openClosePopoverOptions}
             className={`text-text-secondary hover:text-text-primary flex aspect-square rounded-full p-0 transition-all ${collapsed && 'w-0 overflow-clip'}`}
           >
-            <ListBullets size={20} />
+            <ListBulletsIcon size={20} />
           </Button>
         </PopoverTrigger>
         <PopoverContent

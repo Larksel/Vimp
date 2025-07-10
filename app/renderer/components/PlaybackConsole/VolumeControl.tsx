@@ -1,7 +1,7 @@
 import {
-  SpeakerSimpleHigh,
-  SpeakerSimpleLow,
-  SpeakerSimpleX,
+  SpeakerSimpleHighIcon,
+  SpeakerSimpleLowIcon,
+  SpeakerSimpleXIcon,
 } from '@phosphor-icons/react';
 
 import { Button } from '@components/common/button';
@@ -28,11 +28,11 @@ export default function VolumeControl() {
 
   const volumeIcons = () => {
     if (volume === 0 || isPlayerMuted) {
-      return <SpeakerSimpleX size={24} />;
+      return <SpeakerSimpleXIcon size={24} />;
     } else if (volume < 0.5) {
-      return <SpeakerSimpleLow size={24} />;
+      return <SpeakerSimpleLowIcon size={24} />;
     } else {
-      return <SpeakerSimpleHigh size={24} />;
+      return <SpeakerSimpleHighIcon size={24} />;
     }
   };
 

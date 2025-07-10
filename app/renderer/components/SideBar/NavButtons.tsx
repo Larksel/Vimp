@@ -1,11 +1,11 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import {
-  House,
-  MagnifyingGlass,
-  MusicNote,
-  MonitorPlay,
-  DownloadSimple,
+  HouseIcon,
+  MagnifyingGlassIcon,
+  MusicNoteIcon,
+  MonitorPlayIcon,
+  DownloadSimpleIcon,
 } from '@phosphor-icons/react';
 import { Button } from '@components/common/button';
 
@@ -14,27 +14,27 @@ import routes from '@renderer/routes';
 const navButtons = [
   {
     text: 'Home',
-    icon: <House size={28} className='shrink-0' />,
+    icon: <HouseIcon size={28} className='shrink-0' />,
     page: routes.HOME,
   },
   {
     text: 'Search',
-    icon: <MagnifyingGlass size={28} className='shrink-0' />,
+    icon: <MagnifyingGlassIcon size={28} className='shrink-0' />,
     page: routes.SEARCH,
   },
   {
     text: 'Music Library',
-    icon: <MusicNote size={28} className='shrink-0' />,
+    icon: <MusicNoteIcon size={28} className='shrink-0' />,
     page: routes.MUSIC_LIBRARY,
   },
   {
     text: 'Video Library',
-    icon: <MonitorPlay size={28} className='shrink-0' />,
+    icon: <MonitorPlayIcon size={28} className='shrink-0' />,
     page: routes.VIDEO_LIBRARY,
   },
   {
     text: 'Downloader',
-    icon: <DownloadSimple size={28} className='shrink-0' />,
+    icon: <DownloadSimpleIcon size={28} className='shrink-0' />,
     page: routes.DOWNLOADER,
   },
 ];
