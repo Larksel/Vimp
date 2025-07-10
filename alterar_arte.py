@@ -22,7 +22,7 @@ def main():
             downloader.get_thumbnail()
 
             FileManager.set_audio_metadata(
-                audiofile=audiofile, thumbimg=downloader.thumbnail_path, titulo=titulo
+                file_path=audiofile, img_path=downloader.thumbnail_path, title=titulo
             )
         else:
             print("Valor inválido")
