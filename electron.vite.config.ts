@@ -70,7 +70,7 @@ export default defineConfig({
       emptyOutDir: true,
       outDir: '.vite/renderer',
       rollupOptions: {
-        input: 'app/renderer/index.html',
+        input: './app/renderer/index.html',
       },
     },
   },
