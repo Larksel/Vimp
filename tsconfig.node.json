@@ -1,14 +1,15 @@
 {
-  "extends": "@electron-toolkit/tsconfig/tsconfig.node.json",
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "./tsconfig.json",
   "include": [
-    "electron.vite.config.*", 
-    "app/main/**/*", 
-    "app/preload/**/*", 
+    "electron.vite.config.*",
+    "app/main/**/*",
+    "app/preload/**/*",
     "app/shared/**/*"
   ],
   "compilerOptions": {
     "composite": true,
-    "types": ["electron-vite/node", "jest"],
+    "types": ["electron-vite/node", "jest", "node"],
     "noUnusedLocals": false,
     "module": "ESNext",
     "moduleResolution": "bundler",
