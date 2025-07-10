@@ -4,7 +4,7 @@ import { CheckIcon, CaretRightIcon, CircleIcon } from '@phosphor-icons/react';
 import { cn } from '@render-utils/utils';
 import {
   ComponentPropsWithoutRef,
-  ElementRef,
+  ComponentRef,
   forwardRef,
   HTMLAttributes,
   ReactNode,
@@ -26,7 +26,7 @@ const ContextMenuSub = ContextMenuPrimitive.Sub;
 const ContextMenuRadioGroup = ContextMenuPrimitive.RadioGroup;
 
 const ContextMenuSubTrigger = forwardRef<
-  ElementRef<typeof ContextMenuPrimitive.SubTrigger>,
+  ComponentRef<typeof ContextMenuPrimitive.SubTrigger>,
   ComponentPropsWithoutRef<typeof ContextMenuPrimitive.SubTrigger> & {
     inset?: boolean;
   }
@@ -48,7 +48,7 @@ const ContextMenuSubTrigger = forwardRef<
 ContextMenuSubTrigger.displayName = ContextMenuPrimitive.SubTrigger.displayName;
 
 const ContextMenuSubContent = forwardRef<
-  ElementRef<typeof ContextMenuPrimitive.SubContent>,
+  ComponentRef<typeof ContextMenuPrimitive.SubContent>,
   ComponentPropsWithoutRef<typeof ContextMenuPrimitive.SubContent>
 >(({ className, ...props }, ref) => (
   <ContextMenuPrimitive.SubContent
@@ -63,7 +63,7 @@ const ContextMenuSubContent = forwardRef<
 ContextMenuSubContent.displayName = ContextMenuPrimitive.SubContent.displayName;
 
 const ContextMenuContent = forwardRef<
-  ElementRef<typeof ContextMenuPrimitive.Content>,
+  ComponentRef<typeof ContextMenuPrimitive.Content>,
   ComponentPropsWithoutRef<typeof ContextMenuPrimitive.Content>
 >(({ className, ...props }, ref) => (
   <ContextMenuPrimitive.Portal>
@@ -80,7 +80,7 @@ const ContextMenuContent = forwardRef<
 ContextMenuContent.displayName = ContextMenuPrimitive.Content.displayName;
 
 const ContextMenuItem = forwardRef<
-  ElementRef<typeof ContextMenuPrimitive.Item>,
+  ComponentRef<typeof ContextMenuPrimitive.Item>,
   ComponentPropsWithoutRef<typeof ContextMenuPrimitive.Item> & {
     inset?: boolean;
     icon?: ReactNode;
@@ -104,7 +104,7 @@ const ContextMenuItem = forwardRef<
 ContextMenuItem.displayName = ContextMenuPrimitive.Item.displayName;
 
 const ContextMenuCheckboxItem = forwardRef<
-  ElementRef<typeof ContextMenuPrimitive.CheckboxItem>,
+  ComponentRef<typeof ContextMenuPrimitive.CheckboxItem>,
   ComponentPropsWithoutRef<typeof ContextMenuPrimitive.CheckboxItem>
 >(({ className, children, checked, ...props }, ref) => (
   <ContextMenuPrimitive.CheckboxItem
@@ -129,7 +129,7 @@ ContextMenuCheckboxItem.displayName =
   ContextMenuPrimitive.CheckboxItem.displayName;
 
 const ContextMenuRadioItem = forwardRef<
-  ElementRef<typeof ContextMenuPrimitive.RadioItem>,
+  ComponentRef<typeof ContextMenuPrimitive.RadioItem>,
   ComponentPropsWithoutRef<typeof ContextMenuPrimitive.RadioItem>
 >(({ className, children, ...props }, ref) => (
   <ContextMenuPrimitive.RadioItem
@@ -152,7 +152,7 @@ const ContextMenuRadioItem = forwardRef<
 ContextMenuRadioItem.displayName = ContextMenuPrimitive.RadioItem.displayName;
 
 const ContextMenuLabel = forwardRef<
-  ElementRef<typeof ContextMenuPrimitive.Label>,
+  ComponentRef<typeof ContextMenuPrimitive.Label>,
   ComponentPropsWithoutRef<typeof ContextMenuPrimitive.Label> & {
     inset?: boolean;
   }
@@ -170,7 +170,7 @@ const ContextMenuLabel = forwardRef<
 ContextMenuLabel.displayName = ContextMenuPrimitive.Label.displayName;
 
 const ContextMenuSeparator = forwardRef<
-  ElementRef<typeof ContextMenuPrimitive.Separator>,
+  ComponentRef<typeof ContextMenuPrimitive.Separator>,
   ComponentPropsWithoutRef<typeof ContextMenuPrimitive.Separator>
 >(({ className, ...props }, ref) => (
   <ContextMenuPrimitive.Separator
