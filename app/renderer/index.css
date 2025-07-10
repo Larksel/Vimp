@@ -2,8 +2,7 @@
 @import url('themes.css') layer(theme);
 
 @import 'tailwindcss';
-
-@plugin 'tailwindcss-animate';
+@import 'tw-animate-css';
 
 @theme {
   --font-sans: Roboto;
