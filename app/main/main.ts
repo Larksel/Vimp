@@ -41,7 +41,7 @@ app.whenReady().then(async () => {
   });
 
   if (isDebug) {
-    await session.defaultSession
+    await session.defaultSession.extensions
       .loadExtension(reactDevToolsPath)
       .then((ext) => logger.info(`Loaded Extension: ${ext.name}`))
       .catch((err) => logger.warn(`Error on extension loading: ${err}`));
