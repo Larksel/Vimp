@@ -6,10 +6,10 @@ import * as ModulesManager from '@main-utils/utils-modules';
 import AppMenuModule from '@modules/AppMenuModule';
 import ConfigModule from '@modules/ConfigModule';
 import DialogsModule from '@modules/DialogsModule';
+import FileSystemModule from '@modules/FileSystemModule';
 import LibraryModule from '@modules/LibraryModule';
 import MainWindowModule from '@modules/MainWindowModule';
 import MetadataModule from '@modules/MetadataModule';
-import ProtocolModule from '@modules/ProtocolModule';
 import WatcherModule from '@modules/WatcherModule';
 // IPC Modules
 import IPCTracksDatabase from '@modules/ipc/IPCTracksDatabase';
@@ -64,7 +64,7 @@ app.whenReady().then(async () => {
   ModulesManager.init(
     new DialogsModule(metadataModule),
     new LibraryModule(dbManager, metadataModule, config),
-    new ProtocolModule(),
+    new FileSystemModule(),
     new AppMenuModule(mainWindow!),
     new WatcherModule(dbManager, config, metadataModule),
     // IPC Modules

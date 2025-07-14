@@ -11,6 +11,9 @@ enum IPCChannels {
   DIALOG_PICK_FILES = 'dialog:pickFiles',
   DIALOG_OPEN_FILE = 'dialog:openFile',
 
+  //FILE SYSTEM (FS)
+  LOAD_AUDIO_FILE = 'fs:loadAudioFile',
+
   // LIBRARY
   LIBRARY_IMPORT = 'library:import',
   LIBRARY_SCAN = 'library:scan',

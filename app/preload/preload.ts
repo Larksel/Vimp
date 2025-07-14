@@ -4,6 +4,7 @@ import tracksDB from './databases/tracksDB';
 import config from './modules/config';
 import library from './modules/library';
 import playlistsDB from './databases/playlistsDB';
+import fileSystem from './modules/fileSystem';
 
 const VimpAPI = {
   app: {
@@ -27,6 +28,7 @@ const VimpAPI = {
   config,
   tracksDB,
   playlistsDB,
+  fileSystem,
 };
 
 contextBridge.exposeInMainWorld('VimpAPI', VimpAPI);

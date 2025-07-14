@@ -150,20 +150,41 @@ class Player {
     this.audio.currentTime = currentTime;
   }
 
-  setTrack(track: TrackModel) {
+  async setTrack(track: TrackModel) {
     if (!track) return;
 
-    let path = track.path;
-
-    // If the path is a local file, ensure that it has the custom protocol
-    if (!path.startsWith('vimp://')) {
-      path = 'vimp://' + path;
-    }
+    this.freeSrcObject();
 
     this.track = track;
-    this.audio.src = path;
     this.hasPlayed = false;
-    logger.info(`New track defined: ${track.path}`);
+    logger.info(`Loading new track: ${track.path}`);
+
+    await window.VimpAPI.fileSystem
+      .loadAudioFile(track.path)
+      .then((audioBuffer: ArrayBuffer) => {
+        const audioBlob = new Blob([audioBuffer], { type: 'audio/*' });
+        const objectURL = URL.createObjectURL(audioBlob);
+
+        this.audio.src = objectURL;
+
+        logger.info('Audio loaded');
+      })
+      .catch((error: Error) => {
+        logger.error(`Error loading audio for player: ${error.message}`);
+      });
+  }
+
+  freeSrcObject() {
+    if (this.audio.src && this.audio.src.startsWith('blob:')) {
+      revokeObjectURL(this.audio.src);
+    }
+  }
+}
+
+// Isso é importante para liberar memória
+function revokeObjectURL(url: string) {
+  if (url.startsWith('blob:')) {
+    URL.revokeObjectURL(url);
   }
 }
 

@@ -16,5 +16,5 @@ export const PlayerService = {
   setVolume: (volume: number) => player.setVolume(volume),
   setPlaybackRate: (rate: number) => player.setPlaybackRate(rate),
   setCurrentTime: (progress: number) => player.setCurrentTime(progress),
-  setTrack: (track: TrackModel) => player.setTrack(track),
+  setTrack: async (track: TrackModel) => await player.setTrack(track),
 };

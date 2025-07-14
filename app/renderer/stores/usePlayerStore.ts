@@ -161,7 +161,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
 
         api.playTrackAtIndex(newPosition);
       },
-      handleTrackEnd: () => {
+      handleTrackEnd: async () => {
         const { queue, queuePosition, repeatMode, api } = get();
 
         if (queuePosition === null || queue.length == 0) return;
@@ -172,7 +172,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
         switch (repeatMode) {
           // This case is treated as if the track has been fully played and is now being considered as a new playback
           case RepeatMode.OFF:
-            PlayerService.setTrack(queue[queuePosition]);
+            await PlayerService.setTrack(queue[queuePosition]);
             api.pause();
             logger.info('Player finished playing. Pausing...');
             return;
@@ -194,7 +194,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
 
         api.playTrackAtIndex(newPosition);
       },
-      playTrackAtIndex: (index) => {
+      playTrackAtIndex: async (index) => {
         const { queue, api } = get();
 
         if (queue.length === 0) return;
@@ -213,7 +213,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
           Zera o progresso da música atual antes de avançar para a próxima.
           Evita erros de discordancia entre o progresso atual e a duração da música ao trocar para uma com duração inferior.
         */
-        PlayerService.setTrack(track);
+        await PlayerService.setTrack(track);
         api.seekTo(0);
         api.play();
 
@@ -222,7 +222,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
           queuePosition: index,
         });
       },
-      addToQueue: (tracks) => {
+      addToQueue: async (tracks) => {
         const { queue, originalQueue } = get();
         const filteredTracks = QueueUtils.filterDuplicateTracks(queue, tracks);
 
@@ -237,13 +237,13 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
         if (queue.length === 0) {
           const newQueuePosition = 0;
           const track = newQueue[newQueuePosition];
-          PlayerService.setTrack(track);
+          await PlayerService.setTrack(track);
           set({
             queuePosition: newQueuePosition,
           });
         }
       },
-      queueNext: (tracks) => {
+      queueNext: async (tracks) => {
         const { queue, originalQueue, queuePosition } = get();
         const tracksToAdd = QueueUtils.filterDuplicateTracks(queue, tracks);
 
@@ -271,7 +271,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
           const newQueuePosition = 0;
 
           const track = newQueue[newQueuePosition];
-          PlayerService.setTrack(track);
+          await PlayerService.setTrack(track);
           set({
             queuePosition: newQueuePosition,
           });
@@ -282,7 +282,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
           originalQueue: newOriginalQueue,
         });
       },
-      removeTracksFromQueue: (trackIDs) => {
+      removeTracksFromQueue: async (trackIDs) => {
         const { queue, originalQueue, queuePosition, playerStatus, api } =
           get();
         const trackIDsArray = Array.isArray(trackIDs) ? trackIDs : [trackIDs];
@@ -319,7 +319,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
 
         if (trackIDsArray.includes(currentTrackID)) {
           const track = newQueue[newPosition];
-          PlayerService.setTrack(track);
+          await PlayerService.setTrack(track);
 
           if (playerStatus === PlayerStatus.PLAY) {
             api.play();
