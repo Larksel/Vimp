@@ -90,10 +90,17 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
 
         api.playTrackAtIndex(queuePosition);
       },
-      play: () => {
-        PlayerService.play();
-        logger.debug('PlayerStatus changed to PLAY');
-        set({ playerStatus: PlayerStatus.PLAY });
+      play: async () => {
+        try {
+          await PlayerService.play();
+          logger.debug('PlayerStatus changed to PLAY');
+          set({ playerStatus: PlayerStatus.PLAY });
+        } catch (err) {
+          const api = get().api;
+
+          api.stop();
+          logger.error(`Player stopped by error: ${err}`);
+        }
       },
       pause: () => {
         PlayerService.pause();

@@ -71,19 +71,14 @@ class Player {
       return;
     }
 
-    try {
-      await this.audioCtx.resume();
-      await this.audio.play();
-      logger.info(`Playing ${this.track.path}`);
+    await this.audioCtx.resume();
+    await this.audio.play();
+    logger.info(`Playing ${this.track.path}`);
 
-      if (!this.hasPlayed && this.track._id && this.track._id !== '') {
-        await TrackPersistenceService.updateLastPlayed(this.track._id);
-        await TrackPersistenceService.incrementPlayCount(this.track._id);
-        this.hasPlayed = true;
-      }
-    } catch (err) {
-      this.stop();
-      logger.error(`Player error: \n${err}`);
+    if (!this.hasPlayed && this.track._id && this.track._id !== '') {
+      await TrackPersistenceService.updateLastPlayed(this.track._id);
+      await TrackPersistenceService.incrementPlayCount(this.track._id);
+      this.hasPlayed = true;
     }
   }
 
