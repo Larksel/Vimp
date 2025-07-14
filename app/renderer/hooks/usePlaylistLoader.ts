@@ -1,5 +1,6 @@
 import { PlaylistModel, TrackModel } from '@shared/types/vimp';
 import useLibraryStore from '@stores/useLibraryStore';
+import { useMemo } from 'react';
 
 interface PlaylistLoaderResult {
   playlist: PlaylistModel;
@@ -12,26 +13,24 @@ interface PlaylistLoaderResult {
 export default function usePlaylistLoader(
   id?: string,
 ): PlaylistLoaderResult | null {
-  return useLibraryStore((state) => {
-    if (id && id !== '' && state.contents.playlists.length !== 0) {
-      const { playlists, tracks } = state.contents;
+  const { playlists, tracks } = useLibraryStore((state) => state.contents);
 
-      const playlist = playlists.find((playlist) => playlist._id === id);
+  const playlistLoaderResult = useMemo(() => {
+    if (!id || id === '' || playlists.length === 0) return null;
 
-      if (playlist) {
-        const playlistTracks = playlist.tracks
-          .map((id) => tracks.find((track) => track._id === id))
-          .filter((track) => !!track);
+    const playlist = playlists.find((playlist) => playlist._id === id);
 
-        return {
-          playlist,
-          tracks: playlistTracks,
-        };
-      }
+    if (!playlist) return null;
 
-      return null;
-    }
+    const playlistTracks = playlist.tracks
+      .map((trackId) => tracks.find((track) => track._id === trackId))
+      .filter((track): track is TrackModel => !!track);
 
-    return null;
-  });
+    return {
+      playlist,
+      tracks: playlistTracks,
+    };
+  }, [id, playlists, tracks]);
+
+  return playlistLoaderResult;
 }
