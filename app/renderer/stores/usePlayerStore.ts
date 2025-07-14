@@ -51,7 +51,9 @@ interface PlayerState {
 const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
   const initialConfig = PlayerConfigService.getInitialConfig();
 
-  logger.info(`Initializing player store with config: ${initialConfig}`);
+  logger.info(
+    `Initializing player store with config: ${JSON.stringify(initialConfig, null, 2)}`,
+  );
 
   return {
     queue: [],
