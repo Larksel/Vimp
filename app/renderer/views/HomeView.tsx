@@ -6,6 +6,13 @@ import useLibraryStore from '@stores/useLibraryStore';
 
 export default function HomeView() {
   const tracks = useLibraryStore((state) => state.contents.tracks);
+  const loading = useLibraryStore((state) => state.loading);
+
+  if (loading.playlists || loading.tracks) {
+    return (
+      <div className='flex items-center justify-center'>Carregando...</div>
+    );
+  }
 
   const recents = sortUtils.sortByDate<TrackModel>(
     tracks,
