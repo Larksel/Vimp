@@ -9,6 +9,7 @@ import EmptyLibrary from '@components/EmptyLibrary';
 export default function MusicLibraryView() {
   const [search, setSearch] = useState('');
   const tracks = useLibraryStore((state) => state.contents.tracks);
+  const loading = useLibraryStore((state) => state.loading);
 
   const handleSearch = (value: string) => {
     setSearch(value);
@@ -19,6 +20,12 @@ export default function MusicLibraryView() {
       track.title.toLowerCase().includes(search.toLowerCase()),
     );
   }, [tracks, search]);
+
+  if (loading.playlists || loading.tracks) {
+    return (
+      <div className='flex items-center justify-center'>Carregando...</div>
+    );
+  }
 
   return (
     <div className='flex flex-col items-center px-4 pb-4'>
