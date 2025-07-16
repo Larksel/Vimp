@@ -5,7 +5,7 @@ import { join } from 'path';
 // Extensions
 export const reactDevToolsPath = join(
   os.homedir(),
-  '/AppData/Local/Google/Chrome/User Data/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/5.3.1_0',
+  '/AppData/Local/Google/Chrome/User Data/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/6.1.5_0',
 );
 
 // Icon
