@@ -1,4 +1,5 @@
-import { PlaylistIcon, InfoIcon } from '@phosphor-icons/react';
+import { PlaylistIcon } from '@phosphor-icons/react/dist/csr/Playlist';
+import { InfoIcon } from '@phosphor-icons/react/dist/csr/Info';
 
 import VolumeControl from './VolumeControl';
 import { useNavigate, useLocation } from 'react-router-dom';

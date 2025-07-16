@@ -1,4 +1,5 @@
-import { CaretLeftIcon, CaretRightIcon } from '@phosphor-icons/react';
+import { CaretLeftIcon } from '@phosphor-icons/react/dist/csr/CaretLeft';
+import { CaretRightIcon } from '@phosphor-icons/react/dist/csr/CaretRight';
 
 import logo from '@assets/images/logo.png';
 

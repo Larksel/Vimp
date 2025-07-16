@@ -1,6 +1,6 @@
 import InfoText from '@components/InfoText';
 
-import { PlayIcon } from '@phosphor-icons/react';
+import { PlayIcon } from '@phosphor-icons/react/dist/csr/Play';
 
 import placeholder from '@assets/images/placeholder.png';
 import { TrackModel } from '@shared/types/vimp';

@@ -1,12 +1,10 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import {
-  HouseIcon,
-  MagnifyingGlassIcon,
-  MusicNoteIcon,
-  MonitorPlayIcon,
-  DownloadSimpleIcon,
-} from '@phosphor-icons/react';
+import { HouseIcon } from '@phosphor-icons/react/dist/csr/House';
+import { MagnifyingGlassIcon } from '@phosphor-icons/react/dist/csr/MagnifyingGlass';
+import { MusicNoteIcon } from '@phosphor-icons/react/dist/csr/MusicNote';
+import { MonitorPlayIcon } from '@phosphor-icons/react/dist/csr/MonitorPlay';
+import { DownloadSimpleIcon } from '@phosphor-icons/react/dist/csr/DownloadSimple';
 import { Button } from '@components/common/button';
 
 import routes from '@renderer/routes';

@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import TrackList from '@components/TrackList';
 import placeholder from '@assets/images/placeholder.png';
-import { HeartStraightIcon, PlayIcon } from '@phosphor-icons/react';
+import { HeartStraightIcon } from '@phosphor-icons/react/dist/csr/HeartStraight';
+import { PlayIcon } from '@phosphor-icons/react/dist/csr/Play';
 import useLibraryStore from '@stores/useLibraryStore';
 import { usePlayerAPI } from '@stores/usePlayerStore';
 import { useParams } from 'react-router-dom';

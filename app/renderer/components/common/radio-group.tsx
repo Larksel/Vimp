@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as RadioGroupPrimitive from '@radix-ui/react-radio-group';
-import { CircleIcon } from '@phosphor-icons/react';
+import { CircleIcon } from '@phosphor-icons/react/dist/csr/Circle';
 
 import { cn } from '@render-utils/utils';
 

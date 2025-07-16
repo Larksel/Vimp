@@ -1,8 +1,6 @@
-import {
-  SpeakerSimpleHighIcon,
-  SpeakerSimpleLowIcon,
-  SpeakerSimpleXIcon,
-} from '@phosphor-icons/react';
+import { SpeakerSimpleHighIcon } from '@phosphor-icons/react/dist/csr/SpeakerSimpleHigh';
+import { SpeakerSimpleLowIcon } from '@phosphor-icons/react/dist/csr/SpeakerSimpleLow';
+import { SpeakerSimpleXIcon } from '@phosphor-icons/react/dist/csr/SpeakerSimpleX';
 
 import { Button } from '@components/common/button';
 import { Slider } from '@components/common/slider';

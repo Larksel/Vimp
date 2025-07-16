@@ -1,6 +1,7 @@
 import { formatDuration } from '@render-utils/utils';
 import placeholder from '@assets/images/placeholder.png';
-import { HeartStraightIcon, PlayCircleIcon } from '@phosphor-icons/react';
+import { HeartStraightIcon } from '@phosphor-icons/react/dist/csr/HeartStraight';
+import { PlayCircleIcon } from '@phosphor-icons/react/dist/csr/PlayCircle';
 import { TrackModel } from '@shared/types/vimp';
 import useCurrentTrack from '@hooks/useCurrentTrack';
 import TrackMenu from '@components/ContextMenu/TrackMenu';

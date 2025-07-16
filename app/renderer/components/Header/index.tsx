@@ -1,10 +1,8 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import {
-  CaretLeftIcon,
-  CaretRightIcon,
-  BellIcon,
-  GearIcon,
-} from '@phosphor-icons/react';
+import { CaretLeftIcon } from '@phosphor-icons/react/dist/csr/CaretLeft';
+import { CaretRightIcon } from '@phosphor-icons/react/dist/csr/CaretRight';
+import { BellIcon } from '@phosphor-icons/react/dist/csr/Bell';
+import { GearIcon } from '@phosphor-icons/react/dist/csr/Gear';
 import { Button } from '@components/common/button';
 
 import routes from '@renderer/routes';

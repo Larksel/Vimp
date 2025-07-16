@@ -1,12 +1,10 @@
-import {
-  ShuffleIcon,
-  SkipBackIcon,
-  PlayIcon,
-  PauseIcon,
-  SkipForwardIcon,
-  RepeatIcon,
-  RepeatOnceIcon,
-} from '@phosphor-icons/react';
+import { ShuffleIcon } from '@phosphor-icons/react/dist/csr/Shuffle';
+import { SkipBackIcon } from '@phosphor-icons/react/dist/csr/SkipBack';
+import { PlayIcon } from '@phosphor-icons/react/dist/csr/Play';
+import { PauseIcon } from '@phosphor-icons/react/dist/csr/Pause';
+import { SkipForwardIcon } from '@phosphor-icons/react/dist/csr/SkipForward';
+import { RepeatIcon } from '@phosphor-icons/react/dist/csr/Repeat';
+import { RepeatOnceIcon } from '@phosphor-icons/react/dist/csr/RepeatOnce';
 
 import usePlayerStore, { usePlayerAPI } from '@stores/usePlayerStore';
 import { PlayerStatus } from '@shared/types/vimp';

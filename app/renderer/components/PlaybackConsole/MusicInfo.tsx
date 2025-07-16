@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { HeartStraightIcon } from '@phosphor-icons/react';
+import { HeartStraightIcon } from '@phosphor-icons/react/dist/csr/HeartStraight';
 
 import placeholderImage from '@assets/images/placeholder.png';
 import useCurrentTrack from '@hooks/useCurrentTrack';

@@ -1,4 +1,5 @@
-import { PlusIcon, ListBulletsIcon } from '@phosphor-icons/react';
+import { PlusIcon } from '@phosphor-icons/react/dist/csr/Plus';
+import { ListBulletsIcon } from '@phosphor-icons/react/dist/csr/ListBullets';
 import { Button } from '@components/common/button';
 import SearchBox from '@components/SearchBox';
 import {

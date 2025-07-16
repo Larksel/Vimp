@@ -1,5 +1,7 @@
 import * as ContextMenuPrimitive from '@radix-ui/react-context-menu';
-import { CheckIcon, CaretRightIcon, CircleIcon } from '@phosphor-icons/react';
+import { CaretRightIcon } from '@phosphor-icons/react/dist/csr/CaretRight';
+import { CircleIcon } from '@phosphor-icons/react/dist/csr/Circle';
+import { CheckIcon } from '@phosphor-icons/react/dist/csr/Check';
 
 import { cn } from '@render-utils/utils';
 import {

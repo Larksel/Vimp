@@ -6,7 +6,7 @@ import {
   ContextMenuSubTrigger,
 } from '@components/common/context-menu';
 import useLibraryStore from '@stores/useLibraryStore';
-import { PlusIcon } from '@phosphor-icons/react';
+import { PlusIcon } from '@phosphor-icons/react/dist/csr/Plus';
 import { PlaylistModel, TrackModel } from '@shared/types/vimp';
 import { usePlaylistAPI } from '@stores/usePlaylistStore';
 
