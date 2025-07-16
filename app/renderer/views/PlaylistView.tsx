@@ -20,6 +20,10 @@ export default function PlaylistView() {
   const loaderData = usePlaylistLoader(id);
   const [scroll, setScroll] = useState(0);
 
+  const scrollThreshold = 100;
+  const scrollProgress = Math.min(1, scroll / scrollThreshold);
+  const headerHeight = `calc(${100 - scrollProgress * 80}%)`;
+
   const handleScroll = (scrollTop: number) => {
     setScroll(scrollTop);
   };
@@ -65,46 +69,47 @@ export default function PlaylistView() {
   return (
     <div className='z-1 flex flex-col'>
       <div
-        className={`z-1 flex max-h-[50vh] min-h-24 gap-4 px-4 pb-4 transition-all duration-300 ${scroll > 0 ? 'h-[20%]' : 'h-full'}`}
+        className={`z-1 flex max-h-[50vh] min-h-24 gap-4 px-4 pb-4 duration-300`}
+        style={{ height: headerHeight }}
       >
         <img
           src={playlist.cover ?? placeholder}
           alt=''
-          className='z-1 aspect-square h-full rounded-lg object-cover shadow-md transition-all select-none'
+          className='z-1 aspect-square h-full rounded-lg object-cover shadow-md select-none'
         />
         <div
-          className={`relative flex w-full flex-col justify-center overflow-hidden *:transition-all ${scroll === 0 && 'gap-2'}`}
+          className={`relative flex w-full flex-col justify-center overflow-hidden ${scrollProgress < 0.5 && 'gap-2'}`}
         >
           <InfoText
             variant={'secondary'}
-            className={`text-sm ${scroll > 0 && 'hidden'}`}
+            className={`text-sm ${scrollProgress > 0.5 && 'hidden'}`}
           >
             Playlist
           </InfoText>
 
           <InfoText
             variant={'primary'}
-            className={`w-full truncate font-bold ${scroll > 0 ? 'text-4xl' : 'text-6xl'}`}
+            className={`w-full truncate font-bold ${scrollProgress > 0.5 ? 'text-4xl' : 'text-6xl'}`}
           >
             {playlist.title}
           </InfoText>
 
           <InfoText
-            variant={scroll > 0 ? 'secondary' : 'primary'}
+            variant={scrollProgress > 0.5 ? 'secondary' : 'primary'}
             className='text-sm'
           >{`${tracks.length} tracks - ${totalDuration()}`}</InfoText>
 
           {playlist.description && (
             <InfoText
               variant={'secondary'}
-              className={`line-clamp-2 w-full text-sm whitespace-normal sm:line-clamp-3 md:line-clamp-4 ${scroll > 0 && 'hidden'}`}
+              className={`line-clamp-2 w-full pr-24 text-sm whitespace-normal sm:line-clamp-3 md:line-clamp-4`}
             >
               {playlist.description}
             </InfoText>
           )}
 
           <div
-            className={`flex gap-2 ${scroll > 0 ? 'absolute right-0' : 'mt-auto'}`}
+            className={`flex gap-2 ${scrollProgress > 0.5 ? 'absolute right-0' : 'mt-auto'}`}
           >
             <Button
               variant={'filled'}
