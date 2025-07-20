@@ -1,0 +1,1 @@
+uv run pyinstaller --noconfirm --onefile --console --icon "..\resources\icons\icon.ico" --add-data ".\modules\converter.py;." --add-data ".\modules\downloader.py;." --add-data ".\modules\managers.py;."  ".\vimp_cli.py"
