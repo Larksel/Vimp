@@ -15,11 +15,8 @@
     "moduleResolution": "bundler",
     // This config must be the same as in electron.vite.config
     "paths": {
-      "@interfaces/*": ["./app/shared/interfaces/*"],
       "@shared/*": ["./app/shared/*"],
-      "@modules/*": ["./app/main/modules/*"],
-      "@databases/*": ["./app/main/databases/*"],
-      "@main-utils/*": ["./app/main/utils/*"],
+      "@preload/*": ["./app/preload/*"],
       "@main/*": ["./app/main/*"]
     }
   }

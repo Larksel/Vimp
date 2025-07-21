@@ -15,12 +15,8 @@ export default defineConfig({
     plugins: [externalizeDepsPlugin({ exclude: externals })],
     resolve: {
       alias: {
-        '@interfaces': path.resolve(__dirname, './app/shared/interfaces'),
         '@shared': path.resolve(__dirname, './app/shared'),
         '@main': path.resolve(__dirname, './app/main'),
-        '@main-utils': path.resolve(__dirname, './app/main/utils'),
-        '@modules': path.resolve(__dirname, './app/main/modules'),
-        '@databases': path.resolve(__dirname, './app/main/databases'),
       },
     },
     build: {
@@ -35,7 +31,7 @@ export default defineConfig({
     plugins: [externalizeDepsPlugin({ exclude: externals })],
     resolve: {
       alias: {
-        '@interfaces': path.resolve(__dirname, './app/shared/interfaces'),
+        '@preload': path.resolve(__dirname, './app/preload'),
         '@shared': path.resolve(__dirname, './app/shared'),
       },
     },
@@ -53,14 +49,8 @@ export default defineConfig({
       // This config must be the same as in tsconfig.web.json
       alias: {
         '@shared': path.resolve(__dirname, './app/shared'),
+        '@preload': path.resolve(__dirname, './app/preload'),
         '@renderer': path.resolve(__dirname, './app/renderer'),
-        '@assets': path.resolve(__dirname, './app/renderer/assets'),
-        '@components': path.resolve(__dirname, './app/renderer/components'),
-        '@features': path.resolve(__dirname, './app/renderer/features'),
-        '@hooks': path.resolve(__dirname, './app/renderer/hooks'),
-        '@stores': path.resolve(__dirname, './app/renderer/stores'),
-        '@render-utils': path.resolve(__dirname, './app/renderer/utils'),
-        '@views': path.resolve(__dirname, './app/renderer/views'),
       },
     },
     appType: 'spa',

@@ -19,21 +19,14 @@
     "noImplicitAny": false,
     "noImplicitReturns": true,
     "paths": {
-      "@interfaces/*": ["./app/shared/interfaces/*"],
       "@shared/*": ["./app/shared/*"],
-      "@modules/*": ["./app/main/modules/*"],
-      "@databases/*": ["./app/main/databases/*"],
-      "@main-utils/*": ["./app/main/utils/*"],
+      "@preload/*": ["./app/preload/*"],
       "@main/*": ["./app/main/*"],
-      "@assets/*": ["./app/renderer/assets/*"],
-      "@components/*": ["./app/renderer/components/*"],
-      "@features/*": ["./app/renderer/features/*"],
-      "@hooks/*": ["./app/renderer/hooks/*"],
-      "@stores/*": ["./app/renderer/stores/*"],
-      "@render-utils/*": ["./app/renderer/utils/*"],
-      "@views/*": ["./app/renderer/views/*"],
       "@renderer/*": ["./app/renderer/*"]
     }
   },
-  "references": [{ "path": "./tsconfig.node.json" }, { "path": "./tsconfig.web.json" }]
+  "references": [
+    { "path": "./tsconfig.node.json" },
+    { "path": "./tsconfig.web.json" }
+  ]
 }

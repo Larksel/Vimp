@@ -4,6 +4,7 @@
   "include": [
     "app/renderer/types/index.d.ts",
     "app/renderer/**/*",
+    "app/preload/**/*",
     "app/shared/**/*",
   ],
   "compilerOptions": {
@@ -14,15 +15,8 @@
     "noUnusedParameters": false,
     // This config must be the same as in electron.vite.config
     "paths": {
-      "@interfaces/*": ["./app/shared/interfaces/*"],
       "@shared/*": ["./app/shared/*"],
-      "@assets/*": ["./app/renderer/assets/*"],
-      "@components/*": ["./app/renderer/components/*"],
-      "@features/*": ["./app/renderer/features/*"],
-      "@hooks/*": ["./app/renderer/hooks/*"],
-      "@stores/*": ["./app/renderer/stores/*"],
-      "@render-utils/*": ["./app/renderer/utils/*"],
-      "@views/*": ["./app/renderer/views/*"],
+      "@preload/*": ["./app/preload/*"],
       "@renderer/*": ["./app/renderer/*"]
     }
   }
