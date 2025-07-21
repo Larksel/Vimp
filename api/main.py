@@ -11,9 +11,9 @@ app = Typer()
 @app.command()
 def start(cli: bool = False, host: bool = False):
     """
-    Inicia a interface de linha de comando (CLI) ou a aplicação FastAPI.
-
     Use --cli para iniciar o modo CLI.
+
+    Use --host para acessar a api a partir da rede local.
     """
     if cli:
         print("[bold blue]Iniciando VimpCLI[/bold blue]")
