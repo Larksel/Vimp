@@ -7,7 +7,7 @@ import { MonitorPlayIcon } from '@phosphor-icons/react/dist/csr/MonitorPlay';
 import { DownloadSimpleIcon } from '@phosphor-icons/react/dist/csr/DownloadSimple';
 import { Button } from '@renderer/components/common/button';
 
-import routes from '@renderer/routes';
+import routes from '@renderer/routes/routes';
 
 const navButtons = [
   {

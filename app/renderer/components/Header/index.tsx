@@ -5,7 +5,7 @@ import { BellIcon } from '@phosphor-icons/react/dist/csr/Bell';
 import { GearIcon } from '@phosphor-icons/react/dist/csr/Gear';
 import { Button } from '@renderer/components/common/button';
 
-import routes from '@renderer/routes';
+import routes from '@renderer/routes/routes';
 
 export default function Header() {
   const navigate = useNavigate();

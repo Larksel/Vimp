@@ -2,7 +2,7 @@ import { createRendererLogger } from '@renderer/utils/logger';
 import { Button } from '@renderer/components/common/button';
 import { Input } from '@renderer/components/common/input';
 import { Switch } from '@renderer/components/common/switch';
-import { LoaderData } from '@renderer/router';
+import { LoaderData } from '@renderer/routes/router';
 import { useState } from 'react';
 import { useLoaderData } from 'react-router-dom';
 import { Config } from '@shared/types/vimp';
