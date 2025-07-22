@@ -1,6 +1,6 @@
 import { ipcMain } from 'electron';
-import BaseModule from '@modules/BaseModule';
-import { IGenericDatabase } from '@interfaces/databases/IGenericDatabase';
+import BaseModule from '@main/modules/BaseModule';
+import { IGenericDatabase } from '@shared/interfaces/databases/IGenericDatabase';
 import { GenericModel, GenericDBChannels } from '@shared/types/vimp';
 
 export default abstract class BaseIPCDatabaseModule<T> extends BaseModule {

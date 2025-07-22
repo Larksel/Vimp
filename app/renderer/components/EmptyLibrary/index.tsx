@@ -1,5 +1,5 @@
-import { createRendererLogger } from '@render-utils/logger';
-import { Button } from '@components/common/button';
+import { createRendererLogger } from '@renderer/utils/logger';
+import { Button } from '@renderer/components/common/button';
 
 interface EmptyLibraryProps {
   viewName: string;

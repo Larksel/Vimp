@@ -1,10 +1,10 @@
-import { formatDuration } from '@render-utils/utils';
-import placeholder from '@assets/images/placeholder.png';
+import { formatDuration } from '@renderer/utils/utils';
+import placeholder from '@renderer/assets/images/placeholder.png';
 import { HeartStraightIcon } from '@phosphor-icons/react/dist/csr/HeartStraight';
 import { PlayCircleIcon } from '@phosphor-icons/react/dist/csr/PlayCircle';
 import { TrackModel } from '@shared/types/vimp';
-import useCurrentTrack from '@hooks/useCurrentTrack';
-import TrackMenu from '@components/ContextMenu/TrackMenu';
+import useCurrentTrack from '@renderer/hooks/useCurrentTrack';
+import TrackMenu from '@renderer/components/ContextMenu/TrackMenu';
 
 interface TrackRowProps {
   track: TrackModel;

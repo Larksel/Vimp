@@ -1,9 +1,9 @@
-import BaseWindowModule from '@modules/BaseWindowModule';
+import BaseWindowModule from '@main/modules/BaseWindowModule';
 import { BrowserWindow } from 'electron';
-import * as ModulesManager from '@main-utils/utils-modules';
-import TracksDatabase from '@databases/tracksDB';
-import PlaylistsDatabase from '@databases/playlistsDB';
-import { IDBManager } from '@interfaces/modules/IDBManager';
+import * as ModulesManager from '@main/utils/utils-modules';
+import TracksDatabase from '@main/databases/tracksDB';
+import PlaylistsDatabase from '@main/databases/playlistsDB';
+import { IDBManager } from '@shared/interfaces/modules/IDBManager';
 
 export default class DBManager extends BaseWindowModule implements IDBManager {
   private readonly TracksDB: TracksDatabase;

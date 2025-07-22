@@ -3,9 +3,9 @@ import {
   ContextMenuContent,
   ContextMenuItem,
   ContextMenuTrigger,
-} from '@components/common/context-menu';
+} from '@renderer/components/common/context-menu';
 import { PlaylistModel } from '@shared/types/vimp';
-import { usePlaylistAPI } from '@stores/usePlaylistStore';
+import { usePlaylistAPI } from '@renderer/stores/usePlaylistStore';
 import { ReactNode } from 'react';
 
 interface PlaylistMenuProps {

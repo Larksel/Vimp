@@ -1,10 +1,10 @@
-import { createRendererLogger } from '@render-utils/logger';
+import { createRendererLogger } from '@renderer/utils/logger';
 import { useEffect, useCallback } from 'react';
-import placeholderImage from '@assets/images/placeholder.png';
+import placeholderImage from '@renderer/assets/images/placeholder.png';
 
-import useCurrentTrack from '@hooks/useCurrentTrack';
-import { PlayerService } from '@features/player';
-import usePlayerStore, { usePlayerAPI } from '@stores/usePlayerStore';
+import useCurrentTrack from '@renderer/hooks/useCurrentTrack';
+import { PlayerService } from '@renderer/features/player';
+import usePlayerStore, { usePlayerAPI } from '@renderer/stores/usePlayerStore';
 
 const logger = createRendererLogger('useMediaSession');
 

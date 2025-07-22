@@ -1,4 +1,4 @@
-import PlayerEvents from '@components/Events/PlayerEvents';
+import PlayerEvents from '@renderer/components/Events/PlayerEvents';
 import MusicInfo from './MusicInfo';
 import PlaybackButtons from './PlaybackButtons';
 import PlaybackTrack from './PlaybackTrack';

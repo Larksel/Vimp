@@ -1,5 +1,5 @@
 import { ipcMain, dialog } from 'electron';
-import { IMetadataModule } from '@interfaces/modules/IMetadataModule';
+import { IMetadataModule } from '@shared/interfaces/modules/IMetadataModule';
 
 import IPCChannels from '@shared/constants/IPCChannels';
 import BaseModule from './BaseModule';

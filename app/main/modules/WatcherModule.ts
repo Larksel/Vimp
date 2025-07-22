@@ -4,10 +4,10 @@ import { watch } from 'chokidar';
 import path from 'path';
 import { Config, Track } from '@shared/types/vimp';
 import supportedExtensions from '@shared/constants/supportedExtensions';
-import { IDBManager } from '@interfaces/modules/IDBManager';
-import { IMetadataModule } from '@interfaces/modules/IMetadataModule';
+import { IDBManager } from '@shared/interfaces/modules/IDBManager';
+import { IMetadataModule } from '@shared/interfaces/modules/IMetadataModule';
 import BaseModule from './BaseModule';
-import { ITracksDatabase } from '@interfaces/databases/ITracksDatabase';
+import { ITracksDatabase } from '@shared/interfaces/databases/ITracksDatabase';
 
 const logger = createMainLogger('Watcher');
 

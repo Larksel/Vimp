@@ -1,5 +1,5 @@
-import { PlayerService } from '@features/player';
-import { usePlayerAPI } from '@stores/usePlayerStore';
+import { PlayerService } from '@renderer/features/player';
+import { usePlayerAPI } from '@renderer/stores/usePlayerStore';
 import { useEffect } from 'react';
 
 export default function PlayerEvents() {

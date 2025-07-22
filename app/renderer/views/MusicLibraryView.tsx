@@ -1,10 +1,10 @@
 import { useState, useMemo } from 'react';
 import { VirtuosoGrid } from 'react-virtuoso';
 
-import MediaCard from '@components/MediaCard';
-import useLibraryStore from '@stores/useLibraryStore';
-import SearchBox from '@components/SearchBox';
-import EmptyLibrary from '@components/EmptyLibrary';
+import MediaCard from '@renderer/components/MediaCard';
+import useLibraryStore from '@renderer/stores/useLibraryStore';
+import SearchBox from '@renderer/components/SearchBox';
+import EmptyLibrary from '@renderer/components/EmptyLibrary';
 
 export default function MusicLibraryView() {
   const [search, setSearch] = useState('');

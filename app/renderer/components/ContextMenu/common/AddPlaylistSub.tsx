@@ -4,11 +4,11 @@ import {
   ContextMenuSub,
   ContextMenuSubContent,
   ContextMenuSubTrigger,
-} from '@components/common/context-menu';
-import useLibraryStore from '@stores/useLibraryStore';
+} from '@renderer/components/common/context-menu';
+import useLibraryStore from '@renderer/stores/useLibraryStore';
 import { PlusIcon } from '@phosphor-icons/react/dist/csr/Plus';
 import { PlaylistModel, TrackModel } from '@shared/types/vimp';
-import { usePlaylistAPI } from '@stores/usePlaylistStore';
+import { usePlaylistAPI } from '@renderer/stores/usePlaylistStore';
 
 interface AddPlaylistSubProps {
   track: TrackModel;

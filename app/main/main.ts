@@ -2,19 +2,19 @@ import { app, session } from 'electron';
 import { electronApp, optimizer } from '@electron-toolkit/utils';
 import setupLogger, { createMainLogger } from './logger';
 // Modules
-import * as ModulesManager from '@main-utils/utils-modules';
-import AppMenuModule from '@modules/AppMenuModule';
-import ConfigModule from '@modules/ConfigModule';
-import DialogsModule from '@modules/DialogsModule';
-import FileSystemModule from '@modules/FileSystemModule';
-import LibraryModule from '@modules/LibraryModule';
-import MainWindowModule from '@modules/MainWindowModule';
-import MetadataModule from '@modules/MetadataModule';
-import WatcherModule from '@modules/WatcherModule';
+import * as ModulesManager from '@main/utils/utils-modules';
+import AppMenuModule from '@main/modules/AppMenuModule';
+import ConfigModule from '@main/modules/ConfigModule';
+import DialogsModule from '@main/modules/DialogsModule';
+import FileSystemModule from '@main/modules/FileSystemModule';
+import LibraryModule from '@main/modules/LibraryModule';
+import MainWindowModule from '@main/modules/MainWindowModule';
+import MetadataModule from '@main/modules/MetadataModule';
+import WatcherModule from '@main/modules/WatcherModule';
 // IPC Modules
-import IPCTracksDatabase from '@modules/ipc/IPCTracksDatabase';
-import IPCPlaylistsDatabase from '@modules/ipc/IPCPlaylistsDatabase';
-import { reactDevToolsPath } from '@main-utils/utils-resources';
+import IPCTracksDatabase from '@main/modules/ipc/IPCTracksDatabase';
+import IPCPlaylistsDatabase from '@main/modules/ipc/IPCPlaylistsDatabase';
+import { reactDevToolsPath } from '@main/utils/utils-resources';
 import DBManager from './dbManager';
 
 const isDebug =

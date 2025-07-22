@@ -1,4 +1,4 @@
-import { createRendererLogger } from '@render-utils/logger';
+import { createRendererLogger } from '@renderer/utils/logger';
 import { PlayerConfig, RepeatMode } from '@shared/types/vimp';
 import debounce from 'lodash/debounce';
 

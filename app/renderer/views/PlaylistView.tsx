@@ -1,16 +1,16 @@
 import { useState } from 'react';
-import TrackList from '@components/TrackList';
-import placeholder from '@assets/images/placeholder.png';
+import TrackList from '@renderer/components/TrackList';
+import placeholder from '@renderer/assets/images/placeholder.png';
 import { HeartStraightIcon } from '@phosphor-icons/react/dist/csr/HeartStraight';
 import { PlayIcon } from '@phosphor-icons/react/dist/csr/Play';
-import useLibraryStore from '@stores/useLibraryStore';
-import { usePlayerAPI } from '@stores/usePlayerStore';
+import useLibraryStore from '@renderer/stores/useLibraryStore';
+import { usePlayerAPI } from '@renderer/stores/usePlayerStore';
 import { useParams } from 'react-router-dom';
-import InfoText from '@components/InfoText';
-import { Button } from '@components/common/button';
-import usePlaylistLoader from '@hooks/usePlaylistLoader';
-import { formatDuration } from '@render-utils/utils';
-import { usePlaylistAPI } from '@stores/usePlaylistStore';
+import InfoText from '@renderer/components/InfoText';
+import { Button } from '@renderer/components/common/button';
+import usePlaylistLoader from '@renderer/hooks/usePlaylistLoader';
+import { formatDuration } from '@renderer/utils/utils';
+import { usePlaylistAPI } from '@renderer/stores/usePlaylistStore';
 
 export default function PlaylistView() {
   const { id } = useParams();

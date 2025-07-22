@@ -1,5 +1,5 @@
 import { cva, type VariantProps } from 'class-variance-authority';
-import { cn } from '@render-utils/utils';
+import { cn } from '@renderer/utils/utils';
 
 const textVariants = cva('w-fit whitespace-nowrap font-normal', {
   variants: {

@@ -1,6 +1,6 @@
 import { ipcMain } from 'electron';
-import { IDBManager } from '@interfaces/modules/IDBManager';
-import { IPlaylistsDatabase } from '@interfaces/databases/IPlaylistsDatabase';
+import { IDBManager } from '@shared/interfaces/modules/IDBManager';
+import { IPlaylistsDatabase } from '@shared/interfaces/databases/IPlaylistsDatabase';
 import { Playlist } from '@shared/types/vimp';
 
 import IPCChannels from '@shared/constants/IPCChannels';

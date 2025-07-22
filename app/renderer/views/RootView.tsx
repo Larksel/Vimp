@@ -2,21 +2,21 @@ import { CSSProperties, useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import debounce from 'lodash/debounce';
 
-import AppBar from '@components/AppBar';
-import SideBar from '@components/SideBar';
-import { ScrollArea, ScrollBar } from '@components/common/scroll-area';
-import Header from '@components/Header';
-import PlaybackConsole from '@components/PlaybackConsole';
+import AppBar from '@renderer/components/AppBar';
+import SideBar from '@renderer/components/SideBar';
+import { ScrollArea, ScrollBar } from '@renderer/components/common/scroll-area';
+import Header from '@renderer/components/Header';
+import PlaybackConsole from '@renderer/components/PlaybackConsole';
 import IPCChannels from '@shared/constants/IPCChannels';
-import useCurrentTrack from '@hooks/useCurrentTrack';
-import { sortUtils } from '@render-utils/sortUtils';
-import { useLibraryAPI } from '@stores/useLibraryStore';
-import { usePlayerAPI } from '@stores/usePlayerStore';
+import useCurrentTrack from '@renderer/hooks/useCurrentTrack';
+import { sortUtils } from '@renderer/utils/sortUtils';
+import { useLibraryAPI } from '@renderer/stores/useLibraryStore';
+import { usePlayerAPI } from '@renderer/stores/usePlayerStore';
 import {
   PlaylistPersistenceService,
   TrackPersistenceService,
-} from '@features/data';
-import { createRendererLogger } from '@render-utils/logger';
+} from '@renderer/features/data';
+import { createRendererLogger } from '@renderer/utils/logger';
 
 const logger = createRendererLogger('RootView');
 

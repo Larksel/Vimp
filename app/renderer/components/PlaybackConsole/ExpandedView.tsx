@@ -1,6 +1,6 @@
-import placeholder from '@assets/images/placeholder.png';
-import AudioVisualizer from '@components/AudioVisualizer';
-import useCurrentTrack from '@hooks/useCurrentTrack';
+import placeholder from '@renderer/assets/images/placeholder.png';
+import AudioVisualizer from '@renderer/components/AudioVisualizer';
+import useCurrentTrack from '@renderer/hooks/useCurrentTrack';
 
 interface ExpandedViewProps {
   visible: boolean;

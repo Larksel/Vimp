@@ -4,8 +4,8 @@ import Store from 'electron-store';
 import { Config, RepeatMode } from '@shared/types/vimp';
 import BaseModule from './BaseModule';
 import IPCChannels from '@shared/constants/IPCChannels';
-import { vimpMusicFolder, userMusicFolder } from '@main-utils/utils-resources';
-import { IConfigModule } from '@interfaces/modules/IConfigModule';
+import { vimpMusicFolder, userMusicFolder } from '@main/utils/utils-resources';
+import { IConfigModule } from '@shared/interfaces/modules/IConfigModule';
 
 const logger = createMainLogger('Config');
 

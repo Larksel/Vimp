@@ -5,7 +5,7 @@ import { MagnifyingGlassIcon } from '@phosphor-icons/react/dist/csr/MagnifyingGl
 import { MusicNoteIcon } from '@phosphor-icons/react/dist/csr/MusicNote';
 import { MonitorPlayIcon } from '@phosphor-icons/react/dist/csr/MonitorPlay';
 import { DownloadSimpleIcon } from '@phosphor-icons/react/dist/csr/DownloadSimple';
-import { Button } from '@components/common/button';
+import { Button } from '@renderer/components/common/button';
 
 import routes from '@renderer/routes';
 

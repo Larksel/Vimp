@@ -1,19 +1,19 @@
 import { PlusIcon } from '@phosphor-icons/react/dist/csr/Plus';
 import { ListBulletsIcon } from '@phosphor-icons/react/dist/csr/ListBullets';
-import { Button } from '@components/common/button';
-import SearchBox from '@components/SearchBox';
+import { Button } from '@renderer/components/common/button';
+import SearchBox from '@renderer/components/SearchBox';
 import {
   Popover,
   PopoverTrigger,
   PopoverContent,
-} from '@components/common/popover';
-import { Input } from '@components/common/input';
+} from '@renderer/components/common/popover';
+import { Input } from '@renderer/components/common/input';
 import { FormEvent, useState } from 'react';
-import { createRendererLogger } from '@render-utils/logger';
+import { createRendererLogger } from '@renderer/utils/logger';
 import { Playlist } from '@shared/types/vimp';
 import { createGenericPlaylist } from '@shared/utils/utils';
-import { PlaylistPersistenceService } from '@features/data';
-import { RadioGroup, RadioGroupItem } from '@components/common/radio-group';
+import { PlaylistPersistenceService } from '@renderer/features/data';
+import { RadioGroup, RadioGroupItem } from '@renderer/components/common/radio-group';
 
 const logger = createRendererLogger('SideBar');
 

@@ -1,5 +1,5 @@
 import { ipcRenderer } from 'electron';
-import { IGenericDatabase } from '@interfaces/databases/IGenericDatabase';
+import { IGenericDatabase } from '@shared/interfaces/databases/IGenericDatabase';
 import { GenericModel, GenericDBChannels } from '@shared/types/vimp';
 
 /**

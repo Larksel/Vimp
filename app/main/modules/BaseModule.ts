@@ -1,5 +1,5 @@
 import { createMainLogger } from '@main/logger';
-import { IBaseModule } from '@interfaces/modules/IBaseModule';
+import { IBaseModule } from '@shared/interfaces/modules/IBaseModule';
 
 const logger = createMainLogger('Main');
 

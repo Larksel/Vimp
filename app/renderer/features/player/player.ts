@@ -1,6 +1,6 @@
-import { createRendererLogger } from '@render-utils/logger';
+import { createRendererLogger } from '@renderer/utils/logger';
 import { TrackModel } from '@shared/types/vimp';
-import { TrackPersistenceService } from '@features/data';
+import { TrackPersistenceService } from '@renderer/features/data';
 
 const logger = createRendererLogger('Player');
 

@@ -1,11 +1,11 @@
 import { useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { ScrollArea, ScrollBar } from '@components/common/scroll-area';
-import useLibraryStore from '@stores/useLibraryStore';
+import { ScrollArea, ScrollBar } from '@renderer/components/common/scroll-area';
+import useLibraryStore from '@renderer/stores/useLibraryStore';
 import routes from '@renderer/routes';
 import ListHeader from './ListHeader';
 import PlaylistItem from './PlaylistItem';
-import PlaylistMenu from '@components/ContextMenu/PlaylistMenu';
+import PlaylistMenu from '@renderer/components/ContextMenu/PlaylistMenu';
 
 interface PlaylistListProps {
   collapsed: boolean;

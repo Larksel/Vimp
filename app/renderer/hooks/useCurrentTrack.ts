@@ -1,4 +1,4 @@
-import usePlayerStore from '@stores/usePlayerStore';
+import usePlayerStore from '@renderer/stores/usePlayerStore';
 import { TrackModel } from '@shared/types/vimp';
 
 /**

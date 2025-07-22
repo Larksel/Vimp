@@ -1,6 +1,6 @@
 import { ipcMain } from 'electron';
-import { IDBManager } from '@interfaces/modules/IDBManager';
-import { ITracksDatabase } from '@interfaces/databases/ITracksDatabase';
+import { IDBManager } from '@shared/interfaces/modules/IDBManager';
+import { ITracksDatabase } from '@shared/interfaces/databases/ITracksDatabase';
 import { Track } from '@shared/types/vimp';
 
 import IPCChannels from '@shared/constants/IPCChannels';

@@ -1,6 +1,6 @@
 import { BrowserWindow } from 'electron';
 import BaseModule from './BaseModule';
-import { IBaseWindowModule } from '@interfaces/modules/IBaseWindowModule';
+import { IBaseWindowModule } from '@shared/interfaces/modules/IBaseWindowModule';
 
 export default abstract class BaseWindowModule
   extends BaseModule

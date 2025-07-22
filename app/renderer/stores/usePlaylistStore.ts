@@ -1,9 +1,9 @@
 import { StateCreator } from 'zustand';
-import { createRendererLogger } from '@render-utils/logger';
+import { createRendererLogger } from '@renderer/utils/logger';
 
 import { PlaylistModel, TrackModel } from '@shared/types/vimp';
-import { storeUtils } from '@render-utils/storeUtils';
-import { PlaylistPersistenceService } from '@features/data';
+import { storeUtils } from '@renderer/utils/storeUtils';
+import { PlaylistPersistenceService } from '@renderer/features/data';
 import useLibraryStore from './useLibraryStore';
 
 const logger = createRendererLogger('PlaylistStore');

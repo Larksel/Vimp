@@ -5,7 +5,7 @@ import { Track } from '@shared/types/vimp';
 import BaseModule from './BaseModule';
 import { ipcMain } from 'electron';
 import IPCChannels from '@shared/constants/IPCChannels';
-import { IMetadataModule } from '@interfaces/modules/IMetadataModule';
+import { IMetadataModule } from '@shared/interfaces/modules/IMetadataModule';
 import { statSync } from 'fs';
 
 const logger = createMainLogger('Metadata');

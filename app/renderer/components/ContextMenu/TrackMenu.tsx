@@ -4,8 +4,8 @@ import {
   ContextMenuContent,
   ContextMenuItem,
   ContextMenuTrigger,
-} from '@components/common/context-menu';
-import { usePlayerAPI } from '@stores/usePlayerStore';
+} from '@renderer/components/common/context-menu';
+import { usePlayerAPI } from '@renderer/stores/usePlayerStore';
 import { TrackModel } from '@shared/types/vimp';
 import AddPlaylistSub from './common/AddPlaylistSub';
 

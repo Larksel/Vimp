@@ -1,6 +1,6 @@
-import { ITracksDatabase } from '@interfaces/databases/ITracksDatabase';
+import { ITracksDatabase } from '../databases/ITracksDatabase';
 import { IBaseWindowModule } from './IBaseWindowModule';
-import { IPlaylistsDatabase } from '@interfaces/databases/IPlaylistsDatabase';
+import { IPlaylistsDatabase } from '../databases/IPlaylistsDatabase';
 
 export interface IDBManager extends IBaseWindowModule {
   getTracksDB(): ITracksDatabase;

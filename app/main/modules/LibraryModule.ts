@@ -9,9 +9,9 @@ import supportedExtensions from '@shared/constants/supportedExtensions';
 import IPCChannels from '@shared/constants/IPCChannels';
 
 import BaseModule from './BaseModule';
-import { IMetadataModule } from '@interfaces/modules/IMetadataModule';
-import { IDBManager } from '@interfaces/modules/IDBManager';
-import { ILibraryModule } from '@interfaces/modules/ILibraryModule';
+import { IMetadataModule } from '@shared/interfaces/modules/IMetadataModule';
+import { IDBManager } from '@shared/interfaces/modules/IDBManager';
+import { ILibraryModule } from '@shared/interfaces/modules/ILibraryModule';
 import type Store from 'electron-store';
 import { Config, FileTypes, ScannedFiles } from '@shared/types/vimp';
 

@@ -1,5 +1,5 @@
 import { PlaylistModel, TrackModel } from '@shared/types/vimp';
-import useLibraryStore from '@stores/useLibraryStore';
+import useLibraryStore from '@renderer/stores/useLibraryStore';
 import { useMemo } from 'react';
 
 interface PlaylistLoaderResult {

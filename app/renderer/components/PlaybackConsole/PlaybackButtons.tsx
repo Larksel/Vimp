@@ -6,9 +6,9 @@ import { SkipForwardIcon } from '@phosphor-icons/react/dist/csr/SkipForward';
 import { RepeatIcon } from '@phosphor-icons/react/dist/csr/Repeat';
 import { RepeatOnceIcon } from '@phosphor-icons/react/dist/csr/RepeatOnce';
 
-import usePlayerStore, { usePlayerAPI } from '@stores/usePlayerStore';
+import usePlayerStore, { usePlayerAPI } from '@renderer/stores/usePlayerStore';
 import { PlayerStatus } from '@shared/types/vimp';
-import { Button } from '@components/common/button';
+import { Button } from '@renderer/components/common/button';
 
 export default function PlaybackButtons() {
   const playerAPI = usePlayerAPI();

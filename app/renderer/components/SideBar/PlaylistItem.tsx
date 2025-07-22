@@ -1,6 +1,6 @@
-import placeholderImage from '@assets/images/placeholder.png';
-import { Button } from '@components/common/button';
-import InfoText from '@components/InfoText';
+import placeholderImage from '@renderer/assets/images/placeholder.png';
+import { Button } from '@renderer/components/common/button';
+import InfoText from '@renderer/components/InfoText';
 import { PlaylistModel } from '@shared/types/vimp';
 
 interface PlaylistItemProps {

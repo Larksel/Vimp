@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { HeartStraightIcon } from '@phosphor-icons/react/dist/csr/HeartStraight';
 
-import placeholderImage from '@assets/images/placeholder.png';
-import useCurrentTrack from '@hooks/useCurrentTrack';
+import placeholderImage from '@renderer/assets/images/placeholder.png';
+import useCurrentTrack from '@renderer/hooks/useCurrentTrack';
 
 import ExpandedView from './ExpandedView';
-import InfoText from '@components/InfoText';
-import { Button } from '@components/common/button';
-import { usePlayerAPI } from '@stores/usePlayerStore';
+import InfoText from '@renderer/components/InfoText';
+import { Button } from '@renderer/components/common/button';
+import { usePlayerAPI } from '@renderer/stores/usePlayerStore';
 
 export default function MusicInfo() {
   const playerAPI = usePlayerAPI();

@@ -2,12 +2,12 @@ import { SpeakerSimpleHighIcon } from '@phosphor-icons/react/dist/csr/SpeakerSim
 import { SpeakerSimpleLowIcon } from '@phosphor-icons/react/dist/csr/SpeakerSimpleLow';
 import { SpeakerSimpleXIcon } from '@phosphor-icons/react/dist/csr/SpeakerSimpleX';
 
-import { Button } from '@components/common/button';
-import { Slider } from '@components/common/slider';
+import { Button } from '@renderer/components/common/button';
+import { Slider } from '@renderer/components/common/slider';
 
-import usePlayerStore, { usePlayerAPI } from '@stores/usePlayerStore';
+import usePlayerStore, { usePlayerAPI } from '@renderer/stores/usePlayerStore';
 import { useState } from 'react';
-import { PlayerService } from '@features/player';
+import { PlayerService } from '@renderer/features/player';
 
 export default function VolumeControl() {
   const playerAPI = usePlayerAPI();

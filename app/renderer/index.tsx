@@ -8,6 +8,11 @@ import './index.css';
 const root = createRoot(document.getElementById('root') as HTMLElement);
 root.render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <RouterProvider
+      router={router}
+      future={{
+        v7_startTransition: false,
+      }}
+    />
   </StrictMode>,
 );

@@ -3,8 +3,8 @@ import { app, BrowserWindow } from 'electron';
 import PouchDB from 'pouchdb';
 import PouchDBFind from 'pouchdb-find';
 import { GenericModel } from '@shared/types/vimp';
-import { IGenericDatabase } from '@interfaces/databases/IGenericDatabase';
-import BaseWindowModule from '@modules/BaseWindowModule';
+import { IGenericDatabase } from '@shared/interfaces/databases/IGenericDatabase';
+import BaseWindowModule from '@main/modules/BaseWindowModule';
 import IPCChannels from '@shared/constants/IPCChannels';
 
 PouchDB.plugin(PouchDBFind);

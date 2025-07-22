@@ -1,4 +1,4 @@
-import type { VimpAPI } from '../../preload/preload';
+import type { VimpAPI } from "@preload/preload";
 
 declare global {
   declare module '*.jpg';

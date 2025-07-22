@@ -3,12 +3,12 @@ import {
   createHashRouter,
   useNavigate,
 } from 'react-router-dom';
-import RootView from '@views/RootView';
-import HomeView from '@views/HomeView';
-import QueueView from '@views/QueueView';
-import MusicLibraryView from '@views/MusicLibraryView';
-import SettingsView from '@views/SettingsView';
-import PlaylistView from '@views/PlaylistView';
+import RootView from '@renderer/views/RootView';
+import HomeView from '@renderer/views/HomeView';
+import QueueView from '@renderer/views/QueueView';
+import MusicLibraryView from '@renderer/views/MusicLibraryView';
+import SettingsView from '@renderer/views/SettingsView';
+import PlaylistView from '@renderer/views/PlaylistView';
 
 import routes from './routes';
 

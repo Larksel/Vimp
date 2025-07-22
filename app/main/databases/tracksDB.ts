@@ -1,6 +1,6 @@
 import { createMainLogger } from '@main/logger';
-import GenericDatabase from '@databases/genericDB';
-import { ITracksDatabase } from '@interfaces/databases/ITracksDatabase';
+import GenericDatabase from '@main/databases/genericDB';
+import { ITracksDatabase } from '@shared/interfaces/databases/ITracksDatabase';
 import IPCChannels from '@shared/constants/IPCChannels';
 import { Track, TrackModel } from '@shared/types/vimp';
 import { BrowserWindow } from 'electron';

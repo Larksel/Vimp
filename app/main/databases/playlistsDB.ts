@@ -1,10 +1,10 @@
 import { createMainLogger } from '@main/logger';
-import GenericDatabase from '@databases/genericDB';
-import { IPlaylistsDatabase } from '@interfaces/databases/IPlaylistsDatabase';
+import GenericDatabase from '@main/databases/genericDB';
+import { IPlaylistsDatabase } from '@shared/interfaces/databases/IPlaylistsDatabase';
 import IPCChannels from '@shared/constants/IPCChannels';
 import { Playlist, PlaylistModel } from '@shared/types/vimp';
 import { BrowserWindow } from 'electron';
-import { ITracksDatabase } from '@interfaces/databases/ITracksDatabase';
+import { ITracksDatabase } from '@shared/interfaces/databases/ITracksDatabase';
 
 const logger = createMainLogger('PlaylistsDB');
 

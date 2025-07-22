@@ -1,8 +1,8 @@
-import CardList from '@components/CardList';
-import EmptyLibrary from '@components/EmptyLibrary';
-import { sortUtils } from '@render-utils/sortUtils';
+import CardList from '@renderer/components/CardList';
+import EmptyLibrary from '@renderer/components/EmptyLibrary';
+import { sortUtils } from '@renderer/utils/sortUtils';
 import { TrackModel } from '@shared/types/vimp';
-import useLibraryStore from '@stores/useLibraryStore';
+import useLibraryStore from '@renderer/stores/useLibraryStore';
 
 export default function HomeView() {
   const tracks = useLibraryStore((state) => state.contents.tracks);

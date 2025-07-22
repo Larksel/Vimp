@@ -2,7 +2,7 @@ import { app, BrowserWindow, BrowserWindowConstructorOptions } from 'electron';
 import { createMainLogger } from '@main/logger';
 import BaseModule from './BaseModule';
 import { join } from 'path';
-import { vimpIcon } from '@main-utils/utils-resources';
+import { vimpIcon } from '@main/utils/utils-resources';
 
 const logger = createMainLogger('MainWindow');
 

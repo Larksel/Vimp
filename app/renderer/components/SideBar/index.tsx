@@ -1,11 +1,11 @@
 import { CaretLeftIcon } from '@phosphor-icons/react/dist/csr/CaretLeft';
 import { CaretRightIcon } from '@phosphor-icons/react/dist/csr/CaretRight';
 
-import logo from '@assets/images/logo.png';
+import logo from '@renderer/assets/images/logo.png';
 
 import NavButtons from './NavButtons';
 import PlaylistList from './PlaylistList';
-import { Button } from '@components/common/button';
+import { Button } from '@renderer/components/common/button';
 
 interface SideBarProps {
   toggle: () => void;

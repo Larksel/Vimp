@@ -1,14 +1,14 @@
-import { createRendererLogger } from '@render-utils/logger';
-import { Button } from '@components/common/button';
-import { Input } from '@components/common/input';
-import { Switch } from '@components/common/switch';
+import { createRendererLogger } from '@renderer/utils/logger';
+import { Button } from '@renderer/components/common/button';
+import { Input } from '@renderer/components/common/input';
+import { Switch } from '@renderer/components/common/switch';
 import { LoaderData } from '@renderer/router';
 import { useState } from 'react';
 import { useLoaderData } from 'react-router-dom';
 import { Config } from '@shared/types/vimp';
 
-import * as Settings from '@components/Settings';
-import { TrackPersistenceService } from '@features/data';
+import * as Settings from '@renderer/components/Settings';
+import { TrackPersistenceService } from '@renderer/features/data';
 
 const logger = createRendererLogger('SettingsView');
 

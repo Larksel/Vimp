@@ -3,7 +3,7 @@ import { CaretRightIcon } from '@phosphor-icons/react/dist/csr/CaretRight';
 import { CircleIcon } from '@phosphor-icons/react/dist/csr/Circle';
 import { CheckIcon } from '@phosphor-icons/react/dist/csr/Check';
 
-import { cn } from '@render-utils/utils';
+import { cn } from '@renderer/utils/utils';
 import {
   ComponentPropsWithoutRef,
   ComponentRef,

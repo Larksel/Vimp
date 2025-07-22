@@ -1,5 +1,5 @@
-import { PlayerService } from '@features/player';
-import { betweenMinMax } from '@render-utils/utils';
+import { PlayerService } from '@renderer/features/player';
+import { betweenMinMax } from '@renderer/utils/utils';
 import { useEffect, useRef } from 'react';
 
 interface AudioVisualizerProps {

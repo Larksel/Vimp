@@ -1,8 +1,8 @@
-import { createRendererLogger } from '@render-utils/logger';
+import { createRendererLogger } from '@renderer/utils/logger';
 import { StateCreator } from 'zustand';
 
 import { PlaylistModel, TrackModel } from '@shared/types/vimp';
-import { storeUtils } from '@render-utils/storeUtils';
+import { storeUtils } from '@renderer/utils/storeUtils';
 
 const logger = createRendererLogger('LibraryStore');
 
