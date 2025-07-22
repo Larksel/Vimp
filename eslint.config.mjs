@@ -4,6 +4,7 @@ import tseslint from 'typescript-eslint';
 import globals from 'globals';
 import reactPlugin from 'eslint-plugin-react';
 import importPlugin from 'eslint-plugin-import';
+import reactHooks from 'eslint-plugin-react-hooks';
 
 export default tseslint.config(
   eslint.configs.recommended,
@@ -12,6 +13,14 @@ export default tseslint.config(
   reactPlugin.configs.flat.recommended,
   reactPlugin.configs.flat['jsx-runtime'],
   importPlugin.flatConfigs.recommended,
+  reactHooks.configs['recommended-latest'],
+  {
+    settings: {
+      react: {
+        version: '19.1.0'
+      }
+    }
+  },
   {
     ignores: ['venv/*', '.vite/*', '**/.*', '**/*.{js,cjs,jsx}'],
   },
@@ -35,6 +44,7 @@ export default tseslint.config(
       'import/no-dynamic-require': 'warn',
       'import/named': 'off',
       'prefer-const': 'warn',
+      'react-hooks/react-compiler': 'error',
     },
   },
 );

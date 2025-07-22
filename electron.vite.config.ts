@@ -44,7 +44,14 @@ export default defineConfig({
     },
   },
   renderer: {
-    plugins: [react(), tailwindcss()],
+    plugins: [
+      react({
+        babel: {
+          plugins: ['babel-plugin-react-compiler'],
+        },
+      }),
+      tailwindcss(),
+    ],
     resolve: {
       // This config must be the same as in tsconfig.web.json
       alias: {
