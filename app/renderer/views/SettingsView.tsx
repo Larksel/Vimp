@@ -119,11 +119,11 @@ export default function SettingsView() {
   );
 }
 
-export type SettingsLoaderData = LoaderData<typeof SettingsView.loader>;
+type SettingsLoaderData = LoaderData<typeof loader>
 
-SettingsView.loader = async () => {
+export async function loader() {
   logger.debug('Loading configs');
   const config = await window.VimpAPI.config.getAll();
 
   return { config };
-};
+}
