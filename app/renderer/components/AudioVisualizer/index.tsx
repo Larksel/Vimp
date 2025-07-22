@@ -1,6 +1,6 @@
 import { PlayerService } from '@renderer/features/player';
 import { betweenMinMax } from '@renderer/utils/utils';
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
 interface AudioVisualizerProps {
   waveColor?: string | null;
@@ -50,56 +50,59 @@ export default function AudioVisualizer({
     return grouped;
   }
 
-  function drawWaveform(
-    ctx: CanvasRenderingContext2D,
-    data: number[],
-    width: number,
-    height: number,
-    color: string,
-  ) {
-    const step = width / (data.length - 1);
-    const centerY = height / 2;
+  const drawWaveform = useCallback(
+    (
+      ctx: CanvasRenderingContext2D,
+      data: number[],
+      width: number,
+      height: number,
+      color: string,
+    ) => {
+      const step = width / (data.length - 1);
+      const centerY = height / 2;
 
-    ctx.beginPath();
+      ctx.beginPath();
 
-    // Começa no primeiro ponto da curva superior
-    ctx.moveTo(0, centerY - data[0]);
+      // Começa no primeiro ponto da curva superior
+      ctx.moveTo(0, centerY - data[0]);
 
-    // Curva superior (esquerda → direita)
-    for (let i = 0; i < data.length - 1; i++) {
-      const x1 = i * step;
-      const x2 = (i + 1) * step;
-      const y1 = centerY - data[i];
-      const y2 = centerY - data[i + 1];
-      const xc = (x1 + x2) / 2;
-      const yc = (y1 + y2) / 2;
-      ctx.quadraticCurveTo(x1, y1, xc, yc);
-    }
+      // Curva superior (esquerda → direita)
+      for (let i = 0; i < data.length - 1; i++) {
+        const x1 = i * step;
+        const x2 = (i + 1) * step;
+        const y1 = centerY - data[i];
+        const y2 = centerY - data[i + 1];
+        const xc = (x1 + x2) / 2;
+        const yc = (y1 + y2) / 2;
+        ctx.quadraticCurveTo(x1, y1, xc, yc);
+      }
 
-    // Último ponto superior
-    ctx.lineTo(width, centerY - data[data.length - 1]);
+      // Último ponto superior
+      ctx.lineTo(width, centerY - data[data.length - 1]);
 
-    // Curva inferior (direita ← esquerda)
-    for (let i = data.length - 1; i > 0; i--) {
-      const x1 = i * step;
-      const x2 = (i - 1) * step;
-      const y1 = centerY + data[i];
-      const y2 = centerY + data[i - 1];
-      const xc = (x1 + x2) / 2;
-      const yc = (y1 + y2) / 2;
-      ctx.quadraticCurveTo(x1, y1, xc, yc);
-    }
+      // Curva inferior (direita ← esquerda)
+      for (let i = data.length - 1; i > 0; i--) {
+        const x1 = i * step;
+        const x2 = (i - 1) * step;
+        const y1 = centerY + data[i];
+        const y2 = centerY + data[i - 1];
+        const xc = (x1 + x2) / 2;
+        const yc = (y1 + y2) / 2;
+        ctx.quadraticCurveTo(x1, y1, xc, yc);
+      }
 
-    // Último ponto inferior
-    ctx.lineTo(0, centerY + data[0]);
+      // Último ponto inferior
+      ctx.lineTo(0, centerY + data[0]);
 
-    // Fechar caminho e preencher
-    ctx.closePath();
-    ctx.fillStyle = color;
-    ctx.shadowBlur = glowSize;
-    ctx.shadowColor = `${glowColor}`;
-    ctx.fill();
-  }
+      // Fechar caminho e preencher
+      ctx.closePath();
+      ctx.fillStyle = color;
+      ctx.shadowBlur = glowSize;
+      ctx.shadowColor = `${glowColor}`;
+      ctx.fill();
+    },
+    [glowColor, glowSize],
+  );
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -140,7 +143,7 @@ export default function AudioVisualizer({
     };
 
     // TODO Ativar useEffect a partir da mudança no PlayerStatus
-  }, [audio, waveColor]);
+  }, [audio, bufferScale, drawWaveform, frequencyGroups, waveColor, waveScale]);
 
   return (
     <div className='z-10 flex h-full w-full items-center justify-center bg-transparent'>

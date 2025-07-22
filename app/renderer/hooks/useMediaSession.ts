@@ -17,26 +17,6 @@ export default function useMediaSession() {
   const playerAPI = usePlayerAPI();
 
   /**
-   * Set Media Metadata for the current track.
-   */
-  const setMediaMetadata = useCallback(() => {
-    if (currentTrack) {
-      const artists = Array.isArray(currentTrack.artist)
-        ? currentTrack.artist.join(', ')
-        : currentTrack.artist;
-
-      logger.debug(`Metadata set for track: ${currentTrack.title}`);
-
-      navigator.mediaSession.metadata = new MediaMetadata({
-        title: currentTrack.title,
-        artist: artists,
-        album: currentTrack.album,
-        artwork: [{ src: currentTrack.cover ?? placeholderImage }],
-      });
-    }
-  }, [currentTrack]);
-
-  /**
    * Update MediaSession playback position state.
    */
   const updatePositionState = useCallback(() => {
@@ -48,7 +28,7 @@ export default function useMediaSession() {
         position: currentTime,
       });
     }
-  }, [currentTrack]);
+  }, [currentTime, currentTrack]);
 
   /**
    * Configure MediaSession action handlers.
@@ -100,10 +80,24 @@ export default function useMediaSession() {
       logger.debug('NextTrack action triggered');
       playerAPI.playNextTrack();
     });
-  }, [playerAPI]);
+  }, [currentTrack, playerAPI]);
 
   useEffect(() => {
-    setMediaMetadata();
+    if (currentTrack) {
+      const artists = Array.isArray(currentTrack.artist)
+        ? currentTrack.artist.join(', ')
+        : currentTrack.artist;
+
+      logger.debug(`Metadata set for track: ${currentTrack.title}`);
+
+      navigator.mediaSession.metadata = new MediaMetadata({
+        title: currentTrack.title,
+        artist: artists,
+        album: currentTrack.album,
+        artwork: [{ src: currentTrack.cover ?? placeholderImage }],
+      });
+    }
+
     configureActionHandlers();
 
     return function clearActionHandlers() {
@@ -116,7 +110,7 @@ export default function useMediaSession() {
       navigator.mediaSession.setActionHandler('previoustrack', null);
       navigator.mediaSession.setActionHandler('nexttrack', null);
     };
-  }, [setMediaMetadata, configureActionHandlers]);
+  }, [configureActionHandlers, currentTrack]);
 
   useEffect(() => {
     updatePositionState();

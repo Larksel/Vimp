@@ -1,4 +1,4 @@
-import { CSSProperties, useEffect, useState } from 'react';
+import { CSSProperties, useCallback, useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import debounce from 'lodash/debounce';
 
@@ -26,22 +26,22 @@ export default function RootView() {
   const libraryAPI = useLibraryAPI();
   const playerAPI = usePlayerAPI();
 
-  const loadTracks = async () => {
+  const loadTracks = useCallback(async () => {
     logger.debug('Loading tracks');
     const dbTracks = await TrackPersistenceService.getAll();
 
     const tracks = sortUtils.sortByString(dbTracks, 'title');
     libraryAPI.setTracks(tracks);
     playerAPI.refreshQueueMetadata(tracks);
-  };
+  }, [libraryAPI, playerAPI]);
 
-  const loadPlaylists = async () => {
+  const loadPlaylists = useCallback(async () => {
     logger.debug('Loading playlists');
     const dbPlaylists = await PlaylistPersistenceService.getAll();
     const playlists = sortUtils.sortByString(dbPlaylists, 'title');
 
     libraryAPI.setPlaylists(playlists);
-  };
+  }, [libraryAPI]);
 
   useEffect(() => {
     window.VimpAPI.app.onDBChanged(
@@ -58,7 +58,7 @@ export default function RootView() {
     return function cleanup() {
       window.VimpAPI.app.removeAllListeners(IPCChannels.DB_HAS_CHANGED);
     };
-  }, []);
+  }, [loadPlaylists, loadTracks]);
 
   const appBarHeight = 36;
   const playConsoleHeight = track ? 80 : 0;

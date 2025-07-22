@@ -1,4 +1,4 @@
-import { InputHTMLAttributes, useCallback, useState } from 'react';
+import { InputHTMLAttributes, useRef, useState } from 'react';
 import { Input } from '@renderer/components/common/input';
 import { cn } from '@renderer/utils/utils';
 import { MagnifyingGlassIcon } from '@phosphor-icons/react/dist/csr/MagnifyingGlass';
@@ -26,16 +26,15 @@ export default function SearchBox(props: SearchBoxProps) {
   const [isVisible, setIsVisible] = useState(!canChangeVisibility);
   const [searchTerm, setSearchTerm] = useState('');
 
-  const debouncedSetSearch = useCallback(
-    debounce((value) => {
+  const debouncedSetSearchRef = useRef(
+    debounce((value: string) => {
       onSearch(value);
     }, 300),
-    [],
   );
 
   const handleSearchChange = (value: string) => {
     setSearchTerm(value);
-    debouncedSetSearch(value);
+    debouncedSetSearchRef.current(value);
   };
 
   const toggleVisibility = () => {
