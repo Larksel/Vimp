@@ -21,7 +21,6 @@ export default function useMediaSession() {
    */
   const updatePositionState = useCallback(() => {
     if (currentTrack) {
-      logger.debug(`Position state set for track: ${currentTrack.title}`);
       navigator.mediaSession.setPositionState({
         duration: currentTrack.duration,
         playbackRate: PlayerService.getAudio().playbackRate,
