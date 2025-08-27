@@ -11,8 +11,11 @@ export const PlayerService = {
   getVolume: () => player.getVolume(),
   getCurrentTime: () => player.getCurrentTime(),
   getTrack: () => player.getTrack(),
-  getBufferSize: () => player.getBufferSize(),
-  getAnalyserData: (dataArray: Uint8Array) => player.getAnalyserData(dataArray),
+  getAnalyzerBufferSize: () => player.getAnalyzerBufferSize(),
+  getAnalyzerTimeDomain: (dataArray: Uint8Array<ArrayBuffer>) =>
+    player.getAnalyzerTimeDomain(dataArray),
+  getAnalyserFrequency: (dataArray: Uint8Array<ArrayBuffer>) =>
+    player.getAnalyserFrequency(dataArray),
   setVolume: (volume: number) => player.setVolume(volume),
   setPlaybackRate: (rate: number) => player.setPlaybackRate(rate),
   setCurrentTime: (progress: number) => player.setCurrentTime(progress),

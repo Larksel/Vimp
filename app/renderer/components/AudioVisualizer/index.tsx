@@ -118,7 +118,7 @@ export default function AudioVisualizer({
      * * Mínimo: 0.7, abrange partes mais graves
      * * Esse valor é inversamente proporcional ao fator de escalamento das ondas para que haja equilíbrio
      */
-    const bufferSize = PlayerService.getBufferSize() * bufferScale;
+    const bufferSize = PlayerService.getAnalyzerBufferSize() * bufferScale;
     const dataArray = new Uint8Array(bufferSize);
     let animationFrameId: number;
 
@@ -128,7 +128,7 @@ export default function AudioVisualizer({
     // TODO - Tamanho do buffer (0.07 - 0.63), incremento: 0.07, padrão: 0.14
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      PlayerService.getAnalyserData(dataArray);
+      PlayerService.getAnalyserFrequency(dataArray);
       const grouped = groupFrequencies(dataArray, frequencyGroups, waveScale);
 
       drawWaveform(ctx, grouped, canvas.width, canvas.height, waveColor);

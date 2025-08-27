@@ -126,11 +126,15 @@ class Player {
     return this.track;
   }
 
-  getBufferSize() {
+  getAnalyzerBufferSize() {
     return this.analyser.frequencyBinCount;
   }
 
-  getAnalyserData(dataArray: Uint8Array) {
+  getAnalyzerTimeDomain(dataArray: Uint8Array<ArrayBuffer>) {
+    this.analyser.getByteTimeDomainData(dataArray);
+  }
+
+  getAnalyserFrequency(dataArray: Uint8Array<ArrayBuffer>) {
     this.analyser.getByteFrequencyData(dataArray);
   }
 
