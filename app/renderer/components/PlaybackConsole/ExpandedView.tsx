@@ -1,6 +1,7 @@
 import placeholder from '@renderer/assets/images/placeholder.png';
 import AudioVisualizer from '@renderer/components/AudioVisualizer';
 import useCurrentTrack from '@renderer/hooks/useCurrentTrack';
+import usePlayerStore from '@renderer/stores/usePlayerStore';
 
 interface ExpandedViewProps {
   visible: boolean;
@@ -9,6 +10,7 @@ interface ExpandedViewProps {
 export default function ExpandedView(props: ExpandedViewProps) {
   const { visible } = props;
   const track = useCurrentTrack();
+  const rms = usePlayerStore((state) => state.rmsLevel);
 
   return (
     <div
@@ -23,6 +25,10 @@ export default function ExpandedView(props: ExpandedViewProps) {
         src={track?.cover ?? placeholder}
         alt=''
         className='absolute inset-0 size-full object-cover blur-md brightness-30'
+        style={{
+          transform: `scale(${1 + rms * 0.01})`,
+          filter: `brightness(${0.3 + rms * 0.3})`,
+        }}
       />
       <img
         src={track?.cover ?? placeholder}

@@ -18,6 +18,7 @@ interface PlayerState {
   repeatMode: RepeatMode;
   playbackRate: number;
   volume: number;
+  rmsLevel: number;
   playerStatus: PlayerStatus;
   isPlayerMuted: boolean;
   gaplessPlayback: boolean;
@@ -37,6 +38,7 @@ interface PlayerState {
     removeTracksFromQueue: (trackIDs: string | string[]) => void;
     playTrackById: (_id: string) => void;
     setVolume: (volume: number) => void;
+    setRmsLevel: (rmsLevel: number) => void;
     setIsMuted: (muted?: boolean) => void;
     toggleTrackFavorite: (_id: string) => Promise<void>;
     toggleShuffle: () => Promise<void>;
@@ -68,6 +70,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
     crossfadeDuration: initialConfig.audioCrossfadeDuration,
     playbackRate: initialConfig.audioPlaybackRate,
     volume: initialConfig.audioVolume,
+    rmsLevel: 0,
     api: {
       startPlayback: (queue, _id) => {
         if (queue === null || queue.length === 0) return;
@@ -346,6 +349,9 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
         PlayerService.setVolume(volume);
         PlayerConfigService.setVolume(volume);
         set({ volume });
+      },
+      setRmsLevel: (rmsLevel: number) => {
+        set({ rmsLevel });
       },
       setIsMuted: async (muted = false) => {
         if (muted) {

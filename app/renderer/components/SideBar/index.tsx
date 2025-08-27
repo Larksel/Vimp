@@ -6,6 +6,7 @@ import logo from '@renderer/assets/images/logo.png';
 import NavButtons from './NavButtons';
 import PlaylistList from './PlaylistList';
 import { Button } from '@renderer/components/common/button';
+import usePlayerStore from '@renderer/stores/usePlayerStore';
 
 interface SideBarProps {
   toggle: () => void;
@@ -14,6 +15,7 @@ interface SideBarProps {
 
 export default function SideBar(props: SideBarProps) {
   const { toggle, collapsed } = props;
+  const rms = usePlayerStore((state) => state.rmsLevel);
 
   return (
     <div className='flex w-(--sidebar-width) flex-col items-center gap-2 overflow-clip rounded-lg transition-all select-none'>
@@ -23,7 +25,12 @@ export default function SideBar(props: SideBarProps) {
           variant={'surface'}
           className='text-md relative flex h-14 w-full items-center justify-center px-2 transition-all'
         >
-          <img src={logo} className='max-h-8 select-none' alt='vimp logo' />
+          <img
+            src={logo}
+            className='max-h-8 select-none'
+            style={{ transform: `scale(${1 + rms * 0.5})` }}
+            alt='vimp logo'
+          />
           <div className='absolute right-0 left-0 flex items-center justify-between'>
             <CaretRightIcon
               weight='bold'

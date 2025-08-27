@@ -4,12 +4,14 @@ import { formatDuration } from '@renderer/utils/utils';
 import usePlayerStore, { usePlayerAPI } from '@renderer/stores/usePlayerStore';
 import useCurrentTrack from '@renderer/hooks/useCurrentTrack';
 import useMediaSession from '@renderer/hooks/useMediaSession';
+import useAudioRMS from '@renderer/hooks/useAudioRMS';
 
 export default function PlaybackTrack() {
   const currentTrack = useCurrentTrack();
   const playerAPI = usePlayerAPI();
   const currentTime = usePlayerStore((state) => state.currentTime);
   useMediaSession();
+  useAudioRMS();
 
   const handleProgressChange = (value: number) => {
     playerAPI.seekTo(value);
