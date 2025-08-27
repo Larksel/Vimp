@@ -28,7 +28,8 @@ class Player {
       ...options,
     };
 
-    this.volume = defaultOptions.volume;
+    // Volume is squared to provide a more natural volume scaling
+    this.volume = Math.min(defaultOptions.volume ** 2, 1);
     this.audio = new Audio();
     this.audioCtx = new AudioContext();
     this.audioSource = this.audioCtx.createMediaElementSource(this.audio);
@@ -137,8 +138,10 @@ class Player {
    * Set player options
    */
   setVolume(volume: number) {
-    this.gainNode.gain.value = volume;
-    this.volume = volume;
+    // Volume is squared to provide a more natural volume scaling
+    const newVolume = Math.min(volume ** 2, 1);
+    this.gainNode.gain.value = newVolume;
+    this.volume = newVolume;
   }
 
   setPlaybackRate(playbackRate: number) {

@@ -6,22 +6,18 @@ import { Button } from '@renderer/components/common/button';
 import { Slider } from '@renderer/components/common/slider';
 
 import usePlayerStore, { usePlayerAPI } from '@renderer/stores/usePlayerStore';
-import { useState } from 'react';
-import { PlayerService } from '@renderer/features/player';
 
 export default function VolumeControl() {
   const playerAPI = usePlayerAPI();
-  const audioVolume = PlayerService.getVolume();
 
   const isPlayerMuted = usePlayerStore((state) => state.isPlayerMuted);
-  const [volume, setVolume] = useState(audioVolume);
+  const volume = usePlayerStore((state) => state.volume);
 
   const handleVolumeChange = (value: number) => {
     if (isPlayerMuted) {
       playerAPI.setIsMuted(false);
     }
     playerAPI.setVolume(value);
-    setVolume(value);
   };
 
   const volumeIcons = () => {
