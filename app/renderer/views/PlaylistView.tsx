@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import TrackList from '@renderer/components/TrackList';
 import placeholder from '@renderer/assets/images/placeholder.png';
 import { HeartStraightIcon } from '@phosphor-icons/react/dist/csr/HeartStraight';
@@ -20,9 +20,18 @@ export default function PlaylistView() {
   const loaderData = usePlaylistLoader(id);
   const [scroll, setScroll] = useState(0);
 
-  const scrollThreshold = 100;
-  const scrollProgress = Math.min(1, scroll / scrollThreshold);
-  const headerHeight = `calc(${100 - scrollProgress * 80}%)`;
+  const scrollProgress = useMemo(() => {
+    const scrollThreshold = 147; // Magic number, for now...
+    const progress = Math.min(1, scroll / scrollThreshold);
+    return 1 - Math.pow(1 - progress, 3); // ease-out
+  }, [scroll]);
+
+  const headerHeight = useMemo(() => {
+    const maxHeight = 260;
+    const minHeight = 120;
+    const height = maxHeight - scrollProgress * (maxHeight - minHeight);
+    return Math.max(minHeight, Math.min(maxHeight, height));
+  }, [scrollProgress]);
 
   const handleScroll = (scrollTop: number) => {
     setScroll(scrollTop);
@@ -69,58 +78,65 @@ export default function PlaylistView() {
   return (
     <div className='z-1 flex flex-col'>
       <div
-        className={`z-1 flex max-h-[50vh] min-h-24 gap-4 px-4 pb-4 duration-300`}
-        style={{ height: headerHeight }}
+        className='z-1 flex gap-4 px-4 pb-4 transition-all duration-500 ease-out'
+        style={{
+          height: `${headerHeight}px`,
+        }}
       >
         <img
           src={playlist.cover ?? placeholder}
-          alt=''
+          alt='playlist cover'
           className='z-1 aspect-square h-full rounded-lg object-cover shadow-md select-none'
         />
         <div
-          className={`relative flex w-full flex-col justify-center overflow-hidden ${scrollProgress < 0.5 && 'gap-2'}`}
+          className={`relative flex w-full flex-col justify-center transition-all ${scrollProgress < 0.75 ? 'gap-2' : 'gap-0'}`}
         >
           <InfoText
             variant={'secondary'}
-            className={`text-sm ${scrollProgress > 0.5 && 'hidden'}`}
+            className={`text-sm transition-all ${scrollProgress > 0.75 ? 'h-0 opacity-0' : 'opacity-100'}`}
           >
             Playlist
           </InfoText>
 
           <InfoText
             variant={'primary'}
-            className={`w-full truncate font-bold ${scrollProgress > 0.5 ? 'text-4xl' : 'text-6xl'}`}
+            className={`w-full truncate font-bold transition-all duration-500 ${scrollProgress > 0.75 ? 'text-3xl' : 'text-5xl'}`}
           >
             {playlist.title}
           </InfoText>
 
           <InfoText
-            variant={scrollProgress > 0.5 ? 'secondary' : 'primary'}
-            className='text-sm'
-          >{`${tracks.length} tracks - ${totalDuration()}`}</InfoText>
+            variant={scrollProgress > 0.75 ? 'secondary' : 'primary'}
+            className='text-sm transition-colors'
+          >
+            {`${tracks.length} tracks - ${totalDuration()}`}
+          </InfoText>
 
           {playlist.description && (
             <InfoText
               variant={'secondary'}
-              className={`line-clamp-2 w-full pr-24 text-sm whitespace-normal sm:line-clamp-3 md:line-clamp-4`}
+              className={`line-clamp-2 w-full pr-24 text-sm whitespace-normal transition-all duration-300 sm:line-clamp-3 md:line-clamp-4 ${scrollProgress > 0.75 ? 'h-0 opacity-0' : 'opacity-100'}`}
             >
               {playlist.description}
             </InfoText>
           )}
 
           <div
-            className={`flex gap-2 ${scrollProgress > 0.5 ? 'absolute right-0' : 'mt-auto'}`}
+            className={`flex gap-2 transition-all duration-500 ${
+              scrollProgress > 0.75 ? 'absolute right-0' : 'mt-auto'
+            }`}
           >
             <Button
               variant={'filled'}
-              className='bg-accent text-text-primary aspect-square size-10 shrink-0 rounded-full p-0'
+              className='bg-accent text-text-primary aspect-square size-10 shrink-0 rounded-full p-0 transition-transform hover:scale-105'
               onClick={playTracks}
             >
               <PlayIcon size={20} weight='fill' />
             </Button>
+
             <Button
               variant={'glass'}
-              className='aspect-square size-10 shrink-0 rounded-full bg-transparent p-0'
+              className='aspect-square size-10 shrink-0 rounded-full bg-transparent p-0 transition-transform hover:scale-105'
               onClick={toggleFavorite}
             >
               <HeartStraightIcon
