@@ -1,5 +1,5 @@
 <p align="center">
-    <img width="500" alt="vimp logo" src="resources/icons/1024x1024.png">
+    <img width="500" alt="vimp logo" src="resources/icons/icon.svg">
 </p>
 
 # Vimp

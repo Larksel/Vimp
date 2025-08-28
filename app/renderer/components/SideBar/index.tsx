@@ -1,7 +1,7 @@
 import { CaretLeftIcon } from '@phosphor-icons/react/dist/csr/CaretLeft';
 import { CaretRightIcon } from '@phosphor-icons/react/dist/csr/CaretRight';
 
-import logo from '@renderer/assets/images/logo.png';
+import logo from '@renderer/assets/images/logo.svg';
 
 import NavButtons from './NavButtons';
 import PlaylistList from './PlaylistList';
@@ -50,7 +50,7 @@ export default function SideBar(props: SideBarProps) {
           <img
             ref={logoRef}
             src={logo}
-            className='max-h-8 select-none'
+            className='aspect-square size-8 select-none'
             alt='vimp logo'
           />
           <div className='absolute right-0 left-0 flex items-center justify-between'>
