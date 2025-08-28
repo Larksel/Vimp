@@ -1,4 +1,5 @@
 import { PlayerService } from '@renderer/features/player';
+import useAudioData from '@renderer/hooks/useAudioData';
 import { betweenMinMax } from '@renderer/utils/utils';
 import { useCallback, useEffect, useRef } from 'react';
 
@@ -20,6 +21,7 @@ export default function AudioVisualizer({
   glowSize = 30,
 }: AudioVisualizerProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const audioDataRef = useAudioData();
   const audio = PlayerService.getAudio();
   const style = getComputedStyle(document.documentElement);
   const accentColor = style.getPropertyValue('--color-accent').trim();
@@ -106,8 +108,9 @@ export default function AudioVisualizer({
 
   useEffect(() => {
     const canvas = canvasRef.current;
+    const frequencyData = audioDataRef.current.frequencyData;
 
-    if (!canvas || !audio) return;
+    if (!canvas || !audio || !frequencyData) return;
 
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
@@ -118,8 +121,7 @@ export default function AudioVisualizer({
      * * Mínimo: 0.7, abrange partes mais graves
      * * Esse valor é inversamente proporcional ao fator de escalamento das ondas para que haja equilíbrio
      */
-    const bufferSize = PlayerService.getAnalyzerBufferSize() * bufferScale;
-    const dataArray = new Uint8Array(bufferSize);
+    const bufferSize = frequencyData.length * bufferScale;
     let animationFrameId: number;
 
     // TODO Tornar valores personalizaveis
@@ -128,7 +130,7 @@ export default function AudioVisualizer({
     // TODO - Tamanho do buffer (0.07 - 0.63), incremento: 0.07, padrão: 0.14
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      PlayerService.getAnalyserFrequency(dataArray);
+      const dataArray = frequencyData.slice(0, bufferSize);
       const grouped = groupFrequencies(dataArray, frequencyGroups, waveScale);
 
       drawWaveform(ctx, grouped, canvas.width, canvas.height, waveColor);
@@ -143,7 +145,15 @@ export default function AudioVisualizer({
     };
 
     // TODO Ativar useEffect a partir da mudança no PlayerStatus
-  }, [audio, bufferScale, drawWaveform, frequencyGroups, waveColor, waveScale]);
+  }, [
+    audio,
+    audioDataRef,
+    bufferScale,
+    drawWaveform,
+    frequencyGroups,
+    waveColor,
+    waveScale,
+  ]);
 
   return (
     <div className='z-10 flex h-full w-full items-center justify-center bg-transparent'>
