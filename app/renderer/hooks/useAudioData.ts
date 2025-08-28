@@ -1,8 +1,16 @@
 import { PlayerService } from '@renderer/features/player';
 import { useEffect, useRef } from 'react';
 
+interface AudioData {
+  rmsLevel: number;
+  frequencyData: Uint8Array<ArrayBuffer> | null;
+  bass: number;
+  mids: number;
+  trebles: number;
+}
+
 export default function useAudioData() {
-  const audioDataRef = useRef({
+  const audioDataRef = useRef<AudioData>({
     rmsLevel: 0,
     frequencyData: null,
     bass: 0,
@@ -34,14 +42,20 @@ export default function useAudioData() {
     return smoothedRMS;
   };
 
+  const getFrequencyData = (frequencyDataArray: Uint8Array<ArrayBuffer>) => {
+    PlayerService.getAnalyserFrequency(frequencyDataArray);
+    audioDataRef.current.frequencyData = frequencyDataArray;
+  };
+
   useEffect(() => {
     let animationFrameId: number;
     const bufferSize = PlayerService.getAnalyzerBufferSize();
     const timeDomainDataArray = new Uint8Array(bufferSize);
-    // const frequencyDataArray = new Uint8Array(bufferSize);
+    const frequencyDataArray = new Uint8Array(bufferSize);
 
     const animationLoop = () => {
       calculateRmsLevel(timeDomainDataArray);
+      getFrequencyData(frequencyDataArray);
 
       animationFrameId = requestAnimationFrame(animationLoop);
     };
