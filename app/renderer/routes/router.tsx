@@ -13,6 +13,7 @@ import SettingsView, {
 import PlaylistView from '@renderer/views/PlaylistView';
 
 import routes from './routes';
+import DownloaderView from '@renderer/views/DownloaderView';
 
 const router = createHashRouter([
   {
@@ -36,6 +37,11 @@ const router = createHashRouter([
         path: routes.QUEUE,
         id: routes.QUEUE,
         element: <QueueView />,
+      },
+      {
+        path: routes.DOWNLOADER,
+        id: routes.DOWNLOADER,
+        element: <DownloaderView />
       },
       {
         path: routes.SETTINGS,
