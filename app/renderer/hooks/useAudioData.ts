@@ -49,7 +49,7 @@ export default function useAudioData() {
     const fftSize = PlayerService.getAnalyzerFftSize();
     const hzPerBin = sampleRate / fftSize;
 
-    const bassCutoff = 200;
+    const bassCutoff = 250;
     const midCutoff = 4000;
 
     const bassEndIndex = Math.floor(bassCutoff / hzPerBin);
