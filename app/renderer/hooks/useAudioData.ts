@@ -62,15 +62,24 @@ export default function useAudioData() {
       frequencyDataArray.length,
     );
 
-    const getAverage = (bins: Uint8Array<ArrayBuffer>) => {
-      if (bins.length === 0) return 0;
-      const sum = bins.reduce((a, b) => a + b, 0);
-      return sum / bins.length / 255; // Normaliza para 0-1
+    const getRMS = (data: Uint8Array<ArrayBuffer>) => {
+      if (data.length === 0) return 0;
+
+      let sumSquares = 0;
+
+      for (const value of data) {
+        const normalized = value / 255; // Normalize to [0, 1]
+        sumSquares += normalized ** 2;
+      }
+
+      const squareRoot = Math.sqrt(sumSquares / data.length);
+
+      return Math.min(squareRoot, 1);
     };
 
-    audioDataRef.current.bass = getAverage(bassBins);
-    audioDataRef.current.mids = getAverage(midsBins);
-    audioDataRef.current.trebles = getAverage(trebleBins);
+    audioDataRef.current.bass = getRMS(bassBins);
+    audioDataRef.current.mids = getRMS(midsBins);
+    audioDataRef.current.trebles = getRMS(trebleBins);
   };
 
   const getFrequencyData = (frequencyDataArray: Uint8Array<ArrayBuffer>) => {
