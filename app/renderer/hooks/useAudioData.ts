@@ -42,6 +42,37 @@ export default function useAudioData() {
     return smoothedRMS;
   };
 
+  const calculateFrequencyBands = (
+    frequencyDataArray: Uint8Array<ArrayBuffer>,
+  ) => {
+    const sampleRate = PlayerService.getSampleRate();
+    const fftSize = PlayerService.getAnalyzerFftSize();
+    const hzPerBin = sampleRate / fftSize;
+
+    const bassCutoff = 200;
+    const midCutoff = 4000;
+
+    const bassEndIndex = Math.floor(bassCutoff / hzPerBin);
+    const midsEndIndex = Math.floor(midCutoff / hzPerBin);
+
+    const bassBins = frequencyDataArray.slice(0, bassEndIndex);
+    const midsBins = frequencyDataArray.slice(bassEndIndex, midsEndIndex);
+    const trebleBins = frequencyDataArray.slice(
+      midsEndIndex,
+      frequencyDataArray.length,
+    );
+
+    const getAverage = (bins: Uint8Array<ArrayBuffer>) => {
+      if (bins.length === 0) return 0;
+      const sum = bins.reduce((a, b) => a + b, 0);
+      return sum / bins.length / 255; // Normaliza para 0-1
+    };
+
+    audioDataRef.current.bass = getAverage(bassBins);
+    audioDataRef.current.mids = getAverage(midsBins);
+    audioDataRef.current.trebles = getAverage(trebleBins);
+  };
+
   const getFrequencyData = (frequencyDataArray: Uint8Array<ArrayBuffer>) => {
     PlayerService.getAnalyserFrequency(frequencyDataArray);
     audioDataRef.current.frequencyData = frequencyDataArray;
@@ -56,6 +87,7 @@ export default function useAudioData() {
     const animationLoop = () => {
       calculateRmsLevel(timeDomainDataArray);
       getFrequencyData(frequencyDataArray);
+      calculateFrequencyBands(frequencyDataArray);
 
       animationFrameId = requestAnimationFrame(animationLoop);
     };

@@ -126,6 +126,14 @@ class Player {
     return this.track;
   }
 
+  getSampleRate() {
+    return this.audioCtx.sampleRate;
+  }
+
+  getAnalyzerFftSize() {
+    return this.analyser.fftSize;
+  }
+
   getAnalyzerBufferSize() {
     return this.analyser.frequencyBinCount;
   }

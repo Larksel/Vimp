@@ -11,6 +11,8 @@ export const PlayerService = {
   getVolume: () => player.getVolume(),
   getCurrentTime: () => player.getCurrentTime(),
   getTrack: () => player.getTrack(),
+  getSampleRate: () => player.getSampleRate(),
+  getAnalyzerFftSize: () => player.getAnalyzerFftSize(),
   getAnalyzerBufferSize: () => player.getAnalyzerBufferSize(),
   getAnalyzerTimeDomain: (dataArray: Uint8Array<ArrayBuffer>) =>
     player.getAnalyzerTimeDomain(dataArray),
