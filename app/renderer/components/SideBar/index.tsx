@@ -24,8 +24,8 @@ export default function SideBar(props: SideBarProps) {
 
     const animationLoop = () => {
       if (logoRef.current && audioDataRef.current) {
-        const { rmsLevel } = audioDataRef.current;
-        const scale = 1 + rmsLevel * 0.35;
+        const { bass } = audioDataRef.current;
+        const scale = 1 + bass * 0.35;
 
         logoRef.current.style.transform = `scale(${scale})`;
       }

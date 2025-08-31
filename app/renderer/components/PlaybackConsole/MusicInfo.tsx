@@ -31,9 +31,9 @@ export default function MusicInfo() {
 
     const animationLoop = () => {
       if (heartIconRef.current && audioDataRef.current) {
-        const { rmsLevel } = audioDataRef.current;
-        const brightness = 0.7 + rmsLevel * 0.3;
-        const scale = 1 + rmsLevel * 0.3;
+        const { bass } = audioDataRef.current;
+        const brightness = 0.7 + bass * 0.3;
+        const scale = 1 + bass * 0.3;
 
         heartIconRef.current.style.transform = `scale(${scale})`;
         heartIconRef.current.style.filter = `brightness(${brightness})`;

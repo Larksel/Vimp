@@ -19,10 +19,10 @@ export default function ExpandedView(props: ExpandedViewProps) {
 
     const animationLoop = () => {
       if (imgRef.current && audioDataRef.current) {
-        const { rmsLevel } = audioDataRef.current;
-        const brightness = 0.3 + rmsLevel * 0.2;
-        const blur = 4 + rmsLevel * 2;
-        const scale = 1 + rmsLevel * 0.015;
+        const { bass } = audioDataRef.current;
+        const brightness = 0.3 + bass * 0.2;
+        const blur = 4 + bass * 2;
+        const scale = 1 + bass * 0.015;
 
         imgRef.current.style.transform = `scale(${scale})`;
         imgRef.current.style.filter = `brightness(${brightness}) blur(${blur}px)`;

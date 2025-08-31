@@ -28,10 +28,10 @@ export default function PlaylistView() {
 
     const animationLoop = () => {
       if (bgImageRef.current && audioDataRef.current) {
-        const { rmsLevel } = audioDataRef.current;
-        const brightness = 0.2 + rmsLevel * 0.2;
-        const blur = 9 + rmsLevel * 7;
-        const scale = 1 + rmsLevel * 0.015;
+        const { bass } = audioDataRef.current;
+        const brightness = 0.2 + bass * 0.2;
+        const blur = 9 + bass * 7;
+        const scale = 1 + bass * 0.015;
 
         bgImageRef.current.style.transform = `scale(${scale})`;
         bgImageRef.current.style.filter = `brightness(${brightness}) blur(${blur}px)`;
