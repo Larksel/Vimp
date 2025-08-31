@@ -215,8 +215,8 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
           Zera o progresso da música atual antes de avançar para a próxima.
           Evita erros de discordancia entre o progresso atual e a duração da música ao trocar para uma com duração inferior.
         */
-        await PlayerService.setTrack(track);
         api.seekTo(0);
+        await PlayerService.setTrack(track);
         api.play();
 
         set({
