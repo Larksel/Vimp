@@ -1,4 +1,5 @@
 import type { VimpAPI } from "@preload/preload";
+import { FC, ReactNode } from "react";
 
 declare global {
   declare module '*.jpg';
@@ -13,3 +14,11 @@ declare global {
     VimpAPI: VimpAPI;
   }
 }
+
+export interface RouteDefinitionItem {
+  displayName?: string;
+  path: string;
+  element: ReactNode | FC;
+}
+
+export type RoutesDefinition = Record<string, RouteDefinitionItem>
