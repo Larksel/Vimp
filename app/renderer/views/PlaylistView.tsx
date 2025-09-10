@@ -1,4 +1,4 @@
-import { useState, useMemo, useRef, useEffect } from 'react';
+import { useState, useMemo, useRef } from 'react';
 import TrackList from '@renderer/components/TrackList';
 import placeholder from '@renderer/assets/images/placeholder.png';
 import { HeartStraightIcon } from '@phosphor-icons/react/dist/csr/HeartStraight';
@@ -11,7 +11,7 @@ import { Button } from '@renderer/components/common/button';
 import usePlaylistLoader from '@renderer/hooks/usePlaylistLoader';
 import { formatDuration } from '@renderer/utils/utils';
 import { usePlaylistAPI } from '@renderer/stores/usePlaylistStore';
-import useAudioData from '@renderer/hooks/useAudioData';
+import { useAudioAnimation } from '@renderer/hooks/useAudioAnimation';
 
 export default function PlaylistView() {
   const { id } = useParams();
@@ -20,30 +20,17 @@ export default function PlaylistView() {
   const playlistAPI = usePlaylistAPI();
   const loaderData = usePlaylistLoader(id);
   const [scroll, setScroll] = useState(0);
-  const audioDataRef = useAudioData();
   const bgImageRef = useRef<HTMLImageElement>(null);
 
-  useEffect(() => {
-    let animationFrameId: number;
-
-    const animationLoop = () => {
-      if (bgImageRef.current && audioDataRef.current) {
-        const { bass } = audioDataRef.current;
-        const brightness = 0.2 + bass * 0.2;
-        const blur = 9 + bass * 7;
-        const scale = 1 + bass * 0.015;
-
-        bgImageRef.current.style.transform = `scale(${scale})`;
-        bgImageRef.current.style.filter = `brightness(${brightness}) blur(${blur}px)`;
-      }
-      animationFrameId = requestAnimationFrame(animationLoop);
+  useAudioAnimation([bgImageRef], (audioData) => {
+    const brightness = 0.2 + audioData.bass * 0.2;
+    const blur = 9 + audioData.bass * 7;
+    const scale = 1 + audioData.bass * 0.02;
+    return {
+      transform: `scale(${scale})`,
+      filter: `brightness(${brightness}) blur(${blur}px)`,
     };
-    animationLoop();
-
-    return () => {
-      cancelAnimationFrame(animationFrameId);
-    };
-  }, [audioDataRef]);
+  });
 
   const scrollProgress = useMemo(() => {
     const scrollThreshold = 147; // Magic number, for now...

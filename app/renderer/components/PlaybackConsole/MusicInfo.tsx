@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { HeartStraightIcon } from '@phosphor-icons/react/dist/csr/HeartStraight';
 
 import placeholderImage from '@renderer/assets/images/placeholder.png';
@@ -8,13 +8,12 @@ import ExpandedView from './ExpandedView';
 import InfoText from '@renderer/components/InfoText';
 import { Button } from '@renderer/components/common/button';
 import { usePlayerAPI } from '@renderer/stores/usePlayerStore';
-import useAudioData from '@renderer/hooks/useAudioData';
+import { useAudioAnimation } from '@renderer/hooks/useAudioAnimation';
 
 export default function MusicInfo() {
   const playerAPI = usePlayerAPI();
   const [visible, setVisible] = useState(false);
   const track = useCurrentTrack();
-  const audioDataRef = useAudioData();
   const heartIconRef = useRef<SVGSVGElement>(null);
 
   const toggleVisible = () => {
@@ -26,27 +25,15 @@ export default function MusicInfo() {
     playerAPI.toggleTrackFavorite(track._id);
   };
 
-  useEffect(() => {
-    let animationFrameId: number;
+  useAudioAnimation([heartIconRef], (audioData) => {
+    const brightness = 0.7 + audioData.bass * 0.3;
+    const scale = 1 + audioData.bass * 0.3;
 
-    const animationLoop = () => {
-      if (heartIconRef.current && audioDataRef.current) {
-        const { bass } = audioDataRef.current;
-        const brightness = 0.7 + bass * 0.3;
-        const scale = 1 + bass * 0.3;
-
-        heartIconRef.current.style.transform = `scale(${scale})`;
-        heartIconRef.current.style.filter = `brightness(${brightness})`;
-      }
-      animationFrameId = requestAnimationFrame(animationLoop);
+    return {
+      transform: `scale(${scale})`,
+      filter: `brightness(${brightness})`,
     };
-
-    animationLoop();
-
-    return () => {
-      cancelAnimationFrame(animationFrameId);
-    };
-  }, [audioDataRef]);
+  });
 
   return (
     <>
