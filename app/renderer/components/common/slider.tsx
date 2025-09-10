@@ -1,12 +1,13 @@
-import { forwardRef, ComponentRef, ComponentPropsWithoutRef } from 'react';
+import { ComponentPropsWithRef } from 'react';
 import * as SliderPrimitive from '@radix-ui/react-slider';
 
 import { cn } from '@renderer/utils/utils';
 
-const Slider = forwardRef<
-  ComponentRef<typeof SliderPrimitive.Root>,
-  ComponentPropsWithoutRef<typeof SliderPrimitive.Root>
->(({ className, ...props }, ref) => (
+const Slider = ({
+  className,
+  ref,
+  ...props
+}: ComponentPropsWithRef<typeof SliderPrimitive.Root>) => (
   <SliderPrimitive.Root
     ref={ref}
     className={cn(
@@ -20,7 +21,7 @@ const Slider = forwardRef<
     </SliderPrimitive.Track>
     <SliderPrimitive.Thumb className='bg-base focus-visible:ring-text-secondary block size-0 rounded-full shadow-sm transition-all group-hover:size-4 focus-visible:ring-1 focus-visible:outline-hidden disabled:pointer-events-none disabled:opacity-50' />
   </SliderPrimitive.Root>
-));
+);
 Slider.displayName = SliderPrimitive.Root.displayName;
 
 export { Slider };
