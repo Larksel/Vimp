@@ -108,20 +108,11 @@ export default function AudioVisualizer({
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    const frequencyData = audioDataRef.current.frequencyData;
-
-    if (!canvas || !audio || !frequencyData) return;
+    if (!canvas || !audio) return;
 
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    /**
-     * Controla o quanto do espectro da música é representado
-     * * Máximo: 0.63, valores acima disso pegam frequências silenciosas
-     * * Mínimo: 0.7, abrange partes mais graves
-     * * Esse valor é inversamente proporcional ao fator de escalamento das ondas para que haja equilíbrio
-     */
-    const bufferSize = frequencyData.length * bufferScale;
     let animationFrameId: number;
 
     // TODO Tornar valores personalizaveis
@@ -129,10 +120,24 @@ export default function AudioVisualizer({
     // TODO - Grupos de frequência (32 - 128), incremento: 32, padrão: 128
     // TODO - Tamanho do buffer (0.07 - 0.63), incremento: 0.07, padrão: 0.14
     const animate = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const frequencyData = audioDataRef.current.frequencyData;
+
+      if (!frequencyData) {
+        animationFrameId = requestAnimationFrame(animate);
+        return;
+      }
+
+      /**
+       * Controla o quanto do espectro da música é representado
+       * * Máximo: 0.63, valores acima disso pegam frequências silenciosas
+       * * Mínimo: 0.7, abrange partes mais graves
+       * * Esse valor é inversamente proporcional ao fator de escalamento das ondas para que haja equilíbrio
+       */
+      const bufferSize = frequencyData.length * bufferScale;
       const dataArray = frequencyData.slice(0, bufferSize);
       const grouped = groupFrequencies(dataArray, frequencyGroups, waveScale);
 
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
       drawWaveform(ctx, grouped, canvas.width, canvas.height, waveColor);
 
       animationFrameId = requestAnimationFrame(animate);
@@ -143,8 +148,6 @@ export default function AudioVisualizer({
     return () => {
       cancelAnimationFrame(animationFrameId);
     };
-
-    // TODO Ativar useEffect a partir da mudança no PlayerStatus
   }, [
     audio,
     audioDataRef,

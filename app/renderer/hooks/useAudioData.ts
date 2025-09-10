@@ -1,4 +1,6 @@
 import { PlayerService } from '@renderer/features/player';
+import usePlayerStore from '@renderer/stores/usePlayerStore';
+import { PlayerStatus } from '@shared/types/vimp';
 import { useEffect, useRef } from 'react';
 
 interface AudioData {
@@ -18,9 +20,13 @@ export default function useAudioData() {
     trebles: 0,
   });
   const previousRmsRef = useRef(0);
+  const frequencyDataArrayRef = useRef(
+    new Uint8Array(PlayerService.getAnalyzerBufferSize()),
+  );
+  const isPlaying =
+    usePlayerStore((state) => state.playerStatus) === PlayerStatus.PLAY;
 
   const calculateRmsLevel = (timeDomainDataArray: Uint8Array<ArrayBuffer>) => {
-    PlayerService.getAnalyzerTimeDomain(timeDomainDataArray);
     let smoothedRMS = previousRmsRef.current;
     const smoothingFactor = 0.5;
 
@@ -82,21 +88,33 @@ export default function useAudioData() {
     audioDataRef.current.trebles = getRMS(trebleBins);
   };
 
-  const getFrequencyData = (frequencyDataArray: Uint8Array<ArrayBuffer>) => {
-    PlayerService.getAnalyserFrequency(frequencyDataArray);
-    audioDataRef.current.frequencyData = frequencyDataArray;
-  };
-
   useEffect(() => {
-    let animationFrameId: number;
+    let animationFrameId: number | null = null;
     const bufferSize = PlayerService.getAnalyzerBufferSize();
     const timeDomainDataArray = new Uint8Array(bufferSize);
-    const frequencyDataArray = new Uint8Array(bufferSize);
+    const decayFactor = 0.85;
 
     const animationLoop = () => {
-      calculateRmsLevel(timeDomainDataArray);
-      getFrequencyData(frequencyDataArray);
-      calculateFrequencyBands(frequencyDataArray);
+      if (isPlaying) {
+        PlayerService.getAnalyzerTimeDomain(timeDomainDataArray);
+        PlayerService.getAnalyserFrequency(frequencyDataArrayRef.current);
+
+        audioDataRef.current.frequencyData = frequencyDataArrayRef.current;
+
+        calculateRmsLevel(timeDomainDataArray);
+        calculateFrequencyBands(frequencyDataArrayRef.current);
+      } else {
+        // Zera os valores suavemente
+        for (let i = 0; i < frequencyDataArrayRef.current.length; i++) {
+          frequencyDataArrayRef.current[i] *= decayFactor;
+        }
+
+        audioDataRef.current.frequencyData = frequencyDataArrayRef.current;
+        audioDataRef.current.rmsLevel *= decayFactor;
+        audioDataRef.current.bass *= decayFactor;
+        audioDataRef.current.mids *= decayFactor;
+        audioDataRef.current.trebles *= decayFactor;
+      }
 
       animationFrameId = requestAnimationFrame(animationLoop);
     };
@@ -104,9 +122,9 @@ export default function useAudioData() {
     animationLoop();
 
     return () => {
-      cancelAnimationFrame(animationFrameId);
+      if (animationFrameId) cancelAnimationFrame(animationFrameId);
     };
-  }, []);
+  }, [isPlaying]);
 
   return audioDataRef;
 }
