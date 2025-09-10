@@ -1,7 +1,7 @@
 import { StateCreator } from 'zustand';
 import { PlayerStatus, RepeatMode, TrackModel } from '@shared/types/vimp';
 import { storeUtils } from '@renderer/utils/storeUtils';
-import { PlayerConfigService } from '@renderer/features/player/playerConfig';
+import { PlayerConfigService } from '@renderer/features/settings';
 import { PlayerService } from '@renderer/features/player';
 import { QueueUtils } from '@renderer/utils/queueUtils';
 import { TrackPersistenceService } from '@renderer/features/data';
