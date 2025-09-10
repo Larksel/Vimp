@@ -3,7 +3,7 @@ import usePlayerStore from '@renderer/stores/usePlayerStore';
 import { PlayerStatus } from '@shared/types/vimp';
 import { useEffect, useRef } from 'react';
 
-interface AudioData {
+export interface AudioData {
   rmsLevel: number;
   frequencyData: Uint8Array<ArrayBuffer> | null;
   bass: number;

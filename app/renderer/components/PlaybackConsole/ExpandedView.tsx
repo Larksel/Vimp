@@ -1,8 +1,8 @@
 import placeholder from '@renderer/assets/images/placeholder.png';
 import AudioVisualizer from '@renderer/components/AudioVisualizer';
-import useAudioData from '@renderer/hooks/useAudioData';
+import { useAudioAnimation } from '@renderer/hooks/useAudioAnimation';
 import useCurrentTrack from '@renderer/hooks/useCurrentTrack';
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 
 interface ExpandedViewProps {
   visible: boolean;
@@ -11,30 +11,18 @@ interface ExpandedViewProps {
 export default function ExpandedView(props: ExpandedViewProps) {
   const { visible } = props;
   const track = useCurrentTrack();
-  const audioDataRef = useAudioData();
   const imgRef = useRef<HTMLImageElement>(null);
 
-  useEffect(() => {
-    let animationFrameId: number;
+  useAudioAnimation([imgRef], (audioData) => {
+    const brightness = 0.3 + audioData.bass * 0.2;
+    const blur = 4 + audioData.bass * 2;
+    const scale = 1 + audioData.bass * 0.015;
 
-    const animationLoop = () => {
-      if (imgRef.current && audioDataRef.current) {
-        const { bass } = audioDataRef.current;
-        const brightness = 0.3 + bass * 0.2;
-        const blur = 4 + bass * 2;
-        const scale = 1 + bass * 0.015;
-
-        imgRef.current.style.transform = `scale(${scale})`;
-        imgRef.current.style.filter = `brightness(${brightness}) blur(${blur}px)`;
-      }
-      animationFrameId = requestAnimationFrame(animationLoop);
+    return {
+      transform: `scale(${scale})`,
+      filter: `brightness(${brightness}) blur(${blur}px)`,
     };
-    animationLoop();
-
-    return () => {
-      cancelAnimationFrame(animationFrameId);
-    };
-  }, [audioDataRef]);
+  });
 
   return (
     <div

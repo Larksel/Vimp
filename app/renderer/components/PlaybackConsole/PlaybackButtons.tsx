@@ -9,15 +9,14 @@ import { RepeatOnceIcon } from '@phosphor-icons/react/dist/csr/RepeatOnce';
 import usePlayerStore, { usePlayerAPI } from '@renderer/stores/usePlayerStore';
 import { PlayerStatus } from '@shared/types/vimp';
 import { Button } from '@renderer/components/common/button';
-import { useEffect, useRef } from 'react';
-import useAudioData from '@renderer/hooks/useAudioData';
+import { useRef } from 'react';
+import { useAudioAnimation } from '@renderer/hooks/useAudioAnimation';
 
 export default function PlaybackButtons() {
   const playerAPI = usePlayerAPI();
   const playerStatus = usePlayerStore((state) => state.playerStatus);
   const isShuffleEnabled = usePlayerStore((state) => state.isShuffleEnabled);
   const repeatMode = usePlayerStore((state) => state.repeatMode);
-  const audioDataRef = useAudioData();
 
   const shuffleButtonRef = useRef<HTMLButtonElement>(null);
   const previousButtonRef = useRef<HTMLButtonElement>(null);
@@ -25,37 +24,18 @@ export default function PlaybackButtons() {
   const nextButtonRef = useRef<HTMLButtonElement>(null);
   const repeatButtonRef = useRef<HTMLButtonElement>(null);
 
-  useEffect(() => {
-    let animationFrameId: number;
+  useAudioAnimation(
+    [shuffleButtonRef, previousButtonRef, nextButtonRef, repeatButtonRef],
+    (audioData) => {
+      const brightness = 1 + audioData.bass * 1;
+      return { filter: `brightness(${brightness})` };
+    },
+  );
 
-    const animationLoop = () => {
-      if (
-        shuffleButtonRef.current &&
-        previousButtonRef.current &&
-        playButtonRef.current &&
-        nextButtonRef.current &&
-        repeatButtonRef.current &&
-        audioDataRef.current
-      ) {
-        const { bass } = audioDataRef.current;
-        const brightness = 1 + bass * 1;
-        const scale = 1 + bass * 0.2;
-
-
-        shuffleButtonRef.current.style.filter = `brightness(${brightness})`;
-        previousButtonRef.current.style.filter = `brightness(${brightness})`;
-        playButtonRef.current.style.transform = `scale(${scale})`;
-        nextButtonRef.current.style.filter = `brightness(${brightness})`;
-        repeatButtonRef.current.style.filter = `brightness(${brightness})`;
-      }
-      animationFrameId = requestAnimationFrame(animationLoop);
-    };
-    animationLoop();
-
-    return () => {
-      cancelAnimationFrame(animationFrameId);
-    };
-  }, [audioDataRef]);
+  useAudioAnimation([playButtonRef], (audioData) => {
+    const scale = 1 + audioData.bass * 0.2;
+    return { transform: `scale(${scale})` };
+  });
 
   const isPlaying = () => {
     switch (playerStatus) {

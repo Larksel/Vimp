@@ -6,8 +6,8 @@ import Logo from '../Logo';
 import NavButtons from './NavButtons';
 import PlaylistList from './PlaylistList';
 import { Button } from '@renderer/components/common/button';
-import useAudioData from '@renderer/hooks/useAudioData';
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
+import { useAudioAnimation } from '@renderer/hooks/useAudioAnimation';
 
 interface SideBarProps {
   toggle: () => void;
@@ -17,27 +17,11 @@ interface SideBarProps {
 export default function SideBar(props: SideBarProps) {
   const { toggle, collapsed } = props;
   const logoRef = useRef<SVGSVGElement>(null);
-  const audioDataRef = useAudioData();
 
-  useEffect(() => {
-    let animationFrameId: number;
-
-    const animationLoop = () => {
-      if (logoRef.current && audioDataRef.current) {
-        const { bass } = audioDataRef.current;
-        const scale = 1 + bass * 0.35;
-
-        logoRef.current.style.transform = `scale(${scale})`;
-      }
-      animationFrameId = requestAnimationFrame(animationLoop);
-    };
-
-    animationLoop();
-
-    return () => {
-      cancelAnimationFrame(animationFrameId);
-    };
-  }, [audioDataRef]);
+  useAudioAnimation([logoRef], (audioData) => {
+    const scale = 1 + audioData.bass * 0.35;
+    return { transform: `scale(${scale})` };
+  });
 
   return (
     <div className='flex w-(--sidebar-width) flex-col items-center gap-2 overflow-clip rounded-lg transition-all select-none'>

@@ -80,6 +80,7 @@
 body {
   color: var(--color-text-primary);
   font-family: Roboto, sans-serif;
+  user-select: none;
 }
 
 ::-webkit-scrollbar {
