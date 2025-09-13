@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ScrollArea, ScrollBar } from '@renderer/components/common/scroll-area';
 import useLibraryStore from '@renderer/stores/useLibraryStore';
-import routes from '@renderer/routes/routes';
+import { routes } from '@renderer/routes/routes';
 import ListHeader from './ListHeader';
 import PlaylistItem from './PlaylistItem';
 import PlaylistMenu from '@renderer/components/ContextMenu/PlaylistMenu';
@@ -29,7 +29,7 @@ export default function PlaylistList(props: PlaylistListProps) {
   };
 
   const playlistView = (playlistID: string) => {
-    const viewRoute = routes.PLAYLIST.replace(':id', playlistID);
+    const viewRoute = routes.PLAYLIST.path.replace(':id', playlistID);
 
     if (pathname.replace('/', '') !== viewRoute) {
       navigate(viewRoute);

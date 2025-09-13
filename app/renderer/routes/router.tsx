@@ -4,14 +4,8 @@ import {
   useNavigate,
 } from 'react-router-dom';
 import RootView from '@renderer/views/RootView';
-import HomeView from '@renderer/views/HomeView';
-import QueueView from '@renderer/views/QueueView';
-import MusicLibraryView from '@renderer/views/MusicLibraryView';
-import SettingsView from '@renderer/views/SettingsView';
-import PlaylistView from '@renderer/views/PlaylistView';
 
-import routes from './routes';
-import DownloaderView from '@renderer/views/DownloaderView';
+import { routes } from './routes';
 
 const router = createHashRouter([
   {
@@ -22,34 +16,34 @@ const router = createHashRouter([
     children: [
       {
         index: true,
-        path: routes.HOME,
-        id: routes.HOME,
-        element: <HomeView />,
+        path: routes.HOME.path,
+        id: routes.HOME.path,
+        element: routes.HOME.element,
       },
       {
-        path: routes.MUSIC_LIBRARY,
-        id: routes.MUSIC_LIBRARY,
-        element: <MusicLibraryView />,
+        path: routes.MUSIC_LIBRARY.path,
+        id: routes.MUSIC_LIBRARY.path,
+        element: routes.MUSIC_LIBRARY.element,
       },
       {
-        path: routes.QUEUE,
-        id: routes.QUEUE,
-        element: <QueueView />,
+        path: routes.QUEUE.path,
+        id: routes.QUEUE.path,
+        element: routes.QUEUE.element,
       },
       {
-        path: routes.DOWNLOADER,
-        id: routes.DOWNLOADER,
-        element: <DownloaderView />,
+        path: routes.DOWNLOADER.path,
+        id: routes.DOWNLOADER.path,
+        element: routes.DOWNLOADER.element,
       },
       {
-        path: routes.SETTINGS,
-        id: routes.SETTINGS,
-        element: <SettingsView />,
+        path: routes.SETTINGS.path,
+        id: routes.SETTINGS.path,
+        element: routes.SETTINGS.element,
       },
       {
-        path: routes.PLAYLIST,
-        id: routes.PLAYLIST,
-        element: <PlaylistView />,
+        path: routes.PLAYLIST.path,
+        id: routes.PLAYLIST.path,
+        element: routes.PLAYLIST.element,
       },
     ],
   },

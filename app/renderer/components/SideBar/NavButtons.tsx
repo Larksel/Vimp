@@ -7,33 +7,40 @@ import { MonitorPlayIcon } from '@phosphor-icons/react/dist/csr/MonitorPlay';
 import { DownloadSimpleIcon } from '@phosphor-icons/react/dist/csr/DownloadSimple';
 import { Button } from '@renderer/components/common/button';
 
-import routes from '@renderer/routes/routes';
+import { routes } from '@renderer/routes/routes';
+import { JSX } from 'react';
 
-const navButtons = [
+interface NavButtonsType {
+  text: string;
+  icon: JSX.Element;
+  page: string;
+}
+
+const navButtons: NavButtonsType[] = [
   {
     text: 'Home',
     icon: <HouseIcon size={28} className='shrink-0' />,
-    page: routes.HOME,
+    page: routes.HOME.path,
   },
   {
     text: 'Search',
     icon: <MagnifyingGlassIcon size={28} className='shrink-0' />,
-    page: routes.SEARCH,
+    page: routes.SEARCH.path,
   },
   {
     text: 'Music Library',
     icon: <MusicNoteIcon size={28} className='shrink-0' />,
-    page: routes.MUSIC_LIBRARY,
+    page: routes.MUSIC_LIBRARY.path,
   },
   {
     text: 'Video Library',
     icon: <MonitorPlayIcon size={28} className='shrink-0' />,
-    page: routes.VIDEO_LIBRARY,
+    page: routes.VIDEO_LIBRARY.path,
   },
   {
     text: 'Downloader',
     icon: <DownloadSimpleIcon size={28} className='shrink-0' />,
-    page: routes.DOWNLOADER,
+    page: routes.DOWNLOADER.path,
   },
 ];
 

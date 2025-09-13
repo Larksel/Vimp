@@ -1,7 +1,7 @@
 import { createRendererLogger } from '@renderer/utils/logger';
 import { TrackModel } from '@shared/types/vimp';
 import { TrackPersistenceService } from '@renderer/features/data';
-import usePlayerStore from '@renderer/stores/usePlayerStore';
+import useConfigStore from '@renderer/stores/useConfigStore';
 
 const logger = createRendererLogger('Player');
 
@@ -204,10 +204,10 @@ function revokeObjectURL(url: string) {
   }
 }
 
-const playerState = usePlayerStore.getState();
+const playerConfig = useConfigStore.getState().player;
 
 export default new Player({
-  volume: playerState.volume,
-  playbackRate: playerState.playbackRate,
-  muted: playerState.isPlayerMuted,
+  volume: playerConfig.audioVolume,
+  playbackRate: playerConfig.audioPlaybackRate,
+  muted: playerConfig.audioMuted,
 });

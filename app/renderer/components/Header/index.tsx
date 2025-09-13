@@ -5,7 +5,7 @@ import { BellIcon } from '@phosphor-icons/react/dist/csr/Bell';
 import { GearIcon } from '@phosphor-icons/react/dist/csr/Gear';
 import { Button } from '@renderer/components/common/button';
 
-import routes from '@renderer/routes/routes';
+import { routes } from '@renderer/routes/routes';
 
 export default function Header() {
   const navigate = useNavigate();
@@ -37,8 +37,8 @@ export default function Header() {
         <Button
           variant='glass'
           onClick={() => {
-            if (location.pathname.replace('/', '') !== routes.SETTINGS)
-              navigate(routes.SETTINGS);
+            if (location.pathname.replace('/', '') !== routes.SETTINGS.path)
+              navigate(routes.SETTINGS.path);
           }}
           className='aspect-square rounded-full p-0'
         >
