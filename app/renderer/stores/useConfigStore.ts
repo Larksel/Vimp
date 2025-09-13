@@ -7,23 +7,27 @@ import { StateCreator } from 'zustand';
 const logger = createRendererLogger('ConfigStore');
 
 interface ConfigState extends Config {
-  api: typeof PlayerConfigService
+  api: typeof PlayerConfigService;
 }
 
-const useConfigStore = createConfigStore<ConfigState>(() => ({
-  musicFolders: [''],
-  displayNotifications: false,
-  audioVolume: 0,
-  audioPlaybackRate: 0,
-  audioMuted: false,
-  audioShuffle: false,
-  audioRepeatMode: RepeatMode.ONE,
-  audioGaplessPlayback: false,
-  audioCrossfadeDuration: 0,
-  api: {
-    ...PlayerConfigService
-  },
-}));
+const useConfigStore = createConfigStore<ConfigState>(() => {
+  logger.info('Initializing ConfigStore');
+  
+  return {
+    musicFolders: [''],
+    displayNotifications: false,
+    audioVolume: 0,
+    audioPlaybackRate: 0,
+    audioMuted: false,
+    audioShuffle: false,
+    audioRepeatMode: RepeatMode.ONE,
+    audioGaplessPlayback: false,
+    audioCrossfadeDuration: 0,
+    api: {
+      ...PlayerConfigService,
+    },
+  };
+});
 
 export default useConfigStore;
 

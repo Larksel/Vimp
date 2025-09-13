@@ -24,6 +24,8 @@ interface LibraryState {
 }
 
 const useLibraryStore = createLibraryStore<LibraryState>((set, get) => {
+  logger.info('Initializing LibraryStore');
+
   return {
     loading: {
       tracks: true,
