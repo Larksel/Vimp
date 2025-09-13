@@ -26,6 +26,7 @@ export default function RootView() {
   const libraryAPI = useLibraryAPI();
   const playerAPI = usePlayerAPI();
 
+  // TODO Extrair para hook
   const loadTracks = useCallback(async () => {
     logger.debug('Loading tracks');
     const dbTracks = await TrackPersistenceService.getAll();
@@ -34,7 +35,7 @@ export default function RootView() {
     libraryAPI.setTracks(tracks);
     playerAPI.refreshQueueMetadata(tracks);
   }, [libraryAPI, playerAPI]);
-
+  // TODO Extrair para hook
   const loadPlaylists = useCallback(async () => {
     logger.debug('Loading playlists');
     const dbPlaylists = await PlaylistPersistenceService.getAll();
@@ -42,7 +43,7 @@ export default function RootView() {
 
     libraryAPI.setPlaylists(playlists);
   }, [libraryAPI]);
-
+  // TODO Extrair para hook
   useEffect(() => {
     window.VimpAPI.app.onDBChanged(
       debounce(() => {

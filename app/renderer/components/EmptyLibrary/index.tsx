@@ -1,5 +1,7 @@
 import { createRendererLogger } from '@renderer/utils/logger';
 import { Button } from '@renderer/components/common/button';
+import { useState } from 'react';
+import { useLibraryAPI } from '@renderer/stores/useLibraryStore';
 
 interface EmptyLibraryProps {
   viewName: string;
@@ -7,11 +9,17 @@ interface EmptyLibraryProps {
 
 export default function EmptyLibrary(props: EmptyLibraryProps) {
   const { viewName } = props;
+  const [scanning, setScanning] = useState(false);
+  const libraryAPI = useLibraryAPI();
   const logger = createRendererLogger(viewName);
+
   const forceScan = async () => {
+    setScanning(() => true);
+
     logger.debug(`Triggered library scan and save`);
-    const importedFiles = await window.VimpAPI.library.scanAndSave();
-    console.log(importedFiles);
+    libraryAPI.scanFolders();
+
+    setScanning(() => false);
   };
 
   return (
@@ -21,9 +29,16 @@ export default function EmptyLibrary(props: EmptyLibraryProps) {
           Sua biblioteca está vazia
         </h3>
         <hr className='text-text-sub mb-4' />
-        <Button variant={'outline'} onClick={forceScan}>
-          Procurar arquivos
-        </Button>
+        {!scanning && (
+          <Button variant={'outline'} onClick={forceScan}>
+            Procurar arquivos
+          </Button>
+        )}
+        {scanning && (
+          <Button variant={'outline'} disabled>
+            Rescanning...
+          </Button>
+        )}
       </div>
     </div>
   );

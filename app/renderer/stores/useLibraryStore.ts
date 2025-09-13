@@ -16,6 +16,7 @@ interface LibraryState {
     playlists: PlaylistModel[];
   };
   api: {
+    scanFolders: (paths?: string[]) => Promise<void>;
     setTracks: (tracks: TrackModel[]) => void;
     setPlaylists: (playlists: PlaylistModel[]) => void;
     getPlaylistFromID: (playlistID: string) => PlaylistModel | null;
@@ -36,6 +37,9 @@ const useLibraryStore = createLibraryStore<LibraryState>((set, get) => {
       playlists: [],
     },
     api: {
+      scanFolders: async (paths) => {
+        await window.VimpAPI.library.scanAndSave(paths);
+      },
       setTracks: (tracks) => {
         if (!tracks) return;
 

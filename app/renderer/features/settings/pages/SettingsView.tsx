@@ -7,21 +7,21 @@ import { useState } from 'react';
 import * as Settings from '../components';
 import { TrackPersistenceService } from '@renderer/features/data';
 import useConfigStore, { useConfigAPI } from '@renderer/stores/useConfigStore';
+import { useLibraryAPI } from '@renderer/stores/useLibraryStore';
 
 const logger = createRendererLogger('SettingsView');
 
 export default function SettingsView() {
   const config = useConfigStore((state) => state);
   const configAPI = useConfigAPI();
+  const libraryAPI = useLibraryAPI();
   const [scanning, setScanning] = useState(false);
 
-  // TODO remover para uma service
   const rescanTracks = async () => {
     setScanning(() => true);
 
     logger.debug('Triggered library scan and save');
-    const importedFiles = await window.VimpAPI.library.scanAndSave();
-    console.log(importedFiles);
+    libraryAPI.scanFolders();
 
     setScanning(() => false);
   };
