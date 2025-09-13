@@ -2,32 +2,20 @@ import { createRendererLogger } from '@renderer/utils/logger';
 import { Button } from '@renderer/components/common/button';
 import { Input } from '@renderer/components/common/input';
 import { Switch } from '@renderer/components/common/switch';
-import { LoaderData } from '@renderer/routes/router';
 import { useState } from 'react';
-import { useLoaderData } from 'react-router-dom';
-import { Config } from '@shared/types/vimp';
 
 import * as Settings from '@renderer/components/Settings';
 import { TrackPersistenceService } from '@renderer/features/data';
+import useConfigStore, { useConfigAPI } from '@renderer/stores/useConfigStore';
 
 const logger = createRendererLogger('SettingsView');
 
 export default function SettingsView() {
-  const { config } = useLoaderData() as SettingsLoaderData;
-  const [configData, setConfigData] = useState<Config>(config);
-  const [changed, setChanged] = useState(false);
+  const config = useConfigStore((state) => state);
+  const configAPI = useConfigAPI();
   const [scanning, setScanning] = useState(false);
 
-  const saveChanges = async () => {
-    setChanged(false);
-
-    if (configData === config) return;
-
-    for (const key in configData) {
-      await window.VimpAPI.config.set(key as keyof Config, configData[key]);
-    }
-  };
-
+  // TODO remover para uma service
   const rescanTracks = async () => {
     setScanning(() => true);
 
@@ -49,13 +37,9 @@ export default function SettingsView() {
         <Settings.Section name='Geral'>
           <Settings.Option name='Display Notifications (Coming soon)'>
             <Switch
-              checked={configData.displayNotifications}
+              checked={config.displayNotifications}
               onCheckedChange={() => {
-                setConfigData({
-                  ...configData,
-                  displayNotifications: !configData.displayNotifications,
-                });
-                setChanged(true);
+                configAPI.setDisplayNotifications(!config.displayNotifications);
               }}
             />
           </Settings.Option>
@@ -66,7 +50,7 @@ export default function SettingsView() {
         </Settings.Section>
         <Settings.Section name='Pastas de música'>
           <ul className='px-4'>
-            {configData.musicFolders.map((folder) => (
+            {config.musicFolders.map((folder) => (
               <li key={folder}>- {folder}</li>
             ))}
           </ul>
@@ -74,17 +58,11 @@ export default function SettingsView() {
         <Settings.Section name='Audio' className='flex flex-col gap-4'>
           <Settings.Option name='Gapless Playback (Coming soon)'>
             <Switch
-              checked={configData.player.audioGaplessPlayback}
+              checked={config.player.audioGaplessPlayback}
               onCheckedChange={() => {
-                setConfigData({
-                  ...configData,
-                  player: {
-                    ...configData.player,
-                    audioGaplessPlayback:
-                      !configData.player.audioGaplessPlayback,
-                  },
-                });
-                setChanged(true);
+                configAPI.setGaplessPlayback(
+                  !config.player.audioGaplessPlayback,
+                );
               }}
             />
           </Settings.Option>
@@ -92,16 +70,9 @@ export default function SettingsView() {
           <Settings.Option name='Crossfade Duration (Coming soon)'>
             <Input
               className='max-w-16'
-              value={configData.player.audioCrossfadeDuration}
+              value={config.player.audioCrossfadeDuration}
               onChange={(e) => {
-                setConfigData({
-                  ...configData,
-                  player: {
-                    ...configData.player,
-                    audioCrossfadeDuration: Number(e.target.value),
-                  },
-                });
-                setChanged(true);
+                configAPI.setCrossfadeDuration(Number(e.target.value));
               }}
             />
           </Settings.Option>
@@ -113,24 +84,7 @@ export default function SettingsView() {
             </Button>
           </Settings.Option>
         </Settings.Section>
-        {changed && (
-          <Button
-            onClick={saveChanges}
-            className='bg-success max-w-40 self-center transition-colors'
-          >
-            Save Changes
-          </Button>
-        )}
       </div>
     </div>
   );
-}
-
-type SettingsLoaderData = LoaderData<typeof loader>;
-
-export async function loader() {
-  logger.debug('Loading configs');
-  const config = await window.VimpAPI.config.getAll();
-
-  return { config };
 }

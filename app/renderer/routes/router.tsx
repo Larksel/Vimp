@@ -7,9 +7,7 @@ import RootView from '@renderer/views/RootView';
 import HomeView from '@renderer/views/HomeView';
 import QueueView from '@renderer/views/QueueView';
 import MusicLibraryView from '@renderer/views/MusicLibraryView';
-import SettingsView, {
-  loader as settingsloader,
-} from '@renderer/views/SettingsView';
+import SettingsView from '@renderer/views/SettingsView';
 import PlaylistView from '@renderer/views/PlaylistView';
 
 import routes from './routes';
@@ -41,13 +39,12 @@ const router = createHashRouter([
       {
         path: routes.DOWNLOADER,
         id: routes.DOWNLOADER,
-        element: <DownloaderView />
+        element: <DownloaderView />,
       },
       {
         path: routes.SETTINGS,
         id: routes.SETTINGS,
         element: <SettingsView />,
-        loader: settingsloader,
       },
       {
         path: routes.PLAYLIST,
