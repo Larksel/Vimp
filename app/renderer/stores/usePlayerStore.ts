@@ -1,11 +1,11 @@
 import { StateCreator } from 'zustand';
 import { PlayerStatus, RepeatMode, TrackModel } from '@shared/types/vimp';
 import { storeUtils } from '@renderer/utils/storeUtils';
-import { PlayerConfigService } from '@renderer/features/settings';
 import { PlayerService } from '@renderer/features/player';
 import { QueueUtils } from '@renderer/utils/queueUtils';
 import { TrackPersistenceService } from '@renderer/features/data';
 import { createRendererLogger } from '@renderer/utils/logger';
+import useConfigStore from './useConfigStore';
 
 const logger = createRendererLogger('PlayerStore');
 
@@ -37,10 +37,10 @@ interface PlayerState {
     removeTracksFromQueue: (trackIDs: string | string[]) => void;
     playTrackById: (_id: string) => void;
     setVolume: (volume: number) => void;
-    setIsMuted: (muted?: boolean) => void;
+    setIsMuted: (muted: boolean) => void;
     toggleTrackFavorite: (_id: string) => Promise<void>;
-    toggleShuffle: () => Promise<void>;
-    toggleRepeatMode: () => Promise<void>;
+    toggleShuffle: () => void;
+    toggleRepeatMode: () => void;
     seekTo: (position: number) => void;
     handlePlayerTick: () => void;
     setPlaybackRate: (playbackRate: number) => void;
@@ -49,10 +49,11 @@ interface PlayerState {
 }
 
 const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
-  const initialConfig = PlayerConfigService.getInitialConfig();
+  const playerConfig = useConfigStore.getState().player;
+  const configAPI = useConfigStore.getState().api;
 
   logger.info(
-    `Initializing PlayerStore with config: ${JSON.stringify(initialConfig, null, 2)}`,
+    `Initializing PlayerStore with config: ${JSON.stringify(playerConfig, null, 2)}`,
   );
 
   return {
@@ -60,14 +61,14 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
     originalQueue: [],
     queuePosition: null,
     currentTime: 0,
-    isShuffleEnabled: initialConfig.audioShuffle,
-    repeatMode: initialConfig.audioRepeatMode,
+    isShuffleEnabled: playerConfig.audioShuffle,
+    repeatMode: playerConfig.audioRepeatMode,
     playerStatus: PlayerStatus.STOP,
-    isPlayerMuted: initialConfig.audioMuted,
-    gaplessPlayback: initialConfig.audioGaplessPlayback,
-    crossfadeDuration: initialConfig.audioCrossfadeDuration,
-    playbackRate: initialConfig.audioPlaybackRate,
-    volume: initialConfig.audioVolume,
+    isPlayerMuted: playerConfig.audioMuted,
+    gaplessPlayback: playerConfig.audioGaplessPlayback,
+    crossfadeDuration: playerConfig.audioCrossfadeDuration,
+    playbackRate: playerConfig.audioPlaybackRate,
+    volume: playerConfig.audioVolume,
     api: {
       startPlayback: (queue, _id) => {
         if (queue === null || queue.length === 0) return;
@@ -344,17 +345,17 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
       },
       setVolume: (volume) => {
         PlayerService.setVolume(volume);
-        PlayerConfigService.setVolume(volume);
+        configAPI.setVolume(volume);
         set({ volume });
       },
-      setIsMuted: async (muted = false) => {
+      setIsMuted: (muted) => {
         if (muted) {
           PlayerService.mute();
         } else {
           PlayerService.unmute();
         }
 
-        await PlayerConfigService.setAudioMuted(muted);
+        configAPI.setAudioMuted(muted);
         set({ isPlayerMuted: muted });
       },
       toggleTrackFavorite: async (_id) => {
@@ -377,7 +378,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
           queue: newQueue,
         });
       },
-      toggleShuffle: async () => {
+      toggleShuffle: () => {
         const { queue, queuePosition, originalQueue, isShuffleEnabled } = get();
         const shouldShuffle = !isShuffleEnabled;
 
@@ -403,7 +404,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
           logger.info('Queue back to original order');
         }
 
-        await PlayerConfigService.setAudioShuffle(shouldShuffle);
+        configAPI.setAudioShuffle(shouldShuffle);
 
         set({
           queue: newQueue,
@@ -411,7 +412,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
           isShuffleEnabled: shouldShuffle,
         });
       },
-      toggleRepeatMode: async () => {
+      toggleRepeatMode: () => {
         const { repeatMode } = get();
         let newRepeatMode: RepeatMode;
 
@@ -431,7 +432,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
 
         logger.debug(`Repeat mode set to ${newRepeatMode}`);
 
-        await PlayerConfigService.setAudioRepeatMode(newRepeatMode);
+        configAPI.setAudioRepeatMode(newRepeatMode);
         set({ repeatMode: newRepeatMode });
       },
       seekTo: (position) => {
@@ -445,7 +446,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
       setPlaybackRate: (playbackRate) => {
         if (playbackRate >= 0.25 && playbackRate <= 2) {
           PlayerService.setPlaybackRate(playbackRate);
-          PlayerConfigService.setPlaybackRate(playbackRate);
+          configAPI.setPlaybackRate(playbackRate);
 
           logger.debug(`Playback rate set to ${playbackRate}`);
 
