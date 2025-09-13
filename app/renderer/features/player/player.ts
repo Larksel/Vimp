@@ -206,7 +206,7 @@ function revokeObjectURL(url: string) {
 const { config } = window.VimpAPI;
 
 export default new Player({
-  volume: config.__initialConfig['audioVolume'],
-  playbackRate: config.__initialConfig['audioPlaybackRate'],
-  muted: config.__initialConfig['audioMuted'],
+  volume: config.__initialConfig.player.audioVolume,
+  playbackRate: config.__initialConfig.player.audioPlaybackRate,
+  muted: config.__initialConfig.player.audioMuted,
 });

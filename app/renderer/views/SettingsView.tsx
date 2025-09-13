@@ -74,11 +74,15 @@ export default function SettingsView() {
         <Settings.Section name='Audio' className='flex flex-col gap-4'>
           <Settings.Option name='Gapless Playback (Coming soon)'>
             <Switch
-              checked={configData.audioGaplessPlayback}
+              checked={configData.player.audioGaplessPlayback}
               onCheckedChange={() => {
                 setConfigData({
                   ...configData,
-                  audioGaplessPlayback: !configData.audioGaplessPlayback,
+                  player: {
+                    ...configData.player,
+                    audioGaplessPlayback:
+                      !configData.player.audioGaplessPlayback,
+                  },
                 });
                 setChanged(true);
               }}
@@ -88,11 +92,14 @@ export default function SettingsView() {
           <Settings.Option name='Crossfade Duration (Coming soon)'>
             <Input
               className='max-w-16'
-              value={configData.audioCrossfadeDuration}
+              value={configData.player.audioCrossfadeDuration}
               onChange={(e) => {
                 setConfigData({
                   ...configData,
-                  audioCrossfadeDuration: Number(e.target.value),
+                  player: {
+                    ...configData.player,
+                    audioCrossfadeDuration: Number(e.target.value),
+                  },
                 });
                 setChanged(true);
               }}
@@ -119,7 +126,7 @@ export default function SettingsView() {
   );
 }
 
-type SettingsLoaderData = LoaderData<typeof loader>
+type SettingsLoaderData = LoaderData<typeof loader>;
 
 export async function loader() {
   logger.debug('Loading configs');

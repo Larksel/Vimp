@@ -58,15 +58,16 @@ export default class ConfigModule extends BaseModule implements IConfigModule {
    */
   private getDefaultConfig(): Config {
     const defaultConfig: Config = {
-      audioVolume: 0.5,
-      audioPlaybackRate: 1,
-      audioMuted: false,
-      audioShuffle: false,
-      audioRepeatMode: RepeatMode.OFF,
-      audioGaplessPlayback: true,
-      audioCrossfadeDuration: 300,
+      player: {
+        audioVolume: 0.5,
+        audioPlaybackRate: 1,
+        audioMuted: false,
+        audioShuffle: false,
+        audioRepeatMode: RepeatMode.OFF,
+        audioGaplessPlayback: true,
+        audioCrossfadeDuration: 300,
+      },
       musicFolders: [userMusicFolder, vimpMusicFolder],
-
       displayNotifications: true,
     };
 
