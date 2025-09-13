@@ -4,7 +4,7 @@ import { Input } from '@renderer/components/common/input';
 import { Switch } from '@renderer/components/common/switch';
 import { useState } from 'react';
 
-import * as Settings from '@renderer/components/Settings';
+import * as Settings from '../components/Settings';
 import { TrackPersistenceService } from '@renderer/features/data';
 import useConfigStore, { useConfigAPI } from '@renderer/stores/useConfigStore';
 
