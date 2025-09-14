@@ -1,7 +1,6 @@
 import CardList from '@renderer/components/CardList';
 import EmptyLibrary from '@renderer/components/EmptyLibrary';
 import { sortUtils } from '@renderer/utils/sortUtils';
-import { TrackModel } from '@shared/types/vimp';
 import useLibraryStore from '@renderer/stores/useLibraryStore';
 
 export default function HomeView() {
@@ -14,27 +13,11 @@ export default function HomeView() {
     );
   }
 
-  const recents = sortUtils.sortByDate<TrackModel>(
-    tracks,
-    'lastPlayed',
-    'desc',
-  );
-  const favorites = sortUtils.sortByDate<TrackModel>(
-    tracks,
-    'dateFavorited',
-    'desc',
-  );
-  const mostPlayed = sortUtils.sortByNumber<TrackModel>(
-    tracks,
-    'playCount',
-    'desc',
-    true,
-  );
-  const recentlyAdded = sortUtils.sortByDate<TrackModel>(
-    tracks,
-    'dateAdded',
-    'desc',
-  );
+  const recents = sortUtils.sortByDate(tracks, 'lastPlayed', 'desc');
+  const recentlyModified = sortUtils.sortByDate(tracks, 'dateModified', 'desc');
+  const favorites = sortUtils.sortByDate(tracks, 'dateFavorited', 'desc');
+  const mostPlayed = sortUtils.sortByNumber(tracks, 'playCount', 'desc', true);
+  const recentlyAdded = sortUtils.sortByDate(tracks, 'dateAdded', 'desc');
 
   return (
     <div className='flex flex-col gap-4 p-4'>
@@ -60,6 +43,14 @@ export default function HomeView() {
             Mais Tocadas
           </h3>
           <CardList max={5} data={mostPlayed} />
+        </div>
+      )}
+      {recentlyModified.length > 0 && (
+        <div>
+          <h3 className='text-text-primary mb-2 font-semibold capitalize'>
+            Recentemente Modificadas
+          </h3>
+          <CardList max={5} data={recentlyModified} />
         </div>
       )}
       {recentlyAdded.length > 0 && (
