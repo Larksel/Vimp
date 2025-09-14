@@ -13,6 +13,7 @@ import { formatDuration } from '@renderer/utils/utils';
 import { usePlaylistAPI } from '@renderer/stores/usePlaylistStore';
 import { useAudioAnimation } from '@renderer/hooks/useAudioAnimation';
 
+// TODO implementar reordenação
 export default function PlaylistView() {
   const { id } = useParams();
   const loading = useLibraryStore((state) => state.loading);
@@ -162,8 +163,9 @@ export default function PlaylistView() {
       </div>
       <div className='z-1 h-full'>
         <TrackList
-          queue={tracks}
+          items={tracks}
           onItemClick={handleItemClick}
+          onItemMove={() => console.log('TBA')}
           onScroll={handleScroll}
         />
       </div>

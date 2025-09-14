@@ -6,6 +6,7 @@ import { QueueUtils } from '@renderer/utils/queueUtils';
 import { TrackPersistenceService } from '@renderer/features/data';
 import { createRendererLogger } from '@renderer/utils/logger';
 import useConfigStore from './useConfigStore';
+import { arrayMove } from '@dnd-kit/sortable';
 
 const logger = createRendererLogger('PlayerStore');
 
@@ -34,6 +35,7 @@ interface PlayerState {
     playTrackAtIndex: (index: number) => void;
     addToQueue: (tracks: TrackModel | TrackModel[]) => void;
     queueNext: (tracks: TrackModel | TrackModel[]) => void;
+    moveTrack: (from: number, to: number) => void;
     removeTracksFromQueue: (trackIDs: string | string[]) => void;
     playTrackById: (_id: string) => void;
     setVolume: (volume: number) => void;
@@ -284,6 +286,36 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
           queue: newQueue,
           originalQueue: newOriginalQueue,
         });
+      },
+      moveTrack: (from, to) => {
+        const { queue, queuePosition, isShuffleEnabled } = get();
+
+        if (to === from) return;
+
+        if (from > queue.length - 1 || to > queue.length - 1) {
+          logger.error('Item out of range');
+          return;
+        }
+
+        let newQueuePosition = queuePosition;
+
+        if (queuePosition === from) {
+          newQueuePosition = to;
+        } else if (queuePosition === to) {
+          if (to > from) {
+            newQueuePosition = to - 1;
+          } else {
+            newQueuePosition = to + 1;
+          }
+        }
+
+        const newQueue = arrayMove(queue, from, to);
+
+        if (!isShuffleEnabled) {
+          set({ originalQueue: newQueue });
+        }
+
+        set({ queue: newQueue, queuePosition: newQueuePosition });
       },
       removeTracksFromQueue: async (trackIDs) => {
         const { queue, originalQueue, queuePosition, playerStatus, api } =

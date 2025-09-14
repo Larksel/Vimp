@@ -13,9 +13,17 @@ export default function QueueView() {
     }
   };
 
+  const handleItemMove = (from: number, to: number) => {
+    playerAPI.moveTrack(from, to);
+  };
+
   return (
     <div>
-      <TrackList queue={queue} onItemClick={handleItemClick} />
+      <TrackList
+        items={queue}
+        onItemClick={handleItemClick}
+        onItemMove={handleItemMove}
+      />
     </div>
   );
 }
