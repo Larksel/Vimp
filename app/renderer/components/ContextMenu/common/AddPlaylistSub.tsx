@@ -8,7 +8,7 @@ import {
 import useLibraryStore from '@renderer/stores/useLibraryStore';
 import { PlusIcon } from '@phosphor-icons/react/dist/csr/Plus';
 import { PlaylistModel, TrackModel } from '@shared/types/vimp';
-import { usePlaylistAPI } from '@renderer/stores/usePlaylistStore';
+import { PlaylistService } from '@renderer/features/playlist';
 
 interface AddPlaylistSubProps {
   track: TrackModel;
@@ -17,15 +17,14 @@ interface AddPlaylistSubProps {
 export default function AddPlaylistSub(props: AddPlaylistSubProps) {
   const { track } = props;
   const playlists = useLibraryStore((state) => state.contents.playlists);
-  const playlistAPI = usePlaylistAPI();
 
   const addRemovePlaylist = (e: Event, playlist: PlaylistModel) => {
     e.preventDefault();
 
     if (playlist.tracks.includes(track._id)) {
-      playlistAPI.removeTracks(playlist._id, track);
+      PlaylistService.removeTracks(playlist._id, track);
     } else {
-      playlistAPI.addTracks(playlist._id, track);
+      PlaylistService.addTracks(playlist._id, track);
     }
   };
 

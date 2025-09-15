@@ -10,7 +10,6 @@ import InfoText from '@renderer/components/InfoText';
 import { Button } from '@renderer/components/common/button';
 import usePlaylistLoader from '@renderer/hooks/usePlaylistLoader';
 import { formatDuration } from '@renderer/utils/utils';
-import { usePlaylistAPI } from '@renderer/stores/usePlaylistStore';
 import { useAudioAnimation } from '@renderer/hooks/useAudioAnimation';
 import { PlaylistService } from '../services/playlistService';
 
@@ -18,7 +17,6 @@ export default function PlaylistView() {
   const { id } = useParams();
   const loading = useLibraryStore((state) => state.loading);
   const playerAPI = usePlayerAPI();
-  const playlistAPI = usePlaylistAPI();
   const loaderData = usePlaylistLoader(id);
   const [scroll, setScroll] = useState(0);
   const bgImageRef = useRef<HTMLImageElement>(null);
@@ -70,8 +68,8 @@ export default function PlaylistView() {
     playerAPI.startPlayback(tracks);
   };
 
-  const toggleFavorite = async () => {
-    await playlistAPI.toggleFavorite(playlist._id);
+  const toggleFavorite = () => {
+    PlaylistService.toggleFavorite(playlist._id);
   };
 
   const handleItemClick = (trackID: string) => {

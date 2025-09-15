@@ -4,8 +4,8 @@ import {
   ContextMenuItem,
   ContextMenuTrigger,
 } from '@renderer/components/common/context-menu';
+import { PlaylistService } from '@renderer/features/playlist';
 import { PlaylistModel } from '@shared/types/vimp';
-import { usePlaylistAPI } from '@renderer/stores/usePlaylistStore';
 import { ReactNode } from 'react';
 
 interface PlaylistMenuProps {
@@ -15,10 +15,9 @@ interface PlaylistMenuProps {
 
 export default function PlaylistMenu(props: PlaylistMenuProps) {
   const { children, playlist } = props;
-  const playlistAPI = usePlaylistAPI();
 
   const handleRemove = async () => {
-    playlistAPI.removePlaylist(playlist);
+    PlaylistService.removePlaylist(playlist);
   };
 
   return (
