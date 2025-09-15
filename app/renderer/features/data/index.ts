@@ -1,4 +1,4 @@
-import { TrackPersistenceService } from './trackPersistence';
-import { PlaylistPersistenceService } from './playlistPersistence';
+import { TrackPersistenceService } from './services/trackPersistence';
+import { PlaylistPersistenceService } from './services/playlistPersistence';
 
 export { TrackPersistenceService, PlaylistPersistenceService };
