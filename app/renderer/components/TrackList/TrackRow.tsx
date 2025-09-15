@@ -11,11 +11,12 @@ import { CSS } from '@dnd-kit/utilities';
 interface TrackRowProps {
   track: TrackModel;
   index: number;
+  isSelected: boolean;
   onClick: (trackID: string) => void;
 }
 
 export default function TrackRow(props: TrackRowProps) {
-  const { track, index, onClick } = props;
+  const { track, index, isSelected, onClick } = props;
   const currentTrack = useCurrentTrack();
   const isPlaying = currentTrack ? track._id === currentTrack._id : false;
   const {
@@ -42,7 +43,7 @@ export default function TrackRow(props: TrackRowProps) {
         {...attributes}
         {...listeners}
         onClick={() => onClick(track._id)}
-        className={`hover:bg-surface-highlight active:bg-surface-active grid h-16 w-full grid-cols-[16px_6fr_4fr_3fr_1fr] items-center gap-4 px-4 text-sm tracking-normal select-none hover:cursor-pointer ${isPlaying ? 'bg-surface-highlight text-accent' : 'text-text-secondary'}`}
+        className={`hover:bg-surface-highlight active:bg-surface-active grid h-16 w-full grid-cols-[16px_6fr_4fr_3fr_1fr] items-center gap-4 px-4 text-sm tracking-normal select-none hover:cursor-pointer ${isPlaying ? 'bg-surface-highlight text-accent' : 'text-text-secondary'} ${isSelected && 'bg-surface-active'}`}
       >
         <span className='flex items-center justify-center'>{index + 1}</span>
 

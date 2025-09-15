@@ -18,6 +18,7 @@ import {
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
+import { useState } from 'react';
 
 interface TrackListProps {
   items: TrackModel[];
@@ -26,9 +27,12 @@ interface TrackListProps {
   onItemMove: (from: number, to: number, items: TrackModel[]) => void;
 }
 
+// TODO Implementar multi seleção
 export default function TrackList(props: TrackListProps) {
   const { items, onItemClick, onScroll, onItemMove } = props;
   const trackIDs = items.map((track) => track._id);
+  const [selectedIDs, setSelectedIDs] = useState<string[]>([]);
+  const [lastClickedID, setLastClickedID] = useState<string | null>(null);
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -84,7 +88,8 @@ export default function TrackList(props: TrackListProps) {
                   key={`${index}-${track.title}`}
                   index={index}
                   track={track}
-                  onClick={(trackID) => onItemClick(trackID)}
+                  onClick={onItemClick}
+                  isSelected={selectedIDs.includes(track._id)}
                 />
               )}
               onScroll={(e) => {
