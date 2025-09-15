@@ -22,7 +22,7 @@ export default function DownloaderView() {
             alt=''
             className='aspect-video w-full object-cover'
           />
-          <p className='bg-glass-base absolute right-0 bottom-0 rounded-tl-sm px-1 text-sm'>
+          <p className='bg-glass-base absolute right-0 bottom-0 rounded-tl-sm px-1 text-sm select-none'>
             {formatDuration(track?.duration)}
           </p>
         </div>

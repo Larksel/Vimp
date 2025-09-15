@@ -82,6 +82,10 @@ body {
   font-family: Roboto, sans-serif;
 }
 
+img {
+  user-select: none;
+}
+
 ::-webkit-scrollbar {
   width: 0;
 }
