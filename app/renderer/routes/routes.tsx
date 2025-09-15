@@ -1,6 +1,7 @@
-import { settingsRoutes } from '@renderer/features/settings';
 import { createRoutes } from '@renderer/utils/utils';
-import DownloaderView from '@renderer/views/DownloaderView';
+import { settingsRoutes } from '@renderer/features/settings';
+import { downloaderRoutes } from '@renderer/features/downloader';
+
 import HomeView from '@renderer/views/HomeView';
 import MusicLibraryView from '@renderer/views/MusicLibraryView';
 import PlaylistView from '@renderer/views/PlaylistView';
@@ -37,14 +38,10 @@ const appRoutes = createRoutes({
     displayName: 'Coleção',
     element: <PlaylistView />,
   },
-  DOWNLOADER: {
-    path: 'downloader',
-    displayName: 'Downloader',
-    element: <DownloaderView />,
-  },
 });
 
 export const routes = {
   ...appRoutes,
+  ...downloaderRoutes,
   ...settingsRoutes,
 } as const;
