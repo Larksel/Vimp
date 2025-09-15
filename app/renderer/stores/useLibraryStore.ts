@@ -3,7 +3,6 @@ import { StateCreator } from 'zustand';
 
 import { PlaylistModel, TrackModel } from '@shared/types/vimp';
 import { storeUtils } from '@renderer/utils/storeUtils';
-import { arrayMove } from '@dnd-kit/sortable';
 import { PlaylistPersistenceService } from '@renderer/features/data';
 
 const logger = createRendererLogger('LibraryStore');
@@ -18,7 +17,7 @@ interface LibraryState {
     playlists: PlaylistModel[];
   };
   api: {
-    reorderTracks: (playlistID: string, from: number, to: number) => void;
+    updatePlaylist: (playlist: PlaylistModel) => void;
     scanFolders: (paths?: string[]) => Promise<void>;
     setTracks: (tracks: TrackModel[]) => void;
     setPlaylists: (playlists: PlaylistModel[]) => void;
@@ -40,24 +39,19 @@ const useLibraryStore = createLibraryStore<LibraryState>((set, get) => {
       playlists: [],
     },
     api: {
-      reorderTracks: (playlistID, from, to) => {
+      updatePlaylist: (playlist) => {
         const { playlists } = get().contents;
-        const playlistIndex = playlists.findIndex(
-          (playlist) => playlist._id === playlistID,
-        );
-        const playlist = playlists[playlistIndex];
 
         if (!playlist) return;
 
-        const reorderedTracks = arrayMove(playlist.tracks, from, to);
+        const playlistIndex = playlists.findIndex(
+          (pl) => pl._id === playlist._id,
+        );
 
-        const updatedPlaylist: PlaylistModel = {
-          ...playlist,
-          tracks: reorderedTracks,
-        };
+        if (playlistIndex === -1) return;
 
         const newPlaylists = [...playlists];
-        newPlaylists[playlistIndex] = updatedPlaylist;
+        newPlaylists[playlistIndex] = playlist;
 
         set((state) => ({
           contents: {
@@ -65,7 +59,7 @@ const useLibraryStore = createLibraryStore<LibraryState>((set, get) => {
             playlists: newPlaylists,
           },
         }));
-        PlaylistPersistenceService.update(updatedPlaylist);
+        PlaylistPersistenceService.update(playlist);
       },
       scanFolders: async (paths) => {
         await window.VimpAPI.library.scanAndSave(paths);

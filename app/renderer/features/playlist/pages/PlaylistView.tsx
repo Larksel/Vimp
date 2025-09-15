@@ -3,9 +3,7 @@ import TrackList from '@renderer/components/TrackList';
 import placeholder from '@renderer/assets/images/placeholder.png';
 import { HeartStraightIcon } from '@phosphor-icons/react/dist/csr/HeartStraight';
 import { PlayIcon } from '@phosphor-icons/react/dist/csr/Play';
-import useLibraryStore, {
-  useLibraryAPI,
-} from '@renderer/stores/useLibraryStore';
+import useLibraryStore from '@renderer/stores/useLibraryStore';
 import { usePlayerAPI } from '@renderer/stores/usePlayerStore';
 import { useParams } from 'react-router-dom';
 import InfoText from '@renderer/components/InfoText';
@@ -14,12 +12,12 @@ import usePlaylistLoader from '@renderer/hooks/usePlaylistLoader';
 import { formatDuration } from '@renderer/utils/utils';
 import { usePlaylistAPI } from '@renderer/stores/usePlaylistStore';
 import { useAudioAnimation } from '@renderer/hooks/useAudioAnimation';
+import { PlaylistService } from '../services/playlistService';
 
 export default function PlaylistView() {
   const { id } = useParams();
   const loading = useLibraryStore((state) => state.loading);
   const playerAPI = usePlayerAPI();
-  const libraryAPI = useLibraryAPI();
   const playlistAPI = usePlaylistAPI();
   const loaderData = usePlaylistLoader(id);
   const [scroll, setScroll] = useState(0);
@@ -81,7 +79,7 @@ export default function PlaylistView() {
   };
 
   const handleItemMove = (from: number, to: number) => {
-    libraryAPI.reorderTracks(playlist._id, from, to);
+    PlaylistService.reorderTracks(playlist._id, from, to);
   };
 
   const totalDuration = () => {
