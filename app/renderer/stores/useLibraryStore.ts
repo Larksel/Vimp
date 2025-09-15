@@ -3,7 +3,6 @@ import { StateCreator } from 'zustand';
 
 import { PlaylistModel, TrackModel } from '@shared/types/vimp';
 import { storeUtils } from '@renderer/utils/storeUtils';
-import { PlaylistPersistenceService } from '@renderer/features/data';
 
 const logger = createRendererLogger('LibraryStore');
 
@@ -17,7 +16,10 @@ interface LibraryState {
     playlists: PlaylistModel[];
   };
   api: {
-    updatePlaylist: (playlist: PlaylistModel) => void;
+    updateLocalPlaylist: (playlist: PlaylistModel) => void;
+    removePlaylists: (
+      playlistsToDelete: PlaylistModel | PlaylistModel[],
+    ) => void;
     scanFolders: (paths?: string[]) => Promise<void>;
     setTracks: (tracks: TrackModel[]) => void;
     setPlaylists: (playlists: PlaylistModel[]) => void;
@@ -39,7 +41,7 @@ const useLibraryStore = createLibraryStore<LibraryState>((set, get) => {
       playlists: [],
     },
     api: {
-      updatePlaylist: (playlist) => {
+      updateLocalPlaylist: (playlist) => {
         const { playlists } = get().contents;
 
         if (!playlist) return;
@@ -59,7 +61,24 @@ const useLibraryStore = createLibraryStore<LibraryState>((set, get) => {
             playlists: newPlaylists,
           },
         }));
-        PlaylistPersistenceService.update(playlist);
+      },
+      removePlaylists: (playlistsToDelete) => {
+        const { playlists } = get().contents;
+
+        const deletedPlaylists = Array.isArray(playlistsToDelete)
+          ? playlistsToDelete
+          : [playlistsToDelete];
+        const deletedPlaylistsSet = new Set(deletedPlaylists);
+
+        const newPlaylists = playlists.filter(
+          (item) => !deletedPlaylistsSet.has(item),
+        );
+        set((state) => ({
+          contents: {
+            ...state.contents,
+            playlists: newPlaylists,
+          },
+        }));
       },
       scanFolders: async (paths) => {
         await window.VimpAPI.library.scanAndSave(paths);
