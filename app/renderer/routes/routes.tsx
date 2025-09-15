@@ -1,10 +1,10 @@
 import { createRoutes } from '@renderer/utils/utils';
 import { settingsRoutes } from '@renderer/features/settings';
 import { downloaderRoutes } from '@renderer/features/downloader';
+import { playlistRoutes } from '@renderer/features/playlist';
 
 import HomeView from '@renderer/views/HomeView';
 import MusicLibraryView from '@renderer/views/MusicLibraryView';
-import PlaylistView from '@renderer/views/PlaylistView';
 import QueueView from '@renderer/views/QueueView';
 
 const appRoutes = createRoutes({
@@ -33,15 +33,11 @@ const appRoutes = createRoutes({
     displayName: 'Biblioteca de Vídeos',
     element: null,
   },
-  PLAYLIST: {
-    path: 'playlist/:id',
-    displayName: 'Coleção',
-    element: <PlaylistView />,
-  },
 });
 
 export const routes = {
   ...appRoutes,
+  ...playlistRoutes,
   ...downloaderRoutes,
   ...settingsRoutes,
 } as const;

@@ -1,0 +1,1 @@
+export { playlistRoutes } from './routes';
