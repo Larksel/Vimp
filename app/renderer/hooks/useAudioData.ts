@@ -30,23 +30,6 @@ export default function useAudioData() {
   const midCutoff = 4000;
   const maxFrequency = 16000;
 
-  const getRMS = (
-    data: Uint8Array<ArrayBuffer>,
-    normalizationFunc?: (value: number) => number,
-  ) => {
-    if (data.length === 0) return 0;
-
-    let sumSquares = 0;
-    for (const value of data) {
-      const normalized = normalizationFunc ? normalizationFunc(value) : value;
-      sumSquares += normalized ** 2;
-    }
-
-    const squareRoot = Math.sqrt(sumSquares / data.length);
-
-    return Math.min(squareRoot, 1);
-  };
-
   const calculateRmsLevel = useCallback(
     (timeDomainDataArray: Uint8Array<ArrayBuffer>) => {
       let smoothedRMS = previousRmsRef.current;
@@ -68,13 +51,9 @@ export default function useAudioData() {
 
   const calculateFrequencyBands = useCallback(
     (frequencyDataArray: Uint8Array<ArrayBuffer>) => {
-      const sampleRate = PlayerService.getSampleRate();
-      const fftSize = PlayerService.getAnalyzerFftSize();
-      const hzPerBin = sampleRate / fftSize;
-
-      const bassEndIndex = Math.floor(bassCutoff / hzPerBin);
-      const midsEndIndex = Math.floor(midCutoff / hzPerBin);
-      const maxFrequencyEndIndex = Math.floor(maxFrequency / hzPerBin);
+      const bassEndIndex = getFrequencyEndIndex(bassCutoff);
+      const midsEndIndex = getFrequencyEndIndex(midCutoff);
+      const maxFrequencyEndIndex = getFrequencyEndIndex(maxFrequency);
 
       const bassBins = frequencyDataArray.slice(0, bassEndIndex);
       const midsBins = frequencyDataArray.slice(bassEndIndex, midsEndIndex);
@@ -93,21 +72,6 @@ export default function useAudioData() {
     },
     [],
   );
-
-  const decayValues = () => {
-    const decayFactor = 0.85;
-
-    // Zera os valores suavemente
-    for (let i = 0; i < frequencyDataArrayRef.current.length; i++) {
-      frequencyDataArrayRef.current[i] *= decayFactor;
-    }
-
-    audioDataRef.current.frequencyData = frequencyDataArrayRef.current;
-    audioDataRef.current.rmsLevel *= decayFactor;
-    audioDataRef.current.bass *= decayFactor;
-    audioDataRef.current.mids *= decayFactor;
-    audioDataRef.current.trebles *= decayFactor;
-  };
 
   useEffect(() => {
     let animationFrameId: number | null = null;
@@ -134,6 +98,47 @@ export default function useAudioData() {
       if (animationFrameId) cancelAnimationFrame(animationFrameId);
     };
   }, [calculateFrequencyBands, calculateRmsLevel, isPlaying]);
+
+  // Helpers
+  const getFrequencyEndIndex = (frequency: number) => {
+    const sampleRate = PlayerService.getSampleRate();
+    const fftSize = PlayerService.getAnalyzerFftSize();
+    const hzPerBin = sampleRate / fftSize;
+
+    return Math.floor(frequency / hzPerBin);
+  };
+
+  const getRMS = (
+    data: Uint8Array<ArrayBuffer>,
+    normalizationFunc?: (value: number) => number,
+  ) => {
+    if (data.length === 0) return 0;
+
+    let sumSquares = 0;
+    for (const value of data) {
+      const normalized = normalizationFunc ? normalizationFunc(value) : value;
+      sumSquares += normalized ** 2;
+    }
+
+    const squareRoot = Math.sqrt(sumSquares / data.length);
+
+    return Math.min(squareRoot, 1);
+  };
+
+  const decayValues = () => {
+    const decayFactor = 0.85;
+
+    // Zera os valores suavemente
+    for (let i = 0; i < frequencyDataArrayRef.current.length; i++) {
+      frequencyDataArrayRef.current[i] *= decayFactor;
+    }
+
+    audioDataRef.current.frequencyData = frequencyDataArrayRef.current;
+    audioDataRef.current.rmsLevel *= decayFactor;
+    audioDataRef.current.bass *= decayFactor;
+    audioDataRef.current.mids *= decayFactor;
+    audioDataRef.current.trebles *= decayFactor;
+  };
 
   return audioDataRef;
 }
