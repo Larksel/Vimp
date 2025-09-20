@@ -1,7 +1,7 @@
 import { PlayerService } from '@renderer/features/player';
 import usePlayerStore from '@renderer/stores/usePlayerStore';
 import { PlayerStatus } from '@shared/types/vimp';
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
 export interface AudioData {
   rmsLevel: number;
@@ -26,67 +26,73 @@ export default function useAudioData() {
   const isPlaying =
     usePlayerStore((state) => state.playerStatus) === PlayerStatus.PLAY;
 
-  const calculateRmsLevel = (timeDomainDataArray: Uint8Array<ArrayBuffer>) => {
-    let smoothedRMS = previousRmsRef.current;
-    const smoothingFactor = 0.5;
+  const bassCutoff = 250;
+  const midCutoff = 4000;
+  const maxFrequency = 16000;
 
-    // Calculate RMS (Root Mean Square)
+  const getRMS = (
+    data: Uint8Array<ArrayBuffer>,
+    normalizationFunc?: (value: number) => number,
+  ) => {
+    if (data.length === 0) return 0;
+
     let sumSquares = 0;
-    for (const value of timeDomainDataArray) {
-      const normalized = value / 128 - 1; // Normalize to [-1, 1]
+    for (const value of data) {
+      const normalized = normalizationFunc ? normalizationFunc(value) : value;
       sumSquares += normalized ** 2;
     }
-    const raw_rms = Math.sqrt(sumSquares / timeDomainDataArray.length);
 
-    // Smooth the RMS value
-    const target = Math.sqrt(raw_rms);
-    smoothedRMS = smoothedRMS + (target - smoothedRMS) * smoothingFactor;
+    const squareRoot = Math.sqrt(sumSquares / data.length);
 
-    previousRmsRef.current = smoothedRMS;
-    audioDataRef.current.rmsLevel = smoothedRMS;
-
-    return smoothedRMS;
+    return Math.min(squareRoot, 1);
   };
 
-  const calculateFrequencyBands = (
-    frequencyDataArray: Uint8Array<ArrayBuffer>,
-  ) => {
-    const sampleRate = PlayerService.getSampleRate();
-    const fftSize = PlayerService.getAnalyzerFftSize();
-    const hzPerBin = sampleRate / fftSize;
+  const calculateRmsLevel = useCallback(
+    (timeDomainDataArray: Uint8Array<ArrayBuffer>) => {
+      let smoothedRMS = previousRmsRef.current;
+      const smoothingFactor = 0.5;
 
-    const bassCutoff = 250;
-    const midCutoff = 4000;
+      const raw_rms = getRMS(timeDomainDataArray, (value) => value / 128 - 1);
 
-    const bassEndIndex = Math.floor(bassCutoff / hzPerBin);
-    const midsEndIndex = Math.floor(midCutoff / hzPerBin);
+      // Smooth the RMS value
+      const target = Math.sqrt(raw_rms);
+      smoothedRMS = smoothedRMS + (target - smoothedRMS) * smoothingFactor;
 
-    const bassBins = frequencyDataArray.slice(0, bassEndIndex);
-    const midsBins = frequencyDataArray.slice(bassEndIndex, midsEndIndex);
-    const trebleBins = frequencyDataArray.slice(
-      midsEndIndex,
-      frequencyDataArray.length,
-    );
+      previousRmsRef.current = smoothedRMS;
+      audioDataRef.current.rmsLevel = smoothedRMS;
 
-    const getRMS = (data: Uint8Array<ArrayBuffer>) => {
-      if (data.length === 0) return 0;
+      return smoothedRMS;
+    },
+    [],
+  );
 
-      let sumSquares = 0;
+  const calculateFrequencyBands = useCallback(
+    (frequencyDataArray: Uint8Array<ArrayBuffer>) => {
+      const sampleRate = PlayerService.getSampleRate();
+      const fftSize = PlayerService.getAnalyzerFftSize();
+      const hzPerBin = sampleRate / fftSize;
 
-      for (const value of data) {
-        const normalized = value / 255; // Normalize to [0, 1]
-        sumSquares += normalized ** 2;
-      }
+      const bassEndIndex = Math.floor(bassCutoff / hzPerBin);
+      const midsEndIndex = Math.floor(midCutoff / hzPerBin);
+      const maxFrequencyEndIndex = Math.floor(maxFrequency / hzPerBin);
 
-      const squareRoot = Math.sqrt(sumSquares / data.length);
+      const bassBins = frequencyDataArray.slice(0, bassEndIndex);
+      const midsBins = frequencyDataArray.slice(bassEndIndex, midsEndIndex);
+      const trebleBins = frequencyDataArray.slice(
+        midsEndIndex,
+        maxFrequencyEndIndex,
+      );
 
-      return Math.min(squareRoot, 1);
-    };
-
-    audioDataRef.current.bass = getRMS(bassBins);
-    audioDataRef.current.mids = getRMS(midsBins);
-    audioDataRef.current.trebles = getRMS(trebleBins);
-  };
+      audioDataRef.current.frequencyData = frequencyDataArray.slice(
+        0,
+        maxFrequencyEndIndex,
+      );
+      audioDataRef.current.bass = getRMS(bassBins, (value) => value / 255);
+      audioDataRef.current.mids = getRMS(midsBins, (value) => value / 255);
+      audioDataRef.current.trebles = getRMS(trebleBins, (value) => value / 255);
+    },
+    [],
+  );
 
   useEffect(() => {
     let animationFrameId: number | null = null;
@@ -98,8 +104,6 @@ export default function useAudioData() {
       if (isPlaying) {
         PlayerService.getAnalyzerTimeDomain(timeDomainDataArray);
         PlayerService.getAnalyserFrequency(frequencyDataArrayRef.current);
-
-        audioDataRef.current.frequencyData = frequencyDataArrayRef.current;
 
         calculateRmsLevel(timeDomainDataArray);
         calculateFrequencyBands(frequencyDataArrayRef.current);
@@ -124,7 +128,7 @@ export default function useAudioData() {
     return () => {
       if (animationFrameId) cancelAnimationFrame(animationFrameId);
     };
-  }, [isPlaying]);
+  }, [calculateFrequencyBands, calculateRmsLevel, isPlaying]);
 
   return audioDataRef;
 }
