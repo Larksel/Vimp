@@ -94,11 +94,25 @@ export default function useAudioData() {
     [],
   );
 
+  const decayValues = () => {
+    const decayFactor = 0.85;
+
+    // Zera os valores suavemente
+    for (let i = 0; i < frequencyDataArrayRef.current.length; i++) {
+      frequencyDataArrayRef.current[i] *= decayFactor;
+    }
+
+    audioDataRef.current.frequencyData = frequencyDataArrayRef.current;
+    audioDataRef.current.rmsLevel *= decayFactor;
+    audioDataRef.current.bass *= decayFactor;
+    audioDataRef.current.mids *= decayFactor;
+    audioDataRef.current.trebles *= decayFactor;
+  };
+
   useEffect(() => {
     let animationFrameId: number | null = null;
     const bufferSize = PlayerService.getAnalyzerBufferSize();
     const timeDomainDataArray = new Uint8Array(bufferSize);
-    const decayFactor = 0.85;
 
     const animationLoop = () => {
       if (isPlaying) {
@@ -108,16 +122,7 @@ export default function useAudioData() {
         calculateRmsLevel(timeDomainDataArray);
         calculateFrequencyBands(frequencyDataArrayRef.current);
       } else {
-        // Zera os valores suavemente
-        for (let i = 0; i < frequencyDataArrayRef.current.length; i++) {
-          frequencyDataArrayRef.current[i] *= decayFactor;
-        }
-
-        audioDataRef.current.frequencyData = frequencyDataArrayRef.current;
-        audioDataRef.current.rmsLevel *= decayFactor;
-        audioDataRef.current.bass *= decayFactor;
-        audioDataRef.current.mids *= decayFactor;
-        audioDataRef.current.trebles *= decayFactor;
+        decayValues();
       }
 
       animationFrameId = requestAnimationFrame(animationLoop);
