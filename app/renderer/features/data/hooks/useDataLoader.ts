@@ -12,36 +12,53 @@ const logger = createRendererLogger('useDataLoader');
 export default function useDataLoader() {
   const libraryAPI = useLibraryAPI();
 
-  const loadTracks = useCallback(async () => {
-    logger.debug('Loading tracks');
+  const handleTracksDBChange = useCallback(async () => {
+    logger.debug('Refreshing tracks');
     const dbTracks = await TrackPersistenceService.getAll();
 
     const tracks = sortUtils.sortByString(dbTracks, 'title');
     libraryAPI.setTracks(tracks);
   }, [libraryAPI]);
 
-  const loadPlaylists = useCallback(async () => {
-    logger.debug('Loading playlists');
+  const handlePlaylistsDBChange = useCallback(async () => {
+    logger.debug('Refreshing playlists');
     const dbPlaylists = await PlaylistPersistenceService.getAll();
     const playlists = sortUtils.sortByString(dbPlaylists, 'title');
 
     libraryAPI.setPlaylists(playlists);
   }, [libraryAPI]);
 
+  const loadData = useCallback(async () => {
+    logger.debug('Loading data');
+    const tracks = await TrackPersistenceService.getAll();
+    const playlists = await PlaylistPersistenceService.getAll();
+
+    libraryAPI.setTracks(tracks);
+    libraryAPI.setPlaylists(playlists);
+  }, [libraryAPI]);
+
   useEffect(() => {
-    window.VimpAPI.app.onDBChanged(
+    window.VimpAPI.tracksDB.onDBChanged(
       debounce(() => {
-        logger.debug('DB changed');
-        loadTracks();
-        loadPlaylists();
+        logger.debug('TracksDB changed');
+        handleTracksDBChange();
       }, 500),
     );
 
-    loadTracks();
-    loadPlaylists();
+    window.VimpAPI.playlistsDB.onDBChanged(
+      debounce(() => {
+        logger.debug('PlaylistsDB changed');
+        handlePlaylistsDBChange();
+      }, 500),
+    );
+
+    loadData();
 
     return function cleanup() {
-      window.VimpAPI.app.removeAllListeners(IPCChannels.DB_HAS_CHANGED);
+      window.VimpAPI.app.removeAllListeners(IPCChannels.TRACKSDB_HAS_CHANGED);
+      window.VimpAPI.app.removeAllListeners(
+        IPCChannels.PLAYLISTSDB_HAS_CHANGED,
+      );
     };
-  }, [loadPlaylists, loadTracks]);
+  }, [handlePlaylistsDBChange, handleTracksDBChange, loadData]);
 }

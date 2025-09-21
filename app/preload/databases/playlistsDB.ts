@@ -10,6 +10,7 @@ const playlistsDBChannels: GenericDBChannels = {
   UPDATE: IPCChannels.PLAYLISTSDB_UPDATE,
   DELETE: IPCChannels.PLAYLISTSDB_DELETE,
   CLEAR: IPCChannels.PLAYLISTSDB_CLEAR,
+  HAS_CHANGED: IPCChannels.PLAYLISTSDB_HAS_CHANGED,
 };
 
 const genericDBChannels = createDatabaseIPC<Playlist>(playlistsDBChannels);

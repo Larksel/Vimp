@@ -15,13 +15,15 @@ export default abstract class GenericDatabase<T>
   implements IGenericDatabase<T>
 {
   protected db: PouchDB.Database;
+  private channelPrefix: string;
 
-  constructor(dbName: string, window: BrowserWindow) {
+  constructor(dbName: string, channelPrefix: string, window: BrowserWindow) {
     super(window);
     this.db = new PouchDB(path.join(userDataPath, dbName), {
       adapter: 'leveldb',
       auto_compaction: true,
     });
+    this.channelPrefix = channelPrefix;
   }
 
   // CRUD operations
@@ -55,7 +57,12 @@ export default abstract class GenericDatabase<T>
     }));
     const result = await this.db.bulkDocs(datedItems);
 
-    this.window.webContents.send(IPCChannels.DB_HAS_CHANGED);
+    this.window.webContents.send(
+      IPCChannels.GENERICDB_HAS_CHANGED.replace(
+        'genericDB',
+        this.channelPrefix,
+      ),
+    );
 
     return result;
   }
@@ -70,7 +77,12 @@ export default abstract class GenericDatabase<T>
 
     const result = await this.db.bulkDocs(updatedItems);
 
-    this.window.webContents.send(IPCChannels.DB_HAS_CHANGED);
+    this.window.webContents.send(
+      IPCChannels.GENERICDB_HAS_CHANGED.replace(
+        'genericDB',
+        this.channelPrefix,
+      ),
+    );
 
     return result;
   }
@@ -84,7 +96,12 @@ export default abstract class GenericDatabase<T>
     }));
     const result = await this.db.bulkDocs(deletedItems);
 
-    this.window.webContents.send(IPCChannels.DB_HAS_CHANGED);
+    this.window.webContents.send(
+      IPCChannels.GENERICDB_HAS_CHANGED.replace(
+        'genericDB',
+        this.channelPrefix,
+      ),
+    );
 
     return result;
   }
@@ -102,6 +119,11 @@ export default abstract class GenericDatabase<T>
     if (!deletedItems) return;
 
     await this.db.bulkDocs(deletedItems);
-    this.window.webContents.send(IPCChannels.DB_HAS_CHANGED);
+    this.window.webContents.send(
+      IPCChannels.GENERICDB_HAS_CHANGED.replace(
+        'genericDB',
+        this.channelPrefix,
+      ),
+    );
   }
 }

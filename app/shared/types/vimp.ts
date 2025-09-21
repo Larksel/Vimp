@@ -77,7 +77,7 @@ export type PlaylistModel = GenericModel<Playlist>;
 export interface Config {
   musicFolders: string[];
   displayNotifications: boolean;
-  player: PlayerConfig
+  player: PlayerConfig;
 }
 
 export interface PlayerConfig {
@@ -100,4 +100,5 @@ export interface GenericDBChannels {
   UPDATE: string;
   DELETE: string;
   CLEAR: string;
+  HAS_CHANGED: string;
 }
