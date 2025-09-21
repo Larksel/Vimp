@@ -6,6 +6,7 @@ import { QueueUtils } from '@renderer/utils/queueUtils';
 import { TrackPersistenceService } from '@renderer/features/data';
 import { createRendererLogger } from '@renderer/utils/logger';
 import useConfigStore from './useConfigStore';
+import useLibraryStore from './useLibraryStore';
 import { arrayMove } from '@dnd-kit/sortable';
 
 const logger = createRendererLogger('PlayerStore');
@@ -46,7 +47,6 @@ interface PlayerState {
     seekTo: (position: number) => void;
     handlePlayerTick: () => void;
     setPlaybackRate: (playbackRate: number) => void;
-    refreshQueueMetadata: (tracks: TrackModel[]) => void;
   };
 }
 
@@ -57,6 +57,30 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
   logger.info(
     `Initializing PlayerStore with config: ${JSON.stringify(playerConfig, null, 2)}`,
   );
+
+  useLibraryStore.subscribe((state) => {
+    const tracks = state.contents.tracks;
+    logger.debug('Updating queue with new tracks');
+
+    set((state) => {
+      const updateTracks = (queue: TrackModel[]) =>
+        queue.map((track) => {
+          const updated = tracks.find((t) => t._id === track._id);
+          return updated ? { ...track, ...updated } : track;
+        });
+      const newQueue = updateTracks(state.queue);
+      const newOriginalQueue = updateTracks(state.originalQueue);
+      let newQueuePosition = state.queuePosition;
+      if (newQueuePosition !== null && !newQueue[newQueuePosition]) {
+        newQueuePosition = 0;
+      }
+      return {
+        queue: newQueue,
+        originalQueue: newOriginalQueue,
+        queuePosition: newQueuePosition,
+      };
+    });
+  });
 
   return {
     queue: [],
@@ -484,44 +508,6 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
 
           set({ playbackRate });
         }
-      },
-      refreshQueueMetadata: (tracks) => {
-        const { queue, originalQueue, queuePosition } = get();
-
-        const updatedQueue = queue.map((track) => {
-          const updatedTrack = tracks.find(
-            (libraryTrack) => libraryTrack._id === track._id,
-          );
-
-          return updatedTrack ? { ...track, ...updatedTrack } : track;
-        });
-
-        const updatedOriginalQueue = originalQueue.map((track) => {
-          const updatedTrack = tracks.find(
-            (libraryTrack) => libraryTrack._id === track._id,
-          );
-
-          return updatedTrack ? { ...track, ...updatedTrack } : track;
-        });
-
-        let newQueuePosition = queuePosition;
-
-        // If the current track was updated or removed from the library (and thus from the queue)
-        if (newQueuePosition !== null) {
-          const currentTrack = updatedQueue[newQueuePosition];
-
-          if (!currentTrack) {
-            newQueuePosition = 0;
-          }
-        }
-
-        logger.debug('Queue refreshed');
-
-        set({
-          queue: updatedQueue,
-          originalQueue: updatedOriginalQueue,
-          queuePosition: newQueuePosition,
-        });
       },
     },
   };

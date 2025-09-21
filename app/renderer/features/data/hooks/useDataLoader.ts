@@ -1,5 +1,4 @@
 import { useLibraryAPI } from '@renderer/stores/useLibraryStore';
-import { usePlayerAPI } from '@renderer/stores/usePlayerStore';
 import { createRendererLogger } from '@renderer/utils/logger';
 import { useCallback, useEffect } from 'react';
 import { TrackPersistenceService } from '../services/trackPersistence';
@@ -12,7 +11,6 @@ const logger = createRendererLogger('useDataLoader');
 
 export default function useDataLoader() {
   const libraryAPI = useLibraryAPI();
-  const playerAPI = usePlayerAPI();
 
   const loadTracks = useCallback(async () => {
     logger.debug('Loading tracks');
@@ -20,8 +18,7 @@ export default function useDataLoader() {
 
     const tracks = sortUtils.sortByString(dbTracks, 'title');
     libraryAPI.setTracks(tracks);
-    playerAPI.refreshQueueMetadata(tracks);
-  }, [libraryAPI, playerAPI]);
+  }, [libraryAPI]);
 
   const loadPlaylists = useCallback(async () => {
     logger.debug('Loading playlists');
