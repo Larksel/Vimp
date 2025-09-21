@@ -23,15 +23,15 @@ export default function useAudioData() {
   const playerStatus = usePlayerStore((state) => state.playerStatus);
   const isPlaying = playerStatus === PlayerStatus.PLAY;
 
-  // Arrays para armazenar os dados do analyser
-  const bufferSize = PlayerService.getAnalyzerBufferSize();
-  const frequencyDataArrayRef = useRef(new Uint8Array(bufferSize));
-  const timeDomainDataArrayRef = useRef(new Uint8Array(bufferSize));
-
   // Linha de corte das frequências (Hz)
   const bassCutoff = 250;
   const midCutoff = 4000;
   const maxFrequency = 16000;
+
+  // Arrays para armazenar os dados do analyser
+  const dataArraySize = getFrequencyEndIndex(maxFrequency);
+  const frequencyDataArrayRef = useRef(new Uint8Array(dataArraySize));
+  const timeDomainDataArrayRef = useRef(new Uint8Array(dataArraySize));
 
   const calculateRmsLevel = useCallback(
     (timeDomainDataArray: Uint8Array<ArrayBuffer>) => {
@@ -73,19 +73,6 @@ export default function useAudioData() {
     [],
   );
 
-  const filterAudibleFrequencies = useCallback(
-    (frequencyDataArray: Uint8Array<ArrayBuffer>) => {
-      const maxFrequencyEndIndex = getFrequencyEndIndex(maxFrequency);
-      const cutFrequencyData = frequencyDataArray.slice(
-        0,
-        maxFrequencyEndIndex,
-      );
-
-      audioDataRef.current.frequencyData = cutFrequencyData;
-    },
-    [],
-  );
-
   useEffect(() => {
     let animationFrameId: number | null = null;
 
@@ -94,7 +81,8 @@ export default function useAudioData() {
         PlayerService.getAnalyzerTimeDomain(timeDomainDataArrayRef.current);
         PlayerService.getAnalyserFrequency(frequencyDataArrayRef.current);
 
-        filterAudibleFrequencies(frequencyDataArrayRef.current);
+        audioDataRef.current.frequencyData = frequencyDataArrayRef.current;
+
         calculateRmsLevel(timeDomainDataArrayRef.current);
         calculateFrequencyBands(frequencyDataArrayRef.current);
       } else {
@@ -109,26 +97,21 @@ export default function useAudioData() {
     return () => {
       if (animationFrameId) cancelAnimationFrame(animationFrameId);
     };
-  }, [
-    calculateFrequencyBands,
-    calculateRmsLevel,
-    filterAudibleFrequencies,
-    isPlaying,
-  ]);
+  }, [calculateFrequencyBands, calculateRmsLevel, isPlaying]);
 
   // Helpers
-  const getFrequencyEndIndex = (frequency: number) => {
+  function getFrequencyEndIndex(frequency: number) {
     const sampleRate = PlayerService.getSampleRate();
     const fftSize = PlayerService.getAnalyzerFftSize();
     const hzPerBin = sampleRate / fftSize;
 
     return Math.floor(frequency / hzPerBin);
-  };
+  }
 
-  const getRMS = (
+  function getRMS(
     data: Uint8Array<ArrayBuffer>,
     normalizationFunc?: (value: number) => number,
-  ) => {
+  ) {
     if (data.length === 0) return 0;
 
     let sumSquares = 0;
@@ -140,9 +123,9 @@ export default function useAudioData() {
     const squareRoot = Math.sqrt(sumSquares / data.length);
 
     return Math.min(squareRoot, 1);
-  };
+  }
 
-  const decayValues = () => {
+  function decayValues() {
     const decayFactor = 0.85;
 
     // Zera os valores suavemente
@@ -155,7 +138,7 @@ export default function useAudioData() {
     audioDataRef.current.bass *= decayFactor;
     audioDataRef.current.mids *= decayFactor;
     audioDataRef.current.trebles *= decayFactor;
-  };
+  }
 
   return audioDataRef;
 }
