@@ -3,7 +3,7 @@ import {
   createHashRouter,
   useNavigate,
 } from 'react-router-dom';
-import RootView from '@renderer/views/RootView';
+import MainLayout from '@renderer/layouts/MainLayout';
 
 import { routes } from './routes';
 
@@ -11,7 +11,7 @@ const router = createHashRouter([
   {
     path: '',
     id: 'root',
-    element: <RootView />,
+    element: <MainLayout />,
     ErrorBoundary: GlobalErrorBoundary,
     children: [
       {

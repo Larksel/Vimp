@@ -1,5 +1,4 @@
 import { CSSProperties, useState } from 'react';
-import { Outlet } from 'react-router-dom';
 
 import AppBar from '@renderer/components/AppBar';
 import SideBar from '@renderer/components/SideBar';
@@ -7,9 +6,10 @@ import { ScrollArea, ScrollBar } from '@renderer/components/common/scroll-area';
 import Header from '@renderer/components/Header';
 import PlaybackConsole from '@renderer/components/PlaybackConsole';
 import useCurrentTrack from '@renderer/hooks/useCurrentTrack';
-import useDataLoader from '@renderer/features/data/hooks/useDataLoader';
+import { useDataLoader } from '@renderer/features/data';
+import { Outlet } from 'react-router-dom';
 
-export default function RootView() {
+export default function MainLayout() {
   const [collapsed, setCollapsed] = useState(false);
   const track = useCurrentTrack();
 
