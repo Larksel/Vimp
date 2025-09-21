@@ -4,7 +4,7 @@ import { createRendererLogger } from '@renderer/utils/logger';
 import { useCallback, useEffect } from 'react';
 import { TrackPersistenceService } from '../services/trackPersistence';
 import { PlaylistPersistenceService } from '../services/playlistPersistence';
-import { sortUtils } from '@renderer/utils/sortUtils';
+import { sortUtils } from '@shared/utils/sortUtils';
 import debounce from 'lodash/debounce';
 import IPCChannels from '@shared/constants/IPCChannels';
 

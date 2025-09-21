@@ -1,6 +1,6 @@
 import CardList from '@renderer/components/CardList';
 import EmptyLibrary from '@renderer/components/EmptyLibrary';
-import { sortUtils } from '@renderer/utils/sortUtils';
+import { sortUtils } from '@shared/utils/sortUtils';
 import useLibraryStore from '@renderer/stores/useLibraryStore';
 
 export default function HomeView() {
