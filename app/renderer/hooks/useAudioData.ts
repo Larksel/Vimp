@@ -28,7 +28,7 @@ export default function useAudioData() {
   const frequencyDataArrayRef = useRef(new Uint8Array(bufferSize));
   const timeDomainDataArrayRef = useRef(new Uint8Array(bufferSize));
 
-  // Linha de corte das frequências
+  // Linha de corte das frequências (Hz)
   const bassCutoff = 250;
   const midCutoff = 4000;
   const maxFrequency = 16000;
@@ -65,13 +65,23 @@ export default function useAudioData() {
         maxFrequencyEndIndex,
       );
 
-      audioDataRef.current.frequencyData = frequencyDataArray.slice(
+      const normalization = (value: number) => value / 255;
+      audioDataRef.current.bass = getRMS(bassBins, normalization);
+      audioDataRef.current.mids = getRMS(midsBins, normalization);
+      audioDataRef.current.trebles = getRMS(trebleBins, normalization);
+    },
+    [],
+  );
+
+  const filterAudibleFrequencies = useCallback(
+    (frequencyDataArray: Uint8Array<ArrayBuffer>) => {
+      const maxFrequencyEndIndex = getFrequencyEndIndex(maxFrequency);
+      const cutFrequencyData = frequencyDataArray.slice(
         0,
         maxFrequencyEndIndex,
       );
-      audioDataRef.current.bass = getRMS(bassBins, (value) => value / 255);
-      audioDataRef.current.mids = getRMS(midsBins, (value) => value / 255);
-      audioDataRef.current.trebles = getRMS(trebleBins, (value) => value / 255);
+
+      audioDataRef.current.frequencyData = cutFrequencyData;
     },
     [],
   );
@@ -84,6 +94,7 @@ export default function useAudioData() {
         PlayerService.getAnalyzerTimeDomain(timeDomainDataArrayRef.current);
         PlayerService.getAnalyserFrequency(frequencyDataArrayRef.current);
 
+        filterAudibleFrequencies(frequencyDataArrayRef.current);
         calculateRmsLevel(timeDomainDataArrayRef.current);
         calculateFrequencyBands(frequencyDataArrayRef.current);
       } else {
@@ -98,7 +109,12 @@ export default function useAudioData() {
     return () => {
       if (animationFrameId) cancelAnimationFrame(animationFrameId);
     };
-  }, [calculateFrequencyBands, calculateRmsLevel, isPlaying]);
+  }, [
+    calculateFrequencyBands,
+    calculateRmsLevel,
+    filterAudibleFrequencies,
+    isPlaying,
+  ]);
 
   // Helpers
   const getFrequencyEndIndex = (frequency: number) => {
