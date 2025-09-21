@@ -1,65 +1,19 @@
-import { CSSProperties, useCallback, useEffect, useState } from 'react';
+import { CSSProperties, useState } from 'react';
 import { Outlet } from 'react-router-dom';
-import debounce from 'lodash/debounce';
 
 import AppBar from '@renderer/components/AppBar';
 import SideBar from '@renderer/components/SideBar';
 import { ScrollArea, ScrollBar } from '@renderer/components/common/scroll-area';
 import Header from '@renderer/components/Header';
 import PlaybackConsole from '@renderer/components/PlaybackConsole';
-import IPCChannels from '@shared/constants/IPCChannels';
 import useCurrentTrack from '@renderer/hooks/useCurrentTrack';
-import { sortUtils } from '@renderer/utils/sortUtils';
-import { useLibraryAPI } from '@renderer/stores/useLibraryStore';
-import { usePlayerAPI } from '@renderer/stores/usePlayerStore';
-import {
-  PlaylistPersistenceService,
-  TrackPersistenceService,
-} from '@renderer/features/data';
-import { createRendererLogger } from '@renderer/utils/logger';
-
-const logger = createRendererLogger('RootView');
+import useDataLoader from '@renderer/features/data/hooks/useDataLoader';
 
 export default function RootView() {
   const [collapsed, setCollapsed] = useState(false);
   const track = useCurrentTrack();
-  const libraryAPI = useLibraryAPI();
-  const playerAPI = usePlayerAPI();
 
-  // TODO Extrair para hook
-  const loadTracks = useCallback(async () => {
-    logger.debug('Loading tracks');
-    const dbTracks = await TrackPersistenceService.getAll();
-
-    const tracks = sortUtils.sortByString(dbTracks, 'title');
-    libraryAPI.setTracks(tracks);
-    playerAPI.refreshQueueMetadata(tracks);
-  }, [libraryAPI, playerAPI]);
-  // TODO Extrair para hook
-  const loadPlaylists = useCallback(async () => {
-    logger.debug('Loading playlists');
-    const dbPlaylists = await PlaylistPersistenceService.getAll();
-    const playlists = sortUtils.sortByString(dbPlaylists, 'title');
-
-    libraryAPI.setPlaylists(playlists);
-  }, [libraryAPI]);
-  // TODO Extrair para hook
-  useEffect(() => {
-    window.VimpAPI.app.onDBChanged(
-      debounce(() => {
-        logger.debug('DB changed');
-        loadTracks();
-        loadPlaylists();
-      }, 500),
-    );
-
-    loadTracks();
-    loadPlaylists();
-
-    return function cleanup() {
-      window.VimpAPI.app.removeAllListeners(IPCChannels.DB_HAS_CHANGED);
-    };
-  }, [loadPlaylists, loadTracks]);
+  useDataLoader();
 
   const appBarHeight = 36;
   const playConsoleHeight = track ? 80 : 0;
