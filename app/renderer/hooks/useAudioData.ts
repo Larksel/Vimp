@@ -81,9 +81,11 @@ export default function useAudioData() {
         PlayerService.getAnalyzerTimeDomain(timeDomainDataArrayRef.current);
         PlayerService.getAnalyserFrequency(frequencyDataArrayRef.current);
 
-        audioDataRef.current.frequencyData = Array.from(
-          frequencyDataArrayRef.current,
+        const frequencyNumberValues = Array.from(frequencyDataArrayRef.current);
+        const normalizedFrequencyData = frequencyNumberValues.map(
+          (value) => value / 255,
         );
+        audioDataRef.current.frequencyData = normalizedFrequencyData;
 
         calculateRmsLevel(timeDomainDataArrayRef.current);
         calculateFrequencyBands(frequencyDataArrayRef.current);
