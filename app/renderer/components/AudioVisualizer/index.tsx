@@ -1,4 +1,3 @@
-import { PlayerService } from '@renderer/features/player';
 import useAudioData from '@renderer/hooks/useAudioData';
 import { betweenMinMax } from '@renderer/utils/utils';
 import { useCallback, useEffect, useRef } from 'react';
@@ -6,51 +5,23 @@ import { useCallback, useEffect, useRef } from 'react';
 interface AudioVisualizerProps {
   waveColor?: string | null;
   waveScale?: number;
-  frequencyGroups?: number;
-  bufferScale?: number;
   glowColor?: string | null;
   glowSize?: number;
 }
 
 export default function AudioVisualizer({
   waveScale = 1,
-  frequencyGroups = 128,
-  bufferScale = 0.14,
   waveColor,
   glowColor,
   glowSize = 30,
 }: AudioVisualizerProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const audioDataRef = useAudioData();
-  const audio = PlayerService.getAudio();
   const style = getComputedStyle(document.documentElement);
   const accentColor = style.getPropertyValue('--color-accent').trim();
   waveScale = betweenMinMax(waveScale, 0.5, 3);
-  frequencyGroups = betweenMinMax(frequencyGroups, 32, 128);
-  bufferScale = betweenMinMax(bufferScale, 0.07, 0.63);
   waveColor = waveColor ?? (accentColor === '' ? '#FFF' : accentColor);
   glowColor = glowColor ?? waveColor;
-
-  function groupFrequencies(
-    data: number[],
-    groupCount: number,
-    scaleFactor = 1,
-  ): number[] {
-    const groupSize = Math.floor(data.length / groupCount);
-    const grouped: number[] = [];
-
-    for (let i = 0; i < groupCount; i++) {
-      const start = i * groupSize;
-      const end = start + groupSize;
-      const slice = data.slice(start, end);
-
-      const avg =
-        slice.reduce((sum, val) => sum + val, 0) / (slice.length || 1);
-      grouped.push(avg * scaleFactor);
-    }
-
-    return grouped;
-  }
 
   const drawWaveform = useCallback(
     (
@@ -108,17 +79,13 @@ export default function AudioVisualizer({
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas || !audio) return;
+    if (!canvas) return;
 
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
     let animationFrameId: number;
 
-    // TODO Tornar valores personalizaveis
-    // TODO - Escala das ondas (1 - 3), incremento: 0.5, padrão: 2
-    // TODO - Grupos de frequência (32 - 128), incremento: 32, padrão: 128
-    // TODO - Tamanho do buffer (0.07 - 0.63), incremento: 0.07, padrão: 0.14
     const animate = () => {
       const frequencyData = audioDataRef.current.frequencyData;
 
@@ -127,18 +94,11 @@ export default function AudioVisualizer({
         return;
       }
 
-      /**
-       * Controla o quanto do espectro da música é representado
-       * * Máximo: 0.63, valores acima disso pegam frequências silenciosas
-       * * Mínimo: 0.7, abrange partes mais graves
-       * * Esse valor é inversamente proporcional ao fator de escalamento das ondas para que haja equilíbrio
-       */
-      const bufferSize = frequencyData.length * bufferScale;
-      const dataArray = frequencyData.slice(0, bufferSize);
-      const grouped = groupFrequencies(dataArray, frequencyGroups, waveScale);
+      const endIndex = frequencyData.length / 10;
+      const dataArray = frequencyData.slice(0, endIndex);
 
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      drawWaveform(ctx, grouped, canvas.width, canvas.height, waveColor);
+      drawWaveform(ctx, dataArray, canvas.width, canvas.height, waveColor);
 
       animationFrameId = requestAnimationFrame(animate);
     };
@@ -148,15 +108,7 @@ export default function AudioVisualizer({
     return () => {
       cancelAnimationFrame(animationFrameId);
     };
-  }, [
-    audio,
-    audioDataRef,
-    bufferScale,
-    drawWaveform,
-    frequencyGroups,
-    waveColor,
-    waveScale,
-  ]);
+  }, [audioDataRef, drawWaveform, waveColor, waveScale]);
 
   return (
     <div className='z-10 flex h-full w-full items-center justify-center bg-transparent'>
