@@ -13,7 +13,7 @@ interface AudioVisualizerProps {
 }
 
 export default function AudioVisualizer({
-  waveScale = 2.5,
+  waveScale = 1,
   frequencyGroups = 128,
   bufferScale = 0.14,
   waveColor,
@@ -32,7 +32,7 @@ export default function AudioVisualizer({
   glowColor = glowColor ?? waveColor;
 
   function groupFrequencies(
-    data: Uint8Array,
+    data: number[],
     groupCount: number,
     scaleFactor = 1,
   ): number[] {
@@ -72,8 +72,8 @@ export default function AudioVisualizer({
       for (let i = 0; i < data.length - 1; i++) {
         const x1 = i * step;
         const x2 = (i + 1) * step;
-        const y1 = centerY - data[i];
-        const y2 = centerY - data[i + 1];
+        const y1 = centerY - data[i] * centerY;
+        const y2 = centerY - data[i + 1] * centerY;
         const xc = (x1 + x2) / 2;
         const yc = (y1 + y2) / 2;
         ctx.quadraticCurveTo(x1, y1, xc, yc);
@@ -86,8 +86,8 @@ export default function AudioVisualizer({
       for (let i = data.length - 1; i > 0; i--) {
         const x1 = i * step;
         const x2 = (i - 1) * step;
-        const y1 = centerY + data[i];
-        const y2 = centerY + data[i - 1];
+        const y1 = centerY + data[i] * centerY;
+        const y2 = centerY + data[i - 1] * centerY;
         const xc = (x1 + x2) / 2;
         const yc = (y1 + y2) / 2;
         ctx.quadraticCurveTo(x1, y1, xc, yc);
