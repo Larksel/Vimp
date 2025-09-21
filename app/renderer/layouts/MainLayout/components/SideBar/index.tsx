@@ -1,7 +1,7 @@
 import { CaretLeftIcon } from '@phosphor-icons/react/dist/csr/CaretLeft';
 import { CaretRightIcon } from '@phosphor-icons/react/dist/csr/CaretRight';
 
-import Logo from '../Logo';
+import Logo from '@renderer/components/Logo';
 
 import NavButtons from './NavButtons';
 import PlaylistList from './PlaylistList';
