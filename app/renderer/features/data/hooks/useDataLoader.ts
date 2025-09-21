@@ -14,14 +14,16 @@ export default function useDataLoader() {
 
   const handleTracksDBChange = useCallback(async () => {
     logger.debug('Refreshing tracks');
-    const dbTracks = await TrackPersistenceService.getAll();
 
+    const dbTracks = await TrackPersistenceService.getAll();
     const tracks = sortUtils.sortByString(dbTracks, 'title');
+
     libraryAPI.setTracks(tracks);
   }, [libraryAPI]);
 
   const handlePlaylistsDBChange = useCallback(async () => {
     logger.debug('Refreshing playlists');
+
     const dbPlaylists = await PlaylistPersistenceService.getAll();
     const playlists = sortUtils.sortByString(dbPlaylists, 'title');
 
@@ -30,8 +32,12 @@ export default function useDataLoader() {
 
   const loadData = useCallback(async () => {
     logger.debug('Loading data');
-    const tracks = await TrackPersistenceService.getAll();
-    const playlists = await PlaylistPersistenceService.getAll();
+
+    const dbTracks = await TrackPersistenceService.getAll();
+    const dbPlaylists = await PlaylistPersistenceService.getAll();
+
+    const tracks = sortUtils.sortByString(dbTracks, 'title');
+    const playlists = sortUtils.sortByString(dbPlaylists, 'title');
 
     libraryAPI.setTracks(tracks);
     libraryAPI.setPlaylists(playlists);
