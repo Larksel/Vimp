@@ -2,8 +2,10 @@ import { createRendererLogger } from '@renderer/utils/logger';
 import { TrackModel } from '@shared/types/vimp';
 import { TrackPersistenceService } from '@renderer/features/data';
 import useConfigStore from '@renderer/stores/useConfigStore';
+import useLibraryStore from '@renderer/stores/useLibraryStore';
 
 const logger = createRendererLogger('Player');
+const libraryAPI = useLibraryStore.getState().api;
 
 interface PlayerOptions {
   playbackRate?: number;
@@ -78,8 +80,17 @@ class Player {
     logger.info(`Playing ${this.track.path}`);
 
     if (!this.hasPlayed && this.track._id && this.track._id !== '') {
+      const updatedTrack: TrackModel = {
+        ...this.track,
+        lastPlayed: new Date(),
+        playCount: this.track.playCount + 1,
+      };
+
+      libraryAPI.updateLocalTrack(updatedTrack);
+
       await TrackPersistenceService.updateLastPlayed(this.track._id);
       await TrackPersistenceService.incrementPlayCount(this.track._id);
+
       this.hasPlayed = true;
     }
   }

@@ -53,6 +53,7 @@ interface PlayerState {
 const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
   const playerConfig = useConfigStore.getState().player;
   const configAPI = useConfigStore.getState().api;
+  const libraryAPI = useLibraryStore.getState().api;
 
   logger.info(
     `Initializing PlayerStore with config: ${JSON.stringify(playerConfig, null, 2)}`,
@@ -423,16 +424,18 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
         if (trackIndex === -1) return;
 
         const track = queue[trackIndex];
+
+        const newFavoriteState = !track.favorite;
+        const dateFavorited = newFavoriteState ? new Date() : undefined;
+        const updatedTrack: TrackModel = {
+          ...track,
+          favorite: newFavoriteState,
+          dateFavorited: dateFavorited,
+        };
+        libraryAPI.updateLocalTrack(updatedTrack);
         await TrackPersistenceService.updateFavorite(track._id);
 
         logger.info(`Favorited track: ${track.title}`);
-
-        const newQueue = [...queue];
-        newQueue[trackIndex] = { ...track, favorite: !track.favorite };
-
-        set({
-          queue: newQueue,
-        });
       },
       toggleShuffle: () => {
         const { queue, queuePosition, originalQueue, isShuffleEnabled } = get();

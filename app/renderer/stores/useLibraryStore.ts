@@ -17,6 +17,7 @@ interface LibraryState {
   };
   api: {
     updateLocalPlaylist: (playlist: PlaylistModel) => void;
+    updateLocalTrack: (track: TrackModel) => void;
     removePlaylists: (
       playlistsToDelete: PlaylistModel | PlaylistModel[],
     ) => void;
@@ -59,6 +60,25 @@ const useLibraryStore = createLibraryStore<LibraryState>((set, get) => {
           contents: {
             ...state.contents,
             playlists: newPlaylists,
+          },
+        }));
+      },
+      updateLocalTrack: (track) => {
+        const { tracks } = get().contents;
+
+        if (!track) return;
+
+        const trackIndex = tracks.findIndex((t) => t._id === track._id);
+
+        if (trackIndex === -1) return;
+
+        const newTracks = [...tracks];
+        newTracks[trackIndex] = track;
+
+        set((state) => ({
+          contents: {
+            ...state.contents,
+            tracks: newTracks,
           },
         }));
       },
