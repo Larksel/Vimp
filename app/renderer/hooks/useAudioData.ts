@@ -20,12 +20,15 @@ export default function useAudioData() {
     trebles: 0,
   });
   const previousRmsRef = useRef(0);
-  const frequencyDataArrayRef = useRef(
-    new Uint8Array(PlayerService.getAnalyzerBufferSize()),
-  );
-  const isPlaying =
-    usePlayerStore((state) => state.playerStatus) === PlayerStatus.PLAY;
+  const playerStatus = usePlayerStore((state) => state.playerStatus);
+  const isPlaying = playerStatus === PlayerStatus.PLAY;
 
+  // Arrays para armazenar os dados do analyser
+  const bufferSize = PlayerService.getAnalyzerBufferSize();
+  const frequencyDataArrayRef = useRef(new Uint8Array(bufferSize));
+  const timeDomainDataArrayRef = useRef(new Uint8Array(bufferSize));
+
+  // Linha de corte das frequências
   const bassCutoff = 250;
   const midCutoff = 4000;
   const maxFrequency = 16000;
@@ -75,15 +78,13 @@ export default function useAudioData() {
 
   useEffect(() => {
     let animationFrameId: number | null = null;
-    const bufferSize = PlayerService.getAnalyzerBufferSize();
-    const timeDomainDataArray = new Uint8Array(bufferSize);
 
     const animationLoop = () => {
       if (isPlaying) {
-        PlayerService.getAnalyzerTimeDomain(timeDomainDataArray);
+        PlayerService.getAnalyzerTimeDomain(timeDomainDataArrayRef.current);
         PlayerService.getAnalyserFrequency(frequencyDataArrayRef.current);
 
-        calculateRmsLevel(timeDomainDataArray);
+        calculateRmsLevel(timeDomainDataArrayRef.current);
         calculateFrequencyBands(frequencyDataArrayRef.current);
       } else {
         decayValues();
