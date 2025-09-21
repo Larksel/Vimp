@@ -5,7 +5,7 @@ import { useCallback, useEffect, useRef } from 'react';
 
 export interface AudioData {
   rmsLevel: number;
-  frequencyData: Uint8Array<ArrayBuffer> | null;
+  frequencyData: number[] | null;
   bass: number;
   mids: number;
   trebles: number;
@@ -81,7 +81,9 @@ export default function useAudioData() {
         PlayerService.getAnalyzerTimeDomain(timeDomainDataArrayRef.current);
         PlayerService.getAnalyserFrequency(frequencyDataArrayRef.current);
 
-        audioDataRef.current.frequencyData = frequencyDataArrayRef.current;
+        audioDataRef.current.frequencyData = Array.from(
+          frequencyDataArrayRef.current,
+        );
 
         calculateRmsLevel(timeDomainDataArrayRef.current);
         calculateFrequencyBands(frequencyDataArrayRef.current);
@@ -133,7 +135,9 @@ export default function useAudioData() {
       frequencyDataArrayRef.current[i] *= decayFactor;
     }
 
-    audioDataRef.current.frequencyData = frequencyDataArrayRef.current;
+    const decayedFrequencyDataArray = Array.from(frequencyDataArrayRef.current);
+
+    audioDataRef.current.frequencyData = decayedFrequencyDataArray;
     audioDataRef.current.rmsLevel *= decayFactor;
     audioDataRef.current.bass *= decayFactor;
     audioDataRef.current.mids *= decayFactor;
