@@ -8,7 +8,7 @@ import { usePlayerAPI } from '@renderer/stores/usePlayerStore';
 import { useParams } from 'react-router-dom';
 import InfoText from '@renderer/components/InfoText';
 import { Button } from '@renderer/components/common/button';
-import usePlaylistLoader from '@renderer/hooks/usePlaylistLoader';
+import usePlaylistLoader from '../hooks/usePlaylistLoader';
 import { formatDuration } from '@renderer/utils/utils';
 import { useAudioAnimation } from '@renderer/hooks/useAudioAnimation';
 import { PlaylistService } from '../services/playlistService';
