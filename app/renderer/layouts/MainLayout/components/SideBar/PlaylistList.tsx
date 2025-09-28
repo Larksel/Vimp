@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { ScrollArea, ScrollBar } from '@renderer/components/common/scroll-area';
+import { ScrollArea, ScrollBar } from '@renderer/components/common';
 import useLibraryStore from '@renderer/stores/useLibraryStore';
 import { routes } from '@renderer/routes/routes';
 import ListHeader from './ListHeader';

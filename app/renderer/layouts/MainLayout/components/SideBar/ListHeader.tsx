@@ -1,19 +1,18 @@
 import { PlusIcon } from '@phosphor-icons/react/dist/csr/Plus';
 import { ListBulletsIcon } from '@phosphor-icons/react/dist/csr/ListBullets';
-import { Button } from '@renderer/components/common/button';
-import SearchBox from '@renderer/components/SearchBox';
 import {
+  Button,
+  Input,
   Popover,
-  PopoverTrigger,
-  PopoverContent,
-} from '@renderer/components/common/popover';
-import { Input } from '@renderer/components/common/input';
+  RadioGroup,
+  RadioGroupItem,
+} from '@renderer/components/common';
+import SearchBox from '@renderer/components/SearchBox';
 import { FormEvent, useState } from 'react';
 import { createRendererLogger } from '@renderer/utils/logger';
 import { Playlist } from '@shared/types/vimp';
 import { createGenericPlaylist } from '@shared/utils/utils';
 import { PlaylistPersistenceService } from '@renderer/features/data';
-import { RadioGroup, RadioGroupItem } from '@renderer/components/common/radio-group';
 
 const logger = createRendererLogger('SideBar');
 
@@ -57,8 +56,8 @@ export default function ListHeader(props: ListHeaderProps) {
 
   return (
     <div className='z-10 flex h-12 w-full items-center justify-between gap-1 px-2 py-1 transition-all'>
-      <Popover open={popoverNewPlaylist} modal>
-        <PopoverTrigger asChild>
+      <Popover.Popover open={popoverNewPlaylist} modal>
+        <Popover.PopoverTrigger asChild>
           <Button
             variant='surface'
             onClick={openClosePopoverNewPlaylist}
@@ -66,8 +65,8 @@ export default function ListHeader(props: ListHeaderProps) {
           >
             <PlusIcon size={20} />
           </Button>
-        </PopoverTrigger>
-        <PopoverContent
+        </Popover.PopoverTrigger>
+        <Popover.PopoverContent
           align='center'
           onEscapeKeyDown={openClosePopoverNewPlaylist}
           onInteractOutside={openClosePopoverNewPlaylist}
@@ -91,8 +90,8 @@ export default function ListHeader(props: ListHeaderProps) {
               Criar Playlist
             </Button>
           </form>
-        </PopoverContent>
-      </Popover>
+        </Popover.PopoverContent>
+      </Popover.Popover>
 
       <div
         className={`flex h-full items-center ${collapsed ? 'w-0 overflow-clip' : 'w-full'}`}
@@ -104,8 +103,8 @@ export default function ListHeader(props: ListHeaderProps) {
         />
       </div>
 
-      <Popover open={popoverOptions} modal>
-        <PopoverTrigger asChild>
+      <Popover.Popover open={popoverOptions} modal>
+        <Popover.PopoverTrigger asChild>
           <Button
             variant='surface'
             onClick={openClosePopoverOptions}
@@ -113,8 +112,8 @@ export default function ListHeader(props: ListHeaderProps) {
           >
             <ListBulletsIcon size={20} />
           </Button>
-        </PopoverTrigger>
-        <PopoverContent
+        </Popover.PopoverTrigger>
+        <Popover.PopoverContent
           align='center'
           side='left'
           onEscapeKeyDown={openClosePopoverOptions}
@@ -156,8 +155,8 @@ export default function ListHeader(props: ListHeaderProps) {
               </div>
             </RadioGroup>
           </div>
-        </PopoverContent>
-      </Popover>
+        </Popover.PopoverContent>
+      </Popover.Popover>
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import { ScrollArea, ScrollBar } from '@renderer/components/common/scroll-area';
+import { ScrollArea, ScrollBar } from '@renderer/components/common';
 import MediaCard from '@renderer/components/MediaCard';
 
 import { TrackModel } from '@shared/types/vimp';

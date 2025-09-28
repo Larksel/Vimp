@@ -1,10 +1,4 @@
-import {
-  ContextMenuCheckboxItem,
-  ContextMenuItem,
-  ContextMenuSub,
-  ContextMenuSubContent,
-  ContextMenuSubTrigger,
-} from '@renderer/components/common/context-menu';
+import { CM } from '@renderer/components/common';
 import useLibraryStore from '@renderer/stores/useLibraryStore';
 import { PlusIcon } from '@phosphor-icons/react/dist/csr/Plus';
 import { PlaylistModel, TrackModel } from '@shared/types/vimp';
@@ -29,24 +23,24 @@ export default function AddPlaylistSub(props: AddPlaylistSubProps) {
   };
 
   return (
-    <ContextMenuSub>
-      <ContextMenuSubTrigger>Adicionar à playlist</ContextMenuSubTrigger>
-      <ContextMenuSubContent>
-        <ContextMenuItem icon={<PlusIcon size={20} />}>
+    <CM.ContextMenuSub>
+      <CM.ContextMenuSubTrigger>Adicionar à playlist</CM.ContextMenuSubTrigger>
+      <CM.ContextMenuSubContent>
+        <CM.ContextMenuItem icon={<PlusIcon size={20} />}>
           Nova Playlist
-        </ContextMenuItem>
+        </CM.ContextMenuItem>
         {playlists.map((pl) => {
           return (
-            <ContextMenuCheckboxItem
+            <CM.ContextMenuCheckboxItem
               key={pl._id}
               checked={pl.tracks.includes(track._id)}
               onSelect={(e) => addRemovePlaylist(e, pl)}
             >
               {pl.title}
-            </ContextMenuCheckboxItem>
+            </CM.ContextMenuCheckboxItem>
           );
         })}
-      </ContextMenuSubContent>
-    </ContextMenuSub>
+      </CM.ContextMenuSubContent>
+    </CM.ContextMenuSub>
   );
 }

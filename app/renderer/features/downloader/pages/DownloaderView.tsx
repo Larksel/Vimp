@@ -1,4 +1,4 @@
-import { Button } from '@renderer/components/common/button';
+import { Button } from '@renderer/components/common';
 import SearchBox from '@renderer/components/SearchBox';
 import { useCurrentTrack } from '@renderer/features/player';
 import { formatDuration } from '@renderer/utils/utils';

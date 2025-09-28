@@ -3,7 +3,7 @@ import { CaretLeftIcon } from '@phosphor-icons/react/dist/csr/CaretLeft';
 import { CaretRightIcon } from '@phosphor-icons/react/dist/csr/CaretRight';
 import { BellIcon } from '@phosphor-icons/react/dist/csr/Bell';
 import { GearIcon } from '@phosphor-icons/react/dist/csr/Gear';
-import { Button } from '@renderer/components/common/button';
+import { Button } from '@renderer/components/common';
 
 import { routes } from '@renderer/routes/routes';
 

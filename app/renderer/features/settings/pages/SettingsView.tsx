@@ -1,7 +1,5 @@
 import { createRendererLogger } from '@renderer/utils/logger';
-import { Button } from '@renderer/components/common/button';
-import { Input } from '@renderer/components/common/input';
-import { Switch } from '@renderer/components/common/switch';
+import { Button, Input, Switch } from '@renderer/components/common';
 import { useState } from 'react';
 
 import * as Settings from '../components';

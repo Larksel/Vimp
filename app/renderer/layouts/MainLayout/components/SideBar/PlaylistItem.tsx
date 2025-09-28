@@ -1,5 +1,5 @@
 import placeholderImage from '@renderer/assets/images/placeholder.png';
-import { Button } from '@renderer/components/common/button';
+import { Button } from '@renderer/components/common';
 import InfoText from '@renderer/components/InfoText';
 import { PlaylistModel } from '@shared/types/vimp';
 

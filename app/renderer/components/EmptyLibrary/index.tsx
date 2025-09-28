@@ -1,5 +1,5 @@
 import { createRendererLogger } from '@renderer/utils/logger';
-import { Button } from '@renderer/components/common/button';
+import { Button } from '@renderer/components/common';
 import { useState } from 'react';
 import { useLibraryAPI } from '@renderer/stores/useLibraryStore';
 

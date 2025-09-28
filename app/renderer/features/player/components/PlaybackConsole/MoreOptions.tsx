@@ -4,7 +4,7 @@ import { InfoIcon } from '@phosphor-icons/react/dist/csr/Info';
 import VolumeControl from './VolumeControl';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { routes } from '@renderer/routes/routes';
-import { Button } from '@renderer/components/common/button';
+import { Button } from '@renderer/components/common';
 
 export default function MoreOptions() {
   const navigate = useNavigate();

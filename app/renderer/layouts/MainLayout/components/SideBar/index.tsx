@@ -5,7 +5,7 @@ import Logo from '@renderer/components/Logo';
 
 import NavButtons from './NavButtons';
 import PlaylistList from './PlaylistList';
-import { Button } from '@renderer/components/common/button';
+import { Button } from '@renderer/components/common';
 import { useRef } from 'react';
 import { useAudioAnimation } from '@renderer/hooks/useAudioAnimation';
 

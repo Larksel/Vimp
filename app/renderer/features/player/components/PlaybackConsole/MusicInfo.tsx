@@ -6,7 +6,7 @@ import { useCurrentTrack } from '@renderer/features/player';
 
 import ExpandedView from './ExpandedView';
 import InfoText from '@renderer/components/InfoText';
-import { Button } from '@renderer/components/common/button';
+import { Button } from '@renderer/components/common';
 import { usePlayerAPI } from '@renderer/stores/usePlayerStore';
 import { useAudioAnimation } from '@renderer/hooks/useAudioAnimation';
 

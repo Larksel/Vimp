@@ -2,8 +2,7 @@ import { SpeakerSimpleHighIcon } from '@phosphor-icons/react/dist/csr/SpeakerSim
 import { SpeakerSimpleLowIcon } from '@phosphor-icons/react/dist/csr/SpeakerSimpleLow';
 import { SpeakerSimpleXIcon } from '@phosphor-icons/react/dist/csr/SpeakerSimpleX';
 
-import { Button } from '@renderer/components/common/button';
-import { Slider } from '@renderer/components/common/slider';
+import { Button, Slider } from '@renderer/components/common';
 
 import usePlayerStore, { usePlayerAPI } from '@renderer/stores/usePlayerStore';
 

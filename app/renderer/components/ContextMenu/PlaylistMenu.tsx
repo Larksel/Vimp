@@ -1,9 +1,4 @@
-import {
-  ContextMenu,
-  ContextMenuContent,
-  ContextMenuItem,
-  ContextMenuTrigger,
-} from '@renderer/components/common/context-menu';
+import { CM } from '@renderer/components/common';
 import { PlaylistService } from '@renderer/features/playlist';
 import { PlaylistModel } from '@shared/types/vimp';
 import { ReactNode } from 'react';
@@ -21,13 +16,13 @@ export default function PlaylistMenu(props: PlaylistMenuProps) {
   };
 
   return (
-    <ContextMenu>
-      <ContextMenuTrigger>{children}</ContextMenuTrigger>
-      <ContextMenuContent>
-        <ContextMenuItem onClick={handleRemove}>
+    <CM.ContextMenu>
+      <CM.ContextMenuTrigger>{children}</CM.ContextMenuTrigger>
+      <CM.ContextMenuContent>
+        <CM.ContextMenuItem onClick={handleRemove}>
           Excluir Playlist
-        </ContextMenuItem>
-      </ContextMenuContent>
-    </ContextMenu>
+        </CM.ContextMenuItem>
+      </CM.ContextMenuContent>
+    </CM.ContextMenu>
   );
 }

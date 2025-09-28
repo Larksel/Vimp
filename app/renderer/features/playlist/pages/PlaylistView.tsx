@@ -7,7 +7,7 @@ import useLibraryStore from '@renderer/stores/useLibraryStore';
 import { usePlayerAPI } from '@renderer/stores/usePlayerStore';
 import { useParams } from 'react-router-dom';
 import InfoText from '@renderer/components/InfoText';
-import { Button } from '@renderer/components/common/button';
+import { Button } from '@renderer/components/common';
 import usePlaylistLoader from '../hooks/usePlaylistLoader';
 import { formatDuration } from '@renderer/utils/utils';
 import { useAudioAnimation } from '@renderer/hooks/useAudioAnimation';

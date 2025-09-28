@@ -1,4 +1,4 @@
-import { Slider } from '@renderer/components/common/slider';
+import { Slider } from '@renderer/components/common';
 
 import { formatDuration } from '@renderer/utils/utils';
 import usePlayerStore, { usePlayerAPI } from '@renderer/stores/usePlayerStore';
