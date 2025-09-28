@@ -9,7 +9,11 @@ import { useState } from 'react';
 
 export default function MainLayout() {
   const [collapsed, setCollapsed] = useState(false);
-  const { cssVars } = useLayoutSizes(collapsed);
+  const { cssVars } = useLayoutSizes({
+    autoHideConsole: true,
+    absoluteAppBar: false,
+    collapsed: collapsed,
+  });
 
   return (
     <div
