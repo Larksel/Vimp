@@ -1,23 +1,31 @@
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import { HeartStraightIcon } from '@phosphor-icons/react/dist/csr/HeartStraight';
 
 import placeholderImage from '@renderer/assets/images/placeholder.png';
 import { useCurrentTrack } from '@renderer/features/player';
 
-import ExpandedView from './ExpandedView';
 import InfoText from '@renderer/components/InfoText';
 import { Button } from '@renderer/components/common';
 import { usePlayerAPI } from '@renderer/stores/usePlayerStore';
 import { useAudioAnimation } from '@renderer/hooks/useAudioAnimation';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { routes } from '@renderer/routes/routes';
 
 export default function MusicInfo() {
   const playerAPI = usePlayerAPI();
-  const [visible, setVisible] = useState(false);
   const track = useCurrentTrack();
   const heartIconRef = useRef<SVGSVGElement>(null);
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
+  const isExpandedView =
+    pathname.replace('/', '') === routes.EXPANDED_VIEW.path;
 
-  const toggleVisible = () => {
-    setVisible(!visible);
+  const expandedView = () => {
+    if (!isExpandedView) {
+      navigate(routes.EXPANDED_VIEW.path);
+    } else {
+      navigate(-1);
+    }
   };
 
   const toggleFavorite = async () => {
@@ -37,16 +45,15 @@ export default function MusicInfo() {
 
   return (
     <>
-      <ExpandedView visible={visible} />
       <div className='flex h-full w-[30%] items-center'>
         <div
-          onClick={toggleVisible}
-          className={`flex h-full w-full items-center select-none ${visible ? 'gap-0' : 'gap-2'} hover:bg-surface-highlight overflow-hidden rounded-lg p-2 transition-all`}
+          onClick={expandedView}
+          className={`flex h-full w-full items-center select-none ${isExpandedView ? 'gap-0' : 'gap-2'} hover:bg-surface-highlight overflow-hidden rounded-lg p-2 transition-all`}
         >
           <img
             src={track?.cover ?? placeholderImage}
             alt=''
-            className={`size-16 rounded-sm object-cover transition-all ${visible ? 'w-0 opacity-0' : ''}`}
+            className={`size-16 rounded-sm object-cover transition-all ${isExpandedView ? 'w-0 opacity-0' : ''}`}
           />
 
           <div

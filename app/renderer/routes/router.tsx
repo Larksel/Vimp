@@ -8,26 +8,38 @@ import {
   useNavigate,
 } from 'react-router-dom';
 import MainLayout from '@renderer/layouts/MainLayout';
+import FullLayout from '@renderer/layouts/FullLayout';
 
 import { routes } from './routes';
 import { useDataLoader } from '@renderer/features/data';
 
 const router = createHashRouter(
   createRoutesFromElements(
-    <Route
-      path=''
-      element={<MainLayout />}
-      errorElement={<GlobalErrorBoundary />}
-    >
-      <Route {...routes.HOME} />
-      <Route {...routes.MUSIC_LIBRARY} />
-      <Route {...routes.QUEUE} />
-      <Route {...routes.DOWNLOADER} />
-      <Route {...routes.SETTINGS} />
-      <Route {...routes.PLAYLIST} />
+    <>
+      {/* Layout principal com SideBar, Console, AppBar, etc */}
+      <Route
+        path=''
+        element={<MainLayout />}
+        errorElement={<GlobalErrorBoundary />}
+      >
+        <Route {...routes.HOME} />
+        <Route {...routes.MUSIC_LIBRARY} />
+        <Route {...routes.QUEUE} />
+        <Route {...routes.DOWNLOADER} />
+        <Route {...routes.SETTINGS} />
+        <Route {...routes.PLAYLIST} />
 
-      <Route index element={<Navigate to={routes.HOME.path} />} />
-    </Route>,
+        <Route index element={<Navigate to={routes.HOME.path} />} />
+      </Route>
+      {/* Layout de tela inteira mais o PlaybackConsole */}
+      <Route
+        path=''
+        element={<FullLayout />}
+        errorElement={<GlobalErrorBoundary />}
+      >
+        <Route {...routes.EXPANDED_VIEW} />
+      </Route>
+    </>,
   ),
 );
 

@@ -6,6 +6,7 @@ import { playlistRoutes } from '@renderer/features/playlist';
 import HomeView from '@renderer/views/HomeView';
 import MusicLibraryView from '@renderer/views/MusicLibraryView';
 import QueueView from '@renderer/views/QueueView';
+import { playerRoutes } from '@renderer/features/player';
 
 const appRoutes = createRoutes({
   HOME: {
@@ -40,4 +41,5 @@ export const routes = {
   ...playlistRoutes,
   ...downloaderRoutes,
   ...settingsRoutes,
+  ...playerRoutes,
 } as const;
