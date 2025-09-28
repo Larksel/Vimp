@@ -2,7 +2,7 @@ import { PlayerService } from '@renderer/features/player';
 import { usePlayerAPI } from '@renderer/stores/usePlayerStore';
 import { useEffect } from 'react';
 
-export default function PlayerEvents() {
+export default function usePlayerEvents() {
   const playerAPI = usePlayerAPI();
 
   useEffect(() => {
