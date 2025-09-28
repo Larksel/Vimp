@@ -131,15 +131,18 @@ export default function useAudioData() {
 
   function decayValues() {
     const decayFactor = 0.85;
+    const frequencyData = audioDataRef.current.frequencyData;
 
-    // Zera os valores suavemente
-    for (let i = 0; i < frequencyDataArrayRef.current.length; i++) {
-      frequencyDataArrayRef.current[i] *= decayFactor;
+    if (frequencyData) {
+      // Zera os valores suavemente
+      for (let i = 0; i < frequencyData.length; i++) {
+        frequencyData[i] *= decayFactor;
+      }
+
+      const decayedFrequencyDataArray = Array.from(frequencyData);
+      audioDataRef.current.frequencyData = decayedFrequencyDataArray;
     }
 
-    const decayedFrequencyDataArray = Array.from(frequencyDataArrayRef.current);
-
-    audioDataRef.current.frequencyData = decayedFrequencyDataArray;
     audioDataRef.current.rmsLevel *= decayFactor;
     audioDataRef.current.bass *= decayFactor;
     audioDataRef.current.mids *= decayFactor;
