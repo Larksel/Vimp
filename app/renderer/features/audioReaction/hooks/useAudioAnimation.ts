@@ -1,12 +1,14 @@
 import { CSSProperties, RefObject, useEffect, useRef } from 'react';
-import useAudioData, { AudioData } from './useAudioData';
+import { useAudioData, AudioData } from '@renderer/features/audioReaction';
 
 /**
  * Hook para aplicar animações a elementos HTML com base na análise de áudio.
  * @param refs - Um array de RefObjects para os elementos a serem animados.
  * @param styleFunction - Uma função que recebe os dados de áudio e retorna um objeto de estilo CSS.
  */
-export function useAudioAnimation<T extends HTMLElement | SVGSVGElement>(
+export default function useAudioAnimation<
+  T extends HTMLElement | SVGSVGElement,
+>(
   refs: RefObject<T | null>[],
   styleFunction: (audio: AudioData) => CSSProperties,
 ) {

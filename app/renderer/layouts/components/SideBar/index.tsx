@@ -7,7 +7,7 @@ import NavButtons from './NavButtons';
 import PlaylistList from './PlaylistList';
 import { Button } from '@renderer/components/common';
 import { useRef } from 'react';
-import { useAudioAnimation } from '@renderer/hooks/useAudioAnimation';
+import { useAudioAnimation } from '@renderer/features/audioReaction';
 
 interface SideBarProps {
   toggle: () => void;

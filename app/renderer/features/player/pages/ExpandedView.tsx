@@ -1,6 +1,8 @@
 import placeholder from '@renderer/assets/images/placeholder.png';
-import AudioVisualizer from '@renderer/components/AudioVisualizer';
-import { useAudioAnimation } from '@renderer/hooks/useAudioAnimation';
+import {
+  AudioVisualizer,
+  useAudioAnimation,
+} from '@renderer/features/audioReaction';
 import { useCurrentTrack } from '@renderer/features/player';
 import { useRef } from 'react';
 

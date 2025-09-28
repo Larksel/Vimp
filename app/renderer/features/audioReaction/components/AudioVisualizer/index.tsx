@@ -1,4 +1,4 @@
-import useAudioData from '@renderer/hooks/useAudioData';
+import { useAudioData } from '@renderer/features/audioReaction';
 import { betweenMinMax } from '@renderer/utils/utils';
 import { useCallback, useEffect, useRef } from 'react';
 

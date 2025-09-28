@@ -7,7 +7,7 @@ import { useCurrentTrack } from '@renderer/features/player';
 import InfoText from '@renderer/components/InfoText';
 import { Button } from '@renderer/components/common';
 import { usePlayerAPI } from '@renderer/stores/usePlayerStore';
-import { useAudioAnimation } from '@renderer/hooks/useAudioAnimation';
+import { useAudioAnimation } from '@renderer/features/audioReaction';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { routes } from '@renderer/routes/routes';
 

@@ -10,7 +10,7 @@ import InfoText from '@renderer/components/InfoText';
 import { Button } from '@renderer/components/common';
 import usePlaylistLoader from '../hooks/usePlaylistLoader';
 import { formatDuration } from '@renderer/utils/utils';
-import { useAudioAnimation } from '@renderer/hooks/useAudioAnimation';
+import { useAudioAnimation } from '@renderer/features/audioReaction';
 import { PlaylistService } from '../services/playlistService';
 
 export default function PlaylistView() {

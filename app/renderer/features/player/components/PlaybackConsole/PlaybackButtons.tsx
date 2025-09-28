@@ -10,7 +10,7 @@ import usePlayerStore, { usePlayerAPI } from '@renderer/stores/usePlayerStore';
 import { PlayerStatus } from '@shared/types/vimp';
 import { Button } from '@renderer/components/common';
 import { useRef } from 'react';
-import { useAudioAnimation } from '@renderer/hooks/useAudioAnimation';
+import { useAudioAnimation } from '@renderer/features/audioReaction';
 
 export default function PlaybackButtons() {
   const playerAPI = usePlayerAPI();
