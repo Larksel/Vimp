@@ -1,11 +1,13 @@
 import {
   LoaderFunctionArgs,
+  RouterProvider,
   createHashRouter,
   useNavigate,
 } from 'react-router-dom';
 import MainLayout from '@renderer/layouts/MainLayout';
 
 import { routes } from './routes';
+import { useDataLoader } from '@renderer/features/data';
 
 const router = createHashRouter([
   {
@@ -49,7 +51,18 @@ const router = createHashRouter([
   },
 ]);
 
-export default router;
+export default function AppRoutes() {
+  useDataLoader();
+
+  return (
+    <RouterProvider
+      router={router}
+      future={{
+        v7_startTransition: false,
+      }}
+    />
+  );
+}
 
 function GlobalErrorBoundary() {
   const navigate = useNavigate();
