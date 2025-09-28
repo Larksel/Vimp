@@ -1,7 +1,7 @@
 import placeholder from '@renderer/assets/images/placeholder.png';
 import AudioVisualizer from '@renderer/components/AudioVisualizer';
 import { useAudioAnimation } from '@renderer/hooks/useAudioAnimation';
-import useCurrentTrack from '@renderer/hooks/useCurrentTrack';
+import { useCurrentTrack } from '@renderer/features/player';
 import { useRef } from 'react';
 
 interface ExpandedViewProps {

@@ -1,6 +1,6 @@
 import { Button } from '@renderer/components/common/button';
 import SearchBox from '@renderer/components/SearchBox';
-import useCurrentTrack from '@renderer/hooks/useCurrentTrack';
+import { useCurrentTrack } from '@renderer/features/player';
 import { formatDuration } from '@renderer/utils/utils';
 import placeholder from '@renderer/assets/images/placeholder.png';
 

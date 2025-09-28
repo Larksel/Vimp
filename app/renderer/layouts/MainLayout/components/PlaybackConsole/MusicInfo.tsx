@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 import { HeartStraightIcon } from '@phosphor-icons/react/dist/csr/HeartStraight';
 
 import placeholderImage from '@renderer/assets/images/placeholder.png';
-import useCurrentTrack from '@renderer/hooks/useCurrentTrack';
+import { useCurrentTrack } from '@renderer/features/player';
 
 import ExpandedView from './ExpandedView';
 import InfoText from '@renderer/components/InfoText';

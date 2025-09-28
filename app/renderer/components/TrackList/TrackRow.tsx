@@ -3,7 +3,7 @@ import placeholder from '@renderer/assets/images/placeholder.png';
 import { HeartStraightIcon } from '@phosphor-icons/react/dist/csr/HeartStraight';
 import { PlayCircleIcon } from '@phosphor-icons/react/dist/csr/PlayCircle';
 import { TrackModel } from '@shared/types/vimp';
-import useCurrentTrack from '@renderer/hooks/useCurrentTrack';
+import { useCurrentTrack } from '@renderer/features/player';
 import TrackMenu from '@renderer/components/ContextMenu/TrackMenu';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
