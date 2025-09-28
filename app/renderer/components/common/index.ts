@@ -1,8 +1,8 @@
-export { Button } from './button';
-export * as CM from './context-menu';
-export { Input } from './input';
-export * as Popover from './popover';
-export { RadioGroup, RadioGroupItem } from './radio-group';
-export { ScrollArea, ScrollBar } from './scroll-area';
-export { Slider } from './slider';
-export { Switch } from './switch';
+export { Button } from './Button';
+export * as CM from './ContextMenu';
+export { Input } from './Input';
+export * as Popover from './Popover';
+export { RadioGroup, RadioGroupItem } from './RadioGroup';
+export { ScrollArea, ScrollBar } from './ScrollArea';
+export { Slider } from './Slider';
+export { Switch } from './Switch';
