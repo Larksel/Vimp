@@ -5,7 +5,6 @@ import { playlistRoutes } from '@renderer/features/playlist';
 
 import HomeView from '@renderer/views/HomeView';
 import MusicLibraryView from '@renderer/views/MusicLibraryView';
-import QueueView from '@renderer/views/QueueView';
 import { playerRoutes } from '@renderer/features/player';
 
 const appRoutes = createRoutes({
@@ -13,11 +12,6 @@ const appRoutes = createRoutes({
     path: 'home',
     displayName: 'Início',
     element: <HomeView />,
-  },
-  QUEUE: {
-    path: 'queue',
-    displayName: 'Fila de Reprodução',
-    element: <QueueView />,
   },
   SEARCH: {
     path: 'search',
