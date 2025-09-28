@@ -17,7 +17,7 @@ declare global {
 
 export interface RouteDefinition {
   displayName?: string;
-  path: string;
+  path?: string;
   element: ReactNode;
+  index?: boolean;
 }
-

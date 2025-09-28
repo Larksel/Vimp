@@ -1,7 +1,10 @@
 import {
   LoaderFunctionArgs,
+  Navigate,
+  Route,
   RouterProvider,
   createHashRouter,
+  createRoutesFromElements,
   useNavigate,
 } from 'react-router-dom';
 import MainLayout from '@renderer/layouts/MainLayout';
@@ -9,47 +12,24 @@ import MainLayout from '@renderer/layouts/MainLayout';
 import { routes } from './routes';
 import { useDataLoader } from '@renderer/features/data';
 
-const router = createHashRouter([
-  {
-    path: '',
-    id: 'root',
-    element: <MainLayout />,
-    ErrorBoundary: GlobalErrorBoundary,
-    children: [
-      {
-        index: true,
-        path: routes.HOME.path,
-        id: routes.HOME.path,
-        element: routes.HOME.element,
-      },
-      {
-        path: routes.MUSIC_LIBRARY.path,
-        id: routes.MUSIC_LIBRARY.path,
-        element: routes.MUSIC_LIBRARY.element,
-      },
-      {
-        path: routes.QUEUE.path,
-        id: routes.QUEUE.path,
-        element: routes.QUEUE.element,
-      },
-      {
-        path: routes.DOWNLOADER.path,
-        id: routes.DOWNLOADER.path,
-        element: routes.DOWNLOADER.element,
-      },
-      {
-        path: routes.SETTINGS.path,
-        id: routes.SETTINGS.path,
-        element: routes.SETTINGS.element,
-      },
-      {
-        path: routes.PLAYLIST.path,
-        id: routes.PLAYLIST.path,
-        element: routes.PLAYLIST.element,
-      },
-    ],
-  },
-]);
+const router = createHashRouter(
+  createRoutesFromElements(
+    <Route
+      path=''
+      element={<MainLayout />}
+      errorElement={<GlobalErrorBoundary />}
+    >
+      <Route {...routes.HOME} />
+      <Route {...routes.MUSIC_LIBRARY} />
+      <Route {...routes.QUEUE} />
+      <Route {...routes.DOWNLOADER} />
+      <Route {...routes.SETTINGS} />
+      <Route {...routes.PLAYLIST} />
+
+      <Route index element={<Navigate to={routes.HOME.path} />} />
+    </Route>,
+  ),
+);
 
 export default function AppRoutes() {
   useDataLoader();

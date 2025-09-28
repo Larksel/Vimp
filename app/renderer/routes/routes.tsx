@@ -9,7 +9,7 @@ import QueueView from '@renderer/views/QueueView';
 
 const appRoutes = createRoutes({
   HOME: {
-    path: '',
+    path: 'home',
     displayName: 'Início',
     element: <HomeView />,
   },
