@@ -4,8 +4,7 @@ import AppBar from './components/AppBar';
 import SideBar from './components/SideBar';
 import { ScrollArea, ScrollBar } from '@renderer/components/common/scroll-area';
 import Header from './components/Header';
-import PlaybackConsole from './components/PlaybackConsole';
-import { useCurrentTrack } from '@renderer/features/player';
+import { useCurrentTrack, PlaybackConsole } from '@renderer/features/player';
 import { useDataLoader } from '@renderer/features/data';
 import { Outlet } from 'react-router-dom';
 
