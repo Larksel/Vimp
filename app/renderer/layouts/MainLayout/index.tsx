@@ -1,9 +1,9 @@
 import { CSSProperties, useState } from 'react';
 
-import AppBar from './components/AppBar';
-import SideBar from './components/SideBar';
+import AppBar from '../components/AppBar';
+import SideBar from '../components/SideBar';
 import { ScrollArea, ScrollBar } from '@renderer/components/common';
-import Header from './components/Header';
+import Header from '../components/Header';
 import { useCurrentTrack, PlaybackConsole } from '@renderer/features/player';
 import { useDataLoader } from '@renderer/features/data';
 import { Outlet } from 'react-router-dom';
