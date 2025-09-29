@@ -44,8 +44,8 @@ export default function MusicLibraryView() {
             listClassName='grid w-full grid-cols-2 justify-items-center gap-6 xs:grid-cols-3 sm:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6'
             data={sortUtils.sortByDate(filteredTracks, 'dateModified', 'desc')}
             overscan={10}
-            itemContent={(index, track) => (
-              <MediaCard key={index} item={track} queue={filteredTracks} />
+            itemContent={(_, track) => (
+              <MediaCard key={track._id} item={track} queue={filteredTracks} />
             )}
           />
         </div>
