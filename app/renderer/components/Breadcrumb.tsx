@@ -1,31 +1,30 @@
 import { Link } from 'react-router-dom';
-import { useBreadcrumb } from '@renderer/hooks/useBreadcrumb';
+import useBreadcrumb from '@renderer/hooks/useBreadcrumb';
+import { CaretRightIcon } from '@phosphor-icons/react/dist/csr/CaretRight';
 
 export default function Breadcrumbs() {
   const breadcrumbs = useBreadcrumb();
 
-  if (breadcrumbs.length < 1) {
-    return null;
-  }
-
   return (
-    <nav aria-label='breadcrumb'>
+    <nav aria-label='breadcrumb' className='flex items-center gap-2 capitalize'>
       {breadcrumbs.map((crumb, index) => {
         const isLast = index === breadcrumbs.length - 1;
+        const hasPath = !!crumb.path;
+
+        const item =
+          hasPath && !isLast ? (
+            <Link to={crumb.path}>{crumb.name}</Link>
+          ) : (
+            <span>{crumb.name}</span>
+          );
+
+        const separator = !isLast && <CaretRightIcon weight='bold' />;
 
         return (
-          <span key={crumb.path} className='breadcrumb-item'>
-            {isLast ? (
-              <span className='breadcrumb-name current-page'>{crumb.name}</span>
-            ) : (
-              <>
-                <Link to={crumb.path} className='breadcrumb-link'>
-                  {crumb.name}
-                </Link>
-                <span className='breadcrumb-separator'> / </span>
-              </>
-            )}
-          </span>
+          <div key={crumb.path} className='flex items-center gap-2'>
+            {item}
+            {separator}
+          </div>
         );
       })}
     </nav>

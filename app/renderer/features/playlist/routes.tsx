@@ -4,7 +4,7 @@ import PlaylistView from './pages/PlaylistView';
 export const playlistRoutes = createRoutes({
   PLAYLIST: {
     path: 'playlist/:id',
-    displayName: 'Coleção',
+    displayName: 'Playlist',
     element: <PlaylistView />,
   },
 });
