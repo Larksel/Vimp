@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import useBreadcrumb from '@renderer/hooks/useBreadcrumb';
 import { CaretRightIcon } from '@phosphor-icons/react/dist/csr/CaretRight';
 
-export default function Breadcrumbs() {
+export default function Breadcrumb() {
   const breadcrumbs = useBreadcrumb();
 
   return (
