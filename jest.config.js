@@ -1,13 +1,43 @@
 /** @type {import('ts-jest').JestConfigWithTsJest} **/
 module.exports = {
+  projects: [
+    {
+      displayName: 'main',
+      testEnvironment: 'node',
+      testMatch: ['<rootDir>/app/main/**/*.test.ts'],
+      transform: {
+        '^.+\\.tsx?$': ['ts-jest', {}],
+      },
+    },
+    {
+      displayName: 'preload',
+      testEnvironment: 'node',
+      testMatch: ['<rootDir>/app/preload/**/*.test.ts'],
+      transform: {
+        '^.+\\.tsx?$': ['ts-jest', {}],
+      },
+    },
+    {
+      displayName: 'renderer',
+      testEnvironment: 'jsdom',
+      testMatch: ['<rootDir>/app/renderer/**/*.test.{ts,tsx}'],
+      transform: {
+        '^.+\\.tsx?$': ['ts-jest', {}],
+      },
+      // setupFilesAfterEnv: ['<rootDir>/app/renderer/__tests__/setup.ts'],
+      // moduleNameMapper: {
+      //   '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
+      //   '\\.(jpg|jpeg|png|gif|svg)$':
+      //     '<rootDir>/app/renderer/__tests__/mocks/fileMock.js',
+      // },
+    },
+  ],
   testEnvironment: 'node',
   transform: {
     '^.+\\.tsx?$': ['ts-jest', {}],
   },
-  clearMocks: true,
   collectCoverage: true,
   coverageDirectory: 'coverage',
-  coverageProvider: 'v8',
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   moduleNameMapper: {
     '^@main/(.*)$': '<rootDir>/app/main/$1',
@@ -15,19 +45,4 @@ module.exports = {
     '^@preload/(.*)$': '<rootDir>/app/preload/$1',
     '^@renderer/(.*)$': '<rootDir>/app/renderer/$1',
   },
-
-  // testRegex: '/tests/.*\\.(test|spec)?\\.(ts|tsx)$',
-  // errorOnDeprecated: false,
-
-  // Stop running tests after `n` failures
-  // bail: 0,
-
-  // A path to a module which exports an async function that is triggered once after all test suites
-  // globalTeardown: undefined,
-
-  // A set of global variables that need to be available in all test environments
-  // globals: {},
-
-  // The maximum amount of workers used to run your tests. Can be specified as % or a number. E.g. maxWorkers: 10% will use 10% of your CPU amount + 1 as the maximum worker number. maxWorkers: 2 will use a maximum of 2 workers.
-  // maxWorkers: "50%",
 };
