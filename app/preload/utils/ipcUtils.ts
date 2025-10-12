@@ -1,13 +1,13 @@
 import { ipcRenderer } from 'electron';
-import { IGenericDatabase } from '@shared/interfaces/databases/IGenericDatabase';
 import { GenericModel, GenericDBChannels } from '@shared/types/vimp';
+import GenericDatabaseIPCHandlers from '@shared/interfaces/preload';
 
 /**
  * Returns the generic DB ipc call functions for a given model
  */
 export function createDatabaseIPC<T>(
   channels: GenericDBChannels,
-): IGenericDatabase<T> {
+): GenericDatabaseIPCHandlers<T> {
   return {
     getAll: () => {
       return ipcRenderer.invoke(channels.GET_ALL);
@@ -26,6 +26,9 @@ export function createDatabaseIPC<T>(
     },
     clear: () => {
       return ipcRenderer.invoke(channels.CLEAR);
+    },
+    onDBChanged: (callback: () => void) => {
+      return ipcRenderer.on(channels.HAS_CHANGED, () => callback());
     },
   };
 }

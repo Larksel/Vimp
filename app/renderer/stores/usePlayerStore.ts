@@ -1,11 +1,13 @@
 import { StateCreator } from 'zustand';
 import { PlayerStatus, RepeatMode, TrackModel } from '@shared/types/vimp';
 import { storeUtils } from '@renderer/utils/storeUtils';
-import { PlayerConfigService } from '@renderer/features/player/playerConfig';
 import { PlayerService } from '@renderer/features/player';
 import { QueueUtils } from '@renderer/utils/queueUtils';
 import { TrackPersistenceService } from '@renderer/features/data';
 import { createRendererLogger } from '@renderer/utils/logger';
+import useConfigStore from './useConfigStore';
+import useLibraryStore from './useLibraryStore';
+import { arrayMove } from '@dnd-kit/sortable';
 
 const logger = createRendererLogger('PlayerStore');
 
@@ -34,40 +36,66 @@ interface PlayerState {
     playTrackAtIndex: (index: number) => void;
     addToQueue: (tracks: TrackModel | TrackModel[]) => void;
     queueNext: (tracks: TrackModel | TrackModel[]) => void;
+    moveTrack: (from: number, to: number) => void;
     removeTracksFromQueue: (trackIDs: string | string[]) => void;
     playTrackById: (_id: string) => void;
     setVolume: (volume: number) => void;
-    setIsMuted: (muted?: boolean) => void;
+    setIsMuted: (muted: boolean) => void;
     toggleTrackFavorite: (_id: string) => Promise<void>;
-    toggleShuffle: () => Promise<void>;
-    toggleRepeatMode: () => Promise<void>;
+    toggleShuffle: () => void;
+    toggleRepeatMode: () => void;
     seekTo: (position: number) => void;
     handlePlayerTick: () => void;
     setPlaybackRate: (playbackRate: number) => void;
-    refreshQueueMetadata: (tracks: TrackModel[]) => void;
   };
 }
 
 const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
-  const initialConfig = PlayerConfigService.getInitialConfig();
+  const playerConfig = useConfigStore.getState().player;
+  const configAPI = useConfigStore.getState().api;
+  const libraryAPI = useLibraryStore.getState().api;
 
   logger.info(
-    `Initializing player store with config: ${JSON.stringify(initialConfig, null, 2)}`,
+    `Initializing PlayerStore with config: ${JSON.stringify(playerConfig, null, 2)}`,
   );
+
+  useLibraryStore.subscribe((state) => {
+    const tracks = state.contents.tracks;
+    logger.debug('Updating queue with new tracks');
+
+    set((state) => {
+      const updateTracks = (queue: TrackModel[]) =>
+        queue.map((track) => {
+          const updated = tracks.find((t) => t._id === track._id);
+          return updated ? { ...track, ...updated } : track;
+        });
+      const newQueue = updateTracks(state.queue);
+      const newOriginalQueue = updateTracks(state.originalQueue);
+      let newQueuePosition = state.queuePosition;
+      if (newQueuePosition !== null && !newQueue[newQueuePosition]) {
+        newQueuePosition = 0;
+      }
+      return {
+        queue: newQueue,
+        originalQueue: newOriginalQueue,
+        queuePosition: newQueuePosition,
+      };
+    });
+  });
 
   return {
     queue: [],
     originalQueue: [],
     queuePosition: null,
     currentTime: 0,
-    isShuffleEnabled: initialConfig.audioShuffle,
-    repeatMode: initialConfig.audioRepeatMode,
+    isShuffleEnabled: playerConfig.audioShuffle,
+    repeatMode: playerConfig.audioRepeatMode,
     playerStatus: PlayerStatus.STOP,
-    isPlayerMuted: initialConfig.audioMuted,
-    gaplessPlayback: initialConfig.audioGaplessPlayback,
-    crossfadeDuration: initialConfig.audioCrossfadeDuration,
-    playbackRate: initialConfig.audioPlaybackRate,
-    volume: initialConfig.audioVolume,
+    isPlayerMuted: playerConfig.audioMuted,
+    gaplessPlayback: playerConfig.audioGaplessPlayback,
+    crossfadeDuration: playerConfig.audioCrossfadeDuration,
+    playbackRate: playerConfig.audioPlaybackRate,
+    volume: playerConfig.audioVolume,
     api: {
       startPlayback: (queue, _id) => {
         if (queue === null || queue.length === 0) return;
@@ -284,6 +312,36 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
           originalQueue: newOriginalQueue,
         });
       },
+      moveTrack: (from, to) => {
+        const { queue, queuePosition, isShuffleEnabled } = get();
+
+        if (to === from) return;
+
+        if (from > queue.length - 1 || to > queue.length - 1) {
+          logger.error('Item out of range');
+          return;
+        }
+
+        let newQueuePosition = queuePosition;
+
+        if (queuePosition === from) {
+          newQueuePosition = to;
+        } else if (queuePosition === to) {
+          if (to > from) {
+            newQueuePosition = to - 1;
+          } else {
+            newQueuePosition = to + 1;
+          }
+        }
+
+        const newQueue = arrayMove(queue, from, to);
+
+        if (!isShuffleEnabled) {
+          set({ originalQueue: newQueue });
+        }
+
+        set({ queue: newQueue, queuePosition: newQueuePosition });
+      },
       removeTracksFromQueue: async (trackIDs) => {
         const { queue, originalQueue, queuePosition, playerStatus, api } =
           get();
@@ -344,17 +402,17 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
       },
       setVolume: (volume) => {
         PlayerService.setVolume(volume);
-        PlayerConfigService.setVolume(volume);
+        configAPI.setVolume(volume);
         set({ volume });
       },
-      setIsMuted: async (muted = false) => {
+      setIsMuted: (muted) => {
         if (muted) {
           PlayerService.mute();
         } else {
           PlayerService.unmute();
         }
 
-        await PlayerConfigService.setAudioMuted(muted);
+        configAPI.setAudioMuted(muted);
         set({ isPlayerMuted: muted });
       },
       toggleTrackFavorite: async (_id) => {
@@ -366,18 +424,20 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
         if (trackIndex === -1) return;
 
         const track = queue[trackIndex];
+
+        const newFavoriteState = !track.favorite;
+        const dateFavorited = newFavoriteState ? new Date() : undefined;
+        const updatedTrack: TrackModel = {
+          ...track,
+          favorite: newFavoriteState,
+          dateFavorited: dateFavorited,
+        };
+        libraryAPI.updateLocalTrack(updatedTrack);
         await TrackPersistenceService.updateFavorite(track._id);
 
         logger.info(`Favorited track: ${track.title}`);
-
-        const newQueue = [...queue];
-        newQueue[trackIndex] = { ...track, favorite: !track.favorite };
-
-        set({
-          queue: newQueue,
-        });
       },
-      toggleShuffle: async () => {
+      toggleShuffle: () => {
         const { queue, queuePosition, originalQueue, isShuffleEnabled } = get();
         const shouldShuffle = !isShuffleEnabled;
 
@@ -403,7 +463,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
           logger.info('Queue back to original order');
         }
 
-        await PlayerConfigService.setAudioShuffle(shouldShuffle);
+        configAPI.setAudioShuffle(shouldShuffle);
 
         set({
           queue: newQueue,
@@ -411,7 +471,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
           isShuffleEnabled: shouldShuffle,
         });
       },
-      toggleRepeatMode: async () => {
+      toggleRepeatMode: () => {
         const { repeatMode } = get();
         let newRepeatMode: RepeatMode;
 
@@ -431,7 +491,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
 
         logger.debug(`Repeat mode set to ${newRepeatMode}`);
 
-        await PlayerConfigService.setAudioRepeatMode(newRepeatMode);
+        configAPI.setAudioRepeatMode(newRepeatMode);
         set({ repeatMode: newRepeatMode });
       },
       seekTo: (position) => {
@@ -445,50 +505,12 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
       setPlaybackRate: (playbackRate) => {
         if (playbackRate >= 0.25 && playbackRate <= 2) {
           PlayerService.setPlaybackRate(playbackRate);
-          PlayerConfigService.setPlaybackRate(playbackRate);
+          configAPI.setPlaybackRate(playbackRate);
 
           logger.debug(`Playback rate set to ${playbackRate}`);
 
           set({ playbackRate });
         }
-      },
-      refreshQueueMetadata: (tracks) => {
-        const { queue, originalQueue, queuePosition } = get();
-
-        const updatedQueue = queue.map((track) => {
-          const updatedTrack = tracks.find(
-            (libraryTrack) => libraryTrack._id === track._id,
-          );
-
-          return updatedTrack ? { ...track, ...updatedTrack } : track;
-        });
-
-        const updatedOriginalQueue = originalQueue.map((track) => {
-          const updatedTrack = tracks.find(
-            (libraryTrack) => libraryTrack._id === track._id,
-          );
-
-          return updatedTrack ? { ...track, ...updatedTrack } : track;
-        });
-
-        let newQueuePosition = queuePosition;
-
-        // If the current track was updated or removed from the library (and thus from the queue)
-        if (newQueuePosition !== null) {
-          const currentTrack = updatedQueue[newQueuePosition];
-
-          if (!currentTrack) {
-            newQueuePosition = 0;
-          }
-        }
-
-        logger.debug('Queue refreshed');
-
-        set({
-          queue: updatedQueue,
-          originalQueue: updatedOriginalQueue,
-          queuePosition: newQueuePosition,
-        });
       },
     },
   };

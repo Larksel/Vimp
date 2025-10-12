@@ -1,3 +1,4 @@
+import { RouteDefinition } from '@renderer/types';
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
@@ -45,3 +46,15 @@ export const betweenMinMax = (
 
   return value;
 };
+
+/**
+ * Creates and validates a routes object.
+ * - This utility function ensures that all route values conform to the `RouteDefinition` type,
+ * while automatically inferring the literal string keys of the created object. This provides
+ * full IntelliSense for route keys and their properties.
+ */
+export function createRoutes<T extends Record<string, RouteDefinition>>(
+  routes: T,
+): T {
+  return routes;
+}

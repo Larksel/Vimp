@@ -13,7 +13,7 @@ export default class TracksDatabase
   implements ITracksDatabase
 {
   constructor(window: BrowserWindow) {
-    super('TracksDB', window);
+    super('TracksDB', 'tracksDB', window);
   }
 
   protected async load() {
@@ -68,7 +68,7 @@ export default class TracksDatabase
     logger.debug(
       `Play count incremented to ${doc.playCount + 1} for track: ${doc.title}`,
     );
-    this.window.webContents.send(IPCChannels.DB_HAS_CHANGED);
+    this.window.webContents.send(IPCChannels.TRACKSDB_HAS_CHANGED);
   }
 
   /**
@@ -87,7 +87,7 @@ export default class TracksDatabase
     logger.debug(
       `Favorite status changed to ${newFavoriteState} for track: ${doc.title}`,
     );
-    this.window.webContents.send(IPCChannels.DB_HAS_CHANGED);
+    this.window.webContents.send(IPCChannels.TRACKSDB_HAS_CHANGED);
   }
 
   /**
@@ -101,6 +101,6 @@ export default class TracksDatabase
     });
 
     logger.debug(`Last played status updated for track: ${doc.title}`);
-    this.window.webContents.send(IPCChannels.DB_HAS_CHANGED);
+    this.window.webContents.send(IPCChannels.TRACKSDB_HAS_CHANGED);
   }
 }

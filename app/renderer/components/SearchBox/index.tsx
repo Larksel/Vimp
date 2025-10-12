@@ -1,9 +1,8 @@
 import { InputHTMLAttributes, useRef, useState } from 'react';
-import { Input } from '@renderer/components/common/input';
+import { Button, Input } from '@renderer/components/common';
 import { cn } from '@renderer/utils/utils';
 import { MagnifyingGlassIcon } from '@phosphor-icons/react/dist/csr/MagnifyingGlass';
 import debounce from 'lodash/debounce';
-import { Button } from '@renderer/components/common/button';
 
 interface SearchBoxProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;

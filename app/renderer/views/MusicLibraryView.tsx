@@ -5,6 +5,7 @@ import MediaCard from '@renderer/components/MediaCard';
 import useLibraryStore from '@renderer/stores/useLibraryStore';
 import SearchBox from '@renderer/components/SearchBox';
 import EmptyLibrary from '@renderer/components/EmptyLibrary';
+import { sortUtils } from '@shared/utils/sortUtils';
 
 export default function MusicLibraryView() {
   const [search, setSearch] = useState('');
@@ -41,10 +42,10 @@ export default function MusicLibraryView() {
           <VirtuosoGrid
             className='w-full overflow-clip'
             listClassName='grid w-full grid-cols-2 justify-items-center gap-6 xs:grid-cols-3 sm:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6'
-            data={filteredTracks}
+            data={sortUtils.sortByDate(filteredTracks, 'dateModified', 'desc')}
             overscan={10}
-            itemContent={(index, track) => (
-              <MediaCard key={index} item={track} queue={filteredTracks} />
+            itemContent={(_, track) => (
+              <MediaCard key={track._id} item={track} queue={filteredTracks} />
             )}
           />
         </div>

@@ -3,7 +3,7 @@ import { Config } from '@shared/types/vimp';
 import { ipcRenderer } from 'electron';
 
 const config = {
-  __initialConfig: ipcRenderer.sendSync(IPCChannels.CONFIG_GET_ALL),
+  __initialConfig: ipcRenderer.sendSync(IPCChannels.CONFIG_GET_ALL) as Config,
   getAll(): Promise<Config> {
     return ipcRenderer.invoke(IPCChannels.CONFIG_GET_ALL);
   },

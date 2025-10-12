@@ -15,7 +15,7 @@ export default class PlaylistsDatabase
   protected readonly TracksDB: ITracksDatabase;
 
   constructor(window: BrowserWindow, TracksDB: ITracksDatabase) {
-    super('PlaylistsDB', window);
+    super('PlaylistsDB', 'playlistsDB', window);
 
     this.TracksDB = TracksDB;
   }
@@ -58,7 +58,7 @@ export default class PlaylistsDatabase
     logger.debug(
       `Play count incremented to ${doc.playCount + 1} for playlist: ${doc.title}`,
     );
-    this.window.webContents.send(IPCChannels.DB_HAS_CHANGED);
+    this.window.webContents.send(IPCChannels.PLAYLISTSDB_HAS_CHANGED);
   }
 
   /**
@@ -77,7 +77,7 @@ export default class PlaylistsDatabase
     logger.debug(
       `Favorite status changed to ${newFavoriteState} for playlist: ${doc.title}`,
     );
-    this.window.webContents.send(IPCChannels.DB_HAS_CHANGED);
+    this.window.webContents.send(IPCChannels.PLAYLISTSDB_HAS_CHANGED);
   }
 
   /**
@@ -91,6 +91,6 @@ export default class PlaylistsDatabase
     });
 
     logger.debug(`Last played status updated for playlist: ${doc.title}`);
-    this.window.webContents.send(IPCChannels.DB_HAS_CHANGED);
+    this.window.webContents.send(IPCChannels.PLAYLISTSDB_HAS_CHANGED);
   }
 }

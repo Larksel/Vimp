@@ -1,10 +1,5 @@
 import { ReactNode } from 'react';
-import {
-  ContextMenu,
-  ContextMenuContent,
-  ContextMenuItem,
-  ContextMenuTrigger,
-} from '@renderer/components/common/context-menu';
+import { CM } from '@renderer/components/common';
 import { usePlayerAPI } from '@renderer/stores/usePlayerStore';
 import { TrackModel } from '@shared/types/vimp';
 import AddPlaylistSub from './common/AddPlaylistSub';
@@ -31,20 +26,20 @@ export default function TrackMenu(props: TrackMenuProps) {
   };
 
   return (
-    <ContextMenu>
-      <ContextMenuTrigger>{children}</ContextMenuTrigger>
-      <ContextMenuContent>
-        <ContextMenuItem onClick={handleAddToQueue}>
+    <CM.ContextMenu>
+      <CM.ContextMenuTrigger>{children}</CM.ContextMenuTrigger>
+      <CM.ContextMenuContent>
+        <CM.ContextMenuItem onClick={handleAddToQueue}>
           Adicionar à fila
-        </ContextMenuItem>
-        <ContextMenuItem onClick={handleAddNext}>
+        </CM.ContextMenuItem>
+        <CM.ContextMenuItem onClick={handleAddNext}>
           Tocar em seguida
-        </ContextMenuItem>
+        </CM.ContextMenuItem>
         <AddPlaylistSub track={track} />
-        <ContextMenuItem onClick={handleRemoveFromQueue}>
+        <CM.ContextMenuItem onClick={handleRemoveFromQueue}>
           Remover da fila
-        </ContextMenuItem>
-      </ContextMenuContent>
-    </ContextMenu>
+        </CM.ContextMenuItem>
+      </CM.ContextMenuContent>
+    </CM.ContextMenu>
   );
 }

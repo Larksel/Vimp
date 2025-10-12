@@ -3,25 +3,47 @@ import placeholder from '@renderer/assets/images/placeholder.png';
 import { HeartStraightIcon } from '@phosphor-icons/react/dist/csr/HeartStraight';
 import { PlayCircleIcon } from '@phosphor-icons/react/dist/csr/PlayCircle';
 import { TrackModel } from '@shared/types/vimp';
-import useCurrentTrack from '@renderer/hooks/useCurrentTrack';
+import { useCurrentTrack } from '@renderer/features/player';
 import TrackMenu from '@renderer/components/ContextMenu/TrackMenu';
+import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 
 interface TrackRowProps {
   track: TrackModel;
   index: number;
+  isSelected: boolean;
   onClick: (trackID: string) => void;
 }
 
 export default function TrackRow(props: TrackRowProps) {
-  const { track, index, onClick } = props;
+  const { track, index, isSelected, onClick } = props;
   const currentTrack = useCurrentTrack();
   const isPlaying = currentTrack ? track._id === currentTrack._id : false;
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: track._id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+    zIndex: isDragging ? 10 : 'auto',
+  };
 
   return (
     <TrackMenu track={track}>
       <div
+        ref={setNodeRef}
+        style={style}
+        {...attributes}
+        {...listeners}
         onClick={() => onClick(track._id)}
-        className={`hover:bg-surface-highlight active:bg-surface-active grid h-16 w-full grid-cols-[16px_6fr_4fr_3fr_1fr] items-center gap-4 px-4 text-sm tracking-normal select-none hover:cursor-pointer ${isPlaying ? 'bg-surface-highlight text-accent' : 'text-text-secondary'}`}
+        className={`hover:bg-surface-highlight active:bg-surface-active grid h-16 w-full grid-cols-[16px_6fr_4fr_3fr_1fr] items-center gap-4 px-4 text-sm tracking-normal select-none hover:cursor-pointer ${isPlaying ? 'bg-surface-highlight text-accent' : 'text-text-secondary'} ${isSelected && 'bg-surface-active'}`}
       >
         <span className='flex items-center justify-center'>{index + 1}</span>
 

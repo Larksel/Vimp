@@ -33,42 +33,59 @@ app.on('window-all-closed', () => {
   }
 });
 
-app.whenReady().then(async () => {
-  electronApp.setAppUserModelId('com.larksel.vimp');
+const gotTheLock = app.requestSingleInstanceLock();
 
-  app.on('browser-window-created', (_, window) => {
-    optimizer.watchWindowShortcuts(window);
+if (!gotTheLock) {
+  logger.info('Another instance was found. Quitting...');
+  app.quit();
+} else {
+  app.whenReady().then(async () => {
+    electronApp.setAppUserModelId('com.larksel.vimp');
+
+    app.on('browser-window-created', (_, window) => {
+      optimizer.watchWindowShortcuts(window);
+    });
+
+    if (isDebug) {
+      await session.defaultSession.extensions
+        .loadExtension(reactDevToolsPath)
+        .then((ext) => logger.info(`Loaded Extension: ${ext.name}`))
+        .catch((err) => logger.warn(`Error on extension loading: ${err}`));
+    }
+
+    // Initialize main modules first
+    const mainWindowModule = new MainWindowModule();
+    const configModule = new ConfigModule();
+    const metadataModule = new MetadataModule();
+
+    await ModulesManager.init(mainWindowModule, configModule, metadataModule);
+    const mainWindow = mainWindowModule.getWindow();
+    const config = configModule.getConfig();
+
+    // Initialize databases
+    const dbManager = new DBManager(mainWindow!);
+    await ModulesManager.init(dbManager);
+
+    // Then initialize the rest with their dependencies
+    ModulesManager.init(
+      new DialogsModule(metadataModule),
+      new LibraryModule(dbManager, metadataModule, config),
+      new FileSystemModule(),
+      new AppMenuModule(mainWindow!),
+      new WatcherModule(dbManager, config, metadataModule),
+      // IPC Modules
+      new IPCTracksDatabase(dbManager),
+      new IPCPlaylistsDatabase(dbManager),
+    );
+
+    app.on('second-instance', () => {
+      if (mainWindow) {
+        logger.info(
+          'Attempted to open a second instance. Focusing the existing main window.',
+        );
+        if (mainWindow.isMinimized()) mainWindow.restore();
+        mainWindow.focus();
+      }
+    });
   });
-
-  if (isDebug) {
-    await session.defaultSession.extensions
-      .loadExtension(reactDevToolsPath)
-      .then((ext) => logger.info(`Loaded Extension: ${ext.name}`))
-      .catch((err) => logger.warn(`Error on extension loading: ${err}`));
-  }
-
-  // Initialize main modules first
-  const mainWindowModule = new MainWindowModule();
-  const configModule = new ConfigModule();
-  const metadataModule = new MetadataModule();
-
-  await ModulesManager.init(mainWindowModule, configModule, metadataModule);
-  const mainWindow = mainWindowModule.getWindow();
-  const config = configModule.getConfig();
-
-  // Initialize databases
-  const dbManager = new DBManager(mainWindow!);
-  await ModulesManager.init(dbManager);
-
-  // Then initialize the rest with their dependencies
-  ModulesManager.init(
-    new DialogsModule(metadataModule),
-    new LibraryModule(dbManager, metadataModule, config),
-    new FileSystemModule(),
-    new AppMenuModule(mainWindow!),
-    new WatcherModule(dbManager, config, metadataModule),
-    // IPC Modules
-    new IPCTracksDatabase(dbManager),
-    new IPCPlaylistsDatabase(dbManager),
-  );
-});
+}

@@ -1,64 +1,60 @@
 import {
   LoaderFunctionArgs,
+  Navigate,
+  Route,
+  RouterProvider,
   createHashRouter,
+  createRoutesFromElements,
   useNavigate,
 } from 'react-router-dom';
-import RootView from '@renderer/views/RootView';
-import HomeView from '@renderer/views/HomeView';
-import QueueView from '@renderer/views/QueueView';
-import MusicLibraryView from '@renderer/views/MusicLibraryView';
-import SettingsView, {
-  loader as settingsloader,
-} from '@renderer/views/SettingsView';
-import PlaylistView from '@renderer/views/PlaylistView';
+import MainLayout from '@renderer/layouts/MainLayout';
+import FullLayout from '@renderer/layouts/FullLayout';
 
-import routes from './routes';
-import DownloaderView from '@renderer/views/DownloaderView';
+import { routes } from './routes';
+import { useDataLoader } from '@renderer/features/data';
 
-const router = createHashRouter([
-  {
-    path: '',
-    id: 'root',
-    element: <RootView />,
-    ErrorBoundary: GlobalErrorBoundary,
-    children: [
-      {
-        index: true,
-        path: routes.HOME,
-        id: routes.HOME,
-        element: <HomeView />,
-      },
-      {
-        path: routes.MUSIC_LIBRARY,
-        id: routes.MUSIC_LIBRARY,
-        element: <MusicLibraryView />,
-      },
-      {
-        path: routes.QUEUE,
-        id: routes.QUEUE,
-        element: <QueueView />,
-      },
-      {
-        path: routes.DOWNLOADER,
-        id: routes.DOWNLOADER,
-        element: <DownloaderView />
-      },
-      {
-        path: routes.SETTINGS,
-        id: routes.SETTINGS,
-        element: <SettingsView />,
-        loader: settingsloader,
-      },
-      {
-        path: routes.PLAYLIST,
-        id: routes.PLAYLIST,
-        element: <PlaylistView />,
-      },
-    ],
-  },
-]);
+const router = createHashRouter(
+  createRoutesFromElements(
+    <>
+      {/* Layout principal com SideBar, Console, AppBar, etc */}
+      <Route
+        path=''
+        element={<MainLayout />}
+        errorElement={<GlobalErrorBoundary />}
+      >
+        <Route {...routes.HOME} />
+        <Route {...routes.MUSIC_LIBRARY} />
+        <Route {...routes.QUEUE} />
+        <Route {...routes.DOWNLOADER} />
+        <Route {...routes.SETTINGS} />
+        <Route {...routes.PLAYLIST} />
 
-export default router;
+        <Route index element={<Navigate to={routes.HOME.path} />} />
+      </Route>
+      {/* Layout de tela inteira mais o PlaybackConsole */}
+      <Route
+        path=''
+        element={<FullLayout />}
+        errorElement={<GlobalErrorBoundary />}
+      >
+        <Route {...routes.EXPANDED_VIEW} />
+      </Route>
+    </>,
+  ),
+);
+
+export default function AppRoutes() {
+  useDataLoader();
+
+  return (
+    <RouterProvider
+      router={router}
+      future={{
+        v7_startTransition: false,
+      }}
+    />
+  );
+}
 
 function GlobalErrorBoundary() {
   const navigate = useNavigate();

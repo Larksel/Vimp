@@ -23,7 +23,7 @@ enum IPCChannels {
   METADATA_GET_COVER = 'metadata:getCover',
 
   /* DATABASES */
-  DB_HAS_CHANGED = 'db:hasChanged',
+  GENERICDB_HAS_CHANGED = 'genericDB:hasChanged',
 
   // TracksDB
   TRACKSDB_GET_ALL = 'tracksDB:getAll',
@@ -32,6 +32,7 @@ enum IPCChannels {
   TRACKSDB_UPDATE = 'tracksDB:update',
   TRACKSDB_DELETE = 'tracksDB:delete',
   TRACKSDB_CLEAR = 'tracksDB:clear',
+  TRACKSDB_HAS_CHANGED = 'tracksDB:hasChanged',
 
   TRACKSDB_GET_BY_PATH = 'tracksDB:getByPath',
   TRACKSDB_INCREMENT_PLAY_COUNT = 'tracksDB:incrementPlayCount',
@@ -45,6 +46,7 @@ enum IPCChannels {
   PLAYLISTSDB_UPDATE = 'playlistsDB:update',
   PLAYLISTSDB_DELETE = 'playlistsDB:delete',
   PLAYLISTSDB_CLEAR = 'playlistsDB:clear',
+  PLAYLISTSDB_HAS_CHANGED = 'playlistsDB:hasChanged',
 
   PLAYLISTSDB_INCREMENT_PLAY_COUNT = 'playlistsDB:incrementPlayCount',
   PLAYLISTSDB_UPDATE_FAVORITE = 'playlistsDB:updateFavorite',
