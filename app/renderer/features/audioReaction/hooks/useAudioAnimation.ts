@@ -14,7 +14,6 @@ export default function useAudioAnimation<
 ) {
   const audioDataRef = useAudioData();
   const styleFunctionRef = useRef(styleFunction);
-  styleFunctionRef.current = styleFunction;
 
   useEffect(() => {
     if (refs.length === 0) {

@@ -13,7 +13,7 @@ export default tseslint.config(
   reactPlugin.configs.flat.recommended,
   reactPlugin.configs.flat['jsx-runtime'],
   importPlugin.flatConfigs.recommended,
-  reactHooks.configs['recommended-latest'],
+  reactHooks.configs.flat['recommended-latest'],
   {
     settings: {
       react: {
@@ -44,7 +44,6 @@ export default tseslint.config(
       'import/no-dynamic-require': 'warn',
       'import/named': 'off',
       'prefer-const': 'warn',
-      'react-hooks/react-compiler': 'error',
     },
   },
 );
