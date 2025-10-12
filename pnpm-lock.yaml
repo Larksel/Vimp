@@ -145,8 +145,8 @@ importers:
         specifier: ^4.7.0
         version: 4.7.0(vite@7.1.9(@types/node@24.7.2)(jiti@2.6.1)(lightningcss@1.30.1))
       babel-plugin-react-compiler:
-        specifier: ^19.1.0-rc.2
-        version: 19.1.0-rc.1-rc-af1b7da-20250421
+        specifier: ^1.0.0
+        version: 1.0.0
       electron:
         specifier: ^37.6.1
         version: 37.6.1
@@ -2029,9 +2029,8 @@ packages:
     resolution: {integrity: sha512-ftzhzSGMUnOzcCXd6WHdBGMyuwy15Wnn0iyyWGKgBDLxf9/s5ABuraCSpBX2uG0jUg4rqJnxsLc5+oYBqoxVaA==}
     engines: {node: ^18.14.0 || ^20.0.0 || ^22.0.0 || >=24.0.0}
 
-  babel-plugin-react-compiler@19.1.0-rc.1-rc-af1b7da-20250421:
-    resolution: {integrity: sha512-E3kaokBhWDLf7ZD8fuYjYn0ZJHYZ+3EHtAWCdX2hl4lpu1z9S/Xr99sxhx2bTCVB41oIesz9FtM8f4INsrZaOw==}
-    deprecated: Wrong version name was published
+  babel-plugin-react-compiler@1.0.0:
+    resolution: {integrity: sha512-Ixm8tFfoKKIPYdCCKYTsqv+Fd4IJ0DQqMyEimo+pxUOMUR9cVPlwTrFt9Avu+3cb6Zp3mAzl+t1MrG2fxxKsxw==}
 
   babel-preset-current-node-syntax@1.2.0:
     resolution: {integrity: sha512-E/VlAEzRrsLEb2+dv8yp3bo4scof3l9nR4lrld+Iy5NyVqgVYUJnDAmunkhPMisRI32Qc4iRiz425d8vM++2fg==}
@@ -7094,7 +7093,7 @@ snapshots:
     dependencies:
       '@types/babel__core': 7.20.5
 
-  babel-plugin-react-compiler@19.1.0-rc.1-rc-af1b7da-20250421:
+  babel-plugin-react-compiler@1.0.0:
     dependencies:
       '@babel/types': 7.28.4
 
