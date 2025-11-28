@@ -6,8 +6,6 @@ import Logo from '@renderer/components/Logo';
 import NavButtons from './NavButtons';
 import PlaylistList from './PlaylistList';
 import { Button } from '@renderer/components/common';
-import { useRef } from 'react';
-import { useAudioAnimation } from '@renderer/features/audioReaction';
 
 interface SideBarProps {
   toggle: () => void;
@@ -16,12 +14,6 @@ interface SideBarProps {
 
 export default function SideBar(props: SideBarProps) {
   const { toggle, collapsed } = props;
-  const logoRef = useRef<SVGSVGElement>(null);
-
-  useAudioAnimation([logoRef], (audioData) => {
-    const scale = 1 + audioData.bass * 0.35;
-    return { transform: `scale(${scale})` };
-  });
 
   return (
     <div className='flex w-(--sidebar-width) flex-col items-center gap-2 overflow-clip rounded-lg transition-all select-none'>
@@ -31,7 +23,7 @@ export default function SideBar(props: SideBarProps) {
           variant={'surface'}
           className='text-md relative flex h-14 w-full items-center justify-center px-2 transition-all'
         >
-          <Logo ref={logoRef} className='aspect-square size-8 select-none' />
+          <Logo className='aspect-square size-8 select-none' />
           <div className='absolute right-0 left-0 flex items-center justify-between'>
             <CaretRightIcon
               weight='bold'

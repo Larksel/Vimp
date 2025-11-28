@@ -1,4 +1,3 @@
-import { useRef } from 'react';
 import { HeartStraightIcon } from '@phosphor-icons/react/dist/csr/HeartStraight';
 
 import placeholderImage from '@renderer/assets/images/placeholder.png';
@@ -7,14 +6,12 @@ import { useCurrentTrack } from '@renderer/features/player';
 import InfoText from '@renderer/components/InfoText';
 import { Button } from '@renderer/components/common';
 import { usePlayerAPI } from '@renderer/stores/usePlayerStore';
-import { useAudioAnimation } from '@renderer/features/audioReaction';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { routes } from '@renderer/routes/routes';
 
 export default function MusicInfo() {
   const playerAPI = usePlayerAPI();
   const track = useCurrentTrack();
-  const heartIconRef = useRef<SVGSVGElement>(null);
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const isExpandedView =
@@ -32,16 +29,6 @@ export default function MusicInfo() {
     if (!track) return;
     playerAPI.toggleTrackFavorite(track._id);
   };
-
-  useAudioAnimation([heartIconRef], (audioData) => {
-    const brightness = 0.7 + audioData.bass * 0.3;
-    const scale = 1 + audioData.bass * 0.3;
-
-    return {
-      transform: `scale(${scale})`,
-      filter: `brightness(${brightness})`,
-    };
-  });
 
   return (
     <>
@@ -80,7 +67,6 @@ export default function MusicInfo() {
             onClick={toggleFavorite}
           >
             <HeartStraightIcon
-              ref={heartIconRef}
               size={24}
               weight={`${track.favorite ? 'fill' : 'regular'}`}
               className={`${track.favorite && 'text-red-500'}`}
