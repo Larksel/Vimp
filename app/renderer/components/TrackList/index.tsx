@@ -85,7 +85,7 @@ export default function TrackList(props: TrackListProps) {
               overscan={5}
               itemContent={(index, track) => (
                 <TrackRow
-                  key={`${index}-${track.title}`}
+                  key={track._id}
                   index={index}
                   track={track}
                   onClick={onItemClick}

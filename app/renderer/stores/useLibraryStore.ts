@@ -88,10 +88,10 @@ const useLibraryStore = createLibraryStore<LibraryState>((set, get) => {
         const deletedPlaylists = Array.isArray(playlistsToDelete)
           ? playlistsToDelete
           : [playlistsToDelete];
-        const deletedPlaylistsSet = new Set(deletedPlaylists);
+        const deletedPlaylistsSet = new Set(deletedPlaylists.map(p => p._id));
 
         const newPlaylists = playlists.filter(
-          (item) => !deletedPlaylistsSet.has(item),
+          (item) => !deletedPlaylistsSet.has(item._id),
         );
         set((state) => ({
           contents: {
