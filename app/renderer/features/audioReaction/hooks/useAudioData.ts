@@ -38,6 +38,24 @@ export default function useAudioData() {
     return Math.floor(frequency / hzPerBin);
   }
 
+  function getInterpolatedValue(data: Uint8Array, index: number): number {
+    const floorIndex = Math.floor(index);
+    const ceilIndex = Math.ceil(index);
+    const fraction = index - floorIndex;
+
+    // Garante que não tentaremos ler fora do array
+    if (ceilIndex >= data.length) {
+      return data[floorIndex] ?? 0;
+    }
+
+    const valueLow = data[floorIndex];
+    const valueHigh = data[ceilIndex];
+
+    // Fórmula da interpolação linear:
+    // Valor = ValorBase + (Diferença * Fração)
+    return valueLow + (valueHigh - valueLow) * fraction;
+  }
+
   function getRMS(
     data: Uint8Array<ArrayBuffer>,
     normalizationFunc?: (value: number) => number,
@@ -135,16 +153,15 @@ export default function useAudioData() {
         const rawData = frequencyDataArrayRef.current;
         const numPoints = 240;
         const logData = new Array(numPoints);
+        const maxRawIndex = rawData.length - 1;
 
         for (let i = 0; i < numPoints; i++) {
-          // n = min * (max/min)^(i/total)
-          // Usamos 1 como min para evitar log(0)
-          const exp = i / (numPoints - 1);
-          const binIndex = Math.round(Math.pow(rawData.length, exp)) - 1;
-
-          const value = rawData[Math.max(0, binIndex)];
+          const position = i / (numPoints - 1);
+          const rawIndexFloat = 1 * Math.pow(maxRawIndex / 1, position);
+          const value = getInterpolatedValue(rawData, rawIndexFloat);
           logData[i] = value / 255;
         }
+
         audioDataRef.current.frequencyData = logData;
 
         calculateRmsLevel(timeDomainDataArrayRef.current);
