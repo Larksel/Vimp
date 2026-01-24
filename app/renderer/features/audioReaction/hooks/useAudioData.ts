@@ -1,7 +1,7 @@
 import { PlayerService } from '@renderer/features/player';
 import usePlayerStore from '@renderer/stores/usePlayerStore';
 import { PlayerStatus } from '@shared/types/vimp';
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 
 export interface AudioData {
   rmsLevel: number;
@@ -142,6 +142,9 @@ export default function useAudioData() {
     [],
   );
 
+  const numPoints = 180;
+  const logData = useMemo(() => new Float32Array(numPoints), []);
+
   useEffect(() => {
     let animationFrameId: number | null = null;
 
@@ -151,8 +154,6 @@ export default function useAudioData() {
         PlayerService.getAnalyserFrequency(frequencyDataArrayRef.current);
 
         const rawData = frequencyDataArrayRef.current;
-        const numPoints = 480;
-        const logData = new Array(numPoints);
         const maxRawIndex = rawData.length - 1;
 
         for (let i = 0; i < numPoints; i++) {
@@ -167,7 +168,7 @@ export default function useAudioData() {
           logData[i] = value;
         }
 
-        audioDataRef.current.frequencyData = logData;
+        audioDataRef.current.frequencyData = logData as unknown as number[];
 
         calculateRmsLevel(timeDomainDataArrayRef.current);
         calculateFrequencyBands(frequencyDataArrayRef.current);
@@ -183,7 +184,7 @@ export default function useAudioData() {
     return () => {
       if (animationFrameId) cancelAnimationFrame(animationFrameId);
     };
-  }, [calculateFrequencyBands, calculateRmsLevel, isPlaying]);
+  }, [calculateFrequencyBands, calculateRmsLevel, isPlaying, logData]);
 
   return audioDataRef;
 }
