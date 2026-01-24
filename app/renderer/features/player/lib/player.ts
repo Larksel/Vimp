@@ -46,7 +46,7 @@ class Player {
 
     // Analyser configuration
     this.analyser.fftSize = 4096;
-    this.analyser.smoothingTimeConstant = 0.65;
+    this.analyser.smoothingTimeConstant = 0.5;
     this.analyser.maxDecibels = -10;
     this.analyser.minDecibels = -75;
 
