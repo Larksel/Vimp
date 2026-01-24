@@ -158,8 +158,13 @@ export default function useAudioData() {
         for (let i = 0; i < numPoints; i++) {
           const position = i / (numPoints - 1);
           const rawIndexFloat = 1 * Math.pow(maxRawIndex / 1, position);
-          const value = getInterpolatedValue(rawData, rawIndexFloat);
-          logData[i] = value / 255;
+          const value = getInterpolatedValue(rawData, rawIndexFloat) / 255;
+
+          // Equalização visual dos valores
+          // const weight = Math.min(1, 0.5 + i / numPoints);
+          // value *= weight;
+
+          logData[i] = value;
         }
 
         audioDataRef.current.frequencyData = logData;
