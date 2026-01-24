@@ -94,11 +94,8 @@ export default function AudioVisualizer({
         return;
       }
 
-      const endIndex = frequencyData.length / 10;
-      const dataArray = frequencyData.slice(0, endIndex);
-
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      drawWaveform(ctx, dataArray, canvas.width, canvas.height, waveColor);
+      drawWaveform(ctx, frequencyData, canvas.width, canvas.height, waveColor);
 
       animationFrameId = requestAnimationFrame(animate);
     };

@@ -24,6 +24,7 @@ export default function useAudioData() {
   const isPlaying = playerStatus === PlayerStatus.PLAY;
 
   // Linha de corte das frequências (Hz)
+  const minFrequency = 40;
   const bassCutoff = 250;
   const midCutoff = 4000;
   const maxFrequency = 16000;
@@ -100,11 +101,15 @@ export default function useAudioData() {
 
   const calculateFrequencyBands = useCallback(
     (frequencyDataArray: Uint8Array<ArrayBuffer>) => {
+      const minFrequencyEndIndex = getFrequencyEndIndex(minFrequency);
       const bassEndIndex = getFrequencyEndIndex(bassCutoff);
       const midsEndIndex = getFrequencyEndIndex(midCutoff);
       const maxFrequencyEndIndex = getFrequencyEndIndex(maxFrequency);
 
-      const bassBins = frequencyDataArray.slice(0, bassEndIndex);
+      const bassBins = frequencyDataArray.slice(
+        minFrequencyEndIndex,
+        bassEndIndex,
+      );
       const midsBins = frequencyDataArray.slice(bassEndIndex, midsEndIndex);
       const trebleBins = frequencyDataArray.slice(
         midsEndIndex,
@@ -127,11 +132,20 @@ export default function useAudioData() {
         PlayerService.getAnalyzerTimeDomain(timeDomainDataArrayRef.current);
         PlayerService.getAnalyserFrequency(frequencyDataArrayRef.current);
 
-        const frequencyNumberValues = Array.from(frequencyDataArrayRef.current);
-        const normalizedFrequencyData = frequencyNumberValues.map(
-          (value) => value / 255,
-        );
-        audioDataRef.current.frequencyData = normalizedFrequencyData;
+        const rawData = frequencyDataArrayRef.current;
+        const numPoints = 240;
+        const logData = new Array(numPoints);
+
+        for (let i = 0; i < numPoints; i++) {
+          // n = min * (max/min)^(i/total)
+          // Usamos 1 como min para evitar log(0)
+          const exp = i / (numPoints - 1);
+          const binIndex = Math.round(Math.pow(rawData.length, exp)) - 1;
+
+          const value = rawData[Math.max(0, binIndex)];
+          logData[i] = value / 255;
+        }
+        audioDataRef.current.frequencyData = logData;
 
         calculateRmsLevel(timeDomainDataArrayRef.current);
         calculateFrequencyBands(frequencyDataArrayRef.current);
