@@ -94,8 +94,14 @@ export default function AudioVisualizer({
         return;
       }
 
+      const smoothedData = frequencyData.map((val, i, arr) => {
+        const prev = arr[i - 1] ?? val;
+        const next = arr[i + 1] ?? val;
+        return (prev + val + next) / 3;
+      });
+
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      drawWaveform(ctx, frequencyData, canvas.width, canvas.height, waveColor);
+      drawWaveform(ctx, smoothedData, canvas.width, canvas.height, waveColor);
 
       animationFrameId = requestAnimationFrame(animate);
     };
