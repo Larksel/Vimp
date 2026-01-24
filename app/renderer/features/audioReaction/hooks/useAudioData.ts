@@ -151,7 +151,7 @@ export default function useAudioData() {
         PlayerService.getAnalyserFrequency(frequencyDataArrayRef.current);
 
         const rawData = frequencyDataArrayRef.current;
-        const numPoints = 240;
+        const numPoints = 480;
         const logData = new Array(numPoints);
         const maxRawIndex = rawData.length - 1;
 
