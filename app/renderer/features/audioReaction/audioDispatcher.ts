@@ -19,6 +19,10 @@ class AudioDispatcher {
   private midCutoff = 4000;
   private maxFrequency = 16000;
 
+  private bassEnv = 0;
+  private midsEnv = 0;
+  private trebleEnv = 0;
+
   public numPoints = 180;
   private dataArraySize = this.getFrequencyEndIndex(this.maxFrequency);
   private frequencyArray = new Uint8Array(this.dataArraySize);
@@ -125,9 +129,17 @@ class AudioDispatcher {
     );
 
     const normalization = (value: number) => value / 255;
-    this.audioData.bass = this.getRMS(bassBins, normalization);
-    this.audioData.mids = this.getRMS(midsBins, normalization);
-    this.audioData.trebles = this.getRMS(trebleBins, normalization);
+    const bassRaw = this.getRMS(bassBins, normalization);
+    const midsRaw = this.getRMS(midsBins, normalization);
+    const trebleRaw = this.getRMS(trebleBins, normalization);
+
+    this.bassEnv = this.followEnvelope(this.bassEnv, bassRaw);
+    this.midsEnv = this.followEnvelope(this.midsEnv, midsRaw);
+    this.trebleEnv = this.followEnvelope(this.trebleEnv, trebleRaw);
+
+    this.audioData.bass = this.bassEnv;
+    this.audioData.mids = this.midsEnv;
+    this.audioData.trebles = this.trebleEnv;
   }
 
   private decayValues() {
@@ -141,6 +153,16 @@ class AudioDispatcher {
     this.audioData.bass *= decayFactor;
     this.audioData.mids *= decayFactor;
     this.audioData.trebles *= decayFactor;
+  }
+
+  private followEnvelope(
+    current: number,
+    target: number,
+    attack = 0.6,
+    release = 0.08,
+  ) {
+    const coeff = target > current ? attack : release;
+    return current + (target - current) * coeff;
   }
 
   // Helpers
