@@ -33,6 +33,8 @@ class AudioDispatcher {
     frequencyData: new Float32Array(this.numPoints),
   };
 
+  // Core functions
+
   subscribe(callback: AudioListener) {
     this.listeners.add(callback);
     if (!this.isRunning) this.start();
@@ -61,6 +63,8 @@ class AudioDispatcher {
     this.animationFrameId = requestAnimationFrame(this.loop);
   };
 
+  // Audio processing
+
   private updateAudioData() {
     const playerStatus = usePlayerStore.getState().playerStatus;
     const isPlaying = playerStatus === PlayerStatus.PLAY;
@@ -78,14 +82,6 @@ class AudioDispatcher {
     this.calculateFrequencyBands();
   }
 
-  private getFrequencyEndIndex(frequency: number) {
-    const sampleRate = PlayerService.getSampleRate();
-    const fftSize = PlayerService.getAnalyzerFftSize();
-    const hzPerBin = sampleRate / fftSize;
-
-    return Math.floor(frequency / hzPerBin);
-  }
-
   private calculateFrequencyData() {
     // Matemática Logarítmica e Interpolação
     const maxRawIndex = this.frequencyArray.length - 1;
@@ -98,53 +94,6 @@ class AudioDispatcher {
 
       this.audioData.frequencyData[i] = value;
     }
-  }
-
-  private getInterpolatedValue(data: Uint8Array, index: number): number {
-    const floorIndex = Math.floor(index);
-    const ceilIndex = Math.ceil(index);
-    const fraction = index - floorIndex;
-
-    // Garante que não tentaremos ler fora do array
-    if (ceilIndex >= data.length) {
-      return data[floorIndex] ?? 0;
-    }
-
-    const valueLow = data[floorIndex];
-    const valueHigh = data[ceilIndex];
-
-    // Fórmula da interpolação linear:
-    // Valor = ValorBase + (Diferença * Fração)
-    return valueLow + (valueHigh - valueLow) * fraction;
-  }
-
-  private getRMS(
-    data: Uint8Array,
-    normalizationFunc?: (value: number) => number,
-  ): number {
-    if (data.length === 0) return 0;
-
-    let sumSquares = 0;
-    for (const value of data) {
-      const normalized = normalizationFunc ? normalizationFunc(value) : value;
-      sumSquares += normalized ** 2;
-    }
-
-    const squareRoot = Math.sqrt(sumSquares / data.length);
-    return Math.min(squareRoot, 1);
-  }
-
-  private decayValues() {
-    const decayFactor = 0.85;
-
-    for (let i = 0; i < this.audioData.frequencyData.length; i++) {
-      this.audioData.frequencyData[i] *= decayFactor;
-    }
-
-    this.audioData.rmsLevel *= decayFactor;
-    this.audioData.bass *= decayFactor;
-    this.audioData.mids *= decayFactor;
-    this.audioData.trebles *= decayFactor;
   }
 
   private calculateRmsLevel() {
@@ -179,6 +128,63 @@ class AudioDispatcher {
     this.audioData.bass = this.getRMS(bassBins, normalization);
     this.audioData.mids = this.getRMS(midsBins, normalization);
     this.audioData.trebles = this.getRMS(trebleBins, normalization);
+  }
+
+  private decayValues() {
+    const decayFactor = 0.85;
+
+    for (let i = 0; i < this.audioData.frequencyData.length; i++) {
+      this.audioData.frequencyData[i] *= decayFactor;
+    }
+
+    this.audioData.rmsLevel *= decayFactor;
+    this.audioData.bass *= decayFactor;
+    this.audioData.mids *= decayFactor;
+    this.audioData.trebles *= decayFactor;
+  }
+
+  // Helpers
+
+  private getRMS(
+    data: Uint8Array,
+    normalizationFunc?: (value: number) => number,
+  ): number {
+    if (data.length === 0) return 0;
+
+    let sumSquares = 0;
+    for (const value of data) {
+      const normalized = normalizationFunc ? normalizationFunc(value) : value;
+      sumSquares += normalized ** 2;
+    }
+
+    const squareRoot = Math.sqrt(sumSquares / data.length);
+    return Math.min(squareRoot, 1);
+  }
+
+  private getInterpolatedValue(data: Uint8Array, index: number): number {
+    const floorIndex = Math.floor(index);
+    const ceilIndex = Math.ceil(index);
+    const fraction = index - floorIndex;
+
+    // Garante que não tentaremos ler fora do array
+    if (ceilIndex >= data.length) {
+      return data[floorIndex] ?? 0;
+    }
+
+    const valueLow = data[floorIndex];
+    const valueHigh = data[ceilIndex];
+
+    // Fórmula da interpolação linear:
+    // Valor = ValorBase + (Diferença * Fração)
+    return valueLow + (valueHigh - valueLow) * fraction;
+  }
+
+  private getFrequencyEndIndex(frequency: number) {
+    const sampleRate = PlayerService.getSampleRate();
+    const fftSize = PlayerService.getAnalyzerFftSize();
+    const hzPerBin = sampleRate / fftSize;
+
+    return Math.floor(frequency / hzPerBin);
   }
 }
 
