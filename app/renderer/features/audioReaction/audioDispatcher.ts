@@ -183,30 +183,36 @@ class AudioDispatcher {
     return Math.min(squareRoot, 1);
   }
 
-  private getInterpolatedValue(data: Uint8Array, index: number): number {
-    const i1 = Math.floor(index);
-    const t = index - i1;
+  private getInterpolatedValue(data: Uint8Array, targetIndex: number): number {
+    // Índice base inteiro e posição fracionária entre bins
+    const baseIndex = Math.floor(targetIndex);
+    const fraction = targetIndex - baseIndex;
 
-    // Índices vizinhos
-    const i0 = Math.max(i1 - 1, 0);
-    const i2 = Math.min(i1 + 1, data.length - 1);
-    const i3 = Math.min(i1 + 2, data.length - 1);
+    // Índices dos pontos de controle
+    const previousIndex = Math.max(baseIndex - 1, 0);
+    const currentIndex = baseIndex;
+    const nextIndex = Math.min(baseIndex + 1, data.length - 1);
+    const nextNextIndex = Math.min(baseIndex + 2, data.length - 1);
 
-    const p0 = data[i0] ?? 0;
-    const p1 = data[i1] ?? 0;
-    const p2 = data[i2] ?? 0;
-    const p3 = data[i3] ?? 0;
+    // Valores dos pontos de controle
+    const previousValue = data[previousIndex] ?? 0;
+    const currentValue = data[currentIndex] ?? 0;
+    const nextValue = data[nextIndex] ?? 0;
+    const nextNextValue = data[nextNextIndex] ?? 0;
 
-    // Catmull-Rom spline
-    const t2 = t * t;
-    const t3 = t2 * t;
+    // Potências da fração (otimiza leitura da fórmula)
+    const fractionSquared = fraction * fraction;
+    const fractionCubed = fractionSquared * fraction;
 
+    // Interpolação spline cúbica (Catmull-Rom)
     return (
       0.5 *
-      (2 * p1 +
-        (-p0 + p2) * t +
-        (2 * p0 - 5 * p1 + 4 * p2 - p3) * t2 +
-        (-p0 + 3 * p1 - 3 * p2 + p3) * t3)
+      (2 * currentValue +
+        (nextValue - previousValue) * fraction +
+        (2 * previousValue - 5 * currentValue + 4 * nextValue - nextNextValue) *
+          fractionSquared +
+        (-previousValue + 3 * currentValue - 3 * nextValue + nextNextValue) *
+          fractionCubed)
     );
   }
 
