@@ -23,7 +23,7 @@ class AudioDispatcher {
   private midsEnv = 0;
   private trebleEnv = 0;
 
-  public numPoints = 180;
+  public numPoints = 240;
   private dataArraySize = this.getFrequencyEndIndex(this.maxFrequency);
   private frequencyArray = new Uint8Array(this.dataArraySize);
   private timeDomainArray = new Uint8Array(this.dataArraySize);
@@ -184,21 +184,30 @@ class AudioDispatcher {
   }
 
   private getInterpolatedValue(data: Uint8Array, index: number): number {
-    const floorIndex = Math.floor(index);
-    const ceilIndex = Math.ceil(index);
-    const fraction = index - floorIndex;
+    const i1 = Math.floor(index);
+    const t = index - i1;
 
-    // Garante que não tentaremos ler fora do array
-    if (ceilIndex >= data.length) {
-      return data[floorIndex] ?? 0;
-    }
+    // Índices vizinhos
+    const i0 = Math.max(i1 - 1, 0);
+    const i2 = Math.min(i1 + 1, data.length - 1);
+    const i3 = Math.min(i1 + 2, data.length - 1);
 
-    const valueLow = data[floorIndex];
-    const valueHigh = data[ceilIndex];
+    const p0 = data[i0] ?? 0;
+    const p1 = data[i1] ?? 0;
+    const p2 = data[i2] ?? 0;
+    const p3 = data[i3] ?? 0;
 
-    // Fórmula da interpolação linear:
-    // Valor = ValorBase + (Diferença * Fração)
-    return valueLow + (valueHigh - valueLow) * fraction;
+    // Catmull-Rom spline
+    const t2 = t * t;
+    const t3 = t2 * t;
+
+    return (
+      0.5 *
+      (2 * p1 +
+        (-p0 + p2) * t +
+        (2 * p0 - 5 * p1 + 4 * p2 - p3) * t2 +
+        (-p0 + 3 * p1 - 3 * p2 + p3) * t3)
+    );
   }
 
   private getFrequencyEndIndex(frequency: number) {
