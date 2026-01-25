@@ -1,7 +1,7 @@
-import { RefObject, useEffect, useRef } from 'react';
-import { useAudioData, AudioData } from '@renderer/features/audioReaction';
+import { CSSProperties, RefObject, useEffect, useRef } from 'react';
+import { audioDispatcher, AudioData } from '..';
 
-type StyleMap = Record<string, string | number>;
+type StyleMap = Record<string, string | number> | CSSProperties;
 
 /**
  * Hook para aplicar animações a elementos HTML com base na análise de áudio.
@@ -11,28 +11,24 @@ type StyleMap = Record<string, string | number>;
 export default function useAudioAnimation<
   T extends HTMLElement | SVGSVGElement,
 >(refs: RefObject<T | null>[], styleFunction: (audio: AudioData) => StyleMap) {
-  const audioDataRef = useAudioData();
   const styleFunctionRef = useRef(styleFunction);
+  const elementsRef = useRef<T[]>([]);
+
+  const lastAppliedStyles = useRef<Map<T, Record<string, string | number>>>(
+    new Map(),
+  );
+
   useEffect(() => {
     styleFunctionRef.current = styleFunction;
   }, [styleFunction]);
 
-  const lastAppliedStyles = useRef<Map<T, StyleMap>>(new Map());
-
-  const elementsRef = useRef<T[]>([]);
-
   useEffect(() => {
-    // Atualiza a lista de elementos sempre que as refs mudarem
     elementsRef.current = refs.map((ref) => ref.current).filter(Boolean) as T[];
   }, [refs]);
 
   useEffect(() => {
-    if (elementsRef.current.length === 0) return;
-
-    let animationFrameId: number | null = null;
-
-    const animationLoop = () => {
-      const audioData = audioDataRef.current;
+    const unsubscribe = audioDispatcher.subscribe((audioData) => {
+      if (elementsRef.current.length === 0) return;
 
       const nextStyles = styleFunctionRef.current(audioData);
 
@@ -58,16 +54,8 @@ export default function useAudioAnimation<
           }
         }
       }
+    });
 
-      animationFrameId = requestAnimationFrame(animationLoop);
-    };
-
-    animationLoop();
-
-    return () => {
-      if (animationFrameId !== null) {
-        cancelAnimationFrame(animationFrameId);
-      }
-    };
-  }, [audioDataRef]);
+    return unsubscribe;
+  }, []);
 }
