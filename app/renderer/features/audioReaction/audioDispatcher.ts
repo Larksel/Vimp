@@ -11,7 +11,7 @@ type AudioListener = (data: AudioData) => void;
 class AudioDispatcher {
   private listeners = new Set<AudioListener>();
   private animationFrameId: number | null = null;
-  private isRunning = false;
+  public isRunning = false;
 
   // Linha de corte das frequências (Hz)
   private minFrequency = 40;
@@ -19,7 +19,7 @@ class AudioDispatcher {
   private midCutoff = 4000;
   private maxFrequency = 16000;
 
-  private numPoints = 180;
+  public numPoints = 180;
   private dataArraySize = this.getFrequencyEndIndex(this.maxFrequency);
   private frequencyArray = new Uint8Array(this.dataArraySize);
   private timeDomainArray = new Uint8Array(this.dataArraySize);
