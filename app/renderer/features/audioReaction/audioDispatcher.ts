@@ -100,6 +100,9 @@ class AudioDispatcher {
     }
   }
 
+  /**
+   * Calcula o nível RMS do áudio
+   */
   private calculateRmsLevel() {
     const smoothingFactor = 0.5;
     const rawRms = this.getRMS(
@@ -112,6 +115,9 @@ class AudioDispatcher {
     this.audioData.rmsLevel = this.previousRms;
   }
 
+  /**
+   * Calcula os níveis de graves, médios e agudos
+   */
   private calculateFrequencyBands() {
     const minFrequencyEndIndex = this.getFrequencyEndIndex(this.minFrequency);
     const bassEndIndex = this.getFrequencyEndIndex(this.bassCutoff);
@@ -142,6 +148,9 @@ class AudioDispatcher {
     this.audioData.trebles = this.trebleEnv;
   }
 
+  /**
+   * Suavemente zera os valores calculados
+   */
   private decayValues() {
     const decayFactor = 0.85;
 
@@ -155,6 +164,9 @@ class AudioDispatcher {
     this.audioData.trebles *= decayFactor;
   }
 
+  /**
+   * Suaviza o ataque e a liberação das batidas dos graves, médios e agudos
+   */
   private followEnvelope(
     current: number,
     target: number,
@@ -183,6 +195,9 @@ class AudioDispatcher {
     return Math.min(squareRoot, 1);
   }
 
+  /**
+   * Gera pontos adicionais e suaviza as curvas
+   */
   private getInterpolatedValue(data: Uint8Array, targetIndex: number): number {
     // Índice base inteiro e posição fracionária entre bins
     const baseIndex = Math.floor(targetIndex);
