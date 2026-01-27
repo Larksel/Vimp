@@ -96,7 +96,13 @@ class AudioDispatcher {
       const value =
         this.getInterpolatedValue(this.frequencyArray, rawIndexFloat) / 255;
 
-      this.audioData.frequencyData[i] = value;
+      const frequencyEnv = this.followEnvelope(
+        this.audioData.frequencyData[i],
+        value,
+        0.6,
+        0.8,
+      );
+      this.audioData.frequencyData[i] = frequencyEnv;
     }
   }
 
