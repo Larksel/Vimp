@@ -17,8 +17,12 @@ export default function MusicLibraryView() {
   };
 
   const filteredTracks = useMemo(() => {
-    return tracks.filter((track) =>
-      track.title.toLowerCase().includes(search.toLowerCase()),
+    return sortUtils.sortByDate(
+      tracks.filter((track) =>
+        track.title.toLowerCase().includes(search.toLowerCase()),
+      ),
+      'dateModified',
+      'desc',
     );
   }, [tracks, search]);
 
@@ -42,7 +46,7 @@ export default function MusicLibraryView() {
           <VirtuosoGrid
             className='w-full overflow-clip'
             listClassName='grid w-full grid-cols-2 justify-items-center gap-6 xs:grid-cols-3 sm:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6'
-            data={sortUtils.sortByDate(filteredTracks, 'dateModified', 'desc')}
+            data={filteredTracks}
             overscan={10}
             itemContent={(_, track) => (
               <MediaCard key={track._id} item={track} queue={filteredTracks} />
