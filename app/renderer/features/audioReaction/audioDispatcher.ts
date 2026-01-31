@@ -135,15 +135,15 @@ class AudioDispatcher {
    * Calcula os níveis de graves, médios e agudos
    */
   private calculateFrequencyBands() {
-    const bassBins = this.frequencyArray.slice(
+    const bassBins = this.frequencyArray.subarray(
       this.frequencyIndices.min,
       this.frequencyIndices.bass,
     );
-    const midsBins = this.frequencyArray.slice(
+    const midsBins = this.frequencyArray.subarray(
       this.frequencyIndices.bass,
       this.frequencyIndices.mids,
     );
-    const trebleBins = this.frequencyArray.slice(
+    const trebleBins = this.frequencyArray.subarray(
       this.frequencyIndices.mids,
       this.frequencyIndices.max,
     );
