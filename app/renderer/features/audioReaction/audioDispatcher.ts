@@ -5,6 +5,9 @@ import { PlayerStatus } from '@shared/types/vimp';
 
 type AudioListener = (data: AudioData, frameCount: number) => void;
 
+const FPS = 60;
+const FRAME_TIME = 1000 / FPS;
+
 /**
  * Gerencia os listeners e os notifica com os dados de áudio em tempo real.
  */
@@ -12,6 +15,7 @@ class AudioDispatcher {
   private listeners = new Set<AudioListener>();
   private animationFrameId: number | null = null;
   private frameCount = 0;
+  private lastTime = 0;
   public isRunning = false;
 
   // Linha de corte das frequências (Hz)
@@ -57,7 +61,7 @@ class AudioDispatcher {
 
   private start() {
     this.isRunning = true;
-    this.loop();
+    this.loop(0);
   }
 
   private stop() {
@@ -65,14 +69,18 @@ class AudioDispatcher {
     if (this.animationFrameId) cancelAnimationFrame(this.animationFrameId);
   }
 
-  private loop = () => {
+  private loop = (time: number) => {
     if (!this.isRunning) return;
 
-    this.frameCount++;
-    this.updateAudioData();
-    this.listeners.forEach((listener) =>
-      listener(this.audioData, this.frameCount),
-    );
+    if (time - this.lastTime >= FRAME_TIME) {
+      this.lastTime = time;
+
+      this.frameCount++;
+      this.updateAudioData();
+      this.listeners.forEach((listener) =>
+        listener(this.audioData, this.frameCount),
+      );
+    }
 
     this.animationFrameId = requestAnimationFrame(this.loop);
   };
@@ -109,8 +117,8 @@ class AudioDispatcher {
       const frequencyEnv = this.followEnvelope(
         this.audioData.frequencyData[i],
         value,
-        0.6,
         0.8,
+        0.9,
       );
       this.audioData.frequencyData[i] = frequencyEnv;
     }
@@ -184,8 +192,8 @@ class AudioDispatcher {
   private followEnvelope(
     current: number,
     target: number,
-    attack = 0.6,
-    release = 0.08,
+    attack = 0.7,
+    release = 0.25,
   ) {
     const coeff = target > current ? attack : release;
     return current + (target - current) * coeff;
