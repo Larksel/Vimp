@@ -18,13 +18,19 @@ class AudioDispatcher {
   private bassCutoff = 150;
   private midCutoff = 4000;
   private maxFrequency = 16000;
+  private frequencyIndices = {
+    min: this.getFrequencyEndIndex(this.minFrequency),
+    bass: this.getFrequencyEndIndex(this.bassCutoff),
+    mids: this.getFrequencyEndIndex(this.midCutoff),
+    max: this.getFrequencyEndIndex(this.maxFrequency),
+  };
 
   private bassEnv = 0;
   private midsEnv = 0;
   private trebleEnv = 0;
 
   public numPoints = 240;
-  private dataArraySize = this.getFrequencyEndIndex(this.maxFrequency);
+  private dataArraySize = this.frequencyIndices.max;
   private frequencyArray = new Uint8Array(this.dataArraySize);
   private timeDomainArray = new Uint8Array(this.dataArraySize);
   private previousRms = 0;
@@ -92,7 +98,7 @@ class AudioDispatcher {
 
     for (let i = 0; i < this.numPoints; i++) {
       const position = i / (this.numPoints - 1);
-      const rawIndexFloat = 1 * Math.pow(maxRawIndex / 1, position);
+      const rawIndexFloat = Math.pow(maxRawIndex, position);
       const value =
         this.getInterpolatedValue(this.frequencyArray, rawIndexFloat) / 255;
 
@@ -125,19 +131,17 @@ class AudioDispatcher {
    * Calcula os níveis de graves, médios e agudos
    */
   private calculateFrequencyBands() {
-    const minFrequencyEndIndex = this.getFrequencyEndIndex(this.minFrequency);
-    const bassEndIndex = this.getFrequencyEndIndex(this.bassCutoff);
-    const midsEndIndex = this.getFrequencyEndIndex(this.midCutoff);
-    const maxFrequencyEndIndex = this.getFrequencyEndIndex(this.maxFrequency);
-
     const bassBins = this.frequencyArray.slice(
-      minFrequencyEndIndex,
-      bassEndIndex,
+      this.frequencyIndices.min,
+      this.frequencyIndices.bass,
     );
-    const midsBins = this.frequencyArray.slice(bassEndIndex, midsEndIndex);
+    const midsBins = this.frequencyArray.slice(
+      this.frequencyIndices.bass,
+      this.frequencyIndices.mids,
+    );
     const trebleBins = this.frequencyArray.slice(
-      midsEndIndex,
-      maxFrequencyEndIndex,
+      this.frequencyIndices.mids,
+      this.frequencyIndices.max,
     );
 
     const normalization = (value: number) => value / 255;

@@ -8,8 +8,6 @@ interface AudioVisualizerProps {
   glowSize?: number;
 }
 
-const data = new Float32Array(audioDispatcher.numPoints);
-
 export default function AudioVisualizer({
   waveScale = 1,
   waveColor,
@@ -18,6 +16,7 @@ export default function AudioVisualizer({
 }: AudioVisualizerProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const colorsRef = useRef({ wave: '#FFF', glow: '#FFF' });
+  const data = useRef(new Float32Array(audioDispatcher.numPoints));
 
   useEffect(() => {
     const style = getComputedStyle(document.documentElement);
@@ -41,7 +40,7 @@ export default function AudioVisualizer({
     const unsubscribe = audioDispatcher.subscribe((audioData) => {
       const rawData = audioData.frequencyData;
 
-      for (let i = 0; i <= rawData.length; i++) {
+      for (let i = 0; i < rawData.length; i++) {
         const curr = rawData[i];
         const prev = rawData[i - 1] ?? curr;
         const next = rawData[i + 1] ?? curr;
@@ -51,7 +50,7 @@ export default function AudioVisualizer({
       const width = canvas.width;
       const height = canvas.height;
       const centerY = height / 2;
-      const step = width / (data.length - 1);
+      const step = width / (data.current.length - 1);
 
       ctx.clearRect(0, 0, width, height);
 
@@ -67,7 +66,7 @@ export default function AudioVisualizer({
 
       // Curva superior (esquerda → direita)
       ctx.moveTo(0, centerY);
-      for (let i = 0; i < data.length - 1; i++) {
+      for (let i = 0; i < data.current.length - 1; i++) {
         const x1 = i * step;
         const x2 = (i + 1) * step;
         const y1 = centerY - data[i] * centerY * waveScale;
@@ -79,7 +78,7 @@ export default function AudioVisualizer({
       }
 
       // Curva inferior (direita ← esquerda)
-      for (let i = data.length - 1; i > 0; i--) {
+      for (let i = data.current.length - 1; i > 0; i--) {
         const x1 = i * step;
         const x2 = (i - 1) * step;
         const y1 = centerY + data[i] * centerY * waveScale;
