@@ -128,7 +128,7 @@ class AudioDispatcher {
    * Calcula o nível RMS do áudio
    */
   private calculateRmsLevel() {
-    const smoothingFactor = 0.5;
+    const smoothingFactor = 0.85;
     const rawRms = this.getRMS(
       this.timeDomainArray,
       (value) => value / 128 - 1,
@@ -161,9 +161,9 @@ class AudioDispatcher {
     const midsRaw = this.getRMS(midsBins, normalization);
     const trebleRaw = this.getRMS(trebleBins, normalization);
 
-    this.bassEnv = this.followEnvelope(this.bassEnv, bassRaw);
-    this.midsEnv = this.followEnvelope(this.midsEnv, midsRaw);
-    this.trebleEnv = this.followEnvelope(this.trebleEnv, trebleRaw);
+    this.bassEnv = this.followEnvelope(this.bassEnv, bassRaw, 0.85, 0.6);
+    this.midsEnv = this.followEnvelope(this.midsEnv, midsRaw, 0.85, 0.6);
+    this.trebleEnv = this.followEnvelope(this.trebleEnv, trebleRaw, 0.85, 0.6);
 
     this.audioData.bass = this.bassEnv;
     this.audioData.mids = this.midsEnv;
@@ -174,7 +174,7 @@ class AudioDispatcher {
    * Suavemente zera os valores calculados
    */
   private decayValues() {
-    const decayFactor = 0.85;
+    const decayFactor = 0.8;
 
     for (let i = 0; i < this.audioData.frequencyData.length; i++) {
       this.audioData.frequencyData[i] *= decayFactor;

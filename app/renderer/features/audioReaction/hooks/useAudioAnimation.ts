@@ -27,8 +27,9 @@ export default function useAudioAnimation<
   }, [refs]);
 
   useEffect(() => {
-    const unsubscribe = audioDispatcher.subscribe((audioData) => {
+    const unsubscribe = audioDispatcher.subscribe((audioData, frameCount) => {
       if (elementsRef.current.length === 0) return;
+      if (frameCount % 2 !== 0) return;
 
       const nextStyles = styleFunctionRef.current(audioData);
 
