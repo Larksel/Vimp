@@ -11,14 +11,12 @@ export default class AppMenuModule extends BaseWindowModule {
   }
 
   private buildMenu() {
-    let menu: Menu;
-
     if (
       process.env.NODE_ENV === 'development' ||
       process.env.DEBUG_PROD === 'true'
     ) {
       this.setupDevelopmentEnvironment();
-      menu = Menu.buildFromTemplate([
+      const menu = Menu.buildFromTemplate([
         {
           label: 'Toggle DevTools',
           role: 'toggleDevTools',
@@ -35,22 +33,9 @@ export default class AppMenuModule extends BaseWindowModule {
           accelerator: 'F5',
         },
       ]);
-    } else {
-      menu = Menu.buildFromTemplate([
-        {
-          label: 'Recarregar',
-          role: 'reload',
-          accelerator: 'F5',
-        },
-        {
-          label: 'Tela Cheia',
-          role: 'togglefullscreen',
-          accelerator: 'F11',
-        },
-      ]);
-    }
 
-    Menu.setApplicationMenu(menu);
+      Menu.setApplicationMenu(menu);
+    }
   }
 
   /**

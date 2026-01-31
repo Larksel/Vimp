@@ -1,4 +1,4 @@
-import { app, session } from 'electron';
+import { app, Menu, session } from 'electron';
 import { electronApp, optimizer } from '@electron-toolkit/utils';
 import setupLogger, { createMainLogger } from './logger';
 // Modules
@@ -34,6 +34,8 @@ app.on('window-all-closed', () => {
 });
 
 const gotTheLock = app.requestSingleInstanceLock();
+
+Menu.setApplicationMenu(null);
 
 if (!gotTheLock) {
   logger.info('Another instance was found. Quitting...');
