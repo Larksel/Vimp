@@ -3,7 +3,7 @@ import { AudioData } from './types';
 import usePlayerStore from '@renderer/stores/usePlayerStore';
 import { PlayerStatus } from '@shared/types/vimp';
 
-type AudioListener = (data: AudioData) => void;
+type AudioListener = (data: AudioData, frameCount: number) => void;
 
 /**
  * Gerencia os listeners e os notifica com os dados de áudio em tempo real.
@@ -11,6 +11,7 @@ type AudioListener = (data: AudioData) => void;
 class AudioDispatcher {
   private listeners = new Set<AudioListener>();
   private animationFrameId: number | null = null;
+  private frameCount = 0;
   public isRunning = false;
 
   // Linha de corte das frequências (Hz)
@@ -67,8 +68,11 @@ class AudioDispatcher {
   private loop = () => {
     if (!this.isRunning) return;
 
+    this.frameCount++;
     this.updateAudioData();
-    this.listeners.forEach((listener) => listener(this.audioData));
+    this.listeners.forEach((listener) =>
+      listener(this.audioData, this.frameCount),
+    );
 
     this.animationFrameId = requestAnimationFrame(this.loop);
   };
