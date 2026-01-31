@@ -35,6 +35,7 @@ class Player {
     this.volume = Math.min(defaultOptions.volume ** 2, 1);
     this.audio = new Audio();
     this.audioCtx = new AudioContext();
+    this.audioCtx.suspend();
     this.audioSource = this.audioCtx.createMediaElementSource(this.audio);
     this.analyser = this.audioCtx.createAnalyser();
     this.gainNode = this.audioCtx.createGain();
@@ -77,9 +78,9 @@ class Player {
 
     await this.audioCtx.resume();
     await this.audio.play();
-    logger.info(`Playing ${this.track.path}`);
 
     if (!this.hasPlayed && this.track._id && this.track._id !== '') {
+      logger.info(`Playing ${this.track.path}`);
       const updatedTrack: TrackModel = {
         ...this.track,
         lastPlayed: new Date(),
@@ -92,6 +93,8 @@ class Player {
       await TrackPersistenceService.incrementPlayCount(this.track._id);
 
       this.hasPlayed = true;
+    } else {
+      logger.debug('Resuming track');
     }
   }
 
