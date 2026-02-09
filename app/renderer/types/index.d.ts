@@ -1,3 +1,5 @@
+/// <reference types="vite/client" />
+
 import type { VimpAPI } from '@preload/preload';
 import { ReactNode } from 'react';
 
