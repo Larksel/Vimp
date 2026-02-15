@@ -34,6 +34,13 @@ class Downloader:
         self.thumbnail_url = self.yt.thumbnail_url
         self.thumbnail_path = dirmanager.TEMP_FOLDER + f"{self.formatted_title}.jpg"
 
+    def _file_exists(self, file_path: str) -> bool:
+        """Check if file already exists and inform user if skipping download"""
+        if FileManager.file_exists(file_path):
+            print(f"\nArquivo já existe, pulando download: {self.title}\n")
+            return True
+        return False
+
     def get_thumbnail(self) -> None:
         opener = urllib.request.build_opener()
         opener.addheaders = [
@@ -52,16 +59,24 @@ class Downloader:
     # TODO pegar vídeo com base na resolução passada
     # Downloads the highest (max 720p) resolution of the video.
     def get_video(self) -> None:
-        print(f"Downloading: {self.title}")
-
         dirmanager.make_dir(dirmanager.VIDEO_FOLDER)
+        
+        video_path = dirmanager.VIDEO_FOLDER + f"{self.formatted_title}.mp4"
+        if self._file_exists(video_path):
+            return
+            
+        print(f"\nDownloading: {self.title}\n")
 
         video = self.yt.streams.get_highest_resolution()
         if video is not None:
             video.download(dirmanager.VIDEO_FOLDER)
 
     def get_music(self) -> None:
-        print(f"Downloading: {self.title}")
+        mp3_file = dirmanager.MUSIC_FOLDER + f"{self.formatted_title}.mp3"
+        if self._file_exists(mp3_file):
+            return
+            
+        print(f"\nDownloading: {self.title}\n")
         dirmanager.make_dir(dirmanager.TEMP_FOLDER)
 
         video = self.yt.streams.get_audio_only()
@@ -70,7 +85,6 @@ class Downloader:
             return
 
         mp4_file = dirmanager.TEMP_FOLDER + f"{self.formatted_title}.mp4"
-        mp3_file = dirmanager.MUSIC_FOLDER + f"{self.formatted_title}.mp3"
 
         self.get_thumbnail()
 
@@ -88,7 +102,7 @@ class Downloader:
 
     # Downloads every music from a playlist.
     def get_music_from_playlist(self) -> None:
-        print(f"Downloading {self.pl_length} audios from {self.pl_title}")
+        print(f"\nDownloading {self.pl_length} audios from {self.pl_title}\n")
 
         for url in self.pl_list:
             downloader = Downloader(url)
@@ -96,7 +110,7 @@ class Downloader:
 
     # Downloads every video from a playlist.
     def get_video_from_playlist(self) -> None:
-        print(f"Downloading {self.pl_length} videos from {self.pl_title}")
+        print(f"\nDownloading {self.pl_length} videos from {self.pl_title}\n")
 
         for url in self.pl_list:
             downloader = Downloader(url)

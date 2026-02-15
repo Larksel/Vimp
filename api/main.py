@@ -9,7 +9,7 @@ app = Typer()
 
 
 @app.command()
-def start(cli: bool = False, host: bool = False):
+def start(cli: bool = True, host: bool = False):
     """
     Use --cli para iniciar o modo CLI.
 

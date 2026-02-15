@@ -1,4 +1,5 @@
 import os
+import platform
 
 import music_tag
 
@@ -30,13 +31,30 @@ class FileManager:
         if os.path.exists(file):
             os.remove(file)
 
+    @staticmethod
+    def file_exists(file_path: str) -> bool:
+        return os.path.exists(file_path)
+
 
 class DirManager:
     def __init__(self):
         self.USER_FOLDER = os.path.expanduser("~")
-        self.TEMP_FOLDER = self.USER_FOLDER + "/Documents/Vimp Temp/"
-        self.MUSIC_FOLDER = self.USER_FOLDER + "/Desktop/Vimp Music/"
-        self.VIDEO_FOLDER = self.USER_FOLDER + "/Desktop/Vimp Videos/"
+
+        # Detecta o sistema operacional e define as pastas apropriadas
+        system = platform.system().lower()
+
+        if system == "windows":
+            self.TEMP_FOLDER = os.path.join(self.USER_FOLDER, "Documents", ".Vimp Temp/")
+            self.MUSIC_FOLDER = os.path.join(self.USER_FOLDER, "Music/")
+            self.VIDEO_FOLDER = os.path.join(self.USER_FOLDER, "Videos/")
+        elif system == "darwin":  # macOS
+            self.TEMP_FOLDER = os.path.join(self.USER_FOLDER, "Documents", ".Vimp Temp/")
+            self.MUSIC_FOLDER = os.path.join(self.USER_FOLDER, "Music/")
+            self.VIDEO_FOLDER = os.path.join(self.USER_FOLDER, "Movies/")
+        else:  # Linux e outros Unix-like
+            self.TEMP_FOLDER = os.path.join(self.USER_FOLDER, "Documentos", ".Vimp Temp/")
+            self.MUSIC_FOLDER = os.path.join(self.USER_FOLDER, "Músicas/")
+            self.VIDEO_FOLDER = os.path.join(self.USER_FOLDER, "Vídeos/")
 
     @staticmethod
     def make_dir(dir: str) -> None:

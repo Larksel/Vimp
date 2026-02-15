@@ -37,7 +37,8 @@ class VimpCLI:
 
     def _clear_screen(self):
         """Limpa a tela do console."""
-        system("cls" if platform == "nt" else "clear")
+        #system("cls" if platform == "nt" else "clear")
+        pass
 
     def _print_decoration(self):
         print("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-")
