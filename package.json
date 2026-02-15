@@ -89,7 +89,7 @@
     "electron-log": "^5.4.1",
     "electron-store": "8.2.0",
     "globby": "^14.1.0",
-    "lodash": "^4.17.21",
+    "lodash": "^4.17.23",
     "motion": "^12.23.1",
     "music-metadata": "^7.14.0",
     "pouchdb": "^9.0.0",
