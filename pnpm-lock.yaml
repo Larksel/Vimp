@@ -53,9 +53,6 @@ importers:
       '@react-three/fiber':
         specifier: ^9.5.0
         version: 9.5.0(@types/react@19.2.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(three@0.182.0)
-      '@types/three':
-        specifier: ^0.182.0
-        version: 0.182.0
       chokidar:
         specifier: ^4.0.3
         version: 4.0.3
@@ -150,6 +147,9 @@ importers:
       '@types/react-dom':
         specifier: ^19.1.6
         version: 19.2.1(@types/react@19.2.2)
+      '@types/three':
+        specifier: ^0.182.0
+        version: 0.182.0
       '@vitejs/plugin-react':
         specifier: ^5.0.4
         version: 5.0.4(vite@7.1.9(@types/node@24.7.2)(jiti@2.6.1)(lightningcss@1.30.1))

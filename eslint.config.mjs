@@ -17,9 +17,9 @@ export default tseslint.config(
   {
     settings: {
       react: {
-        version: '19.1.0'
-      }
-    }
+        version: '19.1.0',
+      },
+    },
   },
   {
     ignores: ['venv/*', '.vite/*', '**/.*', '**/*.{js,cjs,jsx}'],
@@ -39,6 +39,7 @@ export default tseslint.config(
       'no-unused-vars': 'off',
       'no-unresolved': 'off',
       '@typescript-eslint/no-unused-vars': 'warn',
+      'react/no-unknown-property': 'off',
       'import/no-unresolved': 'off',
       'import/no-nodejs-modules': 'off',
       'import/no-dynamic-require': 'warn',
