@@ -5,210 +5,223 @@ import useConfigStore from '@renderer/stores/useConfigStore';
 import useLibraryStore from '@renderer/stores/useLibraryStore';
 
 const logger = createRendererLogger('Player');
-const libraryAPI = useLibraryStore.getState().api;
 
-interface PlayerOptions {
-  playbackRate?: number;
-  volume?: number;
-  muted?: boolean;
+interface Player {
+  play: () => void;
+  pause: () => void;
+  stop: () => void;
+  mute: () => void;
+  unmute: () => void;
+  getAudio: () => void;
+  getVolume: () => void;
+  getCurrentTime: () => void;
+  getTrack: () => void;
+  getSampleRate: () => void;
+  getAnalyzerFftSize: () => void;
+  getAnalyzerBufferSize: () => void;
+  getAnalyzerTimeDomain: (dataArray: Uint8Array<ArrayBuffer>) => void;
+  getAnalyserFrequency: (dataArray: Uint8Array<ArrayBuffer>) => void;
+  setVolume: (volume: number) => void;
+  setPlaybackRate: (playbackRate: number) => void;
+  setCurrentTime: (currentTime: number) => void;
+  setTrack: (track: TrackModel) => void;
+  freeSrcObject: () => void;
 }
 
-class Player {
-  private readonly audio: HTMLAudioElement;
-  private readonly audioCtx: AudioContext;
-  private readonly audioSource: MediaElementAudioSourceNode;
-  private readonly analyser: AnalyserNode;
-  private readonly gainNode: GainNode;
-  private volume: number;
-  private track: TrackModel | null;
-  protected hasPlayed: boolean;
+function createPlayer(): Player {
+  const config = useConfigStore.getState().player;
+  const playerConfig = {
+    playbackRate: config.audioPlaybackRate ?? 1,
+    volume: config.audioVolume ?? 1,
+    muted: config.audioMuted ?? false,
+  };
 
-  constructor(options?: PlayerOptions) {
-    const defaultOptions = {
-      playbackRate: 1,
-      volume: 1,
-      muted: false,
-      ...options,
-    };
+  let audio: HTMLAudioElement | null = null;
+  let audioCtx: AudioContext | null = null;
+  let audioSource: MediaElementAudioSourceNode | null = null;
+  let analyser: AnalyserNode | null = null;
+  let gainNode: GainNode | null = null;
+  // Volume is squared to provide a more natural volume scaling
+  const volume = Math.min(playerConfig.volume ** 2, 1);
+  let track: TrackModel | null = null;
+  let hasPlayed = false;
 
-    // Volume is squared to provide a more natural volume scaling
-    this.volume = Math.min(defaultOptions.volume ** 2, 1);
-    this.audio = new Audio();
-    this.audioCtx = new AudioContext();
-    this.audioCtx.suspend();
-    this.audioSource = this.audioCtx.createMediaElementSource(this.audio);
-    this.analyser = this.audioCtx.createAnalyser();
-    this.gainNode = this.audioCtx.createGain();
+  audio = new Audio();
+  audioCtx = new AudioContext();
+  audioCtx.suspend();
+  audioSource = audioCtx.createMediaElementSource(audio);
+  analyser = audioCtx.createAnalyser();
+  gainNode = audioCtx.createGain();
 
-    // Conecting all nodes
-    this.audioSource.connect(this.analyser);
-    this.analyser.connect(this.gainNode);
-    this.gainNode.connect(this.audioCtx.destination);
+  // Analyser configuration
+  analyser.fftSize = 4096;
+  analyser.smoothingTimeConstant = 0.5;
+  analyser.maxDecibels = -10;
+  analyser.minDecibels = -75;
 
-    // Analyser configuration
-    this.analyser.fftSize = 4096;
-    this.analyser.smoothingTimeConstant = 0.5;
-    this.analyser.maxDecibels = -10;
-    this.analyser.minDecibels = -75;
+  gainNode.gain.value = playerConfig.muted ? 0 : volume;
+  // Mantain full volume to keep analysis consistent
+  audio.volume = 1;
+  audio.defaultPlaybackRate = playerConfig.playbackRate;
+  audio.playbackRate = playerConfig.playbackRate;
 
-    this.track = null;
-    this.hasPlayed = false;
+  // Conecting all nodes
+  // Audio -> Analyzer -> Gain -> Output
+  audioSource.connect(analyser);
+  analyser.connect(gainNode);
+  gainNode.connect(audioCtx.destination);
 
-    this.gainNode.gain.value = defaultOptions.muted ? 0 : this.volume;
-    this.audio.volume = 1;
-    this.audio.defaultPlaybackRate = defaultOptions.playbackRate;
-    this.audio.playbackRate = defaultOptions.playbackRate;
-  }
+  return {
+    /**
+     * Basic player methods
+     */
+    async play() {
+      if (!audio.src) {
+        this.stop();
+        logger.error('No audio source defined');
+        return;
+      }
 
-  /**
-   * Basic player methods
-   */
-  async play() {
-    if (!this.audio.src) {
-      this.stop();
-      logger.error('No audio source defined');
-      return;
-    }
+      if (!track) {
+        this.stop();
+        logger.error('No track defined');
+        return;
+      }
 
-    if (!this.track) {
-      this.stop();
-      logger.error('No track defined');
-      return;
-    }
+      await audioCtx.resume();
+      await audio.play();
 
-    await this.audioCtx.resume();
-    await this.audio.play();
+      if (!hasPlayed && track._id && track._id !== '') {
+        logger.info(`Playing ${track.path}`);
+        const updatedTrack: TrackModel = {
+          ...track,
+          lastPlayed: new Date(),
+          playCount: track.playCount + 1,
+        };
 
-    if (!this.hasPlayed && this.track._id && this.track._id !== '') {
-      logger.info(`Playing ${this.track.path}`);
-      const updatedTrack: TrackModel = {
-        ...this.track,
-        lastPlayed: new Date(),
-        playCount: this.track.playCount + 1,
-      };
+        useLibraryStore.getState().api.updateLocalTrack(updatedTrack);
 
-      libraryAPI.updateLocalTrack(updatedTrack);
+        await TrackPersistenceService.updateLastPlayed(track._id);
+        await TrackPersistenceService.incrementPlayCount(track._id);
 
-      await TrackPersistenceService.updateLastPlayed(this.track._id);
-      await TrackPersistenceService.incrementPlayCount(this.track._id);
+        hasPlayed = true;
+      } else {
+        logger.debug('Resuming track');
+      }
+    },
 
-      this.hasPlayed = true;
-    } else {
-      logger.debug('Resuming track');
-    }
-  }
+    pause() {
+      logger.debug('Player paused');
+      audio.pause();
+      audioCtx.suspend();
+    },
 
-  pause() {
-    logger.debug('Player paused');
-    this.audio.pause();
-    this.audioCtx.suspend();
-  }
+    stop() {
+      logger.debug('Player stopped');
+      audio.pause();
+      track = null;
+      audio.src = '';
+      audioCtx.suspend();
+    },
 
-  stop() {
-    logger.debug('Player stopped');
-    this.audio.pause();
-    this.track = null;
-    this.audio.src = '';
-    this.audioCtx.suspend();
-  }
+    mute() {
+      logger.debug('Player muted');
+      gainNode.gain.value = 0;
+    },
 
-  mute() {
-    logger.debug('Player muted');
-    this.gainNode.gain.value = 0;
-  }
+    unmute() {
+      logger.debug('Player unmuted');
+      gainNode.gain.value = volume;
+    },
 
-  unmute() {
-    logger.debug('Player unmuted');
-    this.gainNode.gain.value = this.volume;
-  }
+    /**
+     * Get player info
+     */
+    getAudio() {
+      return audio;
+    },
 
-  /**
-   * Get player info
-   */
-  getAudio() {
-    return this.audio;
-  }
+    getVolume() {
+      return volume;
+    },
 
-  getVolume() {
-    return this.volume;
-  }
+    getCurrentTime() {
+      return audio.currentTime;
+    },
 
-  getCurrentTime() {
-    return this.audio.currentTime;
-  }
+    getTrack() {
+      return track;
+    },
 
-  getTrack() {
-    return this.track;
-  }
+    getSampleRate() {
+      return audioCtx.sampleRate;
+    },
 
-  getSampleRate() {
-    return this.audioCtx.sampleRate;
-  }
+    getAnalyzerFftSize() {
+      return analyser.fftSize;
+    },
 
-  getAnalyzerFftSize() {
-    return this.analyser.fftSize;
-  }
+    getAnalyzerBufferSize() {
+      return analyser.frequencyBinCount;
+    },
 
-  getAnalyzerBufferSize() {
-    return this.analyser.frequencyBinCount;
-  }
+    getAnalyzerTimeDomain(dataArray: Uint8Array<ArrayBuffer>) {
+      analyser.getByteTimeDomainData(dataArray);
+    },
 
-  getAnalyzerTimeDomain(dataArray: Uint8Array<ArrayBuffer>) {
-    this.analyser.getByteTimeDomainData(dataArray);
-  }
+    getAnalyserFrequency(dataArray: Uint8Array<ArrayBuffer>) {
+      analyser.getByteFrequencyData(dataArray);
+    },
 
-  getAnalyserFrequency(dataArray: Uint8Array<ArrayBuffer>) {
-    this.analyser.getByteFrequencyData(dataArray);
-  }
+    /**
+     * Set player options
+     */
+    setVolume(volume: number) {
+      // Volume is squared to provide a more natural volume scaling
+      const newVolume = Math.min(volume ** 2, 1);
+      gainNode.gain.value = newVolume;
+      volume = newVolume;
+    },
 
-  /**
-   * Set player options
-   */
-  setVolume(volume: number) {
-    // Volume is squared to provide a more natural volume scaling
-    const newVolume = Math.min(volume ** 2, 1);
-    this.gainNode.gain.value = newVolume;
-    this.volume = newVolume;
-  }
+    setPlaybackRate(playbackRate: number) {
+      audio.playbackRate = playbackRate;
+      audio.defaultPlaybackRate = playbackRate;
+    },
 
-  setPlaybackRate(playbackRate: number) {
-    this.audio.playbackRate = playbackRate;
-    this.audio.defaultPlaybackRate = playbackRate;
-  }
+    setCurrentTime(currentTime: number) {
+      audio.currentTime = currentTime;
+    },
 
-  setCurrentTime(currentTime: number) {
-    this.audio.currentTime = currentTime;
-  }
+    async setTrack(trackModel: TrackModel) {
+      if (!trackModel) return;
 
-  async setTrack(track: TrackModel) {
-    if (!track) return;
+      this.freeSrcObject();
 
-    this.freeSrcObject();
+      track = trackModel;
+      hasPlayed = false;
+      logger.info(`Loading new track: ${trackModel.path}`);
 
-    this.track = track;
-    this.hasPlayed = false;
-    logger.info(`Loading new track: ${track.path}`);
+      await window.VimpAPI.fileSystem
+        .loadAudioFile(trackModel.path)
+        .then((audioBuffer: ArrayBuffer) => {
+          const audioBlob = new Blob([audioBuffer], { type: 'audio/*' });
+          const objectURL = URL.createObjectURL(audioBlob);
 
-    await window.VimpAPI.fileSystem
-      .loadAudioFile(track.path)
-      .then((audioBuffer: ArrayBuffer) => {
-        const audioBlob = new Blob([audioBuffer], { type: 'audio/*' });
-        const objectURL = URL.createObjectURL(audioBlob);
+          audio.src = objectURL;
 
-        this.audio.src = objectURL;
+          logger.info('Audio loaded');
+        })
+        .catch((error: Error) => {
+          logger.error(`Error loading audio for player: ${error.message}`);
+        });
+    },
 
-        logger.info('Audio loaded');
-      })
-      .catch((error: Error) => {
-        logger.error(`Error loading audio for player: ${error.message}`);
-      });
-  }
-
-  freeSrcObject() {
-    if (this.audio.src && this.audio.src.startsWith('blob:')) {
-      revokeObjectURL(this.audio.src);
-    }
-  }
+    freeSrcObject() {
+      if (audio.src && audio.src.startsWith('blob:')) {
+        revokeObjectURL(audio.src);
+      }
+    },
+  };
 }
 
 // Isso é importante para liberar memória
@@ -218,10 +231,22 @@ function revokeObjectURL(url: string) {
   }
 }
 
-const playerConfig = useConfigStore.getState().player;
+// Singleton
+let instance: Player | null = null;
 
-export default new Player({
-  volume: playerConfig.audioVolume,
-  playbackRate: playerConfig.audioPlaybackRate,
-  muted: playerConfig.audioMuted,
-});
+export function getPlayer() {
+  if (import.meta.hot) {
+    instance = import.meta.hot.data.player ?? instance;
+    if (!instance) {
+      instance = createPlayer();
+      import.meta.hot.data.player = instance;
+    }
+    import.meta.hot.dispose(() => {
+      // opcional: remover listeners externos; não destruir o contexto
+    });
+    return instance;
+  }
+
+  if (!instance) instance = createPlayer();
+  return instance;
+}

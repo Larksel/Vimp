@@ -1,5 +1,7 @@
-import player from '../lib/player';
+import { getPlayer } from '../lib/player';
 import { TrackModel } from '@shared/types/vimp';
+
+const player = getPlayer();
 
 export const PlayerService = {
   play: () => player.play(),
@@ -21,5 +23,5 @@ export const PlayerService = {
   setVolume: (volume: number) => player.setVolume(volume),
   setPlaybackRate: (rate: number) => player.setPlaybackRate(rate),
   setCurrentTime: (progress: number) => player.setCurrentTime(progress),
-  setTrack: async (track: TrackModel) => await player.setTrack(track),
+  setTrack: (track: TrackModel) => player.setTrack(track),
 };
