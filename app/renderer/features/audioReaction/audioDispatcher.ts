@@ -2,6 +2,12 @@ import { PlayerService } from '@renderer/features/player';
 import { AudioData } from './types';
 import usePlayerStore from '@renderer/stores/usePlayerStore';
 import { PlayerStatus } from '@shared/types/vimp';
+import {
+  followEnvelope,
+  getFrequencyEndIndex,
+  getInterpolatedValue,
+  getRMS,
+} from './utils/audioMath';
 
 type AudioListener = (data: AudioData, frameCount: number) => void;
 
@@ -16,7 +22,6 @@ class AudioDispatcher {
   private animationFrameId: number | null = null;
   private frameCount = 0;
   private lastTime = 0;
-  public isRunning = false;
 
   // Linha de corte das frequências (Hz)
   private minFrequency = 40;
@@ -24,21 +29,16 @@ class AudioDispatcher {
   private midCutoff = 4000;
   private maxFrequency = 16000;
   private frequencyIndices = {
-    min: this.getFrequencyEndIndex(this.minFrequency),
-    bass: this.getFrequencyEndIndex(this.bassCutoff),
-    mids: this.getFrequencyEndIndex(this.midCutoff),
-    max: this.getFrequencyEndIndex(this.maxFrequency),
+    min: getFrequencyEndIndex(this.minFrequency),
+    bass: getFrequencyEndIndex(this.bassCutoff),
+    mids: getFrequencyEndIndex(this.midCutoff),
+    max: getFrequencyEndIndex(this.maxFrequency),
   };
-
-  private bassEnv = 0;
-  private midsEnv = 0;
-  private trebleEnv = 0;
 
   public numPoints = 240;
   private dataArraySize = this.frequencyIndices.max;
   private frequencyArray = new Uint8Array(this.dataArraySize);
   private timeDomainArray = new Uint8Array(this.dataArraySize);
-  private previousRms = 0;
 
   private audioData: AudioData = {
     rmsLevel: 0,
@@ -52,7 +52,7 @@ class AudioDispatcher {
 
   subscribe(callback: AudioListener) {
     this.listeners.add(callback);
-    if (!this.isRunning) this.start();
+    if (!this.animationFrameId) this.start();
     return () => {
       this.listeners.delete(callback);
       if (this.listeners.size === 0) this.stop();
@@ -60,23 +60,21 @@ class AudioDispatcher {
   }
 
   private start() {
-    this.isRunning = true;
-    this.loop(0);
+    if (this.animationFrameId) return;
+    this.animationFrameId = requestAnimationFrame(this.loop);
   }
 
   private stop() {
-    this.isRunning = false;
     if (this.animationFrameId) cancelAnimationFrame(this.animationFrameId);
+    this.animationFrameId = null;
   }
 
   private loop = (time: number) => {
-    if (!this.isRunning) return;
-
     if (time - this.lastTime >= FRAME_TIME) {
       this.lastTime = time;
-
       this.frameCount++;
       this.updateAudioData();
+
       this.listeners.forEach((listener) =>
         listener(this.audioData, this.frameCount),
       );
@@ -89,9 +87,8 @@ class AudioDispatcher {
 
   private updateAudioData() {
     const playerStatus = usePlayerStore.getState().playerStatus;
-    const isPlaying = playerStatus === PlayerStatus.PLAY;
 
-    if (!isPlaying) {
+    if (playerStatus !== PlayerStatus.PLAY) {
       this.decayValues();
       return;
     }
@@ -112,9 +109,9 @@ class AudioDispatcher {
       const position = i / (this.numPoints - 1);
       const rawIndexFloat = Math.pow(maxRawIndex, position);
       const value =
-        this.getInterpolatedValue(this.frequencyArray, rawIndexFloat) / 255;
+        getInterpolatedValue(this.frequencyArray, rawIndexFloat) / 255;
 
-      const frequencyEnv = this.followEnvelope(
+      const frequencyEnv = followEnvelope(
         this.audioData.frequencyData[i],
         value,
         0.8,
@@ -129,45 +126,39 @@ class AudioDispatcher {
    */
   private calculateRmsLevel() {
     const smoothingFactor = 0.85;
-    const rawRms = this.getRMS(
-      this.timeDomainArray,
-      (value) => value / 128 - 1,
-    );
+    const previousRms = this.audioData.rmsLevel;
+    const rawRms = getRMS(this.timeDomainArray, (value) => value / 128 - 1);
     const target = Math.sqrt(rawRms);
-    this.previousRms =
-      this.previousRms + (target - this.previousRms) * smoothingFactor;
-    this.audioData.rmsLevel = this.previousRms;
+    this.audioData.rmsLevel =
+      previousRms + (target - previousRms) * smoothingFactor;
   }
 
   /**
    * Calcula os níveis de graves, médios e agudos
    */
   private calculateFrequencyBands() {
-    const bassBins = this.frequencyArray.subarray(
-      this.frequencyIndices.min,
-      this.frequencyIndices.bass,
-    );
-    const midsBins = this.frequencyArray.subarray(
-      this.frequencyIndices.bass,
-      this.frequencyIndices.mids,
-    );
-    const trebleBins = this.frequencyArray.subarray(
-      this.frequencyIndices.mids,
-      this.frequencyIndices.max,
-    );
+    const idx = this.frequencyIndices;
+    const bassBins = this.frequencyArray.subarray(idx.min, idx.bass);
+    const midsBins = this.frequencyArray.subarray(idx.bass, idx.mids);
+    const trebleBins = this.frequencyArray.subarray(idx.mids, idx.max);
+
+    const previousBass = this.audioData.bass;
+    const previousMids = this.audioData.mids;
+    const previousTrebles = this.audioData.trebles;
 
     const normalization = (value: number) => value / 255;
-    const bassRaw = this.getRMS(bassBins, normalization);
-    const midsRaw = this.getRMS(midsBins, normalization);
-    const trebleRaw = this.getRMS(trebleBins, normalization);
+    const bassRaw = getRMS(bassBins, normalization);
+    const midsRaw = getRMS(midsBins, normalization);
+    const trebleRaw = getRMS(trebleBins, normalization);
 
-    this.bassEnv = this.followEnvelope(this.bassEnv, bassRaw, 0.85, 0.6);
-    this.midsEnv = this.followEnvelope(this.midsEnv, midsRaw, 0.85, 0.6);
-    this.trebleEnv = this.followEnvelope(this.trebleEnv, trebleRaw, 0.85, 0.6);
-
-    this.audioData.bass = this.bassEnv;
-    this.audioData.mids = this.midsEnv;
-    this.audioData.trebles = this.trebleEnv;
+    this.audioData.bass = followEnvelope(previousBass, bassRaw, 0.85, 0.6);
+    this.audioData.mids = followEnvelope(previousMids, midsRaw, 0.85, 0.6);
+    this.audioData.trebles = followEnvelope(
+      previousTrebles,
+      trebleRaw,
+      0.85,
+      0.6,
+    );
   }
 
   /**
@@ -184,81 +175,6 @@ class AudioDispatcher {
     this.audioData.bass *= decayFactor;
     this.audioData.mids *= decayFactor;
     this.audioData.trebles *= decayFactor;
-  }
-
-  /**
-   * Suaviza o ataque e a liberação das batidas dos graves, médios e agudos
-   */
-  private followEnvelope(
-    current: number,
-    target: number,
-    attack = 0.7,
-    release = 0.25,
-  ) {
-    const coeff = target > current ? attack : release;
-    return current + (target - current) * coeff;
-  }
-
-  // Helpers
-
-  private getRMS(
-    data: Uint8Array,
-    normalizationFunc?: (value: number) => number,
-  ): number {
-    if (data.length === 0) return 0;
-
-    let sumSquares = 0;
-    for (const value of data) {
-      const normalized = normalizationFunc ? normalizationFunc(value) : value;
-      sumSquares += normalized ** 2;
-    }
-
-    const squareRoot = Math.sqrt(sumSquares / data.length);
-    return Math.min(squareRoot, 1);
-  }
-
-  /**
-   * Gera pontos adicionais e suaviza as curvas
-   */
-  private getInterpolatedValue(data: Uint8Array, targetIndex: number): number {
-    // Índice base inteiro e posição fracionária entre bins
-    const baseIndex = Math.floor(targetIndex);
-    const fraction = targetIndex - baseIndex;
-
-    // Índices dos pontos de controle
-    const previousIndex = Math.max(baseIndex - 1, 0);
-    const currentIndex = baseIndex;
-    const nextIndex = Math.min(baseIndex + 1, data.length - 1);
-    const nextNextIndex = Math.min(baseIndex + 2, data.length - 1);
-
-    // Valores dos pontos de controle
-    const previousValue = data[previousIndex] ?? 0;
-    const currentValue = data[currentIndex] ?? 0;
-    const nextValue = data[nextIndex] ?? 0;
-    const nextNextValue = data[nextNextIndex] ?? 0;
-
-    // Potências da fração (otimiza leitura da fórmula)
-    const fractionSquared = fraction * fraction;
-    const fractionCubed = fractionSquared * fraction;
-
-    // Interpolação spline cúbica (Catmull-Rom)
-    return (
-      0.5 *
-      (2 * currentValue +
-        (nextValue - previousValue) * fraction +
-        (2 * previousValue - 5 * currentValue + 4 * nextValue - nextNextValue) *
-          fractionSquared +
-        (-previousValue + 3 * currentValue - 3 * nextValue + nextNextValue) *
-          fractionCubed)
-    );
-  }
-
-  private getFrequencyEndIndex(frequency: number) {
-    const sampleRate = PlayerService.getSampleRate();
-    const fftSize = PlayerService.getAnalyzerFftSize();
-    const hzPerBin = sampleRate / fftSize;
-
-    return Math.floor(frequency / hzPerBin);
   }
 }
 
