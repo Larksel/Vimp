@@ -11,6 +11,7 @@ import {
 
 type AudioListener = (data: AudioData, frameCount: number) => void;
 
+// TODO Suavização baseada no FPS (multiplicar)
 const FPS = 60;
 const FRAME_TIME = 1000 / FPS;
 

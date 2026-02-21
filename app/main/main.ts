@@ -1,6 +1,10 @@
-import { app, Menu, session } from 'electron';
+import { app, Menu } from 'electron';
 import { electronApp, optimizer } from '@electron-toolkit/utils';
 import setupLogger, { createMainLogger } from './logger';
+import {
+  installExtension,
+  REACT_DEVELOPER_TOOLS,
+} from 'electron-devtools-installer';
 // Modules
 import * as ModulesManager from '@main/utils/utils-modules';
 import AppMenuModule from '@main/modules/AppMenuModule';
@@ -14,7 +18,6 @@ import WatcherModule from '@main/modules/WatcherModule';
 // IPC Modules
 import IPCTracksDatabase from '@main/modules/ipc/IPCTracksDatabase';
 import IPCPlaylistsDatabase from '@main/modules/ipc/IPCPlaylistsDatabase';
-import { reactDevToolsPath } from '@main/utils/utils-resources';
 import DBManager from './dbManager';
 
 const isDebug =
@@ -49,8 +52,7 @@ if (!gotTheLock) {
     });
 
     if (isDebug) {
-      await session.defaultSession.extensions
-        .loadExtension(reactDevToolsPath)
+      installExtension(REACT_DEVELOPER_TOOLS)
         .then((ext) => logger.info(`Loaded Extension: ${ext.name}`))
         .catch((err) => logger.warn(`Error on extension loading: ${err}`));
     }

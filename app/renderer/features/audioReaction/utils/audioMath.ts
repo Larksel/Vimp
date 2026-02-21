@@ -1,5 +1,5 @@
 import { PlayerService } from '@renderer/features/player';
-
+// TODO Suavização baseada no FPS (multiplicar)
 export function getRMS(
   data: Uint8Array,
   normalizationFunc?: (value: number) => number,

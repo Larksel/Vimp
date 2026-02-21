@@ -19,6 +19,15 @@ export default tseslint.config(
       react: {
         version: '19.1.0',
       },
+      'import/resolver': {
+        typescript: {
+          alwaysTryTypes: true,
+          project: ['./tsconfig.json'],
+        },
+        node: {
+          extensions: ['.js', '.jsx', '.ts', '.tsx'],
+        },
+      },
     },
   },
   {
@@ -40,9 +49,9 @@ export default tseslint.config(
       'no-unresolved': 'off',
       '@typescript-eslint/no-unused-vars': 'warn',
       'react/no-unknown-property': 'off',
-      'import/no-unresolved': 'off',
       'import/no-nodejs-modules': 'off',
       'import/no-dynamic-require': 'warn',
+      'import/no-cycle': ['error', { ignoreExternal: true }],
       'import/named': 'off',
       'prefer-const': 'warn',
     },
