@@ -37,13 +37,13 @@ Entre no diretório do projeto
 Instale as dependências
 
 ```bash
-  yarn install
+  pnpm install
 ```
 
 Inicie o Electron
 
 ```bash
-  yarn start
+  pnpm start
 ```
 
 ## Uso/Exemplos
