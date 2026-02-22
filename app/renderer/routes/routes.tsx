@@ -1,11 +1,11 @@
 import { createRoutes } from '@renderer/utils/utils';
-import { settingsRoutes } from '@renderer/features/settings';
-import { downloaderRoutes } from '@renderer/features/downloader';
-import { playlistRoutes } from '@renderer/features/playlist';
+import { settingsRoutes } from '@renderer/features/settings/routes';
+import { downloaderRoutes } from '@renderer/features/downloader/routes';
+import { playlistRoutes } from '@renderer/features/playlist/routes';
 
 import HomeView from '@renderer/views/HomeView';
 import MusicLibraryView from '@renderer/views/MusicLibraryView';
-import { playerRoutes } from '@renderer/features/player';
+import { playerRoutes } from '@renderer/features/player/routes';
 
 const appRoutes = createRoutes({
   HOME: {
