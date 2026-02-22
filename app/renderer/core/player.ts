@@ -3,30 +3,9 @@ import { TrackModel } from '@shared/types/vimp';
 import { TrackPersistenceService } from '@renderer/features/data';
 import useConfigStore from '@renderer/stores/useConfigStore';
 import useLibraryStore from '@renderer/stores/useLibraryStore';
+import { Player } from '@renderer/types';
 
 const logger = createRendererLogger('Player');
-
-export interface Player {
-  play: () => void;
-  pause: () => void;
-  stop: () => void;
-  mute: () => void;
-  unmute: () => void;
-  getAudio: () => HTMLAudioElement;
-  getVolume: () => number;
-  getCurrentTime: () => number;
-  getTrack: () => TrackModel | null;
-  getSampleRate: () => number;
-  getAnalyzerFftSize: () => number;
-  getAnalyzerBufferSize: () => number;
-  getAnalyzerTimeDomain: (dataArray: Uint8Array<ArrayBuffer>) => void;
-  getAnalyserFrequency: (dataArray: Uint8Array<ArrayBuffer>) => void;
-  setVolume: (volume: number) => void;
-  setPlaybackRate: (playbackRate: number) => void;
-  setCurrentTime: (currentTime: number) => void;
-  setTrack: (track: TrackModel) => void;
-  freeSrcObject: () => void;
-}
 
 function createPlayer(): Player {
   const config = useConfigStore.getState().player;
@@ -99,6 +78,7 @@ function createPlayer(): Player {
           playCount: track.playCount + 1,
         };
 
+        // TODO retornar nova track e remover referencia a uma store
         useLibraryStore.getState().api.updateLocalTrack(updatedTrack);
 
         await TrackPersistenceService.updateLastPlayed(track._id);

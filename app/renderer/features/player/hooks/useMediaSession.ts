@@ -3,7 +3,7 @@ import { useEffect, useCallback } from 'react';
 import placeholderImage from '@renderer/assets/images/placeholder.png';
 
 import usePlayerStore, { usePlayerAPI } from '@renderer/stores/usePlayerStore';
-import getPlayer from '../lib/player';
+import getPlayer from '@renderer/core/player';
 import useCurrentTrack from '@renderer/hooks/useCurrentTrack';
 
 const logger = createRendererLogger('useMediaSession');

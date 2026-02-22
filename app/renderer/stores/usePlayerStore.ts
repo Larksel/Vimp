@@ -7,7 +7,8 @@ import { createRendererLogger } from '@renderer/utils/logger';
 import useConfigStore from './useConfigStore';
 import useLibraryStore from './useLibraryStore';
 import { arrayMove } from '@dnd-kit/sortable';
-import { getPlayer } from '@renderer/features/player';
+import getPlayer from '@renderer/core/player';
+import { audioDispatcher } from '@renderer/core/audioDispatcher';
 
 const logger = createRendererLogger('PlayerStore');
 
@@ -26,7 +27,7 @@ interface PlayerState {
   crossfadeDuration: number;
   api: {
     startPlayback: (queue: TrackModel[], _id?: string) => void;
-    play: () => void;
+    play: () => Promise<void>;
     pause: () => void;
     togglePlayPause: () => void;
     stop: () => void;
@@ -121,10 +122,11 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
 
         api.playTrackAtIndex(queuePosition);
       },
-      play: () => {
+      play: async () => {
         try {
-          player.play();
+          await player.play();
           logger.debug('PlayerStatus changed to PLAY');
+          audioDispatcher.setIsPlaying(true);
           set({ playerStatus: PlayerStatus.PLAY });
         } catch (err) {
           const api = get().api;
@@ -136,6 +138,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
       pause: () => {
         player.pause();
         logger.debug('PlayerStatus changed to PAUSE');
+        audioDispatcher.setIsPlaying(false);
         set({ playerStatus: PlayerStatus.PAUSE });
       },
       togglePlayPause: () => {
@@ -153,6 +156,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
         get().api.seekTo(0);
 
         logger.debug('PlayerStatus changed to STOP');
+        audioDispatcher.setIsPlaying(false);
 
         set({
           queue: [],

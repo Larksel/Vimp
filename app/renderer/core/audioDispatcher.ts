@@ -1,13 +1,12 @@
-import { AudioData } from './types';
-import usePlayerStore from '@renderer/stores/usePlayerStore';
-import { PlayerStatus } from '@shared/types/vimp';
+import { AudioData } from '@shared/types/vimp';
 import {
   followEnvelope,
   getFrequencyEndIndex,
   getInterpolatedValue,
   getRMS,
-} from './utils/audioMath';
-import { getPlayer, Player } from '../player';
+} from '@renderer/utils/audioMath';
+import getPlayer from './player';
+import { Player } from '@renderer/types';
 
 type AudioListener = (data: AudioData, frameCount: number) => void;
 
@@ -26,6 +25,7 @@ class AudioDispatcher {
 
   private listeners = new Set<AudioListener>();
   private animationFrameId: number | null = null;
+  private isPlaying = false;
   private frameCount = 0;
   private lastTime = 0;
 
@@ -65,6 +65,10 @@ class AudioDispatcher {
     };
   }
 
+  setIsPlaying(isPlaying: boolean) {
+    this.isPlaying = isPlaying;
+  }
+
   private start() {
     if (this.animationFrameId) return;
     this.animationFrameId = requestAnimationFrame(this.loop);
@@ -92,9 +96,7 @@ class AudioDispatcher {
   // Audio processing
 
   private updateAudioData() {
-    const playerStatus = usePlayerStore.getState().playerStatus;
-
-    if (playerStatus !== PlayerStatus.PLAY) {
+    if (!this.isPlaying) {
       this.decayValues();
       return;
     }

@@ -1,2 +1,1 @@
-export { default as getPlayer } from './lib/player';
-export type { Player } from './lib/player';
+export { default as PlaybackConsole } from './components/PlaybackConsole';

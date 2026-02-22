@@ -1,4 +1,4 @@
-import { getPlayer } from '@renderer/features/player';
+import getPlayer from "@renderer/core/player";
 
 // TODO Suavização baseada no FPS (multiplicar)
 export function getRMS(

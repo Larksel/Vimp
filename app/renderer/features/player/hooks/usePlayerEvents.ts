@@ -1,6 +1,6 @@
 import { usePlayerAPI } from '@renderer/stores/usePlayerStore';
 import { useEffect } from 'react';
-import getPlayer from '../lib/player';
+import getPlayer from '@renderer/core/player';
 
 export default function usePlayerEvents() {
   const { getAudio } = getPlayer();

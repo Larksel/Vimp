@@ -1,4 +1,4 @@
-import { audioDispatcher } from '../audioDispatcher';
+import { audioDispatcher } from '@renderer/core/audioDispatcher';
 import { useEffect, useRef } from 'react';
 
 interface AudioVisualizerProps {

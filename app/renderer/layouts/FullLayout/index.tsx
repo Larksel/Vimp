@@ -2,7 +2,7 @@ import { Outlet } from 'react-router-dom';
 import AppBar from '../components/AppBar';
 import useLayoutSizes from '@renderer/hooks/useLayoutSizes';
 import { ScrollArea, ScrollBar } from '@renderer/components/common';
-import { PlaybackConsole } from '@renderer/features/player/ui';
+import { PlaybackConsole } from '@renderer/features/player';
 
 export default function FullLayout() {
   const { cssVars } = useLayoutSizes({

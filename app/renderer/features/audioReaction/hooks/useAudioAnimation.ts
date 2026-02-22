@@ -1,5 +1,5 @@
 import { CSSProperties, RefObject, useEffect, useRef } from 'react';
-import { audioDispatcher } from '../audioDispatcher';
+import { audioDispatcher } from '@renderer/core/audioDispatcher';
 import { AudioData } from '../types';
 
 type StyleMap = Record<string, string | number> | CSSProperties;

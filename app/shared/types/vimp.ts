@@ -102,3 +102,11 @@ export interface GenericDBChannels {
   CLEAR: string;
   HAS_CHANGED: string;
 }
+
+export interface AudioData {
+  rmsLevel: number;
+  frequencyData: Float32Array;
+  bass: number;
+  mids: number;
+  trebles: number;
+}
