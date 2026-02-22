@@ -54,6 +54,100 @@ export default tseslint.config(
       'import/no-cycle': ['error', { ignoreExternal: true }],
       'import/named': 'off',
       'prefer-const': 'warn',
+      'import/no-restricted-paths': [
+        'error',
+        {
+          zones: [
+            // Services
+            {
+              target: './app/renderer/services/**/*',
+              from: [
+                './app/renderer/components/**/*',
+                './app/renderer/core/**/*',
+                './app/renderer/features/**/*',
+                './app/renderer/hooks/**/*',
+                './app/renderer/routes/**/*',
+                './app/renderer/stores/**/*',
+                './app/renderer/views/**/*',
+              ],
+              message:
+                'Services (Electron) formam a base do sistema e não devem depender de lógicas superiores.',
+            },
+
+            // Core/Singletons
+            {
+              target: './app/renderer/core/**/*',
+              from: [
+                './app/renderer/components/**/*',
+                './app/renderer/features/**/*',
+                './app/renderer/hooks/**/*',
+                './app/renderer/routes/**/*',
+                './app/renderer/stores/**/*',
+                './app/renderer/views/**/*',
+              ],
+              message:
+                'Singletons e Workers devem ser agnósticos de interface e estado do React.',
+            },
+
+            // Stores
+            {
+              target: './app/renderer/stores/**/*',
+              from: [
+                './app/renderer/components/**/*',
+                './app/renderer/features/**/*',
+                './app/renderer/hooks/**/*',
+                './app/renderer/routes/**/*',
+                './app/renderer/views/**/*',
+              ],
+              message:
+                'A Store não deve importar componentes visuais ou páginas.',
+            },
+
+            // Hooks
+            {
+              target: './app/renderer/hooks/**/*',
+              from: [
+                './app/renderer/components/**/*',
+                './app/renderer/features/**/*',
+                './app/renderer/routes/**/*',
+                './app/renderer/views/**/*',
+              ],
+              message:
+                'Hooks devem conter apenas lógica abstrata, sem acoplamento com Componentes React.',
+            },
+
+            // Componentes Comuns
+            {
+              target: './app/renderer/components/**/*',
+              from: [
+                './app/renderer/features/**/*',
+                './app/renderer/views/**/*',
+                './app/renderer/routes/**/*',
+                './app/renderer/stores/**/*',
+                './app/renderer/core/**/*',
+              ],
+              message:
+                'Componentes comuns não devem acessar Features específicas, Páginas ou regras de negócio profundas.',
+            },
+
+            // Features
+            {
+              target: './app/renderer/features/**/*',
+              from: ['./app/renderer/views/**/*', './app/renderer/routes/**/*'],
+              message:
+                'Features não devem importar Páginas ou configurações de Rotas. Prefira utilizar hooks globais',
+            },
+
+            // Páginas
+            {
+              target: './app/renderer/views/**/*',
+              from: ['./app/renderer/routes/**/*'],
+              message:
+                'Páginas não devem importar a configuração de roteamento.',
+            },
+          ],
+        },
+      ],
     },
   },
 );
