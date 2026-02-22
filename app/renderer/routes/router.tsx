@@ -7,8 +7,8 @@ import {
   createRoutesFromElements,
   useNavigate,
 } from 'react-router-dom';
-import MainLayout from '@renderer/layouts/MainLayout';
-import FullLayout from '@renderer/layouts/FullLayout';
+import MainLayout from '@renderer/routes/layouts/MainLayout';
+import FullLayout from '@renderer/routes/layouts/FullLayout';
 
 import { routes } from './routes';
 import { useDataLoader } from '@renderer/features/data';
