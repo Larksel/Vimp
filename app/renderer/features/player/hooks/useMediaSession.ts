@@ -2,9 +2,9 @@ import { createRendererLogger } from '@renderer/utils/logger';
 import { useEffect, useCallback } from 'react';
 import placeholderImage from '@renderer/assets/images/placeholder.png';
 
-import useCurrentTrack from './useCurrentTrack';
-import { PlayerService } from '../services/playerService';
 import usePlayerStore, { usePlayerAPI } from '@renderer/stores/usePlayerStore';
+import getPlayer from '../lib/player';
+import useCurrentTrack from '@renderer/hooks/useCurrentTrack';
 
 const logger = createRendererLogger('useMediaSession');
 
@@ -15,6 +15,7 @@ export default function useMediaSession() {
   const currentTrack = useCurrentTrack();
   const currentTime = usePlayerStore((state) => state.currentTime);
   const playerAPI = usePlayerAPI();
+  const player = getPlayer();
 
   /**
    * Update MediaSession playback position state.
@@ -23,11 +24,11 @@ export default function useMediaSession() {
     if (currentTrack) {
       navigator.mediaSession.setPositionState({
         duration: currentTrack.duration,
-        playbackRate: PlayerService.getAudio().playbackRate,
+        playbackRate: player.getAudio().playbackRate,
         position: currentTime,
       });
     }
-  }, [currentTime, currentTrack]);
+  }, [currentTime, currentTrack, player]);
 
   /**
    * Configure MediaSession action handlers.
@@ -55,16 +56,14 @@ export default function useMediaSession() {
 
     navigator.mediaSession.setActionHandler('seekbackward', () => {
       logger.debug('SeekBackward 10s action triggered');
-      PlayerService.setCurrentTime(
-        Math.max(PlayerService.getCurrentTime() - 10, 0),
-      );
+      player.setCurrentTime(Math.max(player.getCurrentTime() - 10, 0));
     });
 
     navigator.mediaSession.setActionHandler('seekforward', () => {
       logger.debug('SeekForward 10s action triggered');
-      PlayerService.setCurrentTime(
+      player.setCurrentTime(
         Math.min(
-          PlayerService.getCurrentTime() + 10,
+          player.getCurrentTime() + 10,
           currentTrack ? currentTrack.duration : 0,
         ),
       );
@@ -79,7 +78,7 @@ export default function useMediaSession() {
       logger.debug('NextTrack action triggered');
       playerAPI.playNextTrack();
     });
-  }, [currentTrack, playerAPI]);
+  }, [currentTrack, player, playerAPI]);
 
   useEffect(() => {
     if (currentTrack) {

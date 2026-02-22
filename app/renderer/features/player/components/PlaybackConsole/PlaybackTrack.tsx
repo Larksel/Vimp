@@ -2,7 +2,8 @@ import { Slider } from '@renderer/components/common';
 
 import { formatDuration } from '@renderer/utils/utils';
 import usePlayerStore, { usePlayerAPI } from '@renderer/stores/usePlayerStore';
-import { useCurrentTrack, useMediaSession } from '@renderer/features/player';
+import useMediaSession from '../../hooks/useMediaSession';
+import useCurrentTrack from '@renderer/hooks/useCurrentTrack';
 
 export default function PlaybackTrack() {
   const currentTrack = useCurrentTrack();

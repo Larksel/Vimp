@@ -1,8 +1,8 @@
 import { Button } from '@renderer/components/common';
 import SearchBox from '@renderer/components/SearchBox';
-import { useCurrentTrack } from '@renderer/features/player';
 import { formatDuration } from '@renderer/utils/utils';
 import placeholder from '@renderer/assets/images/placeholder.png';
+import useCurrentTrack from '@renderer/hooks/useCurrentTrack';
 
 export default function DownloaderView() {
   const track = useCurrentTrack(); // Placeholder temporário

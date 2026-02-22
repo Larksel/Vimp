@@ -1,5 +1,5 @@
-import { useCurrentTrack } from '@renderer/features/player';
 import { CSSProperties } from 'react';
+import useCurrentTrack from './useCurrentTrack';
 
 interface LayoutSetupOpts {
   collapsed?: boolean;

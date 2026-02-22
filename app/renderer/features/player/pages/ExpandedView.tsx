@@ -3,7 +3,7 @@ import {
   AudioVisualizer,
   useAudioAnimation,
 } from '@renderer/features/audioReaction';
-import { useCurrentTrack } from '@renderer/features/player';
+import useCurrentTrack from '@renderer/hooks/useCurrentTrack';
 import { useRef } from 'react';
 
 export default function ExpandedView() {

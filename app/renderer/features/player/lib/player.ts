@@ -6,7 +6,7 @@ import useLibraryStore from '@renderer/stores/useLibraryStore';
 
 const logger = createRendererLogger('Player');
 
-interface Player {
+export interface Player {
   play: () => void;
   pause: () => void;
   stop: () => void;
@@ -234,7 +234,7 @@ function revokeObjectURL(url: string) {
 // Singleton
 let instance: Player | null = null;
 
-export function getPlayer() {
+export default function getPlayer() {
   if (import.meta.hot) {
     instance = import.meta.hot.data.player ?? instance;
     if (!instance) {

@@ -1,4 +1,3 @@
-import { PlayerService } from '@renderer/features/player';
 import { AudioData } from './types';
 import usePlayerStore from '@renderer/stores/usePlayerStore';
 import { PlayerStatus } from '@shared/types/vimp';
@@ -8,6 +7,7 @@ import {
   getInterpolatedValue,
   getRMS,
 } from './utils/audioMath';
+import { getPlayer, Player } from '../player';
 
 type AudioListener = (data: AudioData, frameCount: number) => void;
 
@@ -19,6 +19,11 @@ const FRAME_TIME = 1000 / FPS;
  * Gerencia os listeners e os notifica com os dados de áudio em tempo real.
  */
 class AudioDispatcher {
+  private player: Player;
+  constructor(player: Player) {
+    this.player = player;
+  }
+
   private listeners = new Set<AudioListener>();
   private animationFrameId: number | null = null;
   private frameCount = 0;
@@ -94,8 +99,8 @@ class AudioDispatcher {
       return;
     }
 
-    PlayerService.getAnalyzerTimeDomain(this.timeDomainArray);
-    PlayerService.getAnalyserFrequency(this.frequencyArray);
+    this.player.getAnalyzerTimeDomain(this.timeDomainArray);
+    this.player.getAnalyserFrequency(this.frequencyArray);
 
     this.calculateFrequencyData();
     this.calculateRmsLevel();
@@ -179,4 +184,5 @@ class AudioDispatcher {
   }
 }
 
-export const audioDispatcher = new AudioDispatcher();
+const playerInstance = getPlayer();
+export const audioDispatcher = new AudioDispatcher(playerInstance);

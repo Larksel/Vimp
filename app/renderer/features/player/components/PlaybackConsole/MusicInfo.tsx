@@ -1,7 +1,7 @@
 import { HeartStraightIcon } from '@phosphor-icons/react/dist/csr/HeartStraight';
 
 import placeholderImage from '@renderer/assets/images/placeholder.png';
-import { useCurrentTrack } from '@renderer/features/player';
+import useCurrentTrack from '@renderer/hooks/useCurrentTrack';
 
 import InfoText from '@renderer/components/InfoText';
 import { Button } from '@renderer/components/common';

@@ -2,7 +2,7 @@ import AppBar from '../components/AppBar';
 import SideBar from '../components/SideBar';
 import { ScrollArea, ScrollBar } from '@renderer/components/common';
 import Header from '../components/Header';
-import { PlaybackConsole } from '@renderer/features/player';
+import { PlaybackConsole } from '@renderer/features/player/ui';
 import { Outlet } from 'react-router-dom';
 import useLayoutSizes from '@renderer/hooks/useLayoutSizes';
 import { useState } from 'react';

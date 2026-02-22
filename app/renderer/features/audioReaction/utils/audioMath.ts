@@ -1,4 +1,5 @@
-import { PlayerService } from '@renderer/features/player';
+import { getPlayer } from '@renderer/features/player';
+
 // TODO Suavização baseada no FPS (multiplicar)
 export function getRMS(
   data: Uint8Array,
@@ -17,8 +18,9 @@ export function getRMS(
 }
 
 export function getFrequencyEndIndex(frequency: number) {
-  const sampleRate = PlayerService.getSampleRate();
-  const fftSize = PlayerService.getAnalyzerFftSize();
+  const player = getPlayer();
+  const sampleRate = player.getSampleRate();
+  const fftSize = player.getAnalyzerFftSize();
   const hzPerBin = sampleRate / fftSize;
 
   return Math.floor(frequency / hzPerBin);

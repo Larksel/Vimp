@@ -1,13 +1,13 @@
 import { StateCreator } from 'zustand';
 import { PlayerStatus, RepeatMode, TrackModel } from '@shared/types/vimp';
 import { storeUtils } from '@renderer/utils/storeUtils';
-import { PlayerService } from '@renderer/features/player';
 import { QueueUtils } from '@renderer/utils/queueUtils';
 import { TrackPersistenceService } from '@renderer/features/data';
 import { createRendererLogger } from '@renderer/utils/logger';
 import useConfigStore from './useConfigStore';
 import useLibraryStore from './useLibraryStore';
 import { arrayMove } from '@dnd-kit/sortable';
+import { getPlayer } from '@renderer/features/player';
 
 const logger = createRendererLogger('PlayerStore');
 
@@ -54,6 +54,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
   const playerConfig = useConfigStore.getState().player;
   const configAPI = useConfigStore.getState().api;
   const libraryAPI = useLibraryStore.getState().api;
+  const player = getPlayer();
 
   logger.info(
     `Initializing PlayerStore with config: ${JSON.stringify(playerConfig, null, 2)}`,
@@ -120,9 +121,9 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
 
         api.playTrackAtIndex(queuePosition);
       },
-      play: async () => {
+      play: () => {
         try {
-          await PlayerService.play();
+          player.play();
           logger.debug('PlayerStatus changed to PLAY');
           set({ playerStatus: PlayerStatus.PLAY });
         } catch (err) {
@@ -133,13 +134,13 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
         }
       },
       pause: () => {
-        PlayerService.pause();
+        player.pause();
         logger.debug('PlayerStatus changed to PAUSE');
         set({ playerStatus: PlayerStatus.PAUSE });
       },
       togglePlayPause: () => {
         const { queue, api } = get();
-        const { paused } = PlayerService.getAudio();
+        const { paused } = player.getAudio();
 
         if (paused && queue.length > 0) {
           api.play();
@@ -148,7 +149,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
         }
       },
       stop: () => {
-        PlayerService.stop();
+        player.stop();
         get().api.seekTo(0);
 
         logger.debug('PlayerStatus changed to STOP');
@@ -162,7 +163,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
       },
       playPreviousTrack: () => {
         const { queue, queuePosition, api } = get();
-        const currentTime = PlayerService.getCurrentTime();
+        const currentTime = player.getCurrentTime();
 
         if (queuePosition === null || queue.length == 0) return;
 
@@ -202,7 +203,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
         switch (repeatMode) {
           // This case is treated as if the track has been fully played and is now being considered as a new playback
           case RepeatMode.OFF:
-            await PlayerService.setTrack(queue[queuePosition]);
+            await player.setTrack(queue[queuePosition]);
             api.pause();
             logger.info('Player finished playing. Pausing...');
             return;
@@ -244,7 +245,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
           Evita erros de discordancia entre o progresso atual e a duração da música ao trocar para uma com duração inferior.
         */
         api.seekTo(0);
-        await PlayerService.setTrack(track);
+        await player.setTrack(track);
         api.play();
 
         set({
@@ -267,7 +268,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
         if (queue.length === 0) {
           const newQueuePosition = 0;
           const track = newQueue[newQueuePosition];
-          await PlayerService.setTrack(track);
+          await player.setTrack(track);
           set({
             queuePosition: newQueuePosition,
           });
@@ -301,7 +302,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
           const newQueuePosition = 0;
 
           const track = newQueue[newQueuePosition];
-          await PlayerService.setTrack(track);
+          await player.setTrack(track);
           set({
             queuePosition: newQueuePosition,
           });
@@ -379,7 +380,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
 
         if (trackIDsArray.includes(currentTrackID)) {
           const track = newQueue[newPosition];
-          await PlayerService.setTrack(track);
+          await player.setTrack(track);
 
           if (playerStatus === PlayerStatus.PLAY) {
             api.play();
@@ -401,15 +402,15 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
         api.playTrackAtIndex(trackIndex);
       },
       setVolume: (volume) => {
-        PlayerService.setVolume(volume);
+        player.setVolume(volume);
         configAPI.setVolume(volume);
         set({ volume });
       },
       setIsMuted: (muted) => {
         if (muted) {
-          PlayerService.mute();
+          player.mute();
         } else {
-          PlayerService.unmute();
+          player.unmute();
         }
 
         configAPI.setAudioMuted(muted);
@@ -495,16 +496,16 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
         set({ repeatMode: newRepeatMode });
       },
       seekTo: (position) => {
-        PlayerService.setCurrentTime(position);
+        player.setCurrentTime(position);
         set({ currentTime: position });
       },
       handlePlayerTick: () => {
-        const currentTime = PlayerService.getCurrentTime();
+        const currentTime = player.getCurrentTime();
         set({ currentTime });
       },
       setPlaybackRate: (playbackRate) => {
         if (playbackRate >= 0.25 && playbackRate <= 2) {
-          PlayerService.setPlaybackRate(playbackRate);
+          player.setPlaybackRate(playbackRate);
           configAPI.setPlaybackRate(playbackRate);
 
           logger.debug(`Playback rate set to ${playbackRate}`);

@@ -29,13 +29,16 @@ export default function HomeView() {
     [tracks],
   );
 
-  const sections = useMemo(() => [
-    { title: 'Recentemente Tocadas', data: recents, max: 5 },
-    { title: 'Favoritas', data: favorites, max: 5 },
-    { title: 'Mais Tocadas', data: mostPlayed, max: 5 },
-    { title: 'Recentemente Modificadas', data: recentlyModified, max: 5 },
-    { title: 'Recentemente Adicionadas', data: recentlyAdded, max: 10 },
-  ], [recents, favorites, mostPlayed, recentlyModified, recentlyAdded]);
+  const sections = useMemo(
+    () => [
+      { title: 'Recentemente Tocadas', data: recents, max: 5 },
+      { title: 'Favoritas', data: favorites, max: 5 },
+      { title: 'Mais Tocadas', data: mostPlayed, max: 5 },
+      { title: 'Recentemente Modificadas', data: recentlyModified, max: 5 },
+      { title: 'Recentemente Adicionadas', data: recentlyAdded, max: 10 },
+    ],
+    [recents, favorites, mostPlayed, recentlyModified, recentlyAdded],
+  );
 
   if (loading.playlists || loading.tracks) {
     return (
@@ -45,15 +48,16 @@ export default function HomeView() {
 
   return (
     <div className='flex flex-col gap-4 p-4'>
-      {sections.map(({ title, data, max }) => 
-        data.length > 0 && (
-          <div key={title}>
-            <h3 className='text-text-primary mb-2 font-semibold capitalize'>
-              {title}
-            </h3>
-            <CardList max={max} data={data} />
-          </div>
-        )
+      {sections.map(
+        ({ title, data, max }) =>
+          data.length > 0 && (
+            <div key={title}>
+              <h3 className='text-text-primary mb-2 font-semibold capitalize'>
+                {title}
+              </h3>
+              <CardList max={max} data={data} />
+            </div>
+          ),
       )}
       {tracks.length === 0 && <EmptyLibrary viewName='HomeView' />}
     </div>
