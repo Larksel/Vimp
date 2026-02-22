@@ -8,6 +8,7 @@
     "start": "electron-vite dev",
     "start:w": "electron-vite dev -w",
     "preview": "electron-vite preview",
+    "circulardeps": "npx dpdm --no-warning --no-tree ./app/renderer/index.tsx",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
