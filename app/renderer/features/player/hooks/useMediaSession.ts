@@ -25,7 +25,7 @@ export default function useMediaSession() {
       navigator.mediaSession.setPositionState({
         duration: currentTrack.duration,
         playbackRate: player.getAudio().playbackRate,
-        position: currentTime,
+        position: Math.min(currentTime, currentTrack.duration),
       });
     }
   }, [currentTime, currentTrack, player]);
