@@ -17,7 +17,7 @@ const updatePersistentConfig = async (
   }
 };
 
-export const PlayerConfigService = {
+export const playerConfigService = {
   setAudioShuffle: debounce(
     (shuffle: boolean) => updatePersistentConfig({ audioShuffle: shuffle }),
     500,

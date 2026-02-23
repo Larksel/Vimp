@@ -1,7 +1,7 @@
 import {
-  AppConfigService,
-  PlayerConfigService,
-} from '@renderer/features/settings';
+  appConfigService,
+  playerConfigService,
+} from '@renderer/services/config';
 import { createRendererLogger } from '@renderer/utils/logger';
 import { storeUtils } from '@renderer/utils/storeUtils';
 import { Config, RepeatMode } from '@shared/types/vimp';
@@ -37,50 +37,50 @@ const useConfigStore = createConfigStore<ConfigState>((set) => {
     displayNotifications: initialConfig.displayNotifications,
     api: {
       setDisplayNotifications: (enabled) => {
-        AppConfigService.setDisplayNotifications(enabled);
+        appConfigService.setDisplayNotifications(enabled);
         set({ displayNotifications: enabled });
       },
       setAudioShuffle: (shuffle: boolean) => {
         set((state) => ({
           player: { ...state.player, audioShuffle: shuffle },
         }));
-        PlayerConfigService.setAudioShuffle(shuffle);
+        playerConfigService.setAudioShuffle(shuffle);
       },
       setAudioRepeatMode: (mode: RepeatMode) => {
         set((state) => ({
           player: { ...state.player, audioRepeatMode: mode },
         }));
-        PlayerConfigService.setAudioRepeatMode(mode);
+        playerConfigService.setAudioRepeatMode(mode);
       },
       setAudioMuted: (muted: boolean) => {
         set((state) => ({
           player: { ...state.player, audioMuted: muted },
         }));
-        PlayerConfigService.setAudioMuted(muted);
+        playerConfigService.setAudioMuted(muted);
       },
       setGaplessPlayback: (enabled: boolean) => {
         set((state) => ({
           player: { ...state.player, audioGaplessPlayback: enabled },
         }));
-        PlayerConfigService.setGaplessPlayback(enabled);
+        playerConfigService.setGaplessPlayback(enabled);
       },
       setCrossfadeDuration: (duration: number) => {
         set((state) => ({
           player: { ...state.player, audioCrossfadeDuration: duration },
         }));
-        PlayerConfigService.setCrossfadeDuration(duration);
+        playerConfigService.setCrossfadeDuration(duration);
       },
       setPlaybackRate: (rate: number) => {
         set((state) => ({
           player: { ...state.player, audioPlaybackRate: rate },
         }));
-        PlayerConfigService.setPlaybackRate(rate);
+        playerConfigService.setPlaybackRate(rate);
       },
       setVolume: (volume: number) => {
         set((state) => ({
           player: { ...state.player, audioVolume: volume },
         }));
-        PlayerConfigService.setVolume(volume);
+        playerConfigService.setVolume(volume);
       },
     },
   };
