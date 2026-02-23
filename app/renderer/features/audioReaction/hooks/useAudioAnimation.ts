@@ -1,6 +1,6 @@
 import { CSSProperties, RefObject, useEffect, useRef } from 'react';
 import { audioDispatcher } from '@renderer/core/audioDispatcher';
-import { AudioData } from '../types';
+import { AudioData } from '@shared/types/vimp';
 
 type StyleMap = Record<string, string | number> | CSSProperties;
 
