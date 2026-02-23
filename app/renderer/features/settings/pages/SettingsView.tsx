@@ -3,7 +3,7 @@ import { Button, Input, Switch } from '@renderer/components/common';
 import { useState } from 'react';
 
 import * as Settings from '../components';
-import { TrackPersistenceService } from '@renderer/services/trackPersistence';
+import { TrackService } from '@renderer/services/trackService';
 import useConfigStore, { useConfigAPI } from '@renderer/stores/useConfigStore';
 import { useLibraryAPI } from '@renderer/stores/useLibraryStore';
 
@@ -25,7 +25,7 @@ export default function SettingsView() {
   };
 
   const clearTracksDB = async () => {
-    await TrackPersistenceService.clear();
+    await TrackService.clear();
     logger.info('TracksDB limpo');
   };
 

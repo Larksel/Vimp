@@ -1,6 +1,6 @@
 import { createRendererLogger } from '@renderer/utils/logger';
 import { TrackModel } from '@shared/types/vimp';
-import { TrackPersistenceService } from '@renderer/services/trackPersistence';
+import { TrackService } from '@renderer/services/trackService';
 import useConfigStore from '@renderer/stores/useConfigStore';
 import useLibraryStore from '@renderer/stores/useLibraryStore';
 import { Player } from '@renderer/types';
@@ -81,8 +81,8 @@ function createPlayer(): Player {
         // TODO retornar nova track e remover referencia a uma store
         useLibraryStore.getState().api.updateLocalTrack(updatedTrack);
 
-        await TrackPersistenceService.updateLastPlayed(track._id);
-        await TrackPersistenceService.incrementPlayCount(track._id);
+        await TrackService.updateLastPlayed(track._id);
+        await TrackService.incrementPlayCount(track._id);
 
         hasPlayed = true;
       } else {
@@ -181,7 +181,7 @@ function createPlayer(): Player {
       hasPlayed = false;
       logger.info(`Loading new track: ${trackModel.path}`);
 
-      await TrackPersistenceService.loadAudioFile(trackModel.path)
+      await TrackService.loadAudioFile(trackModel.path)
         .then((audioBuffer: ArrayBuffer) => {
           const audioBlob = new Blob([audioBuffer], { type: 'audio/*' });
           const objectURL = URL.createObjectURL(audioBlob);

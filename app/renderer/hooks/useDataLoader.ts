@@ -1,7 +1,7 @@
 import { useLibraryAPI } from '@renderer/stores/useLibraryStore';
 import { createRendererLogger } from '@renderer/utils/logger';
 import { useCallback, useEffect } from 'react';
-import { TrackPersistenceService } from '@renderer/services/trackPersistence';
+import { TrackService } from '@renderer/services/trackService';
 import { PlaylistService } from '@renderer/services/playlistService';
 import { sortUtils } from '@shared/utils/sortUtils';
 
@@ -13,7 +13,7 @@ export default function useDataLoader() {
   const handleTracksDBChange = useCallback(async () => {
     logger.debug('Refreshing tracks');
 
-    const dbTracks = await TrackPersistenceService.getAll();
+    const dbTracks = await TrackService.getAll();
     const tracks = sortUtils.sortByString(dbTracks, 'title');
 
     libraryAPI.setTracks(tracks);
@@ -31,7 +31,7 @@ export default function useDataLoader() {
   const loadData = useCallback(async () => {
     logger.debug('Loading data');
 
-    const dbTracks = await TrackPersistenceService.getAll();
+    const dbTracks = await TrackService.getAll();
     const dbPlaylists = await PlaylistService.getAll();
 
     const tracks = sortUtils.sortByString(dbTracks, 'title');
@@ -42,13 +42,13 @@ export default function useDataLoader() {
   }, [libraryAPI]);
 
   useEffect(() => {
-    TrackPersistenceService.onDBChanged(handleTracksDBChange);
+    TrackService.onDBChanged(handleTracksDBChange);
     PlaylistService.onDBChanged(handlePlaylistsDBChange);
 
     loadData();
 
     return function cleanup() {
-      TrackPersistenceService.clearListeners();
+      TrackService.clearListeners();
       PlaylistService.clearListeners();
     };
   }, [handlePlaylistsDBChange, handleTracksDBChange, loadData]);
