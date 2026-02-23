@@ -2,7 +2,7 @@ import IPCChannels from '@shared/constants/IPCChannels';
 import { Track, TrackModel } from '@shared/types/vimp';
 import debounce from 'lodash/debounce';
 
-export const TrackService = {
+export const trackService = {
   getAll: async () => {
     return await window.VimpAPI.tracksDB.getAll();
   },

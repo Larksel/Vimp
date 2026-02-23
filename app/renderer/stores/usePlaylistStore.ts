@@ -4,7 +4,7 @@ import { StateCreator } from 'zustand';
 import useLibraryStore from './useLibraryStore';
 import { arrayMove } from '@dnd-kit/sortable';
 import { PlaylistModel, TrackModel } from '@shared/types/vimp';
-import { PlaylistService } from '@renderer/services/playlistService';
+import { playlistService } from '@renderer/services/playlistService';
 
 const logger = createRendererLogger('PlaylistStore');
 
@@ -42,7 +42,7 @@ const usePlaylistStore = createPlaylistStore<PlaylistState>(() => {
         logger.debug(`Reordered track for playlist: ${updatedPlaylist.title}`);
 
         libraryAPI.updateLocalPlaylist(updatedPlaylist);
-        PlaylistService.update(updatedPlaylist);
+        playlistService.update(updatedPlaylist);
       },
       addTracks: (playlistID: string, tracks: TrackModel | TrackModel[]) => {
         const playlist = libraryAPI.getPlaylistFromID(playlistID);
@@ -71,7 +71,7 @@ const usePlaylistStore = createPlaylistStore<PlaylistState>(() => {
           `Added ${newTracksToAdd.length} tracks to playlist: ${playlist.title}`,
         );
         libraryAPI.updateLocalPlaylist(updatedPlaylist);
-        PlaylistService.update(updatedPlaylist);
+        playlistService.update(updatedPlaylist);
       },
       removeTracks: (playlistID: string, tracks: TrackModel | TrackModel[]) => {
         const playlist = libraryAPI.getPlaylistFromID(playlistID);
@@ -100,7 +100,7 @@ const usePlaylistStore = createPlaylistStore<PlaylistState>(() => {
           `Removed ${playlist.tracks.length - updatedTracks.length} tracks from playlist: ${playlist.title}`,
         );
         libraryAPI.updateLocalPlaylist(updatedPlaylist);
-        PlaylistService.update(updatedPlaylist);
+        playlistService.update(updatedPlaylist);
       },
       toggleFavorite: (playlistID: string) => {
         const playlist = libraryAPI.getPlaylistFromID(playlistID);
@@ -117,7 +117,7 @@ const usePlaylistStore = createPlaylistStore<PlaylistState>(() => {
         };
 
         libraryAPI.updateLocalPlaylist(updatedPlaylist);
-        PlaylistService.updateFavorite(updatedPlaylist._id);
+        playlistService.updateFavorite(updatedPlaylist._id);
       },
       renamePlaylist: (playlistID: string, newTitle: string) => {
         if (!newTitle || newTitle.trim() === '') {
@@ -135,14 +135,14 @@ const usePlaylistStore = createPlaylistStore<PlaylistState>(() => {
 
         logger.info(`Renamed playlist: ${playlist.title} to ${newTitle}`);
         libraryAPI.updateLocalPlaylist(updatedPlaylist);
-        PlaylistService.update(updatedPlaylist);
+        playlistService.update(updatedPlaylist);
       },
       removePlaylist: (playlists: PlaylistModel | PlaylistModel[]) => {
         const playlistsArray = Array.isArray(playlists)
           ? playlists
           : [playlists];
         libraryAPI.removePlaylists(playlistsArray);
-        PlaylistService.delete(playlistsArray);
+        playlistService.delete(playlistsArray);
       },
     },
   };

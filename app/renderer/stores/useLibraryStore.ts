@@ -3,7 +3,7 @@ import { StateCreator } from 'zustand';
 
 import { PlaylistModel, TrackModel } from '@shared/types/vimp';
 import { storeUtils } from '@renderer/utils/storeUtils';
-import { LibraryService } from '@renderer/services/libraryService';
+import { libraryService } from '@renderer/services/libraryService';
 
 const logger = createRendererLogger('LibraryStore');
 
@@ -102,7 +102,7 @@ const useLibraryStore = createLibraryStore<LibraryState>((set, get) => {
         }));
       },
       scanFolders: async (paths) => {
-        LibraryService.scanFolders(paths);
+        libraryService.scanFolders(paths);
       },
       setTracks: (tracks) => {
         if (!tracks) return;

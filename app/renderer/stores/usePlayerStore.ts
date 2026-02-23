@@ -2,7 +2,7 @@ import { StateCreator } from 'zustand';
 import { PlayerStatus, RepeatMode, TrackModel } from '@shared/types/vimp';
 import { storeUtils } from '@renderer/utils/storeUtils';
 import { QueueUtils } from '@renderer/utils/queueUtils';
-import { TrackService } from '@renderer/services/trackService';
+import { trackService } from '@renderer/services/trackService';
 import { createRendererLogger } from '@renderer/utils/logger';
 import useConfigStore from './useConfigStore';
 import useLibraryStore from './useLibraryStore';
@@ -438,7 +438,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
           dateFavorited: dateFavorited,
         };
         libraryAPI.updateLocalTrack(updatedTrack);
-        await TrackService.updateFavorite(track._id);
+        await trackService.updateFavorite(track._id);
 
         logger.info(`Favorited track: ${track.title}`);
       },

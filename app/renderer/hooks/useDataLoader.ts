@@ -1,8 +1,8 @@
 import { useLibraryAPI } from '@renderer/stores/useLibraryStore';
 import { createRendererLogger } from '@renderer/utils/logger';
 import { useCallback, useEffect } from 'react';
-import { TrackService } from '@renderer/services/trackService';
-import { PlaylistService } from '@renderer/services/playlistService';
+import { trackService } from '@renderer/services/trackService';
+import { playlistService } from '@renderer/services/playlistService';
 import { sortUtils } from '@shared/utils/sortUtils';
 
 const logger = createRendererLogger('useDataLoader');
@@ -13,7 +13,7 @@ export default function useDataLoader() {
   const handleTracksDBChange = useCallback(async () => {
     logger.debug('Refreshing tracks');
 
-    const dbTracks = await TrackService.getAll();
+    const dbTracks = await trackService.getAll();
     const tracks = sortUtils.sortByString(dbTracks, 'title');
 
     libraryAPI.setTracks(tracks);
@@ -22,7 +22,7 @@ export default function useDataLoader() {
   const handlePlaylistsDBChange = useCallback(async () => {
     logger.debug('Refreshing playlists');
 
-    const dbPlaylists = await PlaylistService.getAll();
+    const dbPlaylists = await playlistService.getAll();
     const playlists = sortUtils.sortByString(dbPlaylists, 'title');
 
     libraryAPI.setPlaylists(playlists);
@@ -31,8 +31,8 @@ export default function useDataLoader() {
   const loadData = useCallback(async () => {
     logger.debug('Loading data');
 
-    const dbTracks = await TrackService.getAll();
-    const dbPlaylists = await PlaylistService.getAll();
+    const dbTracks = await trackService.getAll();
+    const dbPlaylists = await playlistService.getAll();
 
     const tracks = sortUtils.sortByString(dbTracks, 'title');
     const playlists = sortUtils.sortByString(dbPlaylists, 'title');
@@ -42,14 +42,14 @@ export default function useDataLoader() {
   }, [libraryAPI]);
 
   useEffect(() => {
-    TrackService.onDBChanged(handleTracksDBChange);
-    PlaylistService.onDBChanged(handlePlaylistsDBChange);
+    trackService.onDBChanged(handleTracksDBChange);
+    playlistService.onDBChanged(handlePlaylistsDBChange);
 
     loadData();
 
     return function cleanup() {
-      TrackService.clearListeners();
-      PlaylistService.clearListeners();
+      trackService.clearListeners();
+      playlistService.clearListeners();
     };
   }, [handlePlaylistsDBChange, handleTracksDBChange, loadData]);
 }

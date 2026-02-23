@@ -2,7 +2,7 @@ import IPCChannels from '@shared/constants/IPCChannels';
 import { Playlist, PlaylistModel } from '@shared/types/vimp';
 import debounce from 'lodash/debounce';
 
-export const PlaylistService = {
+export const playlistService = {
   getAll: async () => {
     return await window.VimpAPI.playlistsDB.getAll();
   },
