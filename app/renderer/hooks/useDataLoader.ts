@@ -1,11 +1,9 @@
 import { useLibraryAPI } from '@renderer/stores/useLibraryStore';
 import { createRendererLogger } from '@renderer/utils/logger';
 import { useCallback, useEffect } from 'react';
-import { TrackPersistenceService } from '../services/trackPersistence';
-import { PlaylistPersistenceService } from '../services/playlistPersistence';
+import { TrackPersistenceService } from '@renderer/services/trackPersistence';
+import { PlaylistService } from '@renderer/services/playlistService';
 import { sortUtils } from '@shared/utils/sortUtils';
-import debounce from 'lodash/debounce';
-import IPCChannels from '@shared/constants/IPCChannels';
 
 const logger = createRendererLogger('useDataLoader');
 
@@ -24,7 +22,7 @@ export default function useDataLoader() {
   const handlePlaylistsDBChange = useCallback(async () => {
     logger.debug('Refreshing playlists');
 
-    const dbPlaylists = await PlaylistPersistenceService.getAll();
+    const dbPlaylists = await PlaylistService.getAll();
     const playlists = sortUtils.sortByString(dbPlaylists, 'title');
 
     libraryAPI.setPlaylists(playlists);
@@ -34,7 +32,7 @@ export default function useDataLoader() {
     logger.debug('Loading data');
 
     const dbTracks = await TrackPersistenceService.getAll();
-    const dbPlaylists = await PlaylistPersistenceService.getAll();
+    const dbPlaylists = await PlaylistService.getAll();
 
     const tracks = sortUtils.sortByString(dbTracks, 'title');
     const playlists = sortUtils.sortByString(dbPlaylists, 'title');
@@ -44,27 +42,14 @@ export default function useDataLoader() {
   }, [libraryAPI]);
 
   useEffect(() => {
-    window.VimpAPI.tracksDB.onDBChanged(
-      debounce(() => {
-        logger.debug('TracksDB changed');
-        handleTracksDBChange();
-      }, 500),
-    );
-
-    window.VimpAPI.playlistsDB.onDBChanged(
-      debounce(() => {
-        logger.debug('PlaylistsDB changed');
-        handlePlaylistsDBChange();
-      }, 500),
-    );
+    TrackPersistenceService.onDBChanged(handleTracksDBChange);
+    PlaylistService.onDBChanged(handlePlaylistsDBChange);
 
     loadData();
 
     return function cleanup() {
-      window.VimpAPI.app.removeAllListeners(IPCChannels.TRACKSDB_HAS_CHANGED);
-      window.VimpAPI.app.removeAllListeners(
-        IPCChannels.PLAYLISTSDB_HAS_CHANGED,
-      );
+      TrackPersistenceService.clearListeners();
+      PlaylistService.clearListeners();
     };
   }, [handlePlaylistsDBChange, handleTracksDBChange, loadData]);
 }

@@ -2,7 +2,7 @@ import { StateCreator } from 'zustand';
 import { PlayerStatus, RepeatMode, TrackModel } from '@shared/types/vimp';
 import { storeUtils } from '@renderer/utils/storeUtils';
 import { QueueUtils } from '@renderer/utils/queueUtils';
-import { TrackPersistenceService } from '@renderer/features/data';
+import { TrackPersistenceService } from '@renderer/services/trackPersistence';
 import { createRendererLogger } from '@renderer/utils/logger';
 import useConfigStore from './useConfigStore';
 import useLibraryStore from './useLibraryStore';

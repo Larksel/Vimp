@@ -12,7 +12,7 @@ import { FormEvent, useState } from 'react';
 import { createRendererLogger } from '@renderer/utils/logger';
 import { Playlist } from '@shared/types/vimp';
 import { createGenericPlaylist } from '@shared/utils/utils';
-import { PlaylistPersistenceService } from '@renderer/features/data';
+import { PlaylistService } from '@renderer/services/playlistService';
 
 const logger = createRendererLogger('SideBar');
 
@@ -47,7 +47,7 @@ export default function ListHeader(props: ListHeaderProps) {
         title: playlistName,
       };
 
-      await PlaylistPersistenceService.create(newPlaylist);
+      await PlaylistService.create(newPlaylist);
       logger.info(`Creating playlist: ${newPlaylist.title}`);
     }
 

@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 import { CM } from '@renderer/components/common';
 import { usePlayerAPI } from '@renderer/stores/usePlayerStore';
 import { TrackModel } from '@shared/types/vimp';
-import AddPlaylistSub from './common/AddPlaylistSub';
+import { AddPlaylistSub } from '@renderer/features/playlist';
 
 interface TrackMenuProps {
   children: ReactNode;

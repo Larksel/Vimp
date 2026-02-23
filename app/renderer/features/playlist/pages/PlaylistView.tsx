@@ -11,12 +11,13 @@ import { Button } from '@renderer/components/common';
 import usePlaylistLoader from '../hooks/usePlaylistLoader';
 import { formatDuration } from '@renderer/utils/utils';
 import { useAudioAnimation } from '@renderer/features/audioReaction';
-import { PlaylistService } from '../services/playlistService';
+import { usePlaylistAPI } from '@renderer/stores/usePlaylistStore';
 
 export default function PlaylistView() {
   const { id } = useParams();
   const loading = useLibraryStore((state) => state.loading);
   const playerAPI = usePlayerAPI();
+  const playlistAPI = usePlaylistAPI();
   const loaderData = usePlaylistLoader(id);
   const [scroll, setScroll] = useState(0);
   const bgImageRef = useRef<HTMLImageElement>(null);
@@ -69,7 +70,7 @@ export default function PlaylistView() {
   };
 
   const toggleFavorite = () => {
-    PlaylistService.toggleFavorite(playlist._id);
+    playlistAPI.toggleFavorite(playlist._id);
   };
 
   const handleItemClick = (trackID: string) => {
@@ -77,7 +78,7 @@ export default function PlaylistView() {
   };
 
   const handleItemMove = (from: number, to: number) => {
-    PlaylistService.reorderTracks(playlist._id, from, to);
+    playlistAPI.reorderTracks(playlist._id, from, to);
   };
 
   const totalDuration = () => {

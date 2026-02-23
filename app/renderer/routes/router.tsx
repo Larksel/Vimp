@@ -11,7 +11,7 @@ import MainLayout from '@renderer/routes/layouts/MainLayout';
 import FullLayout from '@renderer/routes/layouts/FullLayout';
 
 import { routes } from './routes';
-import { useDataLoader } from '@renderer/features/data';
+import useDataLoader from '@renderer/hooks/useDataLoader';
 
 const router = createHashRouter(
   createRoutesFromElements(

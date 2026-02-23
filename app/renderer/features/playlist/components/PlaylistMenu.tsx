@@ -1,5 +1,5 @@
 import { CM } from '@renderer/components/common';
-import { PlaylistService } from '@renderer/features/playlist';
+import { usePlaylistAPI } from '@renderer/stores/usePlaylistStore';
 import { PlaylistModel } from '@shared/types/vimp';
 import { ReactNode } from 'react';
 
@@ -10,9 +10,10 @@ interface PlaylistMenuProps {
 
 export default function PlaylistMenu(props: PlaylistMenuProps) {
   const { children, playlist } = props;
+  const playlistAPI = usePlaylistAPI();
 
   const handleRemove = async () => {
-    PlaylistService.removePlaylist(playlist);
+    playlistAPI.removePlaylist(playlist);
   };
 
   return (

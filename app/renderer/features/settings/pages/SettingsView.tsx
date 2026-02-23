@@ -3,7 +3,7 @@ import { Button, Input, Switch } from '@renderer/components/common';
 import { useState } from 'react';
 
 import * as Settings from '../components';
-import { TrackPersistenceService } from '@renderer/features/data';
+import { TrackPersistenceService } from '@renderer/services/trackPersistence';
 import useConfigStore, { useConfigAPI } from '@renderer/stores/useConfigStore';
 import { useLibraryAPI } from '@renderer/stores/useLibraryStore';
 

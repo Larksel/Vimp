@@ -1,4 +1,6 @@
+import IPCChannels from '@shared/constants/IPCChannels';
 import { Track, TrackModel } from '@shared/types/vimp';
+import debounce from 'lodash/debounce';
 
 export const TrackPersistenceService = {
   getAll: async () => {
@@ -30,5 +32,18 @@ export const TrackPersistenceService = {
   },
   clear: async () => {
     await window.VimpAPI.tracksDB.clear();
+  },
+  onDBChanged: (callback: () => void) => {
+    window.VimpAPI.tracksDB.onDBChanged(
+      debounce(() => {
+        callback();
+      }, 500),
+    );
+  },
+  clearListeners: () => {
+    window.VimpAPI.app.removeAllListeners(IPCChannels.TRACKSDB_HAS_CHANGED);
+  },
+  loadAudioFile: async (path: string) => {
+    return await window.VimpAPI.fileSystem.loadAudioFile(path);
   },
 };

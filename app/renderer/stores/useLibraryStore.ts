@@ -3,6 +3,7 @@ import { StateCreator } from 'zustand';
 
 import { PlaylistModel, TrackModel } from '@shared/types/vimp';
 import { storeUtils } from '@renderer/utils/storeUtils';
+import { LibraryService } from '@renderer/services/libraryService';
 
 const logger = createRendererLogger('LibraryStore');
 
@@ -88,7 +89,7 @@ const useLibraryStore = createLibraryStore<LibraryState>((set, get) => {
         const deletedPlaylists = Array.isArray(playlistsToDelete)
           ? playlistsToDelete
           : [playlistsToDelete];
-        const deletedPlaylistsSet = new Set(deletedPlaylists.map(p => p._id));
+        const deletedPlaylistsSet = new Set(deletedPlaylists.map((p) => p._id));
 
         const newPlaylists = playlists.filter(
           (item) => !deletedPlaylistsSet.has(item._id),
@@ -101,7 +102,7 @@ const useLibraryStore = createLibraryStore<LibraryState>((set, get) => {
         }));
       },
       scanFolders: async (paths) => {
-        await window.VimpAPI.library.scanAndSave(paths);
+        LibraryService.scanFolders(paths);
       },
       setTracks: (tracks) => {
         if (!tracks) return;

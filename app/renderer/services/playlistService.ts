@@ -1,6 +1,8 @@
+import IPCChannels from '@shared/constants/IPCChannels';
 import { Playlist, PlaylistModel } from '@shared/types/vimp';
+import debounce from 'lodash/debounce';
 
-export const PlaylistPersistenceService = {
+export const PlaylistService = {
   getAll: async () => {
     return await window.VimpAPI.playlistsDB.getAll();
   },
@@ -27,5 +29,15 @@ export const PlaylistPersistenceService = {
   },
   clear: async () => {
     await window.VimpAPI.playlistsDB.clear();
+  },
+  onDBChanged: (callback: () => void) => {
+    window.VimpAPI.playlistsDB.onDBChanged(
+      debounce(() => {
+        callback();
+      }, 500),
+    );
+  },
+  clearListeners: () => {
+    window.VimpAPI.app.removeAllListeners(IPCChannels.PLAYLISTSDB_HAS_CHANGED);
   },
 };

@@ -1,6 +1,6 @@
 import { createRendererLogger } from '@renderer/utils/logger';
 import { TrackModel } from '@shared/types/vimp';
-import { TrackPersistenceService } from '@renderer/features/data';
+import { TrackPersistenceService } from '@renderer/services/trackPersistence';
 import useConfigStore from '@renderer/stores/useConfigStore';
 import useLibraryStore from '@renderer/stores/useLibraryStore';
 import { Player } from '@renderer/types';
@@ -181,8 +181,7 @@ function createPlayer(): Player {
       hasPlayed = false;
       logger.info(`Loading new track: ${trackModel.path}`);
 
-      await window.VimpAPI.fileSystem
-        .loadAudioFile(trackModel.path)
+      await TrackPersistenceService.loadAudioFile(trackModel.path)
         .then((audioBuffer: ArrayBuffer) => {
           const audioBlob = new Blob([audioBuffer], { type: 'audio/*' });
           const objectURL = URL.createObjectURL(audioBlob);
