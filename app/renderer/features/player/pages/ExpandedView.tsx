@@ -22,10 +22,8 @@ export default function ExpandedView() {
   });
 
   return (
-    <div
-      className={`bg-background relative flex items-center justify-center overflow-clip p-4 pl-72 transition-all`}
-    >
-      <div className='z-10 h-64 w-full self-end'>
+    <div className={`bg-background relative flex overflow-clip transition-all`}>
+      <div className='z-10 mb-4 ml-68 h-64 w-full self-end'>
         <AudioVisualizer />
       </div>
       <img
