@@ -109,7 +109,6 @@ export default tseslint.config(
               from: [
                 './app/renderer/components/**/*',
                 './app/renderer/features/**/*',
-                './app/renderer/routes/**/*',
                 './app/renderer/views/**/*',
               ],
               message:
@@ -133,17 +132,9 @@ export default tseslint.config(
             // Features
             {
               target: './app/renderer/features/**/*',
-              from: ['./app/renderer/views/**/*', './app/renderer/routes/**/*'],
+              from: ['./app/renderer/views/**/*'],
               message:
                 'Features não devem importar Páginas ou configurações de Rotas. Prefira utilizar hooks globais',
-            },
-
-            // Páginas
-            {
-              target: './app/renderer/views/**/*',
-              from: ['./app/renderer/routes/**/*'],
-              message:
-                'Páginas não devem importar a configuração de roteamento.',
             },
           ],
         },
