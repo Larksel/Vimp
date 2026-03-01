@@ -41,7 +41,7 @@ class AudioDispatcher {
     max: getFrequencyEndIndex(this.maxFrequency),
   };
 
-  public numPoints = 240;
+  public numPoints = 300;
   private dataArraySize = this.frequencyIndices.max;
   private frequencyArray = new Uint8Array(this.dataArraySize);
   private timeDomainArray = new Uint8Array(this.dataArraySize);
@@ -52,6 +52,7 @@ class AudioDispatcher {
     mids: 0,
     trebles: 0,
     frequencyData: new Float32Array(this.numPoints),
+    linearFrequencyData: new Float32Array(this.numPoints),
   };
 
   // Core functions
@@ -116,15 +117,23 @@ class AudioDispatcher {
     for (let i = 0; i < this.numPoints; i++) {
       const position = i / (this.numPoints - 1);
       const rawIndexFloat = Math.pow(maxRawIndex, position);
-      const value =
+      const interpolatedValue =
         getInterpolatedValue(this.frequencyArray, rawIndexFloat) / 255;
+      const normalizedValue = this.frequencyArray[i] / 255;
 
-      const frequencyEnv = followEnvelope(
-        this.audioData.frequencyData[i],
-        value,
+      const linearFrequencyEnv = followEnvelope(
+        this.audioData.linearFrequencyData[i],
+        normalizedValue,
         0.8,
         0.9,
       );
+      const frequencyEnv = followEnvelope(
+        this.audioData.frequencyData[i],
+        interpolatedValue,
+        0.8,
+        0.9,
+      );
+      this.audioData.linearFrequencyData[i] = linearFrequencyEnv;
       this.audioData.frequencyData[i] = frequencyEnv;
     }
   }
