@@ -186,6 +186,7 @@ class AudioDispatcher {
 
     for (let i = 0; i < this.audioData.frequencyData.length; i++) {
       this.audioData.frequencyData[i] *= decayFactor;
+      this.audioData.linearFrequencyData[i] *= decayFactor;
     }
 
     this.audioData.rmsLevel *= decayFactor;

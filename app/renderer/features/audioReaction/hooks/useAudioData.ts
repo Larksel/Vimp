@@ -6,6 +6,7 @@ export default function useAudioData() {
   const audioDataRef = useRef<AudioData>({
     rmsLevel: 0,
     frequencyData: new Float32Array(0),
+    linearFrequencyData: new Float32Array(0),
     bass: 0,
     mids: 0,
     trebles: 0,
