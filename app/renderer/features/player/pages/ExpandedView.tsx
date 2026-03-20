@@ -11,7 +11,7 @@ import { useRef, useState } from 'react';
 export default function ExpandedView() {
   const track = useCurrentTrack();
   const imgRef = useRef<HTMLImageElement>(null);
-  const [type, setType] = useState<'circle' | 'wave'>('circle');
+  const [type, setType] = useState<'circle' | 'wave'>('wave');
 
   useAudioAnimation([imgRef], (audioData) => {
     const brightness = 0.3 + audioData.bass * 0.2;
