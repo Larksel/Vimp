@@ -30,7 +30,7 @@ export default function ExpandedView() {
   };
 
   return (
-    <div className={`bg-background relative flex overflow-clip transition-all`}>
+    <div className='relative flex size-full overflow-clip transition-all'>
       <img
         ref={imgRef}
         src={track?.cover ?? placeholder}

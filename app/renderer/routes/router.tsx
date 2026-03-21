@@ -7,11 +7,11 @@ import {
   createRoutesFromElements,
   useNavigate,
 } from 'react-router-dom';
-import MainLayout from '@renderer/routes/layouts/MainLayout';
-import FullLayout from '@renderer/routes/layouts/FullLayout';
 
 import { routes } from './routes';
 import useDataLoader from '@renderer/hooks/useDataLoader';
+import FrameLayout from './layouts/FrameLayout';
+import FullLayout from './layouts/FullLayout';
 
 const router = createHashRouter(
   createRoutesFromElements(
@@ -19,7 +19,7 @@ const router = createHashRouter(
       {/* Layout principal com SideBar, Console, AppBar, etc */}
       <Route
         path=''
-        element={<MainLayout />}
+        element={<FrameLayout />}
         errorElement={<GlobalErrorBoundary />}
       >
         <Route {...routes.HOME} />

@@ -16,7 +16,7 @@ export default function SideBar(props: SideBarProps) {
   const { toggle, collapsed } = props;
 
   return (
-    <div className='flex w-(--sidebar-width) flex-col items-center gap-2 overflow-clip rounded-lg transition-all select-none'>
+    <div className='flex w-(--sidebar-width) shrink-0 flex-col items-center gap-2 overflow-clip rounded-lg transition-all select-none'>
       <div className='bg-surface-base flex h-auto w-full shrink-0 flex-col items-center justify-center overflow-clip rounded-lg'>
         <Button
           onClick={toggle}
