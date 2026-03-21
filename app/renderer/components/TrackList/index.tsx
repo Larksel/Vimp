@@ -68,7 +68,7 @@ export default function TrackList(props: TrackListProps) {
           <span className='flex items-center justify-center'>Status</span>
           <span className='flex items-center justify-end'>Duração</span>
         </div>
-        <div className='bg-surface-active h-[1px] w-full' />
+        <div className='bg-surface-active h-[1px] w-[calc(100%-16px)]' />
         {items.length > 0 ? (
           <SortableContext
             items={trackIDs}
