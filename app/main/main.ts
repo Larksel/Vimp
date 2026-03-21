@@ -19,11 +19,13 @@ import WatcherModule from '@main/modules/WatcherModule';
 import IPCTracksDatabase from '@main/modules/ipc/IPCTracksDatabase';
 import IPCPlaylistsDatabase from '@main/modules/ipc/IPCPlaylistsDatabase';
 import DBManager from './dbManager';
+import { setupAppDirs } from './utils/utils-resources';
 
 const isDebug =
   process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true';
 
 setupLogger(isDebug);
+setupAppDirs();
 const logger = createMainLogger('Main');
 
 logger.info(`Initializing Vimp`);
