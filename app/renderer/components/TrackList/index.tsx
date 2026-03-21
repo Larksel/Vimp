@@ -1,6 +1,5 @@
 import { Virtuoso } from 'react-virtuoso';
 import { TrackModel } from '@shared/types/vimp';
-import { ScrollArea } from '@renderer/components/common';
 import TrackRow from './TrackRow';
 
 import {
@@ -23,13 +22,12 @@ import { useState } from 'react';
 interface TrackListProps {
   items: TrackModel[];
   onItemClick: (trackID: string) => void;
-  onScroll?: (scrollTop: number) => void;
   onItemMove: (from: number, to: number, items: TrackModel[]) => void;
 }
 
 // TODO Implementar multi seleção
 export default function TrackList(props: TrackListProps) {
-  const { items, onItemClick, onScroll, onItemMove } = props;
+  const { items, onItemClick, onItemMove } = props;
   const trackIDs = items.map((track) => track._id);
   const [selectedIDs, setSelectedIDs] = useState<string[]>([]);
   const [lastClickedID, setLastClickedID] = useState<string | null>(null);
@@ -77,9 +75,6 @@ export default function TrackList(props: TrackListProps) {
             strategy={verticalListSortingStrategy}
           >
             <Virtuoso
-              components={{
-                Scroller: ScrollArea,
-              }}
               data={items}
               className='w-full'
               overscan={5}
@@ -92,11 +87,6 @@ export default function TrackList(props: TrackListProps) {
                   isSelected={selectedIDs.includes(track._id)}
                 />
               )}
-              onScroll={(e) => {
-                if (!onScroll) return;
-                const target = e.target as HTMLElement;
-                onScroll(target.scrollTop);
-              }}
             />
           </SortableContext>
         ) : (
