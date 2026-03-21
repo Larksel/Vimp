@@ -33,27 +33,29 @@ export default function MusicLibraryView() {
   }
 
   return (
-    <div className='flex flex-col items-center px-4 pb-4'>
+    <div className='flex h-full min-h-0 flex-col items-center gap-4 p-4'>
       <SearchBox
         name='music-search'
         canChangeVisibility={false}
         placeholder='Buscar música...'
         onSearch={handleSearch}
-        className='mb-4 max-w-[300px]'
+        className='max-w-[300px]'
       />
-      {filteredTracks.length > 0 && (
-        <div className='flex h-full w-full items-center justify-center'>
+      <div className='flex min-h-0 w-full flex-1'>
+        {filteredTracks.length > 0 && (
           <VirtuosoGrid
-            className='w-full overflow-clip'
-            listClassName='grid w-full grid-cols-2 justify-items-center gap-6 xs:grid-cols-3 sm:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6'
+            className='w-full'
+            listClassName='grid justify-center gap-y-10 grid-cols-2 xs:grid-cols-3 xs:gap-8 sm:grid-cols-4 sm:gap-y-10 xl:grid-cols-5 2xl:grid-cols-6'
             data={filteredTracks}
-            overscan={10}
+            overscan={20}
             itemContent={(_, track) => (
-              <MediaCard key={track._id} item={track} queue={filteredTracks} />
+              <div key={track._id} className='flex justify-center'>
+                <MediaCard item={track} queue={filteredTracks} />
+              </div>
             )}
           />
-        </div>
-      )}
+        )}
+      </div>
       {tracks.length === 0 && <EmptyLibrary viewName='MusicLibrary' />}
     </div>
   );
