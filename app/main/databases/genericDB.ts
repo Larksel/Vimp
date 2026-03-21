@@ -8,7 +8,6 @@ import BaseWindowModule from '@main/modules/BaseWindowModule';
 import IPCChannels from '@shared/constants/IPCChannels';
 
 PouchDB.plugin(PouchDBFind);
-const userDataPath = app.getPath('userData');
 
 export default abstract class GenericDatabase<T>
   extends BaseWindowModule
@@ -19,7 +18,7 @@ export default abstract class GenericDatabase<T>
 
   constructor(dbName: string, channelPrefix: string, window: BrowserWindow) {
     super(window);
-    this.db = new PouchDB(path.join(userDataPath, dbName), {
+    this.db = new PouchDB(path.join(app.getPath('userData'), dbName), {
       adapter: 'leveldb',
       auto_compaction: true,
     });
