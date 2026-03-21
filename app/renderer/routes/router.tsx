@@ -5,7 +5,9 @@ import {
   RouterProvider,
   createHashRouter,
   createRoutesFromElements,
+  isRouteErrorResponse,
   useNavigate,
+  useRouteError,
 } from 'react-router-dom';
 
 import { routes } from './routes';
@@ -58,11 +60,17 @@ export default function AppRoutes() {
 
 function GlobalErrorBoundary() {
   const navigate = useNavigate();
+  const error = useRouteError();
+  const isPageNotFound = isRouteErrorResponse(error) && error.status === 404;
 
   return (
     <div className='flex h-screen flex-col items-center justify-center'>
       <div className='bg-surface-base flex flex-col items-center justify-center gap-4 rounded-lg p-4'>
-        <h1 className='text-2xl'>💥 Pagina não encontrada 💥</h1>
+        <h1 className='text-2xl'>
+          {isPageNotFound
+            ? '🤔 Página não encontrada (WIP)'
+            : '💥 Ocorreu um erro desconhecido 💥'}
+        </h1>
         <button
           className='bg-accent rounded-sm p-2'
           onClick={() => navigate(-1)}
