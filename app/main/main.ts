@@ -1,4 +1,4 @@
-import { app, Menu } from 'electron';
+import { app, Menu, protocol } from 'electron';
 import { electronApp, optimizer } from '@electron-toolkit/utils';
 import setupLogger, { createMainLogger } from './logger';
 import {
@@ -20,9 +20,22 @@ import IPCTracksDatabase from '@main/modules/ipc/IPCTracksDatabase';
 import IPCPlaylistsDatabase from '@main/modules/ipc/IPCPlaylistsDatabase';
 import DBManager from './dbManager';
 import { setupAppDirs } from './utils/utils-resources';
+import { vimpProtocols } from '@shared/constants/vimpProtocols';
 
 const isDebug =
   process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true';
+
+protocol.registerSchemesAsPrivileged([
+  {
+    scheme: vimpProtocols.vimpArtwork,
+    privileges: {
+      standard: true,
+      secure: true,
+      supportFetchAPI: true,
+      stream: true,
+    },
+  },
+]);
 
 setupLogger(isDebug);
 setupAppDirs();

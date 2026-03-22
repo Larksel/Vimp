@@ -1,10 +1,11 @@
 import { createRendererLogger } from '@renderer/utils/logger';
-import { useEffect, useCallback } from 'react';
+import { useEffect, useCallback, useRef } from 'react';
 import placeholderImage from '@renderer/assets/images/placeholder.png';
 
 import usePlayerStore, { usePlayerAPI } from '@renderer/stores/usePlayerStore';
 import getPlayer from '@renderer/core/player';
 import useCurrentTrack from '@renderer/hooks/useCurrentTrack';
+import { toBlobUrl } from '@renderer/utils/artwork';
 
 const logger = createRendererLogger('useMediaSession');
 
@@ -16,6 +17,7 @@ export default function useMediaSession() {
   const currentTime = usePlayerStore((state) => state.currentTime);
   const playerAPI = usePlayerAPI();
   const player = getPlayer();
+  const artworkBlobUrl = useRef<string | null>(null);
 
   /**
    * Update MediaSession playback position state.
@@ -81,7 +83,23 @@ export default function useMediaSession() {
   }, [currentTrack, player, playerAPI]);
 
   useEffect(() => {
-    if (currentTrack) {
+    let cancelled = false;
+    async function updateMediaSession() {
+      if (!currentTrack) return;
+
+      const blobUrl = await toBlobUrl(currentTrack.cover);
+
+      if (cancelled) {
+        if (blobUrl) URL.revokeObjectURL(blobUrl);
+        return;
+      }
+
+      if (artworkBlobUrl.current) {
+        URL.revokeObjectURL(artworkBlobUrl.current);
+      }
+
+      artworkBlobUrl.current = blobUrl;
+
       const artists = Array.isArray(currentTrack.artist)
         ? currentTrack.artist.join(', ')
         : currentTrack.artist;
@@ -92,13 +110,20 @@ export default function useMediaSession() {
         title: currentTrack.title,
         artist: artists,
         album: currentTrack.album,
-        artwork: [{ src: currentTrack.cover ?? placeholderImage }],
+        artwork: [{ src: blobUrl ?? placeholderImage }],
       });
     }
 
+    updateMediaSession();
+    return () => {
+      cancelled = true;
+    };
+  }, [currentTrack]);
+
+  useEffect(() => {
     configureActionHandlers();
 
-    return function clearActionHandlers() {
+    function clearActionHandlers() {
       navigator.mediaSession.setActionHandler('play', null);
       navigator.mediaSession.setActionHandler('pause', null);
       navigator.mediaSession.setActionHandler('stop', null);
@@ -107,8 +132,21 @@ export default function useMediaSession() {
       navigator.mediaSession.setActionHandler('seekforward', null);
       navigator.mediaSession.setActionHandler('previoustrack', null);
       navigator.mediaSession.setActionHandler('nexttrack', null);
+    }
+
+    return () => {
+      clearActionHandlers();
     };
-  }, [configureActionHandlers, currentTrack]);
+  }, [configureActionHandlers]);
+
+  useEffect(() => {
+    return () => {
+      if (artworkBlobUrl.current) {
+        URL.revokeObjectURL(artworkBlobUrl.current);
+        artworkBlobUrl.current = null;
+      }
+    };
+  }, []);
 
   useEffect(() => {
     updatePositionState();

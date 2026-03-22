@@ -3,10 +3,12 @@ import { createMainLogger } from '@main/logger';
 import path from 'path';
 import { Track } from '@shared/types/vimp';
 import BaseModule from './BaseModule';
-import { ipcMain } from 'electron';
-import IPCChannels from '@shared/constants/IPCChannels';
+import { app, net, protocol } from 'electron';
 import { IMetadataModule } from '@shared/interfaces/modules/IMetadataModule';
-import { statSync } from 'fs';
+import { mkdirSync, statSync, writeFileSync, existsSync } from 'fs';
+import { createHash } from 'crypto';
+import { pathToFileURL } from 'url';
+import { vimpProtocols } from '@shared/constants/vimpProtocols';
 
 const logger = createMainLogger('Metadata');
 
@@ -14,17 +16,29 @@ export default class MetadataModule
   extends BaseModule
   implements IMetadataModule
 {
+  private artworksDir!: string;
+
   constructor() {
     super();
   }
 
   protected async load() {
-    ipcMain.handle(
-      IPCChannels.METADATA_GET_COVER,
-      async (_, trackPath: string) => {
-        return this.getCover(trackPath);
-      },
-    );
+    this.artworksDir = path.join(app.getPath('userData'), 'artworks');
+    mkdirSync(this.artworksDir, { recursive: true });
+    protocol.handle(vimpProtocols.vimpArtwork, (request) => {
+      const coverPath = this.resolveCoverPathFromRequest(request.url);
+
+      if (!coverPath || !existsSync(coverPath)) {
+        return new Response('Cover not found', {
+          status: 404,
+          headers: {
+            'content-type': 'text/plain',
+          },
+        });
+      }
+
+      return net.fetch(pathToFileURL(coverPath).toString());
+    });
   }
 
   /**
@@ -38,17 +52,21 @@ export default class MetadataModule
       path: trackPath,
     };
 
-    try {
-      const data = await parseFile(trackPath, {
-        skipCovers: false,
-        duration: true,
-      });
+    let cover: string | null = null;
 
+    try {
+      const data = await this.extractFileMetadata(trackPath);
       const formattedData = this.formatMusicMetadata(data, trackPath);
+
+      const picture = data.common.picture?.[0];
+      if (picture) {
+        cover = this.persistCover(picture.format, picture.data);
+      }
 
       const metadata = {
         ...defaultMetadata,
         ...formattedData,
+        cover,
         path: trackPath,
       };
 
@@ -60,26 +78,40 @@ export default class MetadataModule
     return basicMetadata;
   }
 
-  /**
-   * Returns the track's cover
-   */
-  async getCover(trackPath: string) {
-    if (!trackPath) {
+  private async extractFileMetadata(filePath: string) {
+    return await parseFile(filePath, {
+      skipCovers: false,
+      duration: true,
+    });
+  }
+
+  private persistCover(format: string, data: Buffer): string {
+    const fileContents = new Uint8Array(data);
+    const hash = createHash('sha1').update(fileContents).digest('hex');
+    const extension = format.replace('image/', '');
+    const coverPath = path.join(this.artworksDir, `${hash}.${extension}`);
+
+    if (!existsSync(coverPath)) {
+      writeFileSync(coverPath, fileContents);
+    }
+
+    return this.getCoverUrl(path.basename(coverPath));
+  }
+
+  private getCoverUrl(fileName: string): string {
+    return `${vimpProtocols.vimpArtwork}://local/${encodeURIComponent(fileName)}`;
+  }
+
+  private resolveCoverPathFromRequest(requestUrl: string): string | null {
+    const { pathname } = new URL(requestUrl);
+    const fileName = decodeURIComponent(pathname.replace(/^\/+/, ''));
+    const sanitizedFileName = path.basename(fileName);
+
+    if (!sanitizedFileName) {
       return null;
     }
 
-    const data = await parseFile(trackPath);
-    const picture = data.common.picture?.[0];
-
-    if (picture) {
-      return this.parseBase64(picture.format, picture.data.toString('base64'));
-    }
-
-    return null;
-  }
-
-  private parseBase64(format: string, data: string): string {
-    return `data:${format};base64,${data}`;
+    return path.join(this.artworksDir, sanitizedFileName);
   }
 
   /**
@@ -87,7 +119,7 @@ export default class MetadataModule
    */
   private getMetadataDefaults(): Track {
     return {
-      title: '',
+      title: 'Unknown Track',
       artist: ['Unknown artist'],
       genre: ['Unknown'],
       duration: 0,
@@ -103,7 +135,6 @@ export default class MetadataModule
    */
   private formatMusicMetadata(data: IAudioMetadata, trackPath: string) {
     const { common, format } = data;
-    const picture = common.picture?.[0];
     const stats = statSync(trackPath);
     const dateModified: Date = stats.mtime;
 
@@ -117,19 +148,6 @@ export default class MetadataModule
       duration: format.duration ?? 0,
       dateModified: dateModified,
     };
-
-    if (picture) {
-      const base64Cover = this.parseBase64(
-        picture.format,
-        picture.data.toString('base64'),
-      );
-      const cover = base64Cover !== '' ? base64Cover : null;
-
-      return {
-        ...metadata,
-        cover: cover,
-      };
-    }
 
     return metadata;
   }

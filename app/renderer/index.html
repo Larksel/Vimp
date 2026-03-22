@@ -5,7 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self'; img-src 'self' data: vimp://*; media-src 'self' blob://*; object-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline';"
+      content="
+        default-src 'self' vimp-artwork:;
+        img-src 'self' data: vimp-artwork: blob:;
+        media-src 'self' blob://*;
+        object-src 'self';
+        script-src 'self' 'unsafe-inline' 'unsafe-eval';
+        style-src 'self' 'unsafe-inline';
+        connect-src 'self' vimp-artwork:;
+      "
     />
     <title>Vimp</title>
   </head>

@@ -14,9 +14,6 @@ const VimpAPI = {
     openFile: () => {
       return ipcRenderer.invoke(IPCChannels.DIALOG_OPEN_FILE);
     },
-    getCover: (trackPath: string) => {
-      return ipcRenderer.invoke(IPCChannels.METADATA_GET_COVER, trackPath);
-    },
     removeAllListeners: (channel: IPCChannels) => {
       return ipcRenderer.removeAllListeners(channel);
     },

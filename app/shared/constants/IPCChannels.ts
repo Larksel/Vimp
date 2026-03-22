@@ -19,9 +19,6 @@ enum IPCChannels {
   LIBRARY_SCAN = 'library:scan',
   LIBRARY_SCAN_AND_SAVE = 'library:scanAndSave',
 
-  // METADATA
-  METADATA_GET_COVER = 'metadata:getCover',
-
   /* DATABASES */
   GENERICDB_HAS_CHANGED = 'genericDB:hasChanged',
 
