@@ -5,7 +5,7 @@ import { Track } from '@shared/types/vimp';
 import BaseModule from './BaseModule';
 import { app, net, protocol } from 'electron';
 import { IMetadataModule } from '@shared/interfaces/modules/IMetadataModule';
-import { mkdirSync, statSync, writeFileSync, existsSync } from 'fs';
+import { mkdir, stat, writeFile, access } from 'fs/promises';
 import { createHash } from 'crypto';
 import { pathToFileURL } from 'url';
 import { vimpProtocols } from '@shared/constants/vimpProtocols';
@@ -24,11 +24,11 @@ export default class MetadataModule
 
   protected async load() {
     this.artworksDir = path.join(app.getPath('userData'), 'artworks');
-    mkdirSync(this.artworksDir, { recursive: true });
-    protocol.handle(vimpProtocols.vimpArtwork, (request) => {
+    await mkdir(this.artworksDir, { recursive: true });
+    protocol.handle(vimpProtocols.vimpArtwork, async (request) => {
       const coverPath = this.resolveCoverPathFromRequest(request.url);
 
-      if (!coverPath || !existsSync(coverPath)) {
+      if (!coverPath || !(await this.fileExists(coverPath))) {
         return new Response('Cover not found', {
           status: 404,
           headers: {
@@ -39,6 +39,15 @@ export default class MetadataModule
 
       return net.fetch(pathToFileURL(coverPath).toString());
     });
+  }
+
+  private async fileExists(filePath: string): Promise<boolean> {
+    try {
+      await access(filePath);
+      return true;
+    } catch {
+      return false;
+    }
   }
 
   /**
@@ -56,11 +65,11 @@ export default class MetadataModule
 
     try {
       const data = await this.extractFileMetadata(trackPath);
-      const formattedData = this.formatMusicMetadata(data, trackPath);
+      const formattedData = await this.formatMusicMetadata(data, trackPath);
 
       const picture = data.common.picture?.[0];
       if (picture) {
-        cover = this.persistCover(picture.format, picture.data);
+        cover = await this.persistCover(picture.format, picture.data);
       }
 
       const metadata = {
@@ -85,14 +94,14 @@ export default class MetadataModule
     });
   }
 
-  private persistCover(format: string, data: Buffer): string {
+  private async persistCover(format: string, data: Buffer): Promise<string> {
     const fileContents = new Uint8Array(data);
     const hash = createHash('sha1').update(fileContents).digest('hex');
     const extension = format.replace('image/', '');
     const coverPath = path.join(this.artworksDir, `${hash}.${extension}`);
 
-    if (!existsSync(coverPath)) {
-      writeFileSync(coverPath, fileContents);
+    if (!(await this.fileExists(coverPath))) {
+      await writeFile(coverPath, fileContents);
     }
 
     return this.getCoverUrl(path.basename(coverPath));
@@ -133,9 +142,9 @@ export default class MetadataModule
   /**
    * Returns an object with only the needed data from the file
    */
-  private formatMusicMetadata(data: IAudioMetadata, trackPath: string) {
+  private async formatMusicMetadata(data: IAudioMetadata, trackPath: string) {
     const { common, format } = data;
-    const stats = statSync(trackPath);
+    const stats = await stat(trackPath);
     const dateModified: Date = stats.mtime;
 
     const metadata = {
