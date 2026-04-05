@@ -1,7 +1,8 @@
-import { defineConfig, externalizeDepsPlugin } from 'electron-vite';
-import react from '@vitejs/plugin-react';
+import { defineConfig } from 'electron-vite';
+import react, { reactCompilerPreset } from '@vitejs/plugin-react';
 import path from 'path';
 import tailwindcss from '@tailwindcss/vite';
+import babel from '@rolldown/plugin-babel';
 
 const externals = ['globby', 'queue'];
 const minify = process.env.NODE_ENV === 'production';
@@ -12,7 +13,6 @@ const commonConfig = {
 
 export default defineConfig({
   main: {
-    plugins: [externalizeDepsPlugin({ exclude: externals })],
     resolve: {
       alias: {
         '@shared': path.resolve(__dirname, './app/shared'),
@@ -22,13 +22,15 @@ export default defineConfig({
     build: {
       ...commonConfig,
       outDir: '.vite/main',
+      externalizeDeps: {
+        exclude: externals
+      },
       lib: {
         entry: './app/main/main.ts',
       },
     },
   },
   preload: {
-    plugins: [externalizeDepsPlugin({ exclude: externals })],
     resolve: {
       alias: {
         '@preload': path.resolve(__dirname, './app/preload'),
@@ -38,6 +40,9 @@ export default defineConfig({
     build: {
       ...commonConfig,
       outDir: '.vite/preload',
+      externalizeDeps: {
+        exclude: externals
+      },
       lib: {
         entry: './app/preload/preload.ts',
       },
@@ -45,10 +50,9 @@ export default defineConfig({
   },
   renderer: {
     plugins: [
-      react({
-        babel: {
-          plugins: ['babel-plugin-react-compiler'],
-        },
+      react(),
+      babel({
+        presets: [reactCompilerPreset()]
       }),
       tailwindcss(),
     ],
