@@ -17,6 +17,7 @@ export default class IPCTracksDatabase extends BaseIPCDatabaseModule<Track> {
       UPDATE: IPCChannels.TRACKSDB_UPDATE,
       DELETE: IPCChannels.TRACKSDB_DELETE,
       CLEAR: IPCChannels.TRACKSDB_CLEAR,
+      HAS_CHANGED: IPCChannels.TRACKSDB_HAS_CHANGED
     });
 
     this.TracksDB = dbManager.getTracksDB();

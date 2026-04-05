@@ -17,6 +17,7 @@ export default class IPCPlaylistsDatabase extends BaseIPCDatabaseModule<Playlist
       UPDATE: IPCChannels.PLAYLISTSDB_UPDATE,
       DELETE: IPCChannels.PLAYLISTSDB_DELETE,
       CLEAR: IPCChannels.PLAYLISTSDB_CLEAR,
+      HAS_CHANGED: IPCChannels.PLAYLISTSDB_HAS_CHANGED
     });
 
     this.PlaylistsDB = dbManager.getPlaylistsDB();
