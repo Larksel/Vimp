@@ -48,14 +48,7 @@ const router = createHashRouter(
 export default function AppRoutes() {
   useDataLoader();
 
-  return (
-    <RouterProvider
-      router={router}
-      future={{
-        v7_startTransition: false,
-      }}
-    />
-  );
+  return <RouterProvider router={router} />;
 }
 
 function GlobalErrorBoundary() {
