@@ -5,7 +5,7 @@
     "app/renderer/types/index.d.ts",
     "app/renderer/**/*",
     "app/preload/**/*",
-    "app/shared/**/*",
+    "app/shared/**/*"
   ],
   "compilerOptions": {
     "composite": true,
@@ -13,6 +13,7 @@
     "jsx": "react-jsx",
     "noUnusedLocals": false,
     "noUnusedParameters": false,
+    "moduleResolution": "bundler",
     // This config must be the same as in electron.vite.config
     "paths": {
       "@shared/*": ["./app/shared/*"],

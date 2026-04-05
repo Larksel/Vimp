@@ -9,7 +9,7 @@
   ],
   "compilerOptions": {
     "composite": true,
-    "types": ["electron-vite/node", "jest", "node"],
+    "types": ["node", "jest", "electron-vite/node"],
     "noUnusedLocals": false,
     "module": "ESNext",
     "moduleResolution": "bundler",
