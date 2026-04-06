@@ -21,6 +21,7 @@ import IPCPlaylistsDatabase from '@main/modules/ipc/IPCPlaylistsDatabase';
 import DBManager from './dbManager';
 import { setupAppDirs } from './utils/utils-resources';
 import { vimpProtocols } from '@shared/constants/vimpProtocols';
+import VimpDB from './db';
 
 const isDebug =
   process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true';
@@ -83,7 +84,8 @@ if (!gotTheLock) {
 
     // Initialize databases
     const dbManager = new DBManager(mainWindow!);
-    await ModulesManager.init(dbManager);
+    const vimpDB = new VimpDB(mainWindow!);
+    await ModulesManager.init(dbManager, vimpDB);
 
     // Then initialize the rest with their dependencies
     ModulesManager.init(
