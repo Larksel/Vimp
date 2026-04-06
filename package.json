@@ -17,6 +17,7 @@
     "test:preload": "jest --selectProjects preload",
     "format": "prettier --write .",
     "lint": "eslint . --fix",
+    "rebuild:sqlite": "electron-rebuild -f -w better-sqlite3",
     "typecheck:node": "tsc --noEmit -p tsconfig.node.json --composite false",
     "typecheck:web": "tsc --noEmit -p tsconfig.web.json --composite false",
     "typecheck": "yarn typecheck:node && yarn typecheck:web",
@@ -34,6 +35,7 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "@electron/rebuild": "^4.0.3",
     "@eslint/js": "^9.39.4",
     "@rolldown/plugin-babel": "^0.2.2",
     "@tailwindcss/vite": "^4.2.2",
