@@ -1,21 +1,29 @@
+import { albumArtists } from './albumArtists';
+import { albums } from './albums';
 import { artists } from './artists';
-import { artistTags } from './artistTags';
-import { artistTracks } from './artistTracks';
+import { audioHistory } from './audioHistory';
+import { media } from './media';
+import { mediaAlbums } from './mediaAlbums';
+import { mediaArtists } from './mediaArtists';
+import { mediaTags } from './mediaTags';
+import { playlistItems } from './playlistItems';
 import { playlists } from './playlists';
-import { playlistTags } from './playlistTags';
-import { playlistTracks } from './playlistTracks';
 import { tags } from './tags';
-import { tracks } from './tracks';
-import { trackTags } from './trackTags';
+import { videoHistory } from './videoHistory';
+import { watchedFolders } from './watchedFolders';
 
 export const schema = {
+  albumArtists,
+  albums,
   artists,
-  artistTags,
-  artistTracks,
+  audioHistory,
+  media,
+  mediaAlbums,
+  mediaArtists,
+  mediaTags,
+  playlistItems,
   playlists,
-  playlistTags,
-  playlistTracks,
   tags,
-  tracks,
-  trackTags,
+  videoHistory,
+  watchedFolders,
 };

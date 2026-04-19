@@ -6,9 +6,11 @@ import fs from 'fs';
 import { app, BrowserWindow } from 'electron';
 import path from 'path';
 import BaseWindowModule from '@main/modules/BaseWindowModule';
+import setupFts from './setupFts.sql?raw';
 
 export default class VimpDB extends BaseWindowModule {
   private db: BetterSQLite3Database<typeof schema>;
+  private sqlite: Database.Database;
 
   constructor(window: BrowserWindow) {
     super(window);
@@ -19,14 +21,15 @@ export default class VimpDB extends BaseWindowModule {
 
     fs.mkdirSync(path.dirname(dbPath), { recursive: true });
 
-    const sqlite = new Database(dbPath);
-    sqlite.pragma('journal_mode = WAL');
+    this.sqlite = new Database(dbPath);
+    this.sqlite.pragma('journal_mode = WAL');
 
-    this.db = drizzle(sqlite, { schema });
+    this.db = drizzle(this.sqlite, { schema });
   }
 
   protected async load() {
     this.runMigrate();
+    this.initializeFts();
     // TODO executar verificações iniciais
   }
 
@@ -35,10 +38,12 @@ export default class VimpDB extends BaseWindowModule {
   }
 
   runMigrate() {
-    console.log('Running migrations...');
-    console.log(path.join(__dirname, '../../drizzle'));
     migrate(this.db, {
       migrationsFolder: path.join(__dirname, '../../drizzle'),
     });
+  }
+
+  initializeFts() {
+    this.sqlite.exec(setupFts);
   }
 }

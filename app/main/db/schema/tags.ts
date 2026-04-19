@@ -1,12 +1,20 @@
-import { index, int, sqliteTable, text } from 'drizzle-orm/sqlite-core';
-import { timestamps } from '../columns.helpers';
+import {
+  index,
+  integer,
+  sqliteTable,
+  text,
+  uniqueIndex,
+} from 'drizzle-orm/sqlite-core';
 
 export const tags = sqliteTable(
   'tags',
   {
-    id: int('id').primaryKey({ autoIncrement: true }),
+    id: integer('id').primaryKey({ autoIncrement: true }),
     name: text('name').notNull(),
-    ...timestamps,
+    type: text('type', { enum: ['genre', 'custom'] }).notNull(),
   },
-  (table) => [index('tags_name_idx').on(table.name)],
+  (t) => [
+    index('tags_type_idx').on(t.type),
+    uniqueIndex('tags_name_type_uidx').on(t.name, t.type),
+  ],
 );

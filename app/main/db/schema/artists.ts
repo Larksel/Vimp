@@ -1,16 +1,21 @@
-import { index, int, sqliteTable, text } from 'drizzle-orm/sqlite-core';
-import { favoritable, timestamps } from '../columns.helpers';
+import { index, integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
+import { externalSource, timestamps } from '../columns.helpers';
 
 export const artists = sqliteTable(
   'artists',
   {
-    id: int('id').primaryKey({ autoIncrement: true }),
+    id: integer('id').primaryKey({ autoIncrement: true }),
     name: text('name').notNull(),
-    ...favoritable,
+    coverPath: text('cover_path'),
+    isFavorite: integer('is_favorite', { mode: 'boolean' })
+      .notNull()
+      .default(false),
+    favoritedAt: integer('favorited_at', { mode: 'timestamp_ms' }),
+    ...externalSource,
     ...timestamps,
   },
-  (table) => [
-    index('artists_name_idx').on(table.name),
-    index('artists_favorite_idx').on(table.favorite),
+  (t) => [
+    index('artists_name_idx').on(t.name),
+    index('artists_is_favorite_idx').on(t.isFavorite),
   ],
 );

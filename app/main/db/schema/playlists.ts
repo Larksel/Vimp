@@ -1,18 +1,19 @@
-import { index, int, sqliteTable, text } from 'drizzle-orm/sqlite-core';
-import { favoritable, timestamps } from '../columns.helpers';
+import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
+import { timestamps } from '../columns.helpers';
 
-export const playlists = sqliteTable(
-  'playlists',
-  {
-    id: int('id').primaryKey({ autoIncrement: true }),
-    title: text('title').notNull(),
-    cover: text('cover'),
-    description: text('description'),
-    ...favoritable,
-    ...timestamps,
-  },
-  (table) => [
-    index('playlists_title_idx').on(table.title),
-    index('playlists_favorite_idx').on(table.favorite),
-  ],
-);
+export const playlists = sqliteTable('playlists', {
+  id: integer('id').primaryKey({ autoIncrement: true }),
+  name: text('name').notNull(),
+  cover: text('cover'),
+  type: text('type', { enum: ['audio', 'video'] }).notNull(),
+  kind: text('kind', { enum: ['normal', 'smart', 'system'] })
+    .notNull()
+    .default('normal'),
+  sortMode: text('sort_mode', {
+    enum: ['manual', 'title', 'artist', 'added_at'],
+  })
+    .notNull()
+    .default('added_at'),
+  filters: text('filters', { mode: 'json' }).$type<Record<string, unknown>>(),
+  ...timestamps,
+});
