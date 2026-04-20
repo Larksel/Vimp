@@ -5,7 +5,7 @@ export const artists = sqliteTable(
   'artists',
   {
     id: integer('id').primaryKey({ autoIncrement: true }),
-    name: text('name').notNull(),
+    name: text('name').notNull().unique(),
     coverPath: text('cover_path'),
     isFavorite: integer('is_favorite', { mode: 'boolean' })
       .notNull()

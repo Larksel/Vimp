@@ -98,6 +98,7 @@ export default function PlaylistView() {
           />
         </Button>
         <img
+        // TODO Se não haver cover, utilizar covers das primeiras quatro músicas
           src={playlist.cover ?? placeholder}
           alt='playlist cover'
           className='aspect-square h-full rounded-lg object-cover shadow-md select-none'

@@ -15,5 +15,6 @@ export const playlists = sqliteTable('playlists', {
     .notNull()
     .default('added_at'),
   filters: text('filters', { mode: 'json' }).$type<Record<string, unknown>>(),
+  slug: text('slug').unique(),
   ...timestamps,
 });

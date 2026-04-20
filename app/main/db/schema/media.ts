@@ -24,10 +24,6 @@ export const media = sqliteTable(
     codec: text('codec'),
     language: text('language'),
 
-    // Metadados de áudio (null para vídeo)
-    bitrate: integer('bitrate'),
-    sampleRate: integer('sample_rate'),
-
     isMissing: integer('is_missing', { mode: 'boolean' })
       .notNull()
       .default(false),

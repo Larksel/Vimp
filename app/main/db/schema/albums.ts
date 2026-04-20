@@ -3,7 +3,7 @@ import { externalSource, timestamps } from '../columns.helpers';
 
 export const albums = sqliteTable('albums', {
   id: integer('id').primaryKey({ autoIncrement: true }),
-  title: text('title').notNull(),
+  title: text('title').notNull().unique(),
   coverPath: text('cover_path'),
   ...externalSource,
   ...timestamps,
