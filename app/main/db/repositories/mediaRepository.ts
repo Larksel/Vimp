@@ -17,21 +17,21 @@ import { playlistItems } from '../schema/playlistItems';
 type DB = BetterSQLite3Database<typeof schema>;
 
 export const mediaRepository = {
-  insertMedia,
-  getMediaById,
-  getMediaByPath,
-  getAllMedia,
-  markMissingMedia,
+  insert,
+  getById,
+  getByPath,
+  getAll,
+  scanForMissing,
   markAsMissing,
   markAsFound,
-  toggleFavoriteMedia,
+  toggleFavorite,
   incrementPlayCount,
-  deleteMediaByPath,
-  deleteMediaById,
+  deleteByPath,
+  deleteById,
 };
 
 // TODO Somente adiciona mídia do tipo áudio. Criar separação.
-function insertMedia(db: DB, track: Track) {
+function insert(db: DB, track: Track) {
   return db.transaction((tx) => {
     const inserted = tx
       .insert(media)
@@ -132,15 +132,15 @@ function insertMedia(db: DB, track: Track) {
 
 // Leitura
 
-function getMediaById(db: DB, id: number) {
+function getById(db: DB, id: number) {
   return db.select().from(media).where(eq(media.id, id)).get();
 }
 
-function getMediaByPath(db: DB, filePath: string) {
+function getByPath(db: DB, filePath: string) {
   return db.select().from(media).where(eq(media.path, filePath)).get();
 }
 
-function getAllMedia(db: DB, type?: 'audio' | 'video') {
+function getAll(db: DB, type?: 'audio' | 'video') {
   const query = db.select().from(media);
   if (type) return query.where(eq(media.type, type)).all();
   return query.all();
@@ -148,7 +148,7 @@ function getAllMedia(db: DB, type?: 'audio' | 'video') {
 
 // Verificação
 
-function markMissingMedia(db: DB) {
+function scanForMissing(db: DB) {
   const allMedia = db
     .select({ id: media.id, path: media.path })
     .from(media)
@@ -189,7 +189,7 @@ function markAsFound(db: DB, id: number) {
 
 // Favorito
 
-function toggleFavoriteMedia(db: DB, mediaId: number) {
+function toggleFavorite(db: DB, mediaId: number) {
   return db.transaction((tx) => {
     const favoritesPlaylist = tx
       .select({ id: playlists.id })
@@ -236,10 +236,10 @@ function incrementPlayCount(db: DB, mediaId: number) {
 
 // Remoção
 
-function deleteMediaByPath(db: DB, filePath: string) {
+function deleteByPath(db: DB, filePath: string) {
   return db.delete(media).where(eq(media.path, filePath)).run();
 }
 
-function deleteMediaById(db: DB, id: number) {
+function deleteById(db: DB, id: number) {
   return db.delete(media).where(eq(media.id, id)).run();
 }
