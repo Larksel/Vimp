@@ -51,6 +51,7 @@ export default class VimpDB extends BaseWindowModule {
 
     return {
       mediaRepository: createMediaRepository(this.db),
+      tagRepository: createTagRepository(this.db),
     };
   }
 
