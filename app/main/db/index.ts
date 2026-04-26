@@ -8,6 +8,8 @@ import path from 'path';
 import BaseWindowModule from '@main/modules/BaseWindowModule';
 import setupFts from './setupFts.sql?raw';
 import createMediaRepository from './repositories/mediaRepository';
+import createTagRepository from './repositories/tagRepository';
+import createWatchedFolderRepository from './repositories/watchedFolderRepository';
 
 export default class VimpDB extends BaseWindowModule {
   private db?: BetterSQLite3Database<typeof schema>;
@@ -52,6 +54,7 @@ export default class VimpDB extends BaseWindowModule {
     return {
       mediaRepository: createMediaRepository(this.db),
       tagRepository: createTagRepository(this.db),
+      watchedFolderRepository: createWatchedFolderRepository(this.db),
     };
   }
 
