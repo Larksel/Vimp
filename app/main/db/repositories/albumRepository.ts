@@ -3,25 +3,12 @@ import { InsertAlbum, VimpDB } from '@main/types';
 import { albums } from '../schema/albums';
 
 export default function createAlbumRepository(db: VimpDB) {
-  function insert(
-    title: string,
-    coverPath?: string,
-    externalId?: string,
-    externalSource?: string,
-  ) {
-    const result = db
+  function insert(data: InsertAlbum) {
+    return db
       .insert(albums)
-      .values({ title, coverPath, externalId, externalSource })
+      .values(data)
       .onConflictDoNothing()
       .returning({ id: albums.id })
-      .get();
-
-    if (result) return result;
-
-    return db
-      .select({ id: albums.id })
-      .from(albums)
-      .where(eq(albums.title, title))
       .get();
   }
 
