@@ -18,6 +18,8 @@ import createMediaAlbumRepository from './repositories/mediaAlbumRepository';
 import createMediaArtistRepository from './repositories/mediaArtistRepository';
 import createMediaTagRepository from './repositories/mediaTagRepository';
 import createPlaylistItemRepository from './repositories/playlistItemRepository';
+import createVideoHistoryRepository from './repositories/videoHistoryRepository';
+import createAudioHistoryRepository from './repositories/audioHistoryRepository';
 
 export default class VimpDB extends BaseWindowModule {
   private db?: BetterSQLite3Database<typeof schema>;
@@ -63,6 +65,7 @@ export default class VimpDB extends BaseWindowModule {
       albumArtistRepository: createAlbumArtistRepository(this.db),
       albumRepository: createAlbumRepository(this.db),
       artistRepository: createArtistRepository(this.db),
+      audioHistoryRepository: createAudioHistoryRepository(this.db),
       mediaAlbumRepository: createMediaAlbumRepository(this.db),
       mediaArtistRepository: createMediaArtistRepository(this.db),
       mediaRepository: createMediaRepository(this.db),
@@ -70,6 +73,7 @@ export default class VimpDB extends BaseWindowModule {
       playlistItemRepository: createPlaylistItemRepository(this.db),
       playlistRepository: createPlaylistRepository(this.db),
       tagRepository: createTagRepository(this.db),
+      videoHistoryRepository: createVideoHistoryRepository(this.db),
       watchedFolderRepository: createWatchedFolderRepository(this.db),
     };
   }
