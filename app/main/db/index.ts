@@ -11,6 +11,7 @@ import createMediaRepository from './repositories/mediaRepository';
 import createTagRepository from './repositories/tagRepository';
 import createWatchedFolderRepository from './repositories/watchedFolderRepository';
 import createAlbumRepository from './repositories/albumRepository';
+import createArtistRepository from './repositories/artistRepository';
 
 export default class VimpDB extends BaseWindowModule {
   private db?: BetterSQLite3Database<typeof schema>;
@@ -54,6 +55,7 @@ export default class VimpDB extends BaseWindowModule {
 
     return {
       albumRepository: createAlbumRepository(this.db),
+      artistRepository: createArtistRepository(this.db),
       mediaRepository: createMediaRepository(this.db),
       tagRepository: createTagRepository(this.db),
       watchedFolderRepository: createWatchedFolderRepository(this.db),
