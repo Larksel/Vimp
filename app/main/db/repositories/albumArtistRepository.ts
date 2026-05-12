@@ -1,12 +1,12 @@
 import { eq, and } from 'drizzle-orm';
-import { VimpDB } from '@main/types';
+import { InsertAlbumArtist, VimpDatabase } from '@main/types';
 import { albumArtists } from '../schema/albumArtists';
 
-export default function createAlbumArtistRepository(db: VimpDB) {
-  function insert(albumId: number, artistId: number) {
+export default function createAlbumArtistRepository(db: VimpDatabase) {
+  function insert(data: InsertAlbumArtist) {
     return db
       .insert(albumArtists)
-      .values({ albumId, artistId })
+      .values(data)
       .onConflictDoNothing()
       .run();
   }

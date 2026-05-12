@@ -1,12 +1,12 @@
 import { eq } from 'drizzle-orm';
-import { VimpDB } from '@main/types';
+import { InsertWatchedFolder, VimpDatabase } from '@main/types';
 import { watchedFolders } from '../schema/watchedFolders';
 
-export default function createWatchedFolderRepository(db: VimpDB) {
-  function insert(path: string) {
+export default function createWatchedFolderRepository(db: VimpDatabase) {
+  function insert(data: InsertWatchedFolder) {
     return db
       .insert(watchedFolders)
-      .values({ path })
+      .values(data)
       .onConflictDoNothing()
       .returning({ id: watchedFolders.id })
       .get();

@@ -1,12 +1,12 @@
 import { eq, and } from 'drizzle-orm';
-import { VimpDB } from '@main/types';
+import { InsertTag, VimpDatabase } from '@main/types';
 import { tags } from '../schema/tags';
 
-export default function createTagRepository(db: VimpDB) {
-  function insert(name: string, type: 'genre' | 'custom' = 'custom') {
+export default function createTagRepository(db: VimpDatabase) {
+  function insert(data: InsertTag) {
     return db
       .insert(tags)
-      .values({ name, type })
+      .values(data)
       .onConflictDoNothing()
       .returning({ id: tags.id })
       .get();

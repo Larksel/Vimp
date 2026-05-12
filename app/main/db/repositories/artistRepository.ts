@@ -1,8 +1,8 @@
 import { eq } from 'drizzle-orm';
-import { InsertArtist, VimpDB } from '@main/types';
+import { InsertArtist, VimpDatabase } from '@main/types';
 import { artists } from '../schema/artists';
 
-export default function createArtistRepository(db: VimpDB) {
+export default function createArtistRepository(db: VimpDatabase) {
   function insert(data: InsertArtist) {
     return db
       .insert(artists)

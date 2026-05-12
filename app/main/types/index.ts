@@ -1,31 +1,22 @@
 import { schema } from '@main/db/schema';
 import { BetterSQLite3Database } from 'drizzle-orm/better-sqlite3';
 
-export type VimpDB = BetterSQLite3Database<typeof schema>;
+export type VimpDatabase = BetterSQLite3Database<typeof schema>;
 
 // Insert/Update types
-export type InsertPlaylist = Omit<typeof schema.playlists.$inferInsert, 'id'>;
-export type InsertPlaylistItem = Omit<
-  typeof schema.playlistItems.$inferInsert,
-  'id'
->;
-export type InsertMedia = Omit<typeof schema.media.$inferInsert, 'id'>;
-export type InsertAlbum = Omit<typeof schema.albums.$inferInsert, 'id'>;
-export type InsertArtist = Omit<typeof schema.artists.$inferInsert, 'id'>;
-export type InsertTag = Omit<typeof schema.tags.$inferInsert, 'id'>;
+export type InsertPlaylist = typeof schema.playlists.$inferInsert;
+export type InsertPlaylistItem = typeof schema.playlistItems.$inferInsert;
+export type InsertMedia = typeof schema.media.$inferInsert;
+export type InsertAlbum = typeof schema.albums.$inferInsert;
+export type InsertArtist = typeof schema.artists.$inferInsert;
+export type InsertTag = typeof schema.tags.$inferInsert;
 export type InsertAlbumArtist = typeof schema.albumArtists.$inferInsert;
 export type InsertMediaAlbum = typeof schema.mediaAlbums.$inferInsert;
 export type InsertMediaArtist = typeof schema.mediaArtists.$inferInsert;
 export type InsertMediaTag = typeof schema.mediaTags.$inferInsert;
 export type InsertAudioHistory = typeof schema.audioHistory.$inferInsert;
-export type InsertVideoHistory = Omit<
-  typeof schema.videoHistory.$inferInsert,
-  'id'
->;
-export type InsertWatchedFolder = Omit<
-  typeof schema.watchedFolders.$inferInsert,
-  'id'
->;
+export type InsertVideoHistory = typeof schema.videoHistory.$inferInsert;
+export type InsertWatchedFolder = typeof schema.watchedFolders.$inferInsert;
 
 // Select types
 export type Playlist = typeof schema.playlists.$inferSelect;

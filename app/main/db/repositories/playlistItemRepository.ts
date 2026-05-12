@@ -1,12 +1,12 @@
 import { eq, and } from 'drizzle-orm';
-import { VimpDB } from '@main/types';
+import { InsertPlaylistItem, VimpDatabase } from '@main/types';
 import { playlistItems } from '../schema/playlistItems';
 
-export default function createPlaylistItemRepository(db: VimpDB) {
-  function insert(playlistId: number, mediaId: number, position: number) {
+export default function createPlaylistItemRepository(db: VimpDatabase) {
+  function insert(data: InsertPlaylistItem) {
     return db
       .insert(playlistItems)
-      .values({ playlistId, mediaId, position })
+      .values(data)
       .onConflictDoNothing()
       .returning({ id: playlistItems.id })
       .get();
