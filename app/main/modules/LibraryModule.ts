@@ -10,10 +10,10 @@ import IPCChannels from '@shared/constants/IPCChannels';
 
 import BaseModule from './BaseModule';
 import { IMetadataModule } from '@shared/interfaces/modules/IMetadataModule';
-import { IDBManager } from '@shared/interfaces/modules/IDBManager';
 import { ILibraryModule } from '@shared/interfaces/modules/ILibraryModule';
 import type Store from 'electron-store';
 import { Config, FileTypes, ScannedFiles } from '@shared/types/vimp';
+import { VimpServices } from '@main/services';
 
 type FilterType = 'tracks' | 'video' | 'allSupported';
 
@@ -30,17 +30,17 @@ export default class LibraryModule
   };
 
   private readonly metadataModule: IMetadataModule;
-  private readonly dbManager: IDBManager;
+  private readonly mediaService: VimpServices['mediaService'];
   protected config: Store<Config>;
 
   constructor(
-    dbManager: IDBManager,
+    services: VimpServices,
     metadataModule: IMetadataModule,
     config: Store<Config>,
   ) {
     super();
 
-    this.dbManager = dbManager;
+    this.mediaService = services.mediaService;
     this.metadataModule = metadataModule;
     this.config = config;
     this.status = {
@@ -239,14 +239,13 @@ export default class LibraryModule
       const extension = path.extname(resolvedPath).toLowerCase();
 
       const fileType = this.getFileType(extension);
-      const db = this.getDatabaseForType(fileType);
 
-      if (!db) {
-        logger.error(`No database found for file type: ${fileType}`);
+      if (fileType !== FileTypes.TRACKS && fileType !== FileTypes.VIDEOS) {
+        logger.error(`Can't process file of type: ${fileType}`);
         return;
       }
 
-      const existingDoc = await db.getByPath(resolvedPath);
+      const existingDoc = this.mediaService.getByPath(resolvedPath);
 
       if (!existingDoc) {
         const metadata = await this.metadataModule.getMetadata(resolvedPath);
@@ -269,10 +268,9 @@ export default class LibraryModule
 
   private async insertScannedFiles(scannedFiles: ScannedFiles): Promise<void> {
     for (const [fileType, files] of Object.entries(scannedFiles)) {
-      const db = this.getDatabaseForType(fileType as FileTypes);
-      if (db && files.length > 0) {
+      if (fileType === FileTypes.TRACKS && files.length > 0) {
         logger.info(`Inserting ${files.length} ${fileType} into database`);
-        await db.create(files);
+        this.mediaService.importTracks(files);
       }
     }
   }
@@ -283,17 +281,5 @@ export default class LibraryModule
     if (supportedExtensions.VIDEOS.includes(extension)) return FileTypes.VIDEOS;
     if (supportedExtensions.TRACKS.includes(extension)) return FileTypes.TRACKS;
     return FileTypes.UNKNOWN;
-  }
-
-  private getDatabaseForType(fileType: FileTypes) {
-    switch (fileType) {
-      case FileTypes.TRACKS:
-        return this.dbManager.getTracksDB();
-      case FileTypes.VIDEOS:
-        logger.error('No DB for videos');
-        return null;
-      default:
-        return null;
-    }
   }
 }

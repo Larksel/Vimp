@@ -8,3 +8,5 @@ export default function createServices(db: VimpDatabase) {
     playlistService: createPlaylistService(db),
   };
 }
+
+export type VimpServices = ReturnType<typeof createServices>;

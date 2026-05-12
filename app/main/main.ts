@@ -18,6 +18,8 @@ import WatcherModule from '@main/modules/WatcherModule';
 // IPC Modules
 import IPCTracksDatabase from '@main/modules/ipc/IPCTracksDatabase';
 import IPCPlaylistsDatabase from '@main/modules/ipc/IPCPlaylistsDatabase';
+import IPCMediaService from '@main/modules/ipc/IPCMediaService';
+import IPCPlaylistService from '@main/modules/ipc/IPCPlaylistService';
 import DBManager from './dbManager';
 import { setupAppDirs } from './utils/utils-resources';
 import { vimpProtocols } from '@shared/constants/vimpProtocols';
@@ -86,17 +88,25 @@ if (!gotTheLock) {
     const dbManager = new DBManager(mainWindow!);
     const vimpDB = new VimpDB(mainWindow!);
     await ModulesManager.init(dbManager, vimpDB);
+    const repositories = vimpDB.getRepositories();
+    const services = vimpDB.getServices();
 
     // Then initialize the rest with their dependencies
     ModulesManager.init(
       new DialogsModule(metadataModule),
-      new LibraryModule(dbManager, metadataModule, config),
+      new LibraryModule(services, metadataModule, config),
       new FileSystemModule(),
       new AppMenuModule(mainWindow!),
-      new WatcherModule(dbManager, config, metadataModule),
+      new WatcherModule(services, config, metadataModule),
       // IPC Modules
       new IPCTracksDatabase(dbManager),
       new IPCPlaylistsDatabase(dbManager),
+      new IPCMediaService(mainWindow!, services, repositories.mediaRepository),
+      new IPCPlaylistService(
+        mainWindow!,
+        services,
+        repositories.playlistRepository,
+      ),
     );
 
     app.on('second-instance', () => {

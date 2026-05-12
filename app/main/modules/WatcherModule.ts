@@ -4,26 +4,25 @@ import { watch } from 'chokidar';
 import path from 'path';
 import { Config, Track } from '@shared/types/vimp';
 import supportedExtensions from '@shared/constants/supportedExtensions';
-import { IDBManager } from '@shared/interfaces/modules/IDBManager';
 import { IMetadataModule } from '@shared/interfaces/modules/IMetadataModule';
 import BaseModule from './BaseModule';
-import { ITracksDatabase } from '@shared/interfaces/databases/ITracksDatabase';
+import { VimpServices } from '@main/services';
 
 const logger = createMainLogger('Watcher');
 
 export default class WatcherModule extends BaseModule {
   protected config: Store<Config>;
   private readonly metadataModule: IMetadataModule;
-  private readonly TracksDB: ITracksDatabase;
+  private readonly mediaService: VimpServices['mediaService'];
 
   constructor(
-    dbManager: IDBManager,
+    services: VimpServices,
     config: Store<Config>,
     metadataModule: IMetadataModule,
   ) {
     super();
 
-    this.TracksDB = dbManager.getTracksDB();
+    this.mediaService = services.mediaService;
     this.metadataModule = metadataModule;
     this.config = config;
   }
@@ -52,11 +51,11 @@ export default class WatcherModule extends BaseModule {
     logger.info(`DETECTED: ${filePath}`);
     const resolvedPath = path.resolve(filePath);
 
-    const existingDoc = await this.TracksDB.getByPath(resolvedPath);
+    const existingTrack = this.mediaService.getByPath(resolvedPath);
 
-    if (!existingDoc) {
+    if (!existingTrack) {
       const track: Track = await this.metadataModule.getMetadata(resolvedPath);
-      await this.TracksDB.create(track);
+      this.mediaService.importTrack(track);
       logger.info(`ADDED: ${filePath}`);
     } else {
       logger.info(`SKIPPED: ${filePath}`);
@@ -68,10 +67,10 @@ export default class WatcherModule extends BaseModule {
 
     const resolvedPath = path.resolve(filePath);
 
-    const existingDoc = await this.TracksDB.getByPath(resolvedPath);
+    const existingTrack = this.mediaService.getByPath(resolvedPath);
 
-    if (existingDoc) {
-      await this.TracksDB.delete(existingDoc);
+    if (existingTrack) {
+      this.mediaService.deleteByPath(resolvedPath);
       logger.info(`REMOVED: ${filePath}`);
     } else {
       logger.info(`Track Not Found: ${filePath}`);

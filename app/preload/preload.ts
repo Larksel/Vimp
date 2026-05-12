@@ -5,6 +5,8 @@ import config from './modules/config';
 import library from './modules/library';
 import playlistsDB from './databases/playlistsDB';
 import fileSystem from './modules/fileSystem';
+import media from './modules/media';
+import playlist from './modules/playlist';
 
 const VimpAPI = {
   app: {
@@ -22,6 +24,8 @@ const VimpAPI = {
   config,
   tracksDB,
   playlistsDB,
+  media,
+  playlist,
   fileSystem,
 };
 

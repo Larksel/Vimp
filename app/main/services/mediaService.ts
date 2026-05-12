@@ -163,7 +163,13 @@ export default function createMediaService(db: VimpDatabase) {
     return media;
   }
 
+  function getByPath(mediaPath: string) {
+    const mediaRepository = createMediaRepository(db);
+    return mediaRepository.getByPath(path.resolve(mediaPath));
+  }
+
   return {
+    getByPath,
     importTrack,
     importTracks,
     scanMissingMedia,
