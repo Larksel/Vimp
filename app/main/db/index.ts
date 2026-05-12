@@ -1,4 +1,4 @@
-import { BetterSQLite3Database, drizzle } from 'drizzle-orm/better-sqlite3';
+import { drizzle } from 'drizzle-orm/better-sqlite3';
 import Database from 'better-sqlite3';
 import { migrate } from 'drizzle-orm/better-sqlite3/migrator';
 import { schema } from './schema';
@@ -20,11 +20,14 @@ import createMediaTagRepository from './repositories/mediaTagRepository';
 import createPlaylistItemRepository from './repositories/playlistItemRepository';
 import createVideoHistoryRepository from './repositories/videoHistoryRepository';
 import createAudioHistoryRepository from './repositories/audioHistoryRepository';
+import { VimpDatabase } from '@main/types';
+import createServices from '@main/services';
 
 export default class VimpDB extends BaseWindowModule {
-  private db?: BetterSQLite3Database<typeof schema>;
+  private db?: VimpDatabase;
   private sqlite?: Database.Database;
   private repositories?: ReturnType<typeof this.createRepositories>;
+  private services?: ReturnType<typeof createServices>;
 
   constructor(window: BrowserWindow) {
     super(window);
@@ -44,14 +47,23 @@ export default class VimpDB extends BaseWindowModule {
     this.runMigrate();
     this.initializeFts();
     this.repositories = this.createRepositories();
+    this.services = createServices(this.db);
     // TODO executar verificações iniciais
+    // TODO forçar criação das playlists de sistema (favoritos)
   }
 
   getRepositories() {
-    if (!this.loaded) {
+    if (!this.loaded || !this.repositories) {
       throw new Error(`Can't create repositories before db connection`);
     }
     return this.repositories;
+  }
+
+  getServices() {
+    if (!this.loaded || !this.services) {
+      throw new Error(`Can't create services before db connection`);
+    }
+    return this.services;
   }
 
   private createRepositories() {

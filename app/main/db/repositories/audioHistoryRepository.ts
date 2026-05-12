@@ -1,14 +1,10 @@
 import { eq, sql, desc } from 'drizzle-orm';
-import { InsertAudioHistory, VimpDatabase } from '@main/types';
+import { InsertAudioHistory, VimpDBExecutor } from '@main/types';
 import { audioHistory } from '../schema/audioHistory';
 
-export default function createAudioHistoryRepository(db: VimpDatabase) {
+export default function createAudioHistoryRepository(db: VimpDBExecutor) {
   function insert(data: InsertAudioHistory) {
-    return db
-      .insert(audioHistory)
-      .values(data)
-      .onConflictDoNothing()
-      .run();
+    return db.insert(audioHistory).values(data).onConflictDoNothing().run();
   }
 
   function getByMediaId(mediaId: number) {

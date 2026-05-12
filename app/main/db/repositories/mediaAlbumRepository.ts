@@ -1,14 +1,10 @@
 import { eq, and } from 'drizzle-orm';
-import { InsertMediaAlbum, VimpDatabase } from '@main/types';
+import { InsertMediaAlbum, VimpDBExecutor } from '@main/types';
 import { mediaAlbums } from '../schema/mediaAlbums';
 
-export default function createMediaAlbumRepository(db: VimpDatabase) {
+export default function createMediaAlbumRepository(db: VimpDBExecutor) {
   function insert(data: InsertMediaAlbum) {
-    return db
-      .insert(mediaAlbums)
-      .values(data)
-      .onConflictDoNothing()
-      .run();
+    return db.insert(mediaAlbums).values(data).onConflictDoNothing().run();
   }
 
   function getByMediaId(mediaId: number) {

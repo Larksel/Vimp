@@ -1,8 +1,8 @@
 import { eq } from 'drizzle-orm';
-import { InsertWatchedFolder, VimpDatabase } from '@main/types';
+import { InsertWatchedFolder, VimpDBExecutor } from '@main/types';
 import { watchedFolders } from '../schema/watchedFolders';
 
-export default function createWatchedFolderRepository(db: VimpDatabase) {
+export default function createWatchedFolderRepository(db: VimpDBExecutor) {
   function insert(data: InsertWatchedFolder) {
     return db
       .insert(watchedFolders)

@@ -1,8 +1,8 @@
 import { eq, desc } from 'drizzle-orm';
-import { VimpDatabase, InsertVideoHistory } from '@main/types';
+import { VimpDBExecutor, InsertVideoHistory } from '@main/types';
 import { videoHistory } from '../schema/videoHistory';
 
-export default function createVideoHistoryRepository(db: VimpDatabase) {
+export default function createVideoHistoryRepository(db: VimpDBExecutor) {
   function insert(data: InsertVideoHistory) {
     return db
       .insert(videoHistory)

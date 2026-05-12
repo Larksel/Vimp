@@ -1,14 +1,10 @@
 import { eq, and } from 'drizzle-orm';
-import { InsertMediaTag, VimpDatabase } from '@main/types';
+import { InsertMediaTag, VimpDBExecutor } from '@main/types';
 import { mediaTags } from '../schema/mediaTags';
 
-export default function createMediaTagRepository(db: VimpDatabase) {
+export default function createMediaTagRepository(db: VimpDBExecutor) {
   function insert(data: InsertMediaTag) {
-    return db
-      .insert(mediaTags)
-      .values(data)
-      .onConflictDoNothing()
-      .run();
+    return db.insert(mediaTags).values(data).onConflictDoNothing().run();
   }
 
   function getByMediaId(mediaId: number) {

@@ -1,8 +1,8 @@
 import { eq } from 'drizzle-orm';
-import { VimpDatabase, InsertMedia } from '@main/types';
+import { VimpDBExecutor, InsertMedia } from '@main/types';
 import { media } from '../schema/media';
 
-export default function createMediaRepository(db: VimpDatabase) {
+export default function createMediaRepository(db: VimpDBExecutor) {
   function insert(data: InsertMedia) {
     return db.insert(media).values(data).returning({ id: media.id }).get();
   }

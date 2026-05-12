@@ -1,8 +1,8 @@
-import { InsertPlaylist, VimpDatabase } from '@main/types';
+import { InsertPlaylist, VimpDBExecutor } from '@main/types';
 import { playlists } from '../schema/playlists';
 import { eq } from 'drizzle-orm';
 
-export default function createPlaylistRepository(db: VimpDatabase) {
+export default function createPlaylistRepository(db: VimpDBExecutor) {
   function insert(data: InsertPlaylist) {
     return db
       .insert(playlists)

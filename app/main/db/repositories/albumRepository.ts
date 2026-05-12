@@ -1,8 +1,8 @@
 import { eq } from 'drizzle-orm';
-import { InsertAlbum, VimpDatabase } from '@main/types';
+import { InsertAlbum, VimpDBExecutor } from '@main/types';
 import { albums } from '../schema/albums';
 
-export default function createAlbumRepository(db: VimpDatabase) {
+export default function createAlbumRepository(db: VimpDBExecutor) {
   function insert(data: InsertAlbum) {
     return db
       .insert(albums)

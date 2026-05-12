@@ -1,8 +1,8 @@
 import { eq, and } from 'drizzle-orm';
-import { InsertTag, VimpDatabase } from '@main/types';
+import { InsertTag, VimpDBExecutor } from '@main/types';
 import { tags } from '../schema/tags';
 
-export default function createTagRepository(db: VimpDatabase) {
+export default function createTagRepository(db: VimpDBExecutor) {
   function insert(data: InsertTag) {
     return db
       .insert(tags)

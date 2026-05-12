@@ -1,14 +1,10 @@
 import { eq, and } from 'drizzle-orm';
-import { InsertAlbumArtist, VimpDatabase } from '@main/types';
+import { InsertAlbumArtist, VimpDBExecutor } from '@main/types';
 import { albumArtists } from '../schema/albumArtists';
 
-export default function createAlbumArtistRepository(db: VimpDatabase) {
+export default function createAlbumArtistRepository(db: VimpDBExecutor) {
   function insert(data: InsertAlbumArtist) {
-    return db
-      .insert(albumArtists)
-      .values(data)
-      .onConflictDoNothing()
-      .run();
+    return db.insert(albumArtists).values(data).onConflictDoNothing().run();
   }
 
   function getByAlbumId(albumId: number) {
