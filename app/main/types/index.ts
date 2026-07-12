@@ -1,7 +1,7 @@
 import { schema } from '@main/db/schema';
 import { BetterSQLite3Database } from 'drizzle-orm/better-sqlite3';
 
-export type VimpDatabase = BetterSQLite3Database<typeof schema>;
+export type VimpDatabase = BetterSQLite3Database;
 export type VimpTransaction = Parameters<
   Parameters<VimpDatabase['transaction']>[0]
 >[0];

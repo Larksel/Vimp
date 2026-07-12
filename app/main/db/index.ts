@@ -1,7 +1,6 @@
 import { drizzle } from 'drizzle-orm/better-sqlite3';
 import Database from 'better-sqlite3';
 import { migrate } from 'drizzle-orm/better-sqlite3/migrator';
-import { schema } from './schema';
 import fs from 'fs';
 import { app, BrowserWindow } from 'electron';
 import path from 'path';
@@ -22,6 +21,7 @@ import createVideoHistoryRepository from './repositories/videoHistoryRepository'
 import createAudioHistoryRepository from './repositories/audioHistoryRepository';
 import { VimpDatabase } from '@main/types';
 import createServices from '@main/services';
+import { relations } from './relations';
 
 export default class VimpDB extends BaseWindowModule {
   private db?: VimpDatabase;
@@ -42,7 +42,7 @@ export default class VimpDB extends BaseWindowModule {
 
     this.sqlite = new Database(dbPath);
     this.sqlite.pragma('journal_mode = WAL');
-    this.db = drizzle(this.sqlite, { schema });
+    this.db = drizzle({ client: this.sqlite, relations });
 
     this.runMigrate();
     this.initializeFts();
