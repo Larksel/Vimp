@@ -5,7 +5,7 @@ import {
   sqliteTable,
   text,
 } from 'drizzle-orm/sqlite-core';
-import { externalSource, timestamps } from '../columns.helpers';
+import { externalSource, timestamps } from './columns.helpers';
 
 export const media = sqliteTable(
   'media',

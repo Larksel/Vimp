@@ -1,5 +1,5 @@
 import { index, integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
-import { externalSource, timestamps } from '../columns.helpers';
+import { externalSource, timestamps } from './columns.helpers';
 
 export const artists = sqliteTable(
   'artists',
