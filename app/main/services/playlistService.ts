@@ -1,20 +1,20 @@
-import createMediaRepository from '@main/db/repositories/mediaRepository';
-import createPlaylistItemRepository from '@main/db/repositories/playlistItemRepository';
-import createPlaylistRepository from '@main/db/repositories/playlistRepository';
-import { InsertPlaylist, VimpDBExecutor, VimpDatabase } from '@main/types';
+import { Repositories } from '@main/db/types';
+import { InsertPlaylist } from '@main/types';
+import { createCrudService } from './serviceHelper';
 
-function createTxRepositories(db: VimpDBExecutor) {
-  return {
-    mediaRepository: createMediaRepository(db),
-    playlistItemRepository: createPlaylistItemRepository(db),
-    playlistRepository: createPlaylistRepository(db),
-  };
-}
+export default function createPlaylistService(repositories: Repositories) {
+  const crudMethods = createCrudService(repositories.playlistRepository);
 
-export default function createPlaylistService(db: VimpDatabase) {
   function createPlaylist(data: InsertPlaylist) {
-    const playlistRepository = createPlaylistRepository(db);
-    return playlistRepository.insert(data);
+    return repositories.playlistRepository.insert(data);
+  }
+
+  function getBySlug(slug: string) {
+    return repositories.playlistRepository.getBySlug(slug);
+  }
+
+  function getItems(playlistId: number) {
+    return repositories.playlistItemRepository.getByPlaylistId(playlistId);
   }
 
   function addMediaToPlaylist(
@@ -22,10 +22,9 @@ export default function createPlaylistService(db: VimpDatabase) {
     mediaId: number,
     position?: number,
   ) {
-    return db.transaction((tx) => {
-      const repositories = createTxRepositories(tx);
-      const playlist = repositories.playlistRepository.getById(playlistId);
-      const media = repositories.mediaRepository.getById(mediaId);
+    return repositories.transaction((tx) => {
+      const playlist = tx.playlistRepository.getById(playlistId);
+      const media = tx.mediaRepository.getById(mediaId);
 
       if (!playlist) {
         throw new Error(`Playlist not found: ${playlistId}`);
@@ -36,7 +35,7 @@ export default function createPlaylistService(db: VimpDatabase) {
       }
 
       const playlistItems =
-        repositories.playlistItemRepository.getByPlaylistId(playlistId);
+        tx.playlistItemRepository.getByPlaylistId(playlistId);
       const nextPosition =
         position ??
         playlistItems.reduce(
@@ -44,7 +43,7 @@ export default function createPlaylistService(db: VimpDatabase) {
           -1,
         ) + 1;
 
-      return repositories.playlistItemRepository.insert({
+      return tx.playlistItemRepository.insert({
         playlistId,
         mediaId,
         position: nextPosition,
@@ -53,31 +52,26 @@ export default function createPlaylistService(db: VimpDatabase) {
   }
 
   function removeMediaFromPlaylist(playlistId: number, mediaId: number) {
-    const playlistItemRepository = createPlaylistItemRepository(db);
-    return playlistItemRepository.deleteByIds(playlistId, mediaId);
+    return repositories.playlistItemRepository.deleteByIds(playlistId, mediaId);
   }
 
   function movePlaylistItem(itemId: number, position: number) {
-    const playlistItemRepository = createPlaylistItemRepository(db);
-    return playlistItemRepository.updatePosition(itemId, position);
+    return repositories.playlistItemRepository.updatePosition(itemId, position);
   }
 
   function removeMissingMediaFromPlaylists() {
-    return db.transaction((tx) => {
-      const repositories = createTxRepositories(tx);
-      const playlists = repositories.playlistRepository.getAll();
+    return repositories.transaction((tx) => {
+      const playlists = tx.playlistRepository.getAll();
       const removed: number[] = [];
 
       playlists.forEach((playlist) => {
-        const items = repositories.playlistItemRepository.getByPlaylistId(
-          playlist.id,
-        );
+        const items = tx.playlistItemRepository.getByPlaylistId(playlist.id);
 
         items.forEach((item) => {
-          const media = repositories.mediaRepository.getById(item.mediaId);
+          const media = tx.mediaRepository.getById(item.mediaId);
 
           if (!media || media.isMissing) {
-            repositories.playlistItemRepository.deleteById(item.id);
+            tx.playlistItemRepository.deleteById(item.id);
             removed.push(item.id);
           }
         });
@@ -88,7 +82,10 @@ export default function createPlaylistService(db: VimpDatabase) {
   }
 
   return {
+    ...crudMethods,
     createPlaylist,
+    getBySlug,
+    getItems,
     addMediaToPlaylist,
     removeMediaFromPlaylist,
     movePlaylistItem,

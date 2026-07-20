@@ -19,15 +19,14 @@ import createMediaTagRepository from './repositories/mediaTagRepository';
 import createPlaylistItemRepository from './repositories/playlistItemRepository';
 import createVideoHistoryRepository from './repositories/videoHistoryRepository';
 import createAudioHistoryRepository from './repositories/audioHistoryRepository';
-import { VimpDatabase } from '@main/types';
-import createServices from '@main/services';
+import { VimpDatabase, VimpDBExecutor } from '@main/types';
 import { relations } from './relations';
+import { BaseRepositories } from './types';
 
 export default class VimpDB extends BaseWindowModule {
   private db?: VimpDatabase;
   private sqlite?: Database.Database;
   private repositories?: ReturnType<typeof this.createRepositories>;
-  private services?: ReturnType<typeof createServices>;
 
   constructor(window: BrowserWindow) {
     super(window);
@@ -47,9 +46,7 @@ export default class VimpDB extends BaseWindowModule {
     this.runMigrate();
     this.initializeFts();
     this.repositories = this.createRepositories();
-    this.services = createServices(this.db);
-    // TODO executar verificações iniciais
-    // TODO forçar criação das playlists de sistema (favoritos)
+    this.createSystemPlaylists();
   }
 
   getRepositories() {
@@ -59,11 +56,28 @@ export default class VimpDB extends BaseWindowModule {
     return this.repositories;
   }
 
-  getServices() {
-    if (!this.loaded || !this.services) {
-      throw new Error(`Can't create services before db connection`);
+  private createBaseRepositories(executor: VimpDBExecutor) {
+    if (!executor) {
+      throw new Error(
+        `Failed to create base repositories. Invalid query executor.`,
+      );
     }
-    return this.services;
+
+    return {
+      albumArtistRepository: createAlbumArtistRepository(executor),
+      albumRepository: createAlbumRepository(executor),
+      artistRepository: createArtistRepository(executor),
+      audioHistoryRepository: createAudioHistoryRepository(executor),
+      mediaAlbumRepository: createMediaAlbumRepository(executor),
+      mediaArtistRepository: createMediaArtistRepository(executor),
+      mediaRepository: createMediaRepository(executor),
+      mediaTagRepository: createMediaTagRepository(executor),
+      playlistItemRepository: createPlaylistItemRepository(executor),
+      playlistRepository: createPlaylistRepository(executor),
+      tagRepository: createTagRepository(executor),
+      videoHistoryRepository: createVideoHistoryRepository(executor),
+      watchedFolderRepository: createWatchedFolderRepository(executor),
+    };
   }
 
   private createRepositories() {
@@ -74,20 +88,55 @@ export default class VimpDB extends BaseWindowModule {
     }
 
     return {
-      albumArtistRepository: createAlbumArtistRepository(this.db),
-      albumRepository: createAlbumRepository(this.db),
-      artistRepository: createArtistRepository(this.db),
-      audioHistoryRepository: createAudioHistoryRepository(this.db),
-      mediaAlbumRepository: createMediaAlbumRepository(this.db),
-      mediaArtistRepository: createMediaArtistRepository(this.db),
-      mediaRepository: createMediaRepository(this.db),
-      mediaTagRepository: createMediaTagRepository(this.db),
-      playlistItemRepository: createPlaylistItemRepository(this.db),
-      playlistRepository: createPlaylistRepository(this.db),
-      tagRepository: createTagRepository(this.db),
-      videoHistoryRepository: createVideoHistoryRepository(this.db),
-      watchedFolderRepository: createWatchedFolderRepository(this.db),
+      ...this.createBaseRepositories(this.db),
+      transaction: <T>(
+        work: (tx: BaseRepositories) => T extends Promise<unknown> ? never : T,
+      ): T => {
+        const run = (tx: BaseRepositories) => work(tx) as T;
+
+        return this.db!.transaction((tx): unknown =>
+          run(this.createBaseRepositories(tx)),
+        ) as T;
+      },
     };
+  }
+
+  private createSystemPlaylists() {
+    if (!this.repositories) {
+      throw new Error(
+        'Failed to create system playlists. No repositories were available.',
+      );
+    }
+
+    const { playlistRepository } = this.repositories;
+    const existingFavoriteTracks =
+      playlistRepository.getBySlug('favorite.tracks');
+    const existingFavoriteVideos =
+      playlistRepository.getBySlug('favorite.videos');
+
+    if (!existingFavoriteTracks) {
+      playlistRepository.insert({
+        name: 'Favorite Tracks',
+        type: 'audio',
+        createdAt: new Date(),
+        kind: 'system',
+        modifiedAt: new Date(),
+        sortMode: 'added_at',
+        slug: 'favorite.tracks',
+      });
+    }
+
+    if (!existingFavoriteVideos) {
+      playlistRepository.insert({
+        name: 'Favorite Videos',
+        type: 'video',
+        createdAt: new Date(),
+        kind: 'system',
+        modifiedAt: new Date(),
+        sortMode: 'added_at',
+        slug: 'favorite.videos',
+      });
+    }
   }
 
   private runMigrate() {

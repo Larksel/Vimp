@@ -24,6 +24,7 @@ import DBManager from './dbManager';
 import { setupAppDirs } from './utils/utils-resources';
 import { vimpProtocols } from '@shared/constants/vimpProtocols';
 import VimpDB from './db';
+import createServices from './services';
 
 const isDebug =
   process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true';
@@ -88,8 +89,7 @@ if (!gotTheLock) {
     const dbManager = new DBManager(mainWindow!);
     const vimpDB = new VimpDB(mainWindow!);
     await ModulesManager.init(dbManager, vimpDB);
-    const repositories = vimpDB.getRepositories();
-    const services = vimpDB.getServices();
+    const services = createServices(vimpDB.getRepositories());
 
     // Then initialize the rest with their dependencies
     ModulesManager.init(
@@ -101,12 +101,8 @@ if (!gotTheLock) {
       // IPC Modules
       new IPCTracksDatabase(dbManager),
       new IPCPlaylistsDatabase(dbManager),
-      new IPCMediaService(mainWindow!, services, repositories.mediaRepository),
-      new IPCPlaylistService(
-        mainWindow!,
-        services,
-        repositories.playlistRepository,
-      ),
+      new IPCMediaService(mainWindow!, services),
+      new IPCPlaylistService(mainWindow!, services),
     );
 
     app.on('second-instance', () => {

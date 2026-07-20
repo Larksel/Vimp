@@ -1,11 +1,11 @@
-import { VimpDatabase } from '@main/types';
 import createMediaService from './mediaService';
 import createPlaylistService from './playlistService';
+import { Repositories } from '@main/db/types';
 
-export default function createServices(db: VimpDatabase) {
+export default function createServices(repositories: Repositories) {
   return {
-    mediaService: createMediaService(db),
-    playlistService: createPlaylistService(db),
+    mediaService: createMediaService(repositories),
+    playlistService: createPlaylistService(repositories),
   };
 }
 

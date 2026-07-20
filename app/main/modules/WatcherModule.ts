@@ -55,7 +55,7 @@ export default class WatcherModule extends BaseModule {
 
     if (!existingTrack) {
       const track: Track = await this.metadataModule.getMetadata(resolvedPath);
-      this.mediaService.importTrack(track);
+      this.mediaService.insertTrack(track);
       logger.info(`ADDED: ${filePath}`);
     } else {
       logger.info(`SKIPPED: ${filePath}`);

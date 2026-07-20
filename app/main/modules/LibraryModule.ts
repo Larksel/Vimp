@@ -270,7 +270,7 @@ export default class LibraryModule
     for (const [fileType, files] of Object.entries(scannedFiles)) {
       if (fileType === FileTypes.TRACKS && files.length > 0) {
         logger.info(`Inserting ${files.length} ${fileType} into database`);
-        this.mediaService.importTracks(files);
+        this.mediaService.insertManyTracks(files);
       }
     }
   }

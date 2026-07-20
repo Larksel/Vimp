@@ -1,61 +1,44 @@
 import fs from 'fs';
 import path from 'path';
-
-import createAlbumArtistRepository from '@main/db/repositories/albumArtistRepository';
-import createAlbumRepository from '@main/db/repositories/albumRepository';
-import createArtistRepository from '@main/db/repositories/artistRepository';
-import createAudioHistoryRepository from '@main/db/repositories/audioHistoryRepository';
-import createMediaAlbumRepository from '@main/db/repositories/mediaAlbumRepository';
-import createMediaArtistRepository from '@main/db/repositories/mediaArtistRepository';
-import createMediaRepository from '@main/db/repositories/mediaRepository';
-import createMediaTagRepository from '@main/db/repositories/mediaTagRepository';
-import createTagRepository from '@main/db/repositories/tagRepository';
 import { Track } from '@shared/types/vimp';
-import { VimpDBExecutor, VimpDatabase } from '@main/types';
+import { Repositories } from '@main/db/types';
+import { createCrudService } from './serviceHelper';
 
-function normalizeList(value?: string | string[]) {
+// TODO executar verificações iniciais
+
+/**
+ * Garante que o valor seja um Array sem valores duplicados ou vazios
+ */
+function normalizeList(value?: string | string[]): string[] {
   if (!value) return [];
 
   const list = Array.isArray(value) ? value : [value];
   return [...new Set(list.map((item) => item.trim()).filter(Boolean))];
 }
 
-function createTxRepositories(db: VimpDBExecutor) {
-  return {
-    albumArtistRepository: createAlbumArtistRepository(db),
-    albumRepository: createAlbumRepository(db),
-    artistRepository: createArtistRepository(db),
-    audioHistoryRepository: createAudioHistoryRepository(db),
-    mediaAlbumRepository: createMediaAlbumRepository(db),
-    mediaArtistRepository: createMediaArtistRepository(db),
-    mediaRepository: createMediaRepository(db),
-    mediaTagRepository: createMediaTagRepository(db),
-    tagRepository: createTagRepository(db),
-  };
-}
-
-export default function createMediaService(db: VimpDatabase) {
-  function importTrack(track: Track) {
+export default function createMediaService(repositories: Repositories) {
+  const crudMethods = createCrudService(repositories.mediaRepository);
+  function insertTrack(track: Track) {
     const resolvedPath = path.resolve(track.path);
 
     if (!fs.existsSync(resolvedPath)) {
       throw new Error(`Cannot import missing media file: ${resolvedPath}`);
     }
 
-    return db.transaction((tx) => {
-      const repositories = createTxRepositories(tx);
-      const existingMedia =
-        repositories.mediaRepository.getByPath(resolvedPath);
+    return repositories.transaction((tx) => {
+      // Detecta se ja existe no banco
+      const existingMedia = tx.mediaRepository.getByPath(resolvedPath);
 
       if (existingMedia) {
         if (existingMedia.isMissing) {
-          repositories.mediaRepository.markAsFound(existingMedia.id);
+          tx.mediaRepository.markAsFound(existingMedia.id);
         }
 
         return { id: existingMedia.id, created: false };
       }
 
-      const insertedMedia = repositories.mediaRepository.insert({
+      // Adiciona ao banco e guarda o id
+      const insertedMedia = tx.mediaRepository.insert({
         type: 'audio',
         title: track.title,
         path: resolvedPath,
@@ -64,63 +47,64 @@ export default function createMediaService(db: VimpDatabase) {
       });
 
       const mediaId = insertedMedia.id;
-      repositories.audioHistoryRepository.insert({ mediaId });
 
+      // Cria um registro no histórico de reprodução
+      tx.audioHistoryRepository.insert({ mediaId });
+
+      // Adiciona os artistas ao banco
       const artistIds = normalizeList(track.artist).map((name) => {
-        const existingArtist = repositories.artistRepository.getByName(name);
+        const existingArtist = tx.artistRepository.getByName(name);
         if (existingArtist) return existingArtist.id;
 
-        const insertedArtist = repositories.artistRepository.insert({ name });
+        const insertedArtist = tx.artistRepository.insert({ name });
         return insertedArtist.id;
       });
 
+      // Linka cada artista à musica
       artistIds.forEach((artistId) => {
-        repositories.mediaArtistRepository.insert({ mediaId, artistId });
+        tx.mediaArtistRepository.insert({ mediaId, artistId });
       });
 
+      // Adiciona ou linka a música a um album no banco
       if (track.album) {
-        const existingAlbum = repositories.albumRepository.getByTitle(
-          track.album,
-        );
+        const existingAlbum = tx.albumRepository.getByTitle(track.album);
         const albumId =
           existingAlbum?.id ??
-          repositories.albumRepository.insert({ title: track.album }).id;
+          tx.albumRepository.insert({ title: track.album }).id;
 
-        repositories.mediaAlbumRepository.insert({ mediaId, albumId });
+        tx.mediaAlbumRepository.insert({ mediaId, albumId });
 
         normalizeList(track.albumartist).forEach((name) => {
-          const existingArtist = repositories.artistRepository.getByName(name);
+          const existingArtist = tx.artistRepository.getByName(name);
           const artistId =
-            existingArtist?.id ??
-            repositories.artistRepository.insert({ name }).id;
+            existingArtist?.id ?? tx.artistRepository.insert({ name }).id;
 
-          repositories.albumArtistRepository.insert({ albumId, artistId });
+          tx.albumArtistRepository.insert({ albumId, artistId });
         });
       }
 
+      // Adiciona ou linka os generos musicais
       normalizeList(track.genre).forEach((name) => {
-        const existingTag = repositories.tagRepository.getByNameAndType(
-          name,
-          'genre',
-        );
+        const existingTag = tx.tagRepository.getByNameAndType(name, 'genre');
         const tagId =
           existingTag?.id ??
-          repositories.tagRepository.insert({ name, type: 'genre' }).id;
+          tx.tagRepository.insert({ name, type: 'genre' }).id;
 
-        repositories.mediaTagRepository.insert({ mediaId, tagId });
+        tx.mediaTagRepository.insert({ mediaId, tagId });
       });
 
+      // Finaliza retornando sucesso
       return { id: mediaId, created: true };
     });
   }
 
-  function importTracks(tracks: Track[]) {
-    return tracks.map((track) => importTrack(track));
+  function insertManyTracks(tracks: Track[]) {
+    return tracks.map((track) => insertTrack(track));
   }
 
   function scanMissingMedia() {
-    const repositories = createTxRepositories(db);
-    const allMedia = repositories.mediaRepository.getAll();
+    const mediaRepository = repositories.mediaRepository;
+    const allMedia = mediaRepository.getAll();
     const missing: number[] = [];
     const found: number[] = [];
 
@@ -128,12 +112,12 @@ export default function createMediaService(db: VimpDatabase) {
       const exists = fs.existsSync(media.path);
 
       if (!exists && !media.isMissing) {
-        repositories.mediaRepository.markAsMissing(media.id);
+        mediaRepository.markAsMissing(media.id);
         missing.push(media.id);
       }
 
       if (exists && media.isMissing) {
-        repositories.mediaRepository.markAsFound(media.id);
+        mediaRepository.markAsFound(media.id);
         found.push(media.id);
       }
     });
@@ -142,19 +126,17 @@ export default function createMediaService(db: VimpDatabase) {
   }
 
   function recordAudioPlayback(mediaId: number) {
-    return db.transaction((tx) => {
-      const audioHistoryRepository = createAudioHistoryRepository(tx);
+    return repositories.transaction((tx) => {
+      tx.audioHistoryRepository.insert({ mediaId });
+      tx.audioHistoryRepository.incrementPlayCount(mediaId);
 
-      audioHistoryRepository.insert({ mediaId });
-      audioHistoryRepository.incrementPlayCount(mediaId);
-
-      return audioHistoryRepository.getByMediaId(mediaId);
+      return tx.audioHistoryRepository.getByMediaId(mediaId);
     });
   }
 
   function deleteByPath(mediaPath: string) {
     const resolvedPath = path.resolve(mediaPath);
-    const mediaRepository = createMediaRepository(db);
+    const mediaRepository = repositories.mediaRepository;
     const media = mediaRepository.getByPath(resolvedPath);
 
     if (!media) return null;
@@ -164,14 +146,14 @@ export default function createMediaService(db: VimpDatabase) {
   }
 
   function getByPath(mediaPath: string) {
-    const mediaRepository = createMediaRepository(db);
-    return mediaRepository.getByPath(path.resolve(mediaPath));
+    return repositories.mediaRepository.getByPath(path.resolve(mediaPath));
   }
 
   return {
+    ...crudMethods,
     getByPath,
-    importTrack,
-    importTracks,
+    insertTrack,
+    insertManyTracks,
     scanMissingMedia,
     recordAudioPlayback,
     deleteByPath,
