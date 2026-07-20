@@ -19,9 +19,18 @@ import createMediaTagRepository from './repositories/mediaTagRepository';
 import createPlaylistItemRepository from './repositories/playlistItemRepository';
 import createVideoHistoryRepository from './repositories/videoHistoryRepository';
 import createAudioHistoryRepository from './repositories/audioHistoryRepository';
-import { VimpDatabase, VimpDBExecutor } from '@main/types';
 import { relations } from './relations';
 import { BaseRepositories } from './types';
+
+function createDatabase(client: Database.Database) {
+  return drizzle({ client, relations });
+}
+
+export type VimpDatabase = ReturnType<typeof createDatabase>;
+export type VimpTransaction = Parameters<
+  Parameters<VimpDatabase['transaction']>[0]
+>[0];
+export type VimpDBExecutor = VimpDatabase | VimpTransaction;
 
 export default class VimpDB extends BaseWindowModule {
   private db?: VimpDatabase;
@@ -41,7 +50,7 @@ export default class VimpDB extends BaseWindowModule {
 
     this.sqlite = new Database(dbPath);
     this.sqlite.pragma('journal_mode = WAL');
-    this.db = drizzle({ client: this.sqlite, relations });
+    this.db = createDatabase(this.sqlite);
 
     this.runMigrate();
     this.initializeFts();

@@ -1,11 +1,6 @@
 import { schema } from '@main/db/schema';
-import { BetterSQLite3Database } from 'drizzle-orm/better-sqlite3';
 
-export type VimpDatabase = BetterSQLite3Database;
-export type VimpTransaction = Parameters<
-  Parameters<VimpDatabase['transaction']>[0]
->[0];
-export type VimpDBExecutor = VimpDatabase | VimpTransaction;
+export type { VimpDatabase, VimpTransaction, VimpDBExecutor } from '@main/db';
 
 // Insert/Update types
 export type InsertPlaylist = typeof schema.playlists.$inferInsert;
