@@ -98,8 +98,9 @@ export default function createMediaService(repositories: Repositories) {
     });
   }
 
-  function insertManyTracks(tracks: Track[]) {
-    return tracks.map((track) => insertTrack(track));
+  function insertManyTracks(tracks: Track | Track[]) {
+    const normalizedTracks = Array.isArray(tracks) ? tracks : [tracks];
+    return normalizedTracks.map((track) => insertTrack(track));
   }
 
   function scanMissingMedia() {
