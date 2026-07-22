@@ -5,7 +5,7 @@ import {
   sqliteTable,
   text,
 } from 'drizzle-orm/sqlite-core';
-import { externalSource, timestamps } from './columns.helpers';
+import { externalSource, favoritable, timestamps } from './columns.helpers';
 
 export const media = sqliteTable(
   'media',
@@ -28,11 +28,13 @@ export const media = sqliteTable(
       .notNull()
       .default(false),
 
+    ...favoritable,
     ...externalSource,
     ...timestamps,
   },
   (t) => [
     index('media_type_idx').on(t.type),
     index('media_is_missing_idx').on(t.isMissing),
+    index('media_is_favorite_idx').on(t.isFavorite),
   ],
 );

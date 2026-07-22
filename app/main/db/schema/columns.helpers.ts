@@ -14,3 +14,10 @@ export const externalSource = {
   externalId: text('external_id'),
   externalSource: text('external_source'),
 };
+
+export const favoritable = {
+  isFavorite: integer('is_favorite', { mode: 'boolean' })
+    .notNull()
+    .default(false),
+  favoritedAt: integer('favorited_at', { mode: 'timestamp_ms' }),
+};

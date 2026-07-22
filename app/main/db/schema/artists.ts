@@ -1,5 +1,5 @@
 import { index, integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
-import { externalSource, timestamps } from './columns.helpers';
+import { externalSource, favoritable, timestamps } from './columns.helpers';
 
 export const artists = sqliteTable(
   'artists',
@@ -7,10 +7,7 @@ export const artists = sqliteTable(
     id: integer('id').primaryKey({ autoIncrement: true }),
     name: text('name').notNull().unique(),
     coverPath: text('cover_path'),
-    isFavorite: integer('is_favorite', { mode: 'boolean' })
-      .notNull()
-      .default(false),
-    favoritedAt: integer('favorited_at', { mode: 'timestamp_ms' }),
+    ...favoritable,
     ...externalSource,
     ...timestamps,
   },

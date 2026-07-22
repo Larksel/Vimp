@@ -55,7 +55,6 @@ export default class VimpDB extends BaseWindowModule {
     this.runMigrate();
     this.initializeFts();
     this.repositories = this.createRepositories();
-    this.createSystemPlaylists();
   }
 
   getRepositories() {
@@ -108,44 +107,6 @@ export default class VimpDB extends BaseWindowModule {
         ) as T;
       },
     };
-  }
-
-  private createSystemPlaylists() {
-    if (!this.repositories) {
-      throw new Error(
-        'Failed to create system playlists. No repositories were available.',
-      );
-    }
-
-    const { playlistRepository } = this.repositories;
-    const existingFavoriteTracks =
-      playlistRepository.getBySlug('favorite.tracks');
-    const existingFavoriteVideos =
-      playlistRepository.getBySlug('favorite.videos');
-
-    if (!existingFavoriteTracks) {
-      playlistRepository.insert({
-        name: 'Favorite Tracks',
-        type: 'audio',
-        createdAt: new Date(),
-        kind: 'system',
-        modifiedAt: new Date(),
-        sortMode: 'added_at',
-        slug: 'favorite.tracks',
-      });
-    }
-
-    if (!existingFavoriteVideos) {
-      playlistRepository.insert({
-        name: 'Favorite Videos',
-        type: 'video',
-        createdAt: new Date(),
-        kind: 'system',
-        modifiedAt: new Date(),
-        sortMode: 'added_at',
-        slug: 'favorite.videos',
-      });
-    }
   }
 
   private runMigrate() {

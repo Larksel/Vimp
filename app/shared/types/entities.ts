@@ -16,7 +16,7 @@ export interface VideoHistory {
 
 // Entidades principais
 
-export interface Media extends Timestamps, ExternalSource {
+export interface Media extends Timestamps, ExternalSource, Favoritable {
   id: number;
   type: MediaType;
   title: string;
@@ -34,7 +34,7 @@ export interface Media extends Timestamps, ExternalSource {
   isMissing: boolean;
 }
 
-export interface Playlists extends Timestamps {
+export interface Playlists extends Timestamps, Favoritable {
   id: number;
   name: string;
   cover?: string;
@@ -45,18 +45,16 @@ export interface Playlists extends Timestamps {
   slug?: string;
 }
 
-export interface Albums extends Timestamps, ExternalSource {
+export interface Albums extends Timestamps, ExternalSource, Favoritable {
   id: number;
   title: string;
   coverPath?: string;
 }
 
-export interface Artists extends Timestamps, ExternalSource {
+export interface Artists extends Timestamps, ExternalSource, Favoritable {
   id: number;
   name: string;
   coverPath?: string;
-  isFavorite: boolean;
-  favoritedAt?: Date;
 }
 
 export interface Tags {
@@ -133,4 +131,9 @@ interface Timestamps {
 interface ExternalSource {
   externalId?: string;
   externalSource?: string;
+}
+
+interface Favoritable {
+  isFavorite: boolean;
+  favoritedAt?: Date;
 }
