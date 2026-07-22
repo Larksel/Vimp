@@ -24,6 +24,17 @@ export default function createAlbumRepository(db: VimpDBExecutor) {
     return db.select().from(albums).all();
   }
 
+  function toggleFavorite(id: number) {
+    return db
+      .update(albums)
+      .set({
+        isFavorite: !albums.isFavorite,
+        favoritedAt: !albums.isFavorite ? new Date() : null,
+      })
+      .where(eq(albums.id, id))
+      .run();
+  }
+
   function update(id: number, data: Partial<InsertAlbum>) {
     return db.update(albums).set(data).where(eq(albums.id, id)).run();
   }
@@ -37,6 +48,7 @@ export default function createAlbumRepository(db: VimpDBExecutor) {
     getById,
     getByTitle,
     getAll,
+    toggleFavorite,
     update,
     deleteById,
   };

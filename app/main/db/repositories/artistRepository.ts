@@ -33,23 +33,14 @@ export default function createArtistRepository(db: VimpDBExecutor) {
   }
 
   function toggleFavorite(id: number) {
-    return db.transaction((tx) => {
-      const artist = tx.select().from(artists).where(eq(artists.id, id)).get();
-
-      if (!artist) return null;
-
-      const newFavoriteState = !artist.isFavorite;
-
-      tx.update(artists)
-        .set({
-          isFavorite: newFavoriteState,
-          favoritedAt: newFavoriteState ? new Date() : null,
-        })
-        .where(eq(artists.id, id))
-        .run();
-
-      return newFavoriteState;
-    });
+    return db
+      .update(artists)
+      .set({
+        isFavorite: !artists.isFavorite,
+        favoritedAt: !artists.isFavorite ? new Date() : null,
+      })
+      .where(eq(artists.id, id))
+      .run();
   }
 
   function deleteById(id: number) {

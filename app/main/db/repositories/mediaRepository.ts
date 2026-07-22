@@ -25,6 +25,17 @@ export default function createMediaRepository(db: VimpDBExecutor) {
     return db.update(media).set(data).where(eq(media.id, id)).run();
   }
 
+  function toggleFavorite(id: number) {
+    return db
+      .update(media)
+      .set({
+        isFavorite: !media.isFavorite,
+        favoritedAt: !media.isFavorite ? new Date() : null,
+      })
+      .where(eq(media.id, id))
+      .run();
+  }
+
   function markAsMissing(id: number) {
     return db
       .update(media)
@@ -54,6 +65,7 @@ export default function createMediaRepository(db: VimpDBExecutor) {
     getById,
     getByPath,
     getAll,
+    toggleFavorite,
     update,
     markAsMissing,
     markAsFound,

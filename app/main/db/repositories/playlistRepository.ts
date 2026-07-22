@@ -32,6 +32,17 @@ export default function createPlaylistRepository(db: VimpDBExecutor) {
     return db.select().from(playlists).where(eq(playlists.kind, kind)).all();
   }
 
+  function toggleFavorite(id: number) {
+    return db
+      .update(playlists)
+      .set({
+        isFavorite: !playlists.isFavorite,
+        favoritedAt: !playlists.isFavorite ? new Date() : null,
+      })
+      .where(eq(playlists.id, id))
+      .run();
+  }
+
   function update(id: number, data: Partial<InsertPlaylist>) {
     return db.update(playlists).set(data).where(eq(playlists.id, id)).run();
   }
@@ -47,6 +58,7 @@ export default function createPlaylistRepository(db: VimpDBExecutor) {
     getAll,
     getByType,
     getByKind,
+    toggleFavorite,
     update,
     deleteById,
   };
