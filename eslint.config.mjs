@@ -22,7 +22,11 @@ export default tseslint.config(
       'import/resolver': {
         typescript: {
           alwaysTryTypes: true,
-          project: ['./tsconfig.json'],
+          project: [
+            './tsconfig.json',
+            './tsconfig.node.json',
+            './tsconfig.web.json',
+          ],
         },
         node: {
           extensions: ['.js', '.jsx', '.ts', '.tsx'],
