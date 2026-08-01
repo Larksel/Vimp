@@ -51,10 +51,12 @@ enum IPCChannels {
 
   // Media
   MEDIA_GET_ALL = 'media:getAll',
+  MEDIA_GET_BY_TYPE = 'media:getByType',
   MEDIA_GET_BY_ID = 'media:getById',
   MEDIA_GET_BY_PATH = 'media:getByPath',
   MEDIA_CREATE = 'media:create',
   MEDIA_UPDATE = 'media:update',
+  MEDIA_TOGGLE_FAVORITE = 'media:toggleFavorite',
   MEDIA_DELETE_BY_ID = 'media:deleteById',
   MEDIA_IMPORT_TRACK = 'media:importTrack',
   MEDIA_IMPORT_TRACKS = 'media:importTracks',
@@ -67,8 +69,10 @@ enum IPCChannels {
   PLAYLIST_GET_ALL = 'playlist:getAll',
   PLAYLIST_GET_BY_ID = 'playlist:getById',
   PLAYLIST_GET_BY_SLUG = 'playlist:getBySlug',
+  PLAYLIST_GET_ITEMS = 'playlist:getItems',
   PLAYLIST_CREATE = 'playlist:create',
   PLAYLIST_UPDATE = 'playlist:update',
+  PLAYLIST_TOGGLE_FAVORITE = 'playlist:toggleFavorite',
   PLAYLIST_DELETE_BY_ID = 'playlist:deleteById',
   PLAYLIST_ADD_MEDIA = 'playlist:addMedia',
   PLAYLIST_REMOVE_MEDIA = 'playlist:removeMedia',
