@@ -28,10 +28,6 @@ export default function createArtistRepository(db: VimpDBExecutor) {
     return db.select().from(artists).where(eq(artists.name, name)).get();
   }
 
-  function getFavorites() {
-    return db.select().from(artists).where(eq(artists.isFavorite, true)).all();
-  }
-
   function getById<TConfig extends Omit<ArtistFindOneConfig, 'where'>>(
     id: number,
     config?: TConfig,
@@ -52,7 +48,7 @@ export default function createArtistRepository(db: VimpDBExecutor) {
       .update(artists)
       .set({
         isFavorite: sql`NOT ${artists.isFavorite}`,
-        favoritedAt: sql`CASE WHEN ${artists.isFavorite} THEN NULL ELSE ${Date.now()} END`,
+        favoritedAt: sql`CASE WHEN ${artists.isFavorite} THEN NULL ELSE (unixepoch('now') * 1000) END`,
       })
       .where(eq(artists.id, id))
       .run();
@@ -67,7 +63,6 @@ export default function createArtistRepository(db: VimpDBExecutor) {
     getById,
     getByName,
     getAll,
-    getFavorites,
     update,
     toggleFavorite,
     deleteById,

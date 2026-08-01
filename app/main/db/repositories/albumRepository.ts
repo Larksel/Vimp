@@ -44,7 +44,7 @@ export default function createAlbumRepository(db: VimpDBExecutor) {
       .update(albums)
       .set({
         isFavorite: sql`NOT ${albums.isFavorite}`,
-        favoritedAt: sql`CASE WHEN ${albums.isFavorite} THEN NULL ELSE ${Date.now()} END`,
+        favoritedAt: sql`CASE WHEN ${albums.isFavorite} THEN NULL ELSE (unixepoch('now') * 1000) END`,
       })
       .where(eq(albums.id, id))
       .run();

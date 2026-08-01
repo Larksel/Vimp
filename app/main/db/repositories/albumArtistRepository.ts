@@ -23,20 +23,6 @@ export default function createAlbumArtistRepository(db: VimpDBExecutor) {
       .all();
   }
 
-  function deleteByAlbumId(albumId: number) {
-    return db
-      .delete(albumArtists)
-      .where(eq(albumArtists.albumId, albumId))
-      .run();
-  }
-
-  function deleteByArtistId(artistId: number) {
-    return db
-      .delete(albumArtists)
-      .where(eq(albumArtists.artistId, artistId))
-      .run();
-  }
-
   function deleteByIds(albumId: number, artistId: number) {
     return db
       .delete(albumArtists)
@@ -53,8 +39,6 @@ export default function createAlbumArtistRepository(db: VimpDBExecutor) {
     insert,
     getByAlbumId,
     getByArtistId,
-    deleteByAlbumId,
-    deleteByArtistId,
     deleteByIds,
   };
 }

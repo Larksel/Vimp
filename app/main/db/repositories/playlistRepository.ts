@@ -52,7 +52,7 @@ export default function createPlaylistRepository(db: VimpDBExecutor) {
       .update(playlists)
       .set({
         isFavorite: sql`NOT ${playlists.isFavorite}`,
-        favoritedAt: sql`CASE WHEN ${playlists.isFavorite} THEN NULL ELSE ${Date.now()} END`,
+        favoritedAt: sql`CASE WHEN ${playlists.isFavorite} THEN NULL ELSE (unixepoch('now') * 1000) END`,
       })
       .where(eq(playlists.id, id))
       .run();

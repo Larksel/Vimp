@@ -19,14 +19,6 @@ export default function createMediaTagRepository(db: VimpDBExecutor) {
     return db.select().from(mediaTags).where(eq(mediaTags.tagId, tagId)).all();
   }
 
-  function deleteByMediaId(mediaId: number) {
-    return db.delete(mediaTags).where(eq(mediaTags.mediaId, mediaId)).run();
-  }
-
-  function deleteByTagId(tagId: number) {
-    return db.delete(mediaTags).where(eq(mediaTags.tagId, tagId)).run();
-  }
-
   function deleteByIds(mediaId: number, tagId: number) {
     return db
       .delete(mediaTags)
@@ -38,8 +30,6 @@ export default function createMediaTagRepository(db: VimpDBExecutor) {
     insert,
     getByMediaId,
     getByTagId,
-    deleteByMediaId,
-    deleteByTagId,
     deleteByIds,
   };
 }

@@ -12,14 +12,6 @@ export default function createPlaylistItemRepository(db: VimpDBExecutor) {
       .get();
   }
 
-  function getById(id: number) {
-    return db
-      .select()
-      .from(playlistItems)
-      .where(eq(playlistItems.id, id))
-      .get();
-  }
-
   function getByPlaylistId(playlistId: number) {
     return db
       .select()
@@ -48,20 +40,6 @@ export default function createPlaylistItemRepository(db: VimpDBExecutor) {
     return db.delete(playlistItems).where(eq(playlistItems.id, id)).run();
   }
 
-  function deleteByPlaylistId(playlistId: number) {
-    return db
-      .delete(playlistItems)
-      .where(eq(playlistItems.playlistId, playlistId))
-      .run();
-  }
-
-  function deleteByMediaId(mediaId: number) {
-    return db
-      .delete(playlistItems)
-      .where(eq(playlistItems.mediaId, mediaId))
-      .run();
-  }
-
   function deleteByIds(playlistId: number, mediaId: number) {
     return db
       .delete(playlistItems)
@@ -76,13 +54,10 @@ export default function createPlaylistItemRepository(db: VimpDBExecutor) {
 
   return {
     insert,
-    getById,
     getByPlaylistId,
     getByMediaId,
     updatePosition,
     deleteById,
-    deleteByPlaylistId,
-    deleteByMediaId,
     deleteByIds,
   };
 }

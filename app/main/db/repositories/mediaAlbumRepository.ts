@@ -23,14 +23,6 @@ export default function createMediaAlbumRepository(db: VimpDBExecutor) {
       .all();
   }
 
-  function deleteByMediaId(mediaId: number) {
-    return db.delete(mediaAlbums).where(eq(mediaAlbums.mediaId, mediaId)).run();
-  }
-
-  function deleteByAlbumId(albumId: number) {
-    return db.delete(mediaAlbums).where(eq(mediaAlbums.albumId, albumId)).run();
-  }
-
   function deleteByIds(mediaId: number, albumId: number) {
     return db
       .delete(mediaAlbums)
@@ -44,8 +36,6 @@ export default function createMediaAlbumRepository(db: VimpDBExecutor) {
     insert,
     getByMediaId,
     getByAlbumId,
-    deleteByMediaId,
-    deleteByAlbumId,
     deleteByIds,
   };
 }

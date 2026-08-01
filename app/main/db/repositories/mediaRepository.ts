@@ -49,7 +49,7 @@ export default function createMediaRepository(db: VimpDBExecutor) {
       .update(media)
       .set({
         isFavorite: sql`NOT ${media.isFavorite}`,
-        favoritedAt: sql`CASE WHEN ${media.isFavorite} THEN NULL ELSE ${Date.now()} END`,
+        favoritedAt: sql`CASE WHEN ${media.isFavorite} THEN NULL ELSE (unixepoch('now') * 1000) END`,
       })
       .where(eq(media.id, id))
       .run();

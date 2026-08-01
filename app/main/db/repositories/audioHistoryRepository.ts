@@ -42,22 +42,6 @@ export default function createAudioHistoryRepository(db: VimpDBExecutor) {
       .run();
   }
 
-  function updateLastPlayed(mediaId: number) {
-    return db
-      .update(audioHistory)
-      .set({ lastPlayedAt: new Date() })
-      .where(eq(audioHistory.mediaId, mediaId))
-      .run();
-  }
-
-  function resetPlayCount(mediaId: number) {
-    return db
-      .update(audioHistory)
-      .set({ playCount: 0 })
-      .where(eq(audioHistory.mediaId, mediaId))
-      .run();
-  }
-
   function deleteByMediaId(mediaId: number) {
     return db
       .delete(audioHistory)
@@ -70,8 +54,6 @@ export default function createAudioHistoryRepository(db: VimpDBExecutor) {
     getByMediaId,
     getAll,
     incrementPlayCount,
-    updateLastPlayed,
-    resetPlayCount,
     deleteByMediaId,
   };
 }

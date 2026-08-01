@@ -11,19 +11,6 @@ export default function createVideoHistoryRepository(db: VimpDBExecutor) {
       .get();
   }
 
-  function getById(id: number) {
-    return db.select().from(videoHistory).where(eq(videoHistory.id, id)).get();
-  }
-
-  function getByMediaId(mediaId: number) {
-    return db
-      .select()
-      .from(videoHistory)
-      .where(eq(videoHistory.mediaId, mediaId))
-      .orderBy(desc(videoHistory.playedAt))
-      .all();
-  }
-
   function getLatestByMediaId(mediaId: number) {
     return db
       .select()
@@ -50,10 +37,6 @@ export default function createVideoHistoryRepository(db: VimpDBExecutor) {
       .run();
   }
 
-  function deleteById(id: number) {
-    return db.delete(videoHistory).where(eq(videoHistory.id, id)).run();
-  }
-
   function deleteByMediaId(mediaId: number) {
     return db
       .delete(videoHistory)
@@ -63,12 +46,9 @@ export default function createVideoHistoryRepository(db: VimpDBExecutor) {
 
   return {
     insert,
-    getById,
-    getByMediaId,
     getLatestByMediaId,
     getAll,
     update,
-    deleteById,
     deleteByMediaId,
   };
 }
