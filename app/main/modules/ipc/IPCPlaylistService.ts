@@ -29,7 +29,7 @@ export default class IPCPlaylistService extends BaseWindowModule {
     );
 
     ipcMain.handle(IPCChannels.PLAYLIST_GET_ITEMS, async (_, id: number) => {
-      return this.playlistService.getItems(id);
+      return this.playlistService.getById(id);
     });
 
     ipcMain.handle(

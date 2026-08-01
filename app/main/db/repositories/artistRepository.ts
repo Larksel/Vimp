@@ -1,6 +1,18 @@
-import { eq } from 'drizzle-orm';
-import { InsertArtist, VimpDBExecutor } from '@main/types';
+import { eq, sql } from 'drizzle-orm';
+import type { DBQueryConfig } from 'drizzle-orm/relations';
+import { InsertArtist, VimpDBExecutor, VimpRelations } from '@main/types';
 import { artists } from '../schema/artists';
+
+type ArtistFindOneConfig = DBQueryConfig<
+  'one',
+  VimpRelations,
+  VimpRelations['artists']
+>;
+type ArtistFindManyConfig = DBQueryConfig<
+  'many',
+  VimpRelations,
+  VimpRelations['artists']
+>;
 
 export default function createArtistRepository(db: VimpDBExecutor) {
   function insert(data: InsertArtist) {
@@ -12,20 +24,23 @@ export default function createArtistRepository(db: VimpDBExecutor) {
       .get();
   }
 
-  function getById(id: number) {
-    return db.select().from(artists).where(eq(artists.id, id)).get();
-  }
-
   function getByName(name: string) {
     return db.select().from(artists).where(eq(artists.name, name)).get();
   }
 
-  function getAll() {
-    return db.select().from(artists).all();
-  }
-
   function getFavorites() {
     return db.select().from(artists).where(eq(artists.isFavorite, true)).all();
+  }
+
+  function getById<TConfig extends Omit<ArtistFindOneConfig, 'where'>>(
+    id: number,
+    config?: TConfig,
+  ) {
+    return db.query.artists.findFirst({ ...config, where: { id } });
+  }
+
+  function getAll<TConfig extends ArtistFindManyConfig>(config?: TConfig) {
+    return db.query.artists.findMany(config);
   }
 
   function update(id: number, data: Partial<InsertArtist>) {
@@ -36,8 +51,8 @@ export default function createArtistRepository(db: VimpDBExecutor) {
     return db
       .update(artists)
       .set({
-        isFavorite: !artists.isFavorite,
-        favoritedAt: !artists.isFavorite ? new Date() : null,
+        isFavorite: sql`NOT ${artists.isFavorite}`,
+        favoritedAt: sql`CASE WHEN ${artists.isFavorite} THEN NULL ELSE ${Date.now()} END`,
       })
       .where(eq(artists.id, id))
       .run();

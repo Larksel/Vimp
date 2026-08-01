@@ -31,6 +31,7 @@ export type VimpTransaction = Parameters<
   Parameters<VimpDatabase['transaction']>[0]
 >[0];
 export type VimpDBExecutor = VimpDatabase | VimpTransaction;
+export type VimpRelations = VimpDatabase['_']['relations'];
 
 export default class VimpDB extends BaseWindowModule {
   private db?: VimpDatabase;

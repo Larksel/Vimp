@@ -1,6 +1,18 @@
-import { InsertPlaylist, VimpDBExecutor } from '@main/types';
+import { eq, sql } from 'drizzle-orm';
+import type { DBQueryConfig } from 'drizzle-orm/relations';
+import { InsertPlaylist, VimpDBExecutor, VimpRelations } from '@main/types';
 import { playlists } from '../schema/playlists';
-import { eq } from 'drizzle-orm';
+
+type PlaylistFindOneConfig = DBQueryConfig<
+  'one',
+  VimpRelations,
+  VimpRelations['playlists']
+>;
+type PlaylistFindManyConfig = DBQueryConfig<
+  'many',
+  VimpRelations,
+  VimpRelations['playlists']
+>;
 
 export default function createPlaylistRepository(db: VimpDBExecutor) {
   function insert(data: InsertPlaylist) {
@@ -12,16 +24,19 @@ export default function createPlaylistRepository(db: VimpDBExecutor) {
       .get();
   }
 
-  function getById(id: number) {
-    return db.select().from(playlists).where(eq(playlists.id, id)).get();
-  }
-
   function getBySlug(slug: string) {
     return db.select().from(playlists).where(eq(playlists.slug, slug)).get();
   }
 
-  function getAll() {
-    return db.select().from(playlists).all();
+  function getById<TConfig extends Omit<PlaylistFindOneConfig, 'where'>>(
+    id: number,
+    config?: TConfig,
+  ) {
+    return db.query.playlists.findFirst({ ...config, where: { id } });
+  }
+
+  function getAll<TConfig extends PlaylistFindManyConfig>(config?: TConfig) {
+    return db.query.playlists.findMany(config);
   }
 
   function getByType(type: 'audio' | 'video') {
@@ -36,8 +51,8 @@ export default function createPlaylistRepository(db: VimpDBExecutor) {
     return db
       .update(playlists)
       .set({
-        isFavorite: !playlists.isFavorite,
-        favoritedAt: !playlists.isFavorite ? new Date() : null,
+        isFavorite: sql`NOT ${playlists.isFavorite}`,
+        favoritedAt: sql`CASE WHEN ${playlists.isFavorite} THEN NULL ELSE ${Date.now()} END`,
       })
       .where(eq(playlists.id, id))
       .run();

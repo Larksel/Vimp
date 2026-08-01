@@ -1,24 +1,43 @@
-import { eq } from 'drizzle-orm';
-import { VimpDBExecutor, InsertMedia } from '@main/types';
+import { eq, sql } from 'drizzle-orm';
+import type { DBQueryConfig } from 'drizzle-orm/relations';
+import { InsertMedia, VimpDBExecutor, VimpRelations } from '@main/types';
 import { media } from '../schema/media';
+
+type MediaFindOneConfig = DBQueryConfig<
+  'one',
+  VimpRelations,
+  VimpRelations['media']
+>;
+type MediaFindManyConfig = DBQueryConfig<
+  'many',
+  VimpRelations,
+  VimpRelations['media']
+>;
 
 export default function createMediaRepository(db: VimpDBExecutor) {
   function insert(data: InsertMedia) {
     return db.insert(media).values(data).returning({ id: media.id }).get();
   }
 
-  function getById(id: number) {
-    return db.select().from(media).where(eq(media.id, id)).get();
-  }
-
   function getByPath(path: string) {
     return db.select().from(media).where(eq(media.path, path)).get();
   }
 
-  function getAll(type?: 'audio' | 'video') {
+  function getByType(type?: 'audio' | 'video') {
     const query = db.select().from(media);
     if (type) return query.where(eq(media.type, type)).all();
     return query.all();
+  }
+
+  function getById<TConfig extends Omit<MediaFindOneConfig, 'where'>>(
+    id: number,
+    config?: TConfig,
+  ) {
+    return db.query.media.findFirst({ ...config, where: { id } });
+  }
+
+  function getAll<TConfig extends MediaFindManyConfig>(config?: TConfig) {
+    return db.query.media.findMany(config);
   }
 
   function update(id: number, data: Partial<InsertMedia>) {
@@ -29,8 +48,8 @@ export default function createMediaRepository(db: VimpDBExecutor) {
     return db
       .update(media)
       .set({
-        isFavorite: !media.isFavorite,
-        favoritedAt: !media.isFavorite ? new Date() : null,
+        isFavorite: sql`NOT ${media.isFavorite}`,
+        favoritedAt: sql`CASE WHEN ${media.isFavorite} THEN NULL ELSE ${Date.now()} END`,
       })
       .where(eq(media.id, id))
       .run();
@@ -65,6 +84,7 @@ export default function createMediaRepository(db: VimpDBExecutor) {
     getById,
     getByPath,
     getAll,
+    getByType,
     toggleFavorite,
     update,
     markAsMissing,

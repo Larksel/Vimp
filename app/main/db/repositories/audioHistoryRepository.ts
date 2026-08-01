@@ -1,26 +1,34 @@
-import { eq, sql, desc } from 'drizzle-orm';
-import { InsertAudioHistory, VimpDBExecutor } from '@main/types';
+import { eq, sql } from 'drizzle-orm';
+import type { DBQueryConfig } from 'drizzle-orm/relations';
+import { InsertAudioHistory, VimpDBExecutor, VimpRelations } from '@main/types';
 import { audioHistory } from '../schema/audioHistory';
+
+type AudioHistoryFindOneConfig = DBQueryConfig<
+  'one',
+  VimpRelations,
+  VimpRelations['audioHistory']
+>;
+type AudioHistoryFindManyConfig = DBQueryConfig<
+  'many',
+  VimpRelations,
+  VimpRelations['audioHistory']
+>;
 
 export default function createAudioHistoryRepository(db: VimpDBExecutor) {
   function insert(data: InsertAudioHistory) {
     return db.insert(audioHistory).values(data).onConflictDoNothing().run();
   }
 
-  function getByMediaId(mediaId: number) {
-    return db
-      .select()
-      .from(audioHistory)
-      .where(eq(audioHistory.mediaId, mediaId))
-      .get();
+  function getByMediaId<
+    TConfig extends Omit<AudioHistoryFindOneConfig, 'where'>,
+  >(mediaId: number, config?: TConfig) {
+    return db.query.audioHistory.findFirst({ ...config, where: { mediaId } });
   }
 
-  function getAll() {
-    return db
-      .select()
-      .from(audioHistory)
-      .orderBy(desc(audioHistory.lastPlayedAt))
-      .all();
+  function getAll<TConfig extends AudioHistoryFindManyConfig>(
+    config?: TConfig,
+  ) {
+    return db.query.audioHistory.findMany(config);
   }
 
   function incrementPlayCount(mediaId: number) {

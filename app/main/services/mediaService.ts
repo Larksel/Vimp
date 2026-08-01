@@ -18,6 +18,7 @@ function normalizeList(value?: string | string[]): string[] {
 
 export default function createMediaService(repositories: Repositories) {
   const crudMethods = createCrudService(repositories.mediaRepository);
+
   function insertTrack(track: Track) {
     const resolvedPath = path.resolve(track.path);
 
@@ -127,12 +128,7 @@ export default function createMediaService(repositories: Repositories) {
   }
 
   function recordAudioPlayback(mediaId: number) {
-    return repositories.transaction((tx) => {
-      tx.audioHistoryRepository.insert({ mediaId });
-      tx.audioHistoryRepository.incrementPlayCount(mediaId);
-
-      return tx.audioHistoryRepository.getByMediaId(mediaId);
-    });
+    return repositories.audioHistoryRepository.incrementPlayCount(mediaId);
   }
 
   function deleteByPath(mediaPath: string) {

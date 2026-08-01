@@ -1,6 +1,11 @@
 import { schema } from '@main/db/schema';
 
-export type { VimpDatabase, VimpTransaction, VimpDBExecutor } from '@main/db';
+export type {
+  VimpDatabase,
+  VimpTransaction,
+  VimpDBExecutor,
+  VimpRelations,
+} from '@main/db';
 
 // Insert/Update types
 export type InsertPlaylist = typeof schema.playlists.$inferInsert;
