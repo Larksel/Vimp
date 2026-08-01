@@ -18,8 +18,11 @@ export interface MediaInput {
 }
 
 const media = {
-  getAll: (type?: 'audio' | 'video') => {
-    return ipcRenderer.invoke(IPCChannels.MEDIA_GET_ALL, type);
+  getAll: () => {
+    return ipcRenderer.invoke(IPCChannels.MEDIA_GET_ALL);
+  },
+  getByType: (type: 'audio' | 'video') => {
+    return ipcRenderer.invoke(IPCChannels.MEDIA_GET_BY_TYPE, type);
   },
   getById: (id: number) => {
     return ipcRenderer.invoke(IPCChannels.MEDIA_GET_BY_ID, id);
@@ -35,6 +38,9 @@ const media = {
   },
   deleteById: (id: number) => {
     return ipcRenderer.invoke(IPCChannels.MEDIA_DELETE_BY_ID, id);
+  },
+  toggleFavorite: (id: number) => {
+    return ipcRenderer.invoke(IPCChannels.MEDIA_TOGGLE_FAVORITE, id);
   },
   importTrack: (track: Track) => {
     return ipcRenderer.invoke(IPCChannels.MEDIA_IMPORT_TRACK, track);

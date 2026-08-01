@@ -18,6 +18,9 @@ const playlist = {
   getById: (id: number) => {
     return ipcRenderer.invoke(IPCChannels.PLAYLIST_GET_BY_ID, id);
   },
+  getItems: (id: number) => {
+    return ipcRenderer.invoke(IPCChannels.PLAYLIST_GET_ITEMS, id);
+  },
   getBySlug: (slug: string) => {
     return ipcRenderer.invoke(IPCChannels.PLAYLIST_GET_BY_SLUG, slug);
   },
@@ -29,6 +32,9 @@ const playlist = {
   },
   deleteById: (id: number) => {
     return ipcRenderer.invoke(IPCChannels.PLAYLIST_DELETE_BY_ID, id);
+  },
+  toggleFavorite: (id: number) => {
+    return ipcRenderer.invoke(IPCChannels.PLAYLIST_TOGGLE_FAVORITE, id);
   },
   addMedia: (playlistId: number, mediaId: number, position?: number) => {
     return ipcRenderer.invoke(
