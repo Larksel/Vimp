@@ -16,8 +16,15 @@ export default class IPCMediaService extends BaseWindowModule {
   protected async load() {
     ipcMain.handle(
       IPCChannels.MEDIA_GET_ALL,
-      async (_, type?: 'audio' | 'video') => {
-        return this.mediaService.getAll(type);
+      async () => {
+        return this.mediaService.getAll();
+      },
+    );
+
+    ipcMain.handle(
+      IPCChannels.MEDIA_GET_BY_TYPE,
+      async (_, type: 'audio' | 'video') => {
+        return this.mediaService.getByType(type);
       },
     );
 
@@ -42,6 +49,15 @@ export default class IPCMediaService extends BaseWindowModule {
       IPCChannels.MEDIA_UPDATE,
       async (_, id: number, media: Partial<InsertMedia>) => {
         const result = this.mediaService.update(id, media);
+        this.emitChanged();
+        return result;
+      },
+    );
+
+    ipcMain.handle(
+      IPCChannels.MEDIA_TOGGLE_FAVORITE,
+      async (_, id: number) => {
+        const result = this.mediaService.toggleFavorite(id);
         this.emitChanged();
         return result;
       },

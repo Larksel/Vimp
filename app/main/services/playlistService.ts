@@ -13,6 +13,10 @@ export default function createPlaylistService(repositories: Repositories) {
     return repositories.playlistRepository.getBySlug(slug);
   }
 
+  function getItemsByPlaylistId(playlistId: number) {
+    return repositories.playlistItemRepository.getByPlaylistId(playlistId);
+  }
+
   function addMediaToPlaylist(
     playlistId: number,
     mediaId: number,
@@ -85,6 +89,7 @@ export default function createPlaylistService(repositories: Repositories) {
     ...crudMethods,
     createPlaylist,
     getBySlug,
+    getItemsByPlaylistId,
     addMediaToPlaylist,
     removeMediaFromPlaylist,
     movePlaylistItem,

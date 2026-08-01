@@ -29,7 +29,7 @@ export default class IPCPlaylistService extends BaseWindowModule {
     );
 
     ipcMain.handle(IPCChannels.PLAYLIST_GET_ITEMS, async (_, id: number) => {
-      return this.playlistService.getById(id);
+      return this.playlistService.getItemsByPlaylistId(id);
     });
 
     ipcMain.handle(
@@ -55,6 +55,15 @@ export default class IPCPlaylistService extends BaseWindowModule {
       this.emitChanged();
       return result;
     });
+
+    ipcMain.handle(
+      IPCChannels.PLAYLIST_TOGGLE_FAVORITE,
+      async (_, id: number) => {
+        const result = this.playlistService.toggleFavorite(id);
+        this.emitChanged();
+        return result;
+      },
+    );
 
     ipcMain.handle(
       IPCChannels.PLAYLIST_ADD_MEDIA,

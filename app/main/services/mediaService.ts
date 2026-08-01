@@ -127,6 +127,10 @@ export default function createMediaService(repositories: Repositories) {
     return { missing, found };
   }
 
+  function getByType(type: 'audio' | 'video') {
+    return repositories.mediaRepository.getByType(type);
+  }
+
   function toggleFavorite(id: number) {
     return repositories.mediaRepository.toggleFavorite(id);
   }
@@ -153,6 +157,7 @@ export default function createMediaService(repositories: Repositories) {
   return {
     ...crudMethods,
     getByPath,
+    getByType,
     insertTrack,
     insertManyTracks,
     scanMissingMedia,

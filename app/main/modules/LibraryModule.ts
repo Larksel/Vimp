@@ -31,6 +31,7 @@ export default class LibraryModule
 
   private readonly metadataModule: IMetadataModule;
   private readonly mediaService: VimpServices['mediaService'];
+  private readonly playlistService: VimpServices['playlistService'];
   protected config: Store<Config>;
 
   constructor(
@@ -41,6 +42,7 @@ export default class LibraryModule
     super();
 
     this.mediaService = services.mediaService;
+    this.playlistService = services.playlistService;
     this.metadataModule = metadataModule;
     this.config = config;
     this.status = {
@@ -52,6 +54,8 @@ export default class LibraryModule
 
   protected async load(): Promise<void> {
     logger.info('Starting initial library scan');
+    this.mediaService.scanMissingMedia();
+    this.playlistService.removeMissingMediaFromPlaylists();
     await this.scanAndSave();
     ipcMain.handle(IPCChannels.LIBRARY_IMPORT, (_, pathsScan: string[]) => {
       return this.import(pathsScan);
