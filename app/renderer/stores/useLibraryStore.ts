@@ -1,7 +1,7 @@
 import { createRendererLogger } from '@renderer/utils/logger';
 import { StateCreator } from 'zustand';
 
-import { PlaylistModel, TrackModel } from '@shared/types/vimp';
+import { AudioItem, Playlist, VideoItem } from '@shared/types/entities';
 import { storeUtils } from '@renderer/utils/storeUtils';
 import { libraryService } from '@renderer/services/libraryService';
 
@@ -9,24 +9,25 @@ const logger = createRendererLogger('LibraryStore');
 
 interface LibraryState {
   loading: {
-    tracks: boolean;
+    audio: boolean;
+    videos: boolean;
     playlists: boolean;
   };
   contents: {
-    tracks: TrackModel[];
-    playlists: PlaylistModel[];
+    audio: AudioItem[];
+    videos: VideoItem[];
+    playlists: Playlist[];
   };
   api: {
-    updateLocalPlaylist: (playlist: PlaylistModel) => void;
-    updateLocalTrack: (track: TrackModel) => void;
-    removePlaylists: (
-      playlistsToDelete: PlaylistModel | PlaylistModel[],
-    ) => void;
+    setAudio: (items: AudioItem[]) => void;
+    setVideos: (items: VideoItem[]) => void;
+    setPlaylists: (playlists: Playlist[]) => void;
+    updateLocalAudio: (item: AudioItem) => void;
+    updateLocalPlaylist: (playlist: Playlist) => void;
+    removePlaylists: (playlists: Playlist | Playlist[]) => void;
+    getPlaylistFromID: (id: number) => Playlist | null;
+    getAudioFromIDs: (ids: number[]) => AudioItem[];
     scanFolders: (paths?: string[]) => Promise<void>;
-    setTracks: (tracks: TrackModel[]) => void;
-    setPlaylists: (playlists: PlaylistModel[]) => void;
-    getPlaylistFromID: (playlistID: string) => PlaylistModel | null;
-    getTracksFromIDs: (trackIDs?: string[]) => TrackModel[];
   };
 }
 
@@ -35,120 +36,88 @@ const useLibraryStore = createLibraryStore<LibraryState>((set, get) => {
 
   return {
     loading: {
-      tracks: true,
+      audio: true,
+      videos: true,
       playlists: true,
     },
     contents: {
-      tracks: [],
+      audio: [],
+      videos: [],
       playlists: [],
     },
     api: {
-      updateLocalPlaylist: (playlist) => {
-        const { playlists } = get().contents;
-
-        if (!playlist) return;
-
-        const playlistIndex = playlists.findIndex(
-          (pl) => pl._id === playlist._id,
-        );
-
-        if (playlistIndex === -1) return;
-
-        const newPlaylists = [...playlists];
-        newPlaylists[playlistIndex] = playlist;
-
+      setAudio: (items) => {
+        if (!items) return;
+        logger.debug('Updated audio items');
         set((state) => ({
-          contents: {
-            ...state.contents,
-            playlists: newPlaylists,
-          },
+          loading: { ...state.loading, audio: false },
+          contents: { ...state.contents, audio: items },
         }));
       },
-      updateLocalTrack: (track) => {
-        const { tracks } = get().contents;
-
-        if (!track) return;
-
-        const trackIndex = tracks.findIndex((t) => t._id === track._id);
-
-        if (trackIndex === -1) return;
-
-        const newTracks = [...tracks];
-        newTracks[trackIndex] = track;
-
+      setVideos: (items) => {
+        if (!items) return;
+        logger.debug('Updated video items');
         set((state) => ({
-          contents: {
-            ...state.contents,
-            tracks: newTracks,
-          },
-        }));
-      },
-      removePlaylists: (playlistsToDelete) => {
-        const { playlists } = get().contents;
-
-        const deletedPlaylists = Array.isArray(playlistsToDelete)
-          ? playlistsToDelete
-          : [playlistsToDelete];
-        const deletedPlaylistsSet = new Set(deletedPlaylists.map((p) => p._id));
-
-        const newPlaylists = playlists.filter(
-          (item) => !deletedPlaylistsSet.has(item._id),
-        );
-        set((state) => ({
-          contents: {
-            ...state.contents,
-            playlists: newPlaylists,
-          },
-        }));
-      },
-      scanFolders: async (paths) => {
-        libraryService.scanFolders(paths);
-      },
-      setTracks: (tracks) => {
-        if (!tracks) return;
-
-        logger.debug('Updated tracks');
-        set((state) => ({
-          loading: {
-            ...state.loading,
-            tracks: false,
-          },
-          contents: {
-            ...state.contents,
-            tracks: tracks,
-          },
+          loading: { ...state.loading, videos: false },
+          contents: { ...state.contents, videos: items },
         }));
       },
       setPlaylists: (playlists) => {
         if (!playlists) return;
-
         logger.debug('Updated playlists');
         set((state) => ({
-          loading: {
-            ...state.loading,
-            playlists: false,
-          },
+          loading: { ...state.loading, playlists: false },
+          contents: { ...state.contents, playlists },
+        }));
+      },
+      // Optimistic Updates
+      updateLocalAudio: (item) => {
+        const { audio } = get().contents;
+        const index = audio.findIndex((a) => a.id === item.id);
+        if (index === -1) return;
+        const updated = [...audio];
+        updated[index] = item;
+        set((state) => ({
+          contents: { ...state.contents, audio: updated },
+        }));
+      },
+      // Optimistic Updates
+      updateLocalPlaylist: (playlist) => {
+        const { playlists } = get().contents;
+        const index = playlists.findIndex((p) => p.id === playlist.id);
+        if (index === -1) return;
+        const updated = [...playlists];
+        updated[index] = playlist;
+        set((state) => ({
+          contents: { ...state.contents, playlists: updated },
+        }));
+      },
+      // TODO Criar um método similar para Media
+      removePlaylists: (playlistsToDelete) => {
+        const { playlists } = get().contents;
+        const toDelete = Array.isArray(playlistsToDelete)
+          ? playlistsToDelete
+          : [playlistsToDelete];
+        const deletedIDs = new Set(toDelete.map((p) => p.id));
+        set((state) => ({
           contents: {
             ...state.contents,
-            playlists: playlists,
+            playlists: playlists.filter((p) => !deletedIDs.has(p.id)),
           },
         }));
       },
-      getPlaylistFromID: (playlistID) => {
-        if (!playlistID || playlistID === '') return null;
-
-        const { playlists } = get().contents;
-        return (
-          playlists.find((playlist) => playlist._id === playlistID) ?? null
-        );
+      getPlaylistFromID: (id) => {
+        if (!id) return null;
+        return get().contents.playlists.find((p) => p.id === id) ?? null;
       },
-      getTracksFromIDs: (trackIDs) => {
-        if (!trackIDs || trackIDs.length === 0) return [];
-        const { tracks } = get().contents;
-
-        // Use a Set for faster lookups if trackIDs array is large
-        const trackIDSet = new Set(trackIDs);
-        return [...tracks.filter((track) => trackIDSet.has(track._id))];
+      getAudioFromIDs: (ids) => {
+        if (!ids || ids.length === 0) return [];
+        const { audio } = get().contents;
+        const idSet = new Set(ids);
+        return audio.filter((item) => idSet.has(item.id));
+      },
+      scanFolders: async (paths) => {
+        await libraryService.scanFolders(paths);
       },
     },
   };

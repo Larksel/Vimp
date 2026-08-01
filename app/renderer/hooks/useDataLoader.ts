@@ -1,7 +1,7 @@
 import { useLibraryAPI } from '@renderer/stores/useLibraryStore';
 import { createRendererLogger } from '@renderer/utils/logger';
 import { useCallback, useEffect } from 'react';
-import { trackService } from '@renderer/services/trackService';
+import { mediaService } from '@renderer/services/mediaService';
 import { playlistService } from '@renderer/services/playlistService';
 import { sortUtils } from '@shared/utils/sortUtils';
 
@@ -10,46 +10,43 @@ const logger = createRendererLogger('useDataLoader');
 export default function useDataLoader() {
   const libraryAPI = useLibraryAPI();
 
-  const handleTracksDBChange = useCallback(async () => {
-    logger.debug('Refreshing tracks');
-
-    const dbTracks = await trackService.getAll();
-    const tracks = sortUtils.sortByString(dbTracks, 'title');
-
-    libraryAPI.setTracks(tracks);
+  const handleMediaChanged = useCallback(async () => {
+    logger.debug('Refreshing media items');
+    const [audio, videos] = await Promise.all([
+      mediaService.getAudioItems(),
+      mediaService.getVideoItems(),
+    ]);
+    libraryAPI.setAudio(sortUtils.sortByString(audio, 'title'));
+    libraryAPI.setVideos(sortUtils.sortByString(videos, 'title'));
   }, [libraryAPI]);
 
-  const handlePlaylistsDBChange = useCallback(async () => {
+  const handlePlaylistsChanged = useCallback(async () => {
     logger.debug('Refreshing playlists');
-
-    const dbPlaylists = await playlistService.getAll();
-    const playlists = sortUtils.sortByString(dbPlaylists, 'title');
-
-    libraryAPI.setPlaylists(playlists);
+    const playlists = await playlistService.getAll();
+    libraryAPI.setPlaylists(sortUtils.sortByString(playlists, 'name'));
   }, [libraryAPI]);
 
   const loadData = useCallback(async () => {
     logger.debug('Loading data');
-
-    const dbTracks = await trackService.getAll();
-    const dbPlaylists = await playlistService.getAll();
-
-    const tracks = sortUtils.sortByString(dbTracks, 'title');
-    const playlists = sortUtils.sortByString(dbPlaylists, 'title');
-
-    libraryAPI.setTracks(tracks);
-    libraryAPI.setPlaylists(playlists);
+    const [audio, videos, playlists] = await Promise.all([
+      mediaService.getAudioItems(),
+      mediaService.getVideoItems(),
+      playlistService.getAll(),
+    ]);
+    libraryAPI.setAudio(sortUtils.sortByString(audio, 'title'));
+    libraryAPI.setVideos(sortUtils.sortByString(videos, 'title'));
+    libraryAPI.setPlaylists(sortUtils.sortByString(playlists, 'name'));
   }, [libraryAPI]);
 
   useEffect(() => {
-    trackService.onDBChanged(handleTracksDBChange);
-    playlistService.onDBChanged(handlePlaylistsDBChange);
+    mediaService.onChanged(handleMediaChanged);
+    playlistService.onChanged(handlePlaylistsChanged);
 
     loadData();
 
     return function cleanup() {
-      trackService.clearListeners();
+      mediaService.clearListeners();
       playlistService.clearListeners();
     };
-  }, [handlePlaylistsDBChange, handleTracksDBChange, loadData]);
+  }, [handleMediaChanged, handlePlaylistsChanged, loadData]);
 }
