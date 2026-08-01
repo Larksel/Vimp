@@ -35,8 +35,16 @@ export default function createPlaylistRepository(db: VimpDBExecutor) {
     return db.query.playlists.findFirst({ ...config, where: { id } });
   }
 
+  function getByIdSync(id: number) {
+    return db.select().from(playlists).where(eq(playlists.id, id)).get();
+  }
+
   function getAll<TConfig extends PlaylistFindManyConfig>(config?: TConfig) {
     return db.query.playlists.findMany(config);
+  }
+
+  function getAllSync() {
+    return db.select().from(playlists).all();
   }
 
   function getByType(type: 'audio' | 'video') {
@@ -59,7 +67,11 @@ export default function createPlaylistRepository(db: VimpDBExecutor) {
   }
 
   function update(id: number, data: Partial<InsertPlaylist>) {
-    return db.update(playlists).set(data).where(eq(playlists.id, id)).run();
+    return db
+      .update(playlists)
+      .set({ ...data, modifiedAt: new Date() })
+      .where(eq(playlists.id, id))
+      .run();
   }
 
   function deleteById(id: number) {
@@ -69,8 +81,10 @@ export default function createPlaylistRepository(db: VimpDBExecutor) {
   return {
     insert,
     getById,
+    getByIdSync,
     getBySlug,
     getAll,
+    getAllSync,
     getByType,
     getByKind,
     toggleFavorite,

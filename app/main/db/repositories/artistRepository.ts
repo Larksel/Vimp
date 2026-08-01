@@ -40,7 +40,11 @@ export default function createArtistRepository(db: VimpDBExecutor) {
   }
 
   function update(id: number, data: Partial<InsertArtist>) {
-    return db.update(artists).set(data).where(eq(artists.id, id)).run();
+    return db
+      .update(artists)
+      .set({ ...data, modifiedAt: new Date() })
+      .where(eq(artists.id, id))
+      .run();
   }
 
   function toggleFavorite(id: number) {

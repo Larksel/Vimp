@@ -19,8 +19,8 @@ export default function createPlaylistService(repositories: Repositories) {
     position?: number,
   ) {
     return repositories.transaction((tx) => {
-      const playlist = tx.playlistRepository.getById(playlistId);
-      const media = tx.mediaRepository.getById(mediaId);
+      const playlist = tx.playlistRepository.getByIdSync(playlistId);
+      const media = tx.mediaRepository.getByIdSync(mediaId);
 
       if (!playlist) {
         throw new Error(`Playlist not found: ${playlistId}`);
@@ -57,14 +57,14 @@ export default function createPlaylistService(repositories: Repositories) {
 
   function removeMissingMediaFromPlaylists() {
     return repositories.transaction((tx) => {
-      const playlists = tx.playlistRepository.getAll();
+      const playlists = tx.playlistRepository.getAllSync();
       const removed: number[] = [];
 
       playlists.forEach((playlist) => {
         const items = tx.playlistItemRepository.getByPlaylistId(playlist.id);
 
         items.forEach((item) => {
-          const media = tx.mediaRepository.getById(item.mediaId);
+          const media = tx.mediaRepository.getByIdSync(item.mediaId);
 
           if (!media || media.isMissing) {
             tx.playlistItemRepository.deleteById(item.id);
@@ -77,6 +77,10 @@ export default function createPlaylistService(repositories: Repositories) {
     });
   }
 
+  function toggleFavorite(id: number) {
+    return repositories.playlistRepository.toggleFavorite(id);
+  }
+
   return {
     ...crudMethods,
     createPlaylist,
@@ -84,6 +88,7 @@ export default function createPlaylistService(repositories: Repositories) {
     addMediaToPlaylist,
     removeMediaFromPlaylist,
     movePlaylistItem,
+    toggleFavorite,
     removeMissingMediaFromPlaylists,
   };
 }

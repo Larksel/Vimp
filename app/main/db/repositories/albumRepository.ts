@@ -51,7 +51,11 @@ export default function createAlbumRepository(db: VimpDBExecutor) {
   }
 
   function update(id: number, data: Partial<InsertAlbum>) {
-    return db.update(albums).set(data).where(eq(albums.id, id)).run();
+    return db
+      .update(albums)
+      .set({ ...data, modifiedAt: new Date() })
+      .where(eq(albums.id, id))
+      .run();
   }
 
   function deleteById(id: number) {

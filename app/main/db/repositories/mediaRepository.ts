@@ -36,12 +36,24 @@ export default function createMediaRepository(db: VimpDBExecutor) {
     return db.query.media.findFirst({ ...config, where: { id } });
   }
 
+  function getByIdSync(id: number) {
+    return db.select().from(media).where(eq(media.id, id)).get();
+  }
+
+  function getAllSync() {
+    return db.select().from(media).all();
+  }
+
   function getAll<TConfig extends MediaFindManyConfig>(config?: TConfig) {
     return db.query.media.findMany(config);
   }
 
   function update(id: number, data: Partial<InsertMedia>) {
-    return db.update(media).set(data).where(eq(media.id, id)).run();
+    return db
+      .update(media)
+      .set({ ...data, modifiedAt: new Date() })
+      .where(eq(media.id, id))
+      .run();
   }
 
   function toggleFavorite(id: number) {
@@ -82,8 +94,10 @@ export default function createMediaRepository(db: VimpDBExecutor) {
   return {
     insert,
     getById,
+    getByIdSync,
     getByPath,
     getAll,
+    getAllSync,
     getByType,
     toggleFavorite,
     update,

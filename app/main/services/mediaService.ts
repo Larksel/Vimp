@@ -106,7 +106,7 @@ export default function createMediaService(repositories: Repositories) {
 
   function scanMissingMedia() {
     const mediaRepository = repositories.mediaRepository;
-    const allMedia = mediaRepository.getAll();
+    const allMedia = mediaRepository.getAllSync();
     const missing: number[] = [];
     const found: number[] = [];
 
@@ -125,6 +125,10 @@ export default function createMediaService(repositories: Repositories) {
     });
 
     return { missing, found };
+  }
+
+  function toggleFavorite(id: number) {
+    return repositories.mediaRepository.toggleFavorite(id);
   }
 
   function recordAudioPlayback(mediaId: number) {
@@ -152,6 +156,7 @@ export default function createMediaService(repositories: Repositories) {
     insertTrack,
     insertManyTracks,
     scanMissingMedia,
+    toggleFavorite,
     recordAudioPlayback,
     deleteByPath,
   };
