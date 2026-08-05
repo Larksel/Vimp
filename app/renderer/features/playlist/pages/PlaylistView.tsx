@@ -13,6 +13,7 @@ import usePlaylistLoader from '../hooks/usePlaylistLoader';
 import { formatDuration } from '@renderer/utils/utils';
 import { useAudioAnimation } from '@renderer/features/audioReaction';
 import { usePlaylistAPI } from '@renderer/stores/usePlaylistStore';
+import { AudioItem, MediaType } from '@shared/types/entities';
 
 export default function PlaylistView() {
   const { id } = useParams();
@@ -48,7 +49,12 @@ export default function PlaylistView() {
   }
 
   const { items, ...playlist } = loaderData;
-  const tracks = items.map((item) => item.media);
+  const tracks = items
+    .map((item) => {
+      if (item.media.type === MediaType.AUDIO) return item.media;
+      return;
+    })
+    .filter(Boolean) as AudioItem[];
 
   const playTracks = () => {
     playerAPI.startPlayback(tracks);
@@ -99,7 +105,7 @@ export default function PlaylistView() {
           />
         </Button>
         <img
-        // TODO Se não haver cover, utilizar covers das primeiras quatro músicas
+          // TODO Se não haver cover, utilizar covers das primeiras quatro músicas
           src={playlist.cover ?? placeholder}
           alt='playlist cover'
           className='aspect-square h-full rounded-lg object-cover shadow-md select-none'
@@ -127,7 +133,6 @@ export default function PlaylistView() {
           >
             {`${tracks.length} tracks - ${totalDuration()}`}
           </InfoText>
-
 
           <div
             className={`flex gap-2 transition-all duration-500 ${
