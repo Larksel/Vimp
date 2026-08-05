@@ -19,6 +19,54 @@ function normalizeList(value?: string | string[]): string[] {
 export default function createMediaService(repositories: Repositories) {
   const crudMethods = createCrudService(repositories.mediaRepository);
 
+  function getAll() {
+    return crudMethods.getAll({
+      with: {
+        albums: {
+          columns: {
+            title: true,
+          },
+        },
+        artists: {
+          columns: {
+            name: true,
+          },
+        },
+        playlists: {
+          columns: {
+            id: true,
+            name: true,
+          },
+        },
+        tags: true,
+      },
+    });
+  }
+
+  function getById(id: number) {
+    return crudMethods.getById(id, {
+      with: {
+        albums: {
+          columns: {
+            title: true,
+          },
+        },
+        artists: {
+          columns: {
+            name: true,
+          },
+        },
+        playlists: {
+          columns: {
+            id: true,
+            name: true,
+          },
+        },
+        tags: true,
+      },
+    });
+  }
+
   function insertTrack(track: Track) {
     const resolvedPath = path.resolve(track.path);
 
@@ -164,5 +212,7 @@ export default function createMediaService(repositories: Repositories) {
     toggleFavorite,
     recordAudioPlayback,
     deleteByPath,
+    getAll,
+    getById,
   };
 }
