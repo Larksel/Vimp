@@ -3,7 +3,6 @@ import { Button, Input, Switch } from '@renderer/components/common';
 import { useState } from 'react';
 
 import * as Settings from '../components';
-import { trackService } from '@renderer/services/trackService';
 import useConfigStore, { useConfigAPI } from '@renderer/stores/useConfigStore';
 import { useLibraryAPI } from '@renderer/stores/useLibraryStore';
 
@@ -24,14 +23,9 @@ export default function SettingsView() {
     setScanning(() => false);
   };
 
-  const clearTracksDB = async () => {
-    await trackService.clear();
-    logger.info('TracksDB limpo');
-  };
-
   return (
     <div className='flex flex-col items-center'>
-      <div className='flex h-full w-[90%] max-w-[800px] flex-col'>
+      <div className='flex h-full w-[90%] max-w-200 flex-col'>
         <Settings.Section name='Geral'>
           <Settings.Option name='Display Notifications (Coming soon)'>
             <Switch
@@ -73,13 +67,6 @@ export default function SettingsView() {
                 configAPI.setCrossfadeDuration(Number(e.target.value));
               }}
             />
-          </Settings.Option>
-        </Settings.Section>
-        <Settings.Section name='Danger Zone'>
-          <Settings.Option name='Clear Tracks Database'>
-            <Button variant={'destructive'} onClick={clearTracksDB}>
-              Clear Now
-            </Button>
           </Settings.Option>
         </Settings.Section>
       </div>
