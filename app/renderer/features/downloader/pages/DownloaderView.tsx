@@ -34,7 +34,7 @@ export default function DownloaderView() {
                   {track?.title}
                 </h6>
                 <p className='text-text-secondary truncate'>
-                  {track?.artists[0].name}
+                  {track.artists[0] ? track.artists[0].name : 'Unknown Artist'}
                 </p>
               </div>
               <Button className='bg-accent' variant={'filled'}>

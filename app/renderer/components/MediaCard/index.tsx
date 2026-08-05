@@ -37,7 +37,9 @@ export default function MediaCard(props: MediaCardProps) {
         </div>
         <div className='overflow-hidden p-0'>
           <InfoText variant='primary'>{item.title}</InfoText>
-          <InfoText variant='secondary'>{item.artists[0].name}</InfoText>
+          <InfoText variant='secondary'>
+            {item.artists[0] ? item.artists[0].name : 'Unknown Artist'}
+          </InfoText>
         </div>
         <p className='text-text-secondary absolute right-4 bottom-4 w-fit text-sm'>
           {formatDuration(item.duration)}

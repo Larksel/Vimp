@@ -109,7 +109,7 @@ export default function useMediaSession() {
       navigator.mediaSession.metadata = new MediaMetadata({
         title: currentTrack.title,
         artist: artists,
-        album: currentTrack.albums[0].title,
+        album: currentTrack.albums[0] ? currentTrack.albums[0].title : '',
         artwork: [{ src: blobUrl ?? placeholderImage }],
       });
     }
