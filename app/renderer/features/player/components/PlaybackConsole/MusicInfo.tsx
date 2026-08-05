@@ -27,7 +27,7 @@ export default function MusicInfo() {
 
   const toggleFavorite = async () => {
     if (!track) return;
-    playerAPI.toggleTrackFavorite(track._id);
+    playerAPI.toggleTrackFavorite(track.id);
   };
 
   return (
@@ -38,7 +38,7 @@ export default function MusicInfo() {
           className={`flex h-full w-full items-center select-none ${isExpandedView ? 'gap-0' : 'gap-2'} hover:bg-surface-highlight overflow-hidden rounded-lg p-2 transition-all`}
         >
           <img
-            src={track?.cover ?? placeholderImage}
+            src={track?.coverPath ?? placeholderImage}
             alt=''
             className={`size-16 rounded-sm object-cover transition-all ${isExpandedView ? 'w-0 opacity-0' : ''}`}
           />
@@ -53,7 +53,7 @@ export default function MusicInfo() {
             {track ? (
               <>
                 <InfoText variant='primary'>{track.title}</InfoText>
-                <InfoText variant='secondary'>{track.artist[0]}</InfoText>
+                <InfoText variant='secondary'>{track.artists[0]}</InfoText>
               </>
             ) : (
               <InfoText variant='primary'>Nenhuma música selecionada</InfoText>
@@ -68,8 +68,8 @@ export default function MusicInfo() {
           >
             <HeartStraightIcon
               size={24}
-              weight={`${track.favorite ? 'fill' : 'regular'}`}
-              className={`${track.favorite && 'text-red-500'}`}
+              weight={`${track.isFavorite ? 'fill' : 'regular'}`}
+              className={`${track.isFavorite && 'text-red-500'}`}
             />
           </Button>
         )}

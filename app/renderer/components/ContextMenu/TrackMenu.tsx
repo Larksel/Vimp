@@ -1,12 +1,12 @@
 import { ReactNode } from 'react';
 import { CM } from '@renderer/components/common';
 import { usePlayerAPI } from '@renderer/stores/usePlayerStore';
-import { TrackModel } from '@shared/types/vimp';
+import { AudioItem } from '@shared/types/entities';
 import { AddPlaylistSub } from '@renderer/features/playlist';
 
 interface TrackMenuProps {
   children: ReactNode;
-  track: TrackModel;
+  track: AudioItem;
 }
 
 export default function TrackMenu(props: TrackMenuProps) {
@@ -22,7 +22,7 @@ export default function TrackMenu(props: TrackMenuProps) {
   };
 
   const handleRemoveFromQueue = () => {
-    playerAPI.removeTracksFromQueue(track._id);
+    playerAPI.removeTracksFromQueue(track.id);
   };
 
   return (

@@ -5,28 +5,28 @@ import { sortUtils } from '@shared/utils/sortUtils';
 import useLibraryStore from '@renderer/stores/useLibraryStore';
 
 export default function HomeView() {
-  const tracks = useLibraryStore((state) => state.contents.tracks);
+  const audio = useLibraryStore((state) => state.contents.audio);
   const loading = useLibraryStore((state) => state.loading);
 
   const recents = useMemo(
-    () => sortUtils.sortByDate(tracks, 'lastPlayed', 'desc'),
-    [tracks],
+    () => sortUtils.sortByDate(audio, 'lastPlayedAt', 'desc'),
+    [audio],
   );
   const recentlyModified = useMemo(
-    () => sortUtils.sortByDate(tracks, 'dateModified', 'desc'),
-    [tracks],
+    () => sortUtils.sortByDate(audio, 'modifiedAt', 'desc'),
+    [audio],
   );
   const favorites = useMemo(
-    () => sortUtils.sortByDate(tracks, 'dateFavorited', 'desc'),
-    [tracks],
+    () => sortUtils.sortByDate(audio, 'favoritedAt', 'desc'),
+    [audio],
   );
   const mostPlayed = useMemo(
-    () => sortUtils.sortByNumber(tracks, 'playCount', 'desc', true),
-    [tracks],
+    () => sortUtils.sortByNumber(audio, 'playCount', 'desc', true),
+    [audio],
   );
   const recentlyAdded = useMemo(
-    () => sortUtils.sortByDate(tracks, 'dateAdded', 'desc'),
-    [tracks],
+    () => sortUtils.sortByDate(audio, 'createdAt', 'desc'),
+    [audio],
   );
 
   const sections = useMemo(
@@ -40,7 +40,7 @@ export default function HomeView() {
     [recents, favorites, mostPlayed, recentlyModified, recentlyAdded],
   );
 
-  if (loading.playlists || loading.tracks) {
+  if (loading.playlists || loading.audio) {
     return (
       <div className='flex items-center justify-center'>Carregando...</div>
     );
@@ -59,7 +59,7 @@ export default function HomeView() {
             </div>
           ),
       )}
-      {tracks.length === 0 && <EmptyLibrary viewName='HomeView' />}
+      {audio.length === 0 && <EmptyLibrary viewName='HomeView' />}
     </div>
   );
 }

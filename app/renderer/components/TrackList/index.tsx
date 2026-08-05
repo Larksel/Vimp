@@ -1,5 +1,5 @@
 import { Virtuoso } from 'react-virtuoso';
-import { TrackModel } from '@shared/types/vimp';
+import { AudioItem } from '@shared/types/entities';
 import TrackRow from './TrackRow';
 
 import {
@@ -20,17 +20,16 @@ import {
 import { useState } from 'react';
 
 interface TrackListProps {
-  items: TrackModel[];
-  onItemClick: (trackID: string) => void;
-  onItemMove: (from: number, to: number, items: TrackModel[]) => void;
+  items: AudioItem[];
+  onItemClick: (id: number) => void;
+  onItemMove: (from: number, to: number) => void;
 }
 
 // TODO Implementar multi seleção
 export default function TrackList(props: TrackListProps) {
   const { items, onItemClick, onItemMove } = props;
-  const trackIDs = items.map((track) => track._id);
-  const [selectedIDs, setSelectedIDs] = useState<string[]>([]);
-  const [lastClickedID, setLastClickedID] = useState<string | null>(null);
+  const trackIDs = items.map((track) => track.id);
+  const [selectedIDs, setSelectedIDs] = useState<number[]>([]);
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -47,10 +46,10 @@ export default function TrackList(props: TrackListProps) {
     const { active, over } = event;
 
     if (over && active.id !== over.id) {
-      const oldIndex = items.findIndex((item) => item._id === active.id);
-      const newIndex = items.findIndex((item) => item._id === over.id);
+      const oldIndex = items.findIndex((item) => item.id === active.id);
+      const newIndex = items.findIndex((item) => item.id === over.id);
 
-      onItemMove(oldIndex, newIndex, items);
+      onItemMove(oldIndex, newIndex);
     }
   }
 
@@ -68,7 +67,7 @@ export default function TrackList(props: TrackListProps) {
           <span className='flex items-center justify-center'>Status</span>
           <span className='flex items-center justify-end'>Duração</span>
         </div>
-        <div className='bg-surface-active h-[1px] w-[calc(100%-16px)]' />
+        <div className='bg-surface-active h-px w-[calc(100%-16px)]' />
         {items.length > 0 ? (
           <SortableContext
             items={trackIDs}
@@ -80,11 +79,11 @@ export default function TrackList(props: TrackListProps) {
               overscan={5}
               itemContent={(index, track) => (
                 <TrackRow
-                  key={track._id}
+                  key={track.id}
                   index={index}
                   track={track}
                   onClick={onItemClick}
-                  isSelected={selectedIDs.includes(track._id)}
+                  isSelected={selectedIDs.includes(track.id)}
                 />
               )}
             />

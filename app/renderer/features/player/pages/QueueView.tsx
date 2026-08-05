@@ -5,11 +5,11 @@ export default function QueueView() {
   const playerAPI = usePlayerAPI();
   const queue = usePlayerStore((state) => state.queue);
 
-  const handleItemClick = (trackID: string) => {
+  const handleItemClick = (id: number) => {
     if (queue.length > 0) {
-      playerAPI.playTrackById(trackID);
+      playerAPI.playTrackById(id);
     } else {
-      playerAPI.startPlayback(queue, trackID);
+      playerAPI.startPlayback(queue, id);
     }
   };
 

@@ -2,23 +2,23 @@ import { formatDuration } from '@renderer/utils/utils';
 import placeholder from '@renderer/assets/images/placeholder.png';
 import { HeartStraightIcon } from '@phosphor-icons/react/dist/csr/HeartStraight';
 import { PlayCircleIcon } from '@phosphor-icons/react/dist/csr/PlayCircle';
-import { TrackModel } from '@shared/types/vimp';
+import { AudioItem } from '@shared/types/entities';
 import TrackMenu from '@renderer/components/ContextMenu/TrackMenu';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import useCurrentTrack from '@renderer/hooks/useCurrentTrack';
 
 interface TrackRowProps {
-  track: TrackModel;
+  track: AudioItem;
   index: number;
   isSelected: boolean;
-  onClick: (trackID: string) => void;
+  onClick: (id: number) => void;
 }
 
 export default function TrackRow(props: TrackRowProps) {
   const { track, index, isSelected, onClick } = props;
   const currentTrack = useCurrentTrack();
-  const isPlaying = currentTrack ? track._id === currentTrack._id : false;
+  const isPlaying = currentTrack ? track.id === currentTrack.id : false;
   const {
     attributes,
     listeners,
@@ -26,7 +26,7 @@ export default function TrackRow(props: TrackRowProps) {
     transform,
     transition,
     isDragging,
-  } = useSortable({ id: track._id });
+  } = useSortable({ id: track.id });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -42,14 +42,14 @@ export default function TrackRow(props: TrackRowProps) {
         style={style}
         {...attributes}
         {...listeners}
-        onClick={() => onClick(track._id)}
+        onClick={() => onClick(track.id)}
         className={`hover:bg-surface-highlight active:bg-surface-active grid h-16 w-full grid-cols-[16px_6fr_4fr_3fr_1fr] items-center gap-4 px-4 text-sm tracking-normal select-none hover:cursor-pointer ${isPlaying ? 'bg-surface-highlight text-accent' : 'text-text-secondary'} ${isSelected && 'bg-surface-active'}`}
       >
         <span className='flex items-center justify-center'>{index + 1}</span>
 
         <div className='flex h-full items-center gap-3 truncate'>
           <img
-            src={track.cover ?? placeholder}
+            src={track.coverPath ?? placeholder}
             alt=''
             className='size-12 shrink-0 rounded-sm object-cover'
           />
@@ -61,7 +61,7 @@ export default function TrackRow(props: TrackRowProps) {
               {track.title}
             </span>
             <span className='text-text-secondary text-xs'>
-              {track.artist[0]}
+              {track.artists[0]}
             </span>
           </div>
         </div>
@@ -69,7 +69,7 @@ export default function TrackRow(props: TrackRowProps) {
         <span className='flex h-full items-center truncate'>{track.album}</span>
 
         <div className='grid h-full grid-cols-2 items-center justify-items-center'>
-          {track.favorite ? (
+          {track.isFavorite ? (
             <HeartStraightIcon weight='fill' size={20} />
           ) : (
             <HeartStraightIcon size={20} />

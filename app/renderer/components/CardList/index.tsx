@@ -1,9 +1,9 @@
 import { Virtuoso } from 'react-virtuoso';
 import MediaCard from '@renderer/components/MediaCard';
-import { TrackModel } from '@shared/types/vimp';
+import { AudioItem } from '@shared/types/entities';
 
 interface CardListProps {
-  data: TrackModel[];
+  data: AudioItem[];
   max: number;
 }
 
@@ -15,9 +15,9 @@ export default function CardList({ data, max }: CardListProps) {
       <Virtuoso
         data={items}
         horizontalDirection
-        itemContent={(index, item) => (
+        itemContent={(_, item) => (
           <div className='pr-6'>
-            <MediaCard key={item._id} item={item} queue={data} />
+            <MediaCard key={item.id} item={item} queue={data} />
           </div>
         )}
         style={{

@@ -9,7 +9,7 @@ import { sortUtils } from '@shared/utils/sortUtils';
 
 export default function MusicLibraryView() {
   const [search, setSearch] = useState('');
-  const tracks = useLibraryStore((state) => state.contents.tracks);
+  const audio = useLibraryStore((state) => state.contents.audio);
   const loading = useLibraryStore((state) => state.loading);
 
   const handleSearch = (value: string) => {
@@ -18,15 +18,15 @@ export default function MusicLibraryView() {
 
   const filteredTracks = useMemo(() => {
     return sortUtils.sortByDate(
-      tracks.filter((track) =>
-        track.title.toLowerCase().includes(search.toLowerCase()),
+      audio.filter((item) =>
+        item.title.toLowerCase().includes(search.toLowerCase()),
       ),
-      'dateModified',
+      'modifiedAt',
       'desc',
     );
-  }, [tracks, search]);
+  }, [audio, search]);
 
-  if (loading.playlists || loading.tracks) {
+  if (loading.playlists || loading.audio) {
     return (
       <div className='flex items-center justify-center'>Carregando...</div>
     );
@@ -39,7 +39,7 @@ export default function MusicLibraryView() {
         canChangeVisibility={false}
         placeholder='Buscar música...'
         onSearch={handleSearch}
-        className='max-w-[300px]'
+        className='max-w-75'
       />
       <div className='flex min-h-0 w-full flex-1'>
         {filteredTracks.length > 0 && (
@@ -48,15 +48,15 @@ export default function MusicLibraryView() {
             listClassName='grid justify-center gap-y-10 grid-cols-2 xs:grid-cols-3 xs:gap-8 sm:grid-cols-4 sm:gap-y-10 xl:grid-cols-5 2xl:grid-cols-6'
             data={filteredTracks}
             overscan={20}
-            itemContent={(_, track) => (
-              <div key={track._id} className='flex justify-center'>
-                <MediaCard item={track} queue={filteredTracks} />
+            itemContent={(_, item) => (
+              <div key={item.id} className='flex justify-center'>
+                <MediaCard item={item} queue={filteredTracks} />
               </div>
             )}
           />
         )}
       </div>
-      {tracks.length === 0 && <EmptyLibrary viewName='MusicLibrary' />}
+      {audio.length === 0 && <EmptyLibrary viewName='MusicLibrary' />}
     </div>
   );
 }

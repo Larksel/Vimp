@@ -9,7 +9,7 @@ export function cn(...inputs: ClassValue[]) {
 /**
  * Format seconds to a readable string
  */
-export const formatDuration = (value?: number) => {
+export const formatDuration = (value?: number | null) => {
   if (value && value !== 0) {
     const hours = Math.trunc(value / 3600);
     const minutes = Math.trunc((value % 3600) / 60);
