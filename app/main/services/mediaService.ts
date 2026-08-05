@@ -77,6 +77,7 @@ export default function createMediaService(repositories: Repositories) {
         path: resolvedPath,
         duration: track.duration,
         coverPath: track.cover,
+        modifiedAt: track.dateModified,
       });
 
       const mediaId = insertedMedia.id;
