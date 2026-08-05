@@ -1,15 +1,11 @@
 import usePlayerStore from '@renderer/stores/usePlayerStore';
-import { TrackModel } from '@shared/types/vimp';
+import { AudioItem } from '@shared/types/entities';
 
-/**
- * Returns the current track
- */
-export default function useCurrentTrack(): TrackModel | null {
+export default function useCurrentTrack(): AudioItem | null {
   return usePlayerStore((state) => {
     if (state.queue.length > 0 && state.queuePosition !== null) {
       return state.queue[state.queuePosition];
     }
-
     return null;
   });
 }

@@ -1,7 +1,7 @@
-import { TrackModel } from '@shared/types/vimp';
+import { AudioItem } from '@shared/types/entities';
 
 export const QueueUtils = {
-  shuffleTracks: (tracks: TrackModel[], index: number): TrackModel[] => {
+  shuffleTracks: (tracks: AudioItem[], index: number): AudioItem[] => {
     const shuffledTracks = [...tracks];
     // Take the current track so we can return it to the first position
     const currentTrack = shuffledTracks.splice(index, 1)[0];
@@ -20,12 +20,12 @@ export const QueueUtils = {
     return shuffledTracks;
   },
   filterDuplicateTracks: (
-    existingQueue: TrackModel[],
-    newTracks: TrackModel | TrackModel[],
-  ): TrackModel[] => {
+    existingQueue: AudioItem[],
+    newTracks: AudioItem | AudioItem[],
+  ): AudioItem[] => {
     const tracksArray = Array.isArray(newTracks) ? newTracks : [newTracks];
     return tracksArray.filter(
-      (track) => !existingQueue.some((qTrack) => qTrack._id === track._id),
+      (track) => !existingQueue.some((qTrack) => qTrack.id === track.id),
     );
   },
 };

@@ -1,6 +1,6 @@
 import { createRendererLogger } from '@renderer/utils/logger';
-import { TrackModel } from '@shared/types/vimp';
-import { trackService } from '@renderer/services/trackService';
+import { AudioItem } from '@shared/types/entities';
+import { mediaService } from '@renderer/services/mediaService';
 import useConfigStore from '@renderer/stores/useConfigStore';
 import useLibraryStore from '@renderer/stores/useLibraryStore';
 import { Player } from '@renderer/types';
@@ -22,7 +22,7 @@ function createPlayer(): Player {
   let gainNode: GainNode | null = null;
   // Volume is squared to provide a more natural volume scaling
   const volume = Math.min(playerConfig.volume ** 2, 1);
-  let track: TrackModel | null = null;
+  let track: AudioItem | null = null;
   let hasPlayed = false;
 
   audio = new Audio();
@@ -70,19 +70,16 @@ function createPlayer(): Player {
       await audioCtx.resume();
       await audio.play();
 
-      if (!hasPlayed && track._id && track._id !== '') {
+      if (!hasPlayed && track.id) {
         logger.info(`Playing ${track.path}`);
-        const updatedTrack: TrackModel = {
+        const updatedTrack: AudioItem = {
           ...track,
-          lastPlayed: new Date(),
           playCount: track.playCount + 1,
+          lastPlayedAt: new Date(),
         };
 
-        // TODO retornar nova track e remover referencia a uma store
-        useLibraryStore.getState().api.updateLocalTrack(updatedTrack);
-
-        await trackService.updateLastPlayed(track._id);
-        await trackService.incrementPlayCount(track._id);
+        useLibraryStore.getState().api.updateLocalAudio(updatedTrack);
+        await mediaService.recordAudioPlayback(track.id);
 
         hasPlayed = true;
       } else {
@@ -172,7 +169,7 @@ function createPlayer(): Player {
       audio.currentTime = currentTime;
     },
 
-    async setTrack(trackModel: TrackModel) {
+    async setTrack(trackModel: AudioItem) {
       if (!trackModel) return;
 
       this.freeSrcObject();
@@ -181,7 +178,8 @@ function createPlayer(): Player {
       hasPlayed = false;
       logger.info(`Loading new track: ${trackModel.path}`);
 
-      await trackService.loadAudioFile(trackModel.path)
+      await mediaService
+        .loadAudioFile(trackModel.path)
         .then((audioBuffer: ArrayBuffer) => {
           const audioBlob = new Blob([audioBuffer], { type: 'audio/*' });
           const objectURL = URL.createObjectURL(audioBlob);

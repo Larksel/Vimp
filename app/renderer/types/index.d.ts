@@ -2,6 +2,7 @@
 
 import type { VimpAPI } from '@preload/preload';
 import { ReactNode } from 'react';
+import { AudioItem } from '@shared/types/entities';
 
 declare global {
   declare module '*.jpg';
@@ -33,7 +34,7 @@ export interface Player {
   getAudio: () => HTMLAudioElement;
   getVolume: () => number;
   getCurrentTime: () => number;
-  getTrack: () => TrackModel | null;
+  getTrack: () => AudioItem | null;
   getSampleRate: () => number;
   getAnalyzerFftSize: () => number;
   getAnalyzerBufferSize: () => number;
@@ -42,6 +43,6 @@ export interface Player {
   setVolume: (volume: number) => void;
   setPlaybackRate: (playbackRate: number) => void;
   setCurrentTime: (currentTime: number) => void;
-  setTrack: (track: TrackModel) => Promise<void>;
+  setTrack: (track: AudioItem) => Promise<void>;
   freeSrcObject: () => void;
 }
