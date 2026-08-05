@@ -33,7 +33,7 @@ export default function ExpandedView() {
     <div className='relative flex size-full overflow-clip transition-all'>
       <img
         ref={imgRef}
-        src={track?.cover ?? placeholder}
+        src={track?.coverPath ?? placeholder}
         alt=''
         className='absolute inset-0 size-full object-cover blur-md brightness-30'
       />
@@ -48,7 +48,7 @@ export default function ExpandedView() {
       {type === 'wave' && (
         <>
           <img
-            src={track?.cover ?? placeholder}
+            src={track?.coverPath ?? placeholder}
             alt=''
             className={`absolute bottom-4 left-4 size-64 rounded-lg object-cover shadow-md transition-all`}
           />
