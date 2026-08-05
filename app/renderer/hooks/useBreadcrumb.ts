@@ -75,10 +75,10 @@ function fetchDynamicName(resourceType: string, id: string) {
   const libraryAPI = useLibraryStore.getState().api;
 
   if (resourceType === 'playlist') {
-    const playlist = libraryAPI.getPlaylistFromID(id);
+    const playlist = libraryAPI.getPlaylistFromID(parseInt(id, 10));
     if (!playlist) return;
 
-    return playlist.title;
+    return playlist.name;
   }
 
   return;

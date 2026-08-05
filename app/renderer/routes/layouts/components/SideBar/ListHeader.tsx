@@ -8,10 +8,8 @@ import {
   RadioGroupItem,
 } from '@renderer/components/common';
 import SearchBox from '@renderer/components/SearchBox';
-import { FormEvent, useState } from 'react';
+import { SyntheticEvent, useState } from 'react';
 import { createRendererLogger } from '@renderer/utils/logger';
-import { Playlist } from '@shared/types/vimp';
-import { createGenericPlaylist } from '@shared/utils/utils';
 import { playlistService } from '@renderer/services/playlistService';
 
 const logger = createRendererLogger('SideBar');
@@ -39,16 +37,11 @@ export default function ListHeader(props: ListHeaderProps) {
     setPopoverOptions(!popoverOptions);
   };
 
-  const createPlaylist = async (e: FormEvent<HTMLFormElement>) => {
+  const createPlaylist = async (e: SyntheticEvent) => {
     e.preventDefault();
     if (playlistName) {
-      const newPlaylist: Playlist = {
-        ...createGenericPlaylist(),
-        title: playlistName,
-      };
-
-      await playlistService.create(newPlaylist);
-      logger.info(`Creating playlist: ${newPlaylist.title}`);
+      await playlistService.create({ name: playlistName, type: 'audio' });
+      logger.info(`Creating playlist: ${playlistName}`);
     }
 
     openClosePopoverNewPlaylist();
