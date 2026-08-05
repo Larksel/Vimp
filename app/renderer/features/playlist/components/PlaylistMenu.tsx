@@ -1,11 +1,11 @@
 import { CM } from '@renderer/components/common';
 import { usePlaylistAPI } from '@renderer/stores/usePlaylistStore';
-import { PlaylistModel } from '@shared/types/vimp';
+import { Playlist } from '@shared/types/entities';
 import { ReactNode } from 'react';
 
 interface PlaylistMenuProps {
   children: ReactNode;
-  playlist: PlaylistModel;
+  playlist: Playlist;
 }
 
 export default function PlaylistMenu(props: PlaylistMenuProps) {

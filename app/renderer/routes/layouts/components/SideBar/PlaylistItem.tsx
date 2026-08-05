@@ -1,13 +1,13 @@
 import placeholderImage from '@renderer/assets/images/placeholder.png';
 import { Button } from '@renderer/components/common';
 import InfoText from '@renderer/components/InfoText';
-import { PlaylistModel } from '@shared/types/vimp';
+import { Playlist } from '@shared/types/entities';
 
 interface PlaylistItemProps {
-  playlist: PlaylistModel;
+  playlist: Playlist;
   index: number;
   collapsed: boolean;
-  onClick: (playlistID: string) => void;
+  onClick: (playlistID: number) => void;
 }
 
 export default function PlaylistItem(props: PlaylistItemProps) {
@@ -16,7 +16,7 @@ export default function PlaylistItem(props: PlaylistItemProps) {
   return (
     <Button
       variant='surface'
-      onClick={() => onClick(playlist._id)}
+      onClick={() => onClick(playlist.id)}
       className='flex h-16 w-full justify-start gap-4 p-2'
     >
       <img
@@ -31,7 +31,7 @@ export default function PlaylistItem(props: PlaylistItemProps) {
           transitionDelay: !collapsed ? `${(index + 1) * 75}ms` : '',
         }}
       >
-        <InfoText variant='primary'>{playlist.title}</InfoText>
+        <InfoText variant='primary'>{playlist.name}</InfoText>
         <InfoText variant='secondary'>Playlist</InfoText>
       </div>
     </Button>

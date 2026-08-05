@@ -33,7 +33,7 @@ export default function PlaylistView() {
     };
   });
 
-  if (loading.playlists || loading.tracks) {
+  if (loading.playlists || loading.audio) {
     return (
       <div className='flex items-center justify-center'>Carregando...</div>
     );
@@ -47,31 +47,32 @@ export default function PlaylistView() {
     );
   }
 
-  const { playlist, tracks } = loaderData;
+  const { items, ...playlist } = loaderData;
+  const tracks = items.map((item) => item.media);
 
   const playTracks = () => {
     playerAPI.startPlayback(tracks);
   };
 
   const toggleFavorite = () => {
-    playlistAPI.toggleFavorite(playlist._id);
+    playlistAPI.toggleFavorite(playlist.id);
   };
 
-  const handleItemClick = (trackID: string) => {
-    playerAPI.startPlayback(tracks, trackID);
+  const handleItemClick = (mediaId: number) => {
+    playerAPI.startPlayback(tracks, mediaId);
   };
 
   const handleItemMove = (from: number, to: number) => {
-    playlistAPI.reorderTracks(playlist._id, from, to);
+    const item = items[from];
+    if (!item) return;
+    playlistAPI.reorderTracks(playlist.id, item.id, to);
   };
 
   const totalDuration = () => {
     let totalSeconds = 0;
-
     tracks.forEach(({ duration }) => {
-      totalSeconds += duration;
+      totalSeconds += duration ?? 0;
     });
-
     return formatDuration(totalSeconds);
   };
 
@@ -117,7 +118,7 @@ export default function PlaylistView() {
             variant={'primary'}
             className={`w-full truncate font-bold transition-all duration-500 ${isHeaderCollapsed ? 'text-3xl' : 'text-5xl'}`}
           >
-            {playlist.title}
+            {playlist.name}
           </InfoText>
 
           <InfoText
@@ -127,14 +128,6 @@ export default function PlaylistView() {
             {`${tracks.length} tracks - ${totalDuration()}`}
           </InfoText>
 
-          {playlist.description && (
-            <InfoText
-              variant={'secondary'}
-              className={`line-clamp-2 w-full pr-24 text-sm whitespace-normal transition-all duration-500 sm:line-clamp-3 md:line-clamp-4 ${isHeaderCollapsed ? 'h-0 opacity-0' : 'opacity-100'}`}
-            >
-              {playlist.description}
-            </InfoText>
-          )}
 
           <div
             className={`flex gap-2 transition-all duration-500 ${
@@ -156,8 +149,8 @@ export default function PlaylistView() {
             >
               <HeartStraightIcon
                 size={24}
-                weight={playlist.favorite ? 'fill' : 'regular'}
-                className={`transition-all ${playlist.favorite && 'text-danger'}`}
+                weight={playlist.isFavorite ? 'fill' : 'regular'}
+                className={`transition-all ${playlist.isFavorite && 'text-danger'}`}
               />
             </Button>
           </div>

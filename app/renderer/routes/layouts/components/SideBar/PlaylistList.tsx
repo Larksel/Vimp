@@ -20,7 +20,7 @@ export default function PlaylistList(props: PlaylistListProps) {
 
   const filteredPlaylists = useMemo(() => {
     return playlists.filter((playlist) =>
-      playlist.title.toLowerCase().includes(search.toLowerCase()),
+      playlist.name.toLowerCase().includes(search.toLowerCase()),
     );
   }, [playlists, search]);
 
@@ -28,8 +28,8 @@ export default function PlaylistList(props: PlaylistListProps) {
     setSearch(searchTerm);
   };
 
-  const playlistView = (playlistID: string) => {
-    const viewRoute = routes.PLAYLIST.path.replace(':id', playlistID);
+  const playlistView = (playlistID: number) => {
+    const viewRoute = routes.PLAYLIST.path.replace(':id', String(playlistID));
 
     if (pathname.replace('/', '') !== viewRoute) {
       navigate(viewRoute);
@@ -41,7 +41,7 @@ export default function PlaylistList(props: PlaylistListProps) {
       <ListHeader collapsed={collapsed} searchHandler={handleSearch} />
       <ScrollArea>
         {filteredPlaylists.map((playlist, index) => (
-          <PlaylistMenu key={playlist._id} playlist={playlist}>
+          <PlaylistMenu key={playlist.id} playlist={playlist}>
             <PlaylistItem
               collapsed={collapsed}
               playlist={playlist}
