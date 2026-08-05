@@ -19,52 +19,36 @@ function normalizeList(value?: string | string[]): string[] {
 export default function createMediaService(repositories: Repositories) {
   const crudMethods = createCrudService(repositories.mediaRepository);
 
-  function getAll() {
-    return crudMethods.getAll({
-      with: {
-        albums: {
-          columns: {
-            title: true,
-          },
+  // TODO Corrigir relacionamento com históricos
+  // TODO Achatar camadas das listas
+  const withRelations = {
+    with: {
+      albums: {
+        columns: {
+          title: true,
         },
-        artists: {
-          columns: {
-            name: true,
-          },
-        },
-        playlists: {
-          columns: {
-            id: true,
-            name: true,
-          },
-        },
-        tags: true,
       },
-    });
+      artists: {
+        columns: {
+          name: true,
+        },
+      },
+      playlists: {
+        columns: {
+          id: true,
+          name: true,
+        },
+      },
+      tags: true,
+    },
+  };
+
+  function getAll() {
+    return crudMethods.getAll(withRelations);
   }
 
   function getById(id: number) {
-    return crudMethods.getById(id, {
-      with: {
-        albums: {
-          columns: {
-            title: true,
-          },
-        },
-        artists: {
-          columns: {
-            name: true,
-          },
-        },
-        playlists: {
-          columns: {
-            id: true,
-            name: true,
-          },
-        },
-        tags: true,
-      },
-    });
+    return crudMethods.getById(id, withRelations);
   }
 
   function insertTrack(track: Track) {
@@ -176,7 +160,7 @@ export default function createMediaService(repositories: Repositories) {
   }
 
   function getByType(type: 'audio' | 'video') {
-    return repositories.mediaRepository.getByType(type);
+    return repositories.mediaRepository.getByType(type, withRelations);
   }
 
   function toggleFavorite(id: number) {

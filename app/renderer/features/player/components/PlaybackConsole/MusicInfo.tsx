@@ -53,7 +53,7 @@ export default function MusicInfo() {
             {track ? (
               <>
                 <InfoText variant='primary'>{track.title}</InfoText>
-                <InfoText variant='secondary'>{track.artists[0]}</InfoText>
+                <InfoText variant='secondary'>{track.artists[0].name}</InfoText>
               </>
             ) : (
               <InfoText variant='primary'>Nenhuma música selecionada</InfoText>

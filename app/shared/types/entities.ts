@@ -139,13 +139,15 @@ export interface VideoHistory {
 
 // ---- Tipos agregados (usados pelo renderer) ----
 
+// TODO implementar relação com históricos
 export interface AudioItem extends Media {
   type: MediaType.AUDIO;
-  artists: string[];
-  album?: string | null;
-  genres: string[];
+  artists: { name: string }[];
   playCount: number;
   lastPlayedAt?: Date | null;
+  albums: { title: string }[];
+  playlists: { id: number; name: string }[];
+  tags: { id: number; name: string; type: TagType }[];
 }
 
 export interface VideoItem extends Media {

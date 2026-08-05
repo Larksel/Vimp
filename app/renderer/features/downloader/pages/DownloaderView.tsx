@@ -18,7 +18,7 @@ export default function DownloaderView() {
       <div className='flex h-full w-[40%] flex-col justify-center gap-4 self-start p-4'>
         <div className='relative overflow-clip rounded-lg'>
           <img
-            src={track?.cover ?? placeholder}
+            src={track?.coverPath ?? placeholder}
             alt=''
             className='aspect-video w-full object-cover'
           />
@@ -33,7 +33,9 @@ export default function DownloaderView() {
                 <h6 className='text-text-primary truncate text-xl font-bold'>
                   {track?.title}
                 </h6>
-                <p className='text-text-secondary truncate'>{track?.artist}</p>
+                <p className='text-text-secondary truncate'>
+                  {track?.artists[0].name}
+                </p>
               </div>
               <Button className='bg-accent' variant={'filled'}>
                 Download

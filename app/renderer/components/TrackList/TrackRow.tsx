@@ -61,12 +61,14 @@ export default function TrackRow(props: TrackRowProps) {
               {track.title}
             </span>
             <span className='text-text-secondary text-xs'>
-              {track.artists[0]}
+              {track.artists[0].name}
             </span>
           </div>
         </div>
 
-        <span className='flex h-full items-center truncate'>{track.album}</span>
+        <span className='flex h-full items-center truncate'>
+          {track.albums[0].title}
+        </span>
 
         <div className='grid h-full grid-cols-2 items-center justify-items-center'>
           {track.isFavorite ? (

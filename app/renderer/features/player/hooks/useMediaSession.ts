@@ -25,9 +25,9 @@ export default function useMediaSession() {
   const updatePositionState = useCallback(() => {
     if (currentTrack) {
       navigator.mediaSession.setPositionState({
-        duration: currentTrack.duration,
+        duration: currentTrack.duration!,
         playbackRate: player.getAudio().playbackRate,
-        position: Math.min(currentTime, currentTrack.duration),
+        position: Math.min(currentTime, currentTrack.duration!),
       });
     }
   }, [currentTime, currentTrack, player]);
@@ -66,7 +66,7 @@ export default function useMediaSession() {
       player.setCurrentTime(
         Math.min(
           player.getCurrentTime() + 10,
-          currentTrack ? currentTrack.duration : 0,
+          currentTrack && currentTrack.duration ? currentTrack.duration : 0,
         ),
       );
     });
@@ -87,7 +87,7 @@ export default function useMediaSession() {
     async function updateMediaSession() {
       if (!currentTrack) return;
 
-      const blobUrl = await toBlobUrl(currentTrack.cover);
+      const blobUrl = await toBlobUrl(currentTrack.coverPath ?? '');
 
       if (cancelled) {
         if (blobUrl) URL.revokeObjectURL(blobUrl);
@@ -100,16 +100,16 @@ export default function useMediaSession() {
 
       artworkBlobUrl.current = blobUrl;
 
-      const artists = Array.isArray(currentTrack.artist)
-        ? currentTrack.artist.join(', ')
-        : currentTrack.artist;
+      const artists = Array.isArray(currentTrack.artists)
+        ? currentTrack.artists.join(', ')
+        : currentTrack.artists;
 
       logger.debug(`Metadata set for track: ${currentTrack.title}`);
 
       navigator.mediaSession.metadata = new MediaMetadata({
         title: currentTrack.title,
         artist: artists,
-        album: currentTrack.album,
+        album: currentTrack.albums[0].title,
         artwork: [{ src: blobUrl ?? placeholderImage }],
       });
     }

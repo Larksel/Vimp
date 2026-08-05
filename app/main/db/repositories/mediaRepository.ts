@@ -23,10 +23,8 @@ export default function createMediaRepository(db: VimpDBExecutor) {
     return db.select().from(media).where(eq(media.path, path)).get();
   }
 
-  function getByType(type?: 'audio' | 'video') {
-    const query = db.select().from(media);
-    if (type) return query.where(eq(media.type, type)).all();
-    return query.all();
+  function getByType(type: 'audio' | 'video', config?: MediaFindManyConfig) {
+    return db.query.media.findMany({ ...config, where: { type } });
   }
 
   function getById<TConfig extends Omit<MediaFindOneConfig, 'where'>>(
