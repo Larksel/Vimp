@@ -39,6 +39,19 @@ export default function createMediaService(repositories: Repositories) {
           name: true,
         },
       },
+      audioHistoryEntry: {
+        columns: {
+          playCount: true,
+          lastPlayedAt: true,
+        },
+      },
+      videoHistoryEntries: {
+        columns: {
+          completed: true,
+          stoppedAt: true,
+          playedAt: true,
+        },
+      },
       tags: true,
     },
   };

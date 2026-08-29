@@ -72,6 +72,7 @@ export const relations = defineRelations(
       artists: r.many.artists(),
       tags: r.many.tags(),
       playlists: r.many.playlists(),
+      audioHistoryEntry: r.many.audioHistory(),
       videoHistoryEntries: r.many.videoHistory(),
     },
 

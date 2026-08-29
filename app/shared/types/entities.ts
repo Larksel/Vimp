@@ -143,11 +143,18 @@ export interface VideoHistory {
 export interface AudioItem extends Media {
   type: MediaType.AUDIO;
   artists: { name: string }[];
-  playCount: number;
-  lastPlayedAt?: Date | null;
   albums: { title: string }[];
   playlists: { id: number; name: string }[];
   tags: { id: number; name: string; type: TagType }[];
+  audioHistoryEntry: {
+    playCount: number;
+    lastPlayedAt: Date;
+  };
+  videoHistoryEntries: {
+    completed: boolean;
+    stoppedAt: number;
+    playedAt: Date;
+  }[];
 }
 
 export interface VideoItem extends Media {
