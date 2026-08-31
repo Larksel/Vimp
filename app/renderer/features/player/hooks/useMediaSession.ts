@@ -37,32 +37,26 @@ export default function useMediaSession() {
    */
   const configureActionHandlers = useCallback(() => {
     navigator.mediaSession.setActionHandler('play', () => {
-      logger.debug('Play action triggered');
       playerAPI.play();
     });
 
     navigator.mediaSession.setActionHandler('pause', () => {
-      logger.debug('Pause action triggered');
       playerAPI.pause();
     });
 
     navigator.mediaSession.setActionHandler('stop', () => {
-      logger.debug('Stop action triggered');
       playerAPI.stop();
     });
 
     navigator.mediaSession.setActionHandler('seekto', (e) => {
-      logger.debug('SeekTo action triggered');
       if (e.seekTime) playerAPI.seekTo(e.seekTime);
     });
 
     navigator.mediaSession.setActionHandler('seekbackward', () => {
-      logger.debug('SeekBackward 10s action triggered');
       player.setCurrentTime(Math.max(player.getCurrentTime() - 10, 0));
     });
 
     navigator.mediaSession.setActionHandler('seekforward', () => {
-      logger.debug('SeekForward 10s action triggered');
       player.setCurrentTime(
         Math.min(
           player.getCurrentTime() + 10,
@@ -72,12 +66,10 @@ export default function useMediaSession() {
     });
 
     navigator.mediaSession.setActionHandler('previoustrack', () => {
-      logger.debug('PreviousTrack action triggered');
       playerAPI.playPreviousTrack();
     });
 
     navigator.mediaSession.setActionHandler('nexttrack', () => {
-      logger.debug('NextTrack action triggered');
       playerAPI.playNextTrack();
     });
   }, [currentTrack, player, playerAPI]);
