@@ -22,23 +22,34 @@ export default function createAudioHistoryRepository(db: VimpDBExecutor) {
   function getByMediaId<
     TConfig extends Omit<AudioHistoryFindOneConfig, 'where'>,
   >(mediaId: number, config?: TConfig) {
-    return db.query.audioHistory.findFirst({ ...config, where: { mediaId } });
+    return db.query.audioHistory
+      .findFirst({ ...config, where: { mediaId } })
+      .sync();
   }
 
   function getAll<TConfig extends AudioHistoryFindManyConfig>(
     config?: TConfig,
   ) {
-    return db.query.audioHistory.findMany(config);
+    return db.query.audioHistory.findMany(config).sync();
   }
 
   function incrementPlayCount(mediaId: number) {
+    const lastPlayedAt = new Date();
+
     return db
-      .update(audioHistory)
-      .set({
-        playCount: sql`${audioHistory.playCount} + 1`,
-        lastPlayedAt: new Date(),
+      .insert(audioHistory)
+      .values({
+        mediaId,
+        playCount: 1,
+        lastPlayedAt,
       })
-      .where(eq(audioHistory.mediaId, mediaId))
+      .onConflictDoUpdate({
+        target: audioHistory.mediaId,
+        set: {
+          playCount: sql`${audioHistory.playCount} + 1`,
+          lastPlayedAt,
+        },
+      })
       .run();
   }
 

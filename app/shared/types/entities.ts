@@ -126,7 +126,7 @@ export interface PlaylistItem {
 export interface AudioHistory {
   mediaId: number;
   playCount: number;
-  lastPlayedAt: Date;
+  lastPlayedAt: Date | null;
 }
 
 export interface VideoHistory {
@@ -142,13 +142,15 @@ export interface VideoHistory {
 // TODO implementar relação com históricos
 export interface AudioItem extends Media {
   type: MediaType.AUDIO;
+  playCount: number;
+  lastPlayedAt: Date | null;
   artists: { name: string }[];
   albums: { title: string }[];
   playlists: { id: number; name: string }[];
   tags: { id: number; name: string; type: TagType }[];
   audioHistoryEntry: {
     playCount: number;
-    lastPlayedAt: Date;
+    lastPlayedAt: Date | null;
   };
   videoHistoryEntries: {
     completed: boolean;

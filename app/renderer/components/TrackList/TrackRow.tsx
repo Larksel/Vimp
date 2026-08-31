@@ -78,7 +78,7 @@ export default function TrackRow(props: TrackRowProps) {
           )}
           <span className='flex items-center justify-start gap-1 justify-self-start'>
             <PlayCircleIcon size={20} />
-            <span>{track.playCount}</span>
+            <span>{track.playCount ?? 0}</span>
           </span>
         </div>
 

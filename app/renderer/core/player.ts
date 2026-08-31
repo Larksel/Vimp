@@ -72,10 +72,16 @@ function createPlayer(): Player {
 
       if (!hasPlayed && track.id) {
         logger.info(`Playing ${track.path}`);
+        const lastPlayedAt = new Date();
         const updatedTrack: AudioItem = {
           ...track,
           playCount: track.playCount + 1,
-          lastPlayedAt: new Date(),
+          lastPlayedAt,
+          audioHistoryEntry: {
+            ...track.audioHistoryEntry,
+            playCount: track.audioHistoryEntry.playCount + 1,
+            lastPlayedAt,
+          },
         };
 
         useLibraryStore.getState().api.updateLocalAudio(updatedTrack);

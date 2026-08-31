@@ -24,14 +24,14 @@ export default function createMediaRepository(db: VimpDBExecutor) {
   }
 
   function getByType(type: 'audio' | 'video', config?: MediaFindManyConfig) {
-    return db.query.media.findMany({ ...config, where: { type } });
+    return db.query.media.findMany({ ...config, where: { type } }).sync();
   }
 
   function getById<TConfig extends Omit<MediaFindOneConfig, 'where'>>(
     id: number,
     config?: TConfig,
   ) {
-    return db.query.media.findFirst({ ...config, where: { id } });
+    return db.query.media.findFirst({ ...config, where: { id } }).sync();
   }
 
   function getByIdSync(id: number) {
@@ -43,7 +43,7 @@ export default function createMediaRepository(db: VimpDBExecutor) {
   }
 
   function getAll<TConfig extends MediaFindManyConfig>(config?: TConfig) {
-    return db.query.media.findMany(config);
+    return db.query.media.findMany(config).sync();
   }
 
   function update(id: number, data: Partial<InsertMedia>) {

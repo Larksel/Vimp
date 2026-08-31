@@ -32,7 +32,7 @@ export default function createPlaylistRepository(db: VimpDBExecutor) {
     id: number,
     config?: TConfig,
   ) {
-    return db.query.playlists.findFirst({ ...config, where: { id } });
+    return db.query.playlists.findFirst({ ...config, where: { id } }).sync();
   }
 
   function getByIdSync(id: number) {
@@ -40,7 +40,7 @@ export default function createPlaylistRepository(db: VimpDBExecutor) {
   }
 
   function getAll<TConfig extends PlaylistFindManyConfig>(config?: TConfig) {
-    return db.query.playlists.findMany(config);
+    return db.query.playlists.findMany(config).sync();
   }
 
   function getAllSync() {

@@ -14,7 +14,19 @@ export default function createPlaylistService(repositories: Repositories) {
   }
 
   function getItemsByPlaylistId(playlistId: number) {
-    return repositories.playlistItemRepository.getByPlaylistId(playlistId);
+    const playlist = repositories.playlistRepository.getByIdSync(playlistId);
+    if (!playlist) return null;
+
+    const items = repositories.playlistItemRepository
+      .getByPlaylistId(playlistId)
+      .map((item) => {
+        const media = repositories.mediaRepository.getByIdSync(item.mediaId);
+        return media ? { ...item, media } : null;
+      })
+      .filter((item) => item !== null)
+      .sort((a, b) => a.position - b.position);
+
+    return { ...playlist, items };
   }
 
   function addMediaToPlaylist(

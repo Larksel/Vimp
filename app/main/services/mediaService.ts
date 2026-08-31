@@ -3,6 +3,7 @@ import path from 'path';
 import { Track } from '@shared/types/vimp';
 import { Repositories } from '@main/db/types';
 import { createCrudService } from './serviceHelper';
+import { MediaType } from '@shared/types/entities';
 
 // TODO executar verificações iniciais
 
@@ -56,12 +57,40 @@ export default function createMediaService(repositories: Repositories) {
     },
   };
 
+  function normalizeAudioItem<T extends Record<string, unknown>>(media: T): T {
+    if (media.type !== MediaType.AUDIO) return media;
+
+    const historyRelation = media.audioHistoryEntry;
+    const audioHistoryEntry = Array.isArray(historyRelation)
+      ? historyRelation[0]
+      : historyRelation;
+
+    const normalizedHistory =
+      audioHistoryEntry && typeof audioHistoryEntry === 'object'
+        ? audioHistoryEntry
+        : { playCount: 0, lastPlayedAt: null };
+
+    return {
+      ...media,
+      audioHistoryEntry: normalizedHistory,
+      playCount: (normalizedHistory as { playCount?: number }).playCount ?? 0,
+      lastPlayedAt:
+        (normalizedHistory as { lastPlayedAt?: Date | null }).lastPlayedAt ??
+        null,
+    };
+  }
+
+  function normalizeAudioItems<T extends Record<string, unknown>>(media: T[]) {
+    return media.map(normalizeAudioItem);
+  }
+
   function getAll() {
-    return crudMethods.getAll(withRelations);
+    return normalizeAudioItems(crudMethods.getAll(withRelations));
   }
 
   function getById(id: number) {
-    return crudMethods.getById(id, withRelations);
+    const media = crudMethods.getById(id, withRelations);
+    return media ? normalizeAudioItem(media) : media;
   }
 
   function insertTrack(track: Track) {
@@ -174,7 +203,9 @@ export default function createMediaService(repositories: Repositories) {
   }
 
   function getByType(type: 'audio' | 'video') {
-    return repositories.mediaRepository.getByType(type, withRelations);
+    return normalizeAudioItems(
+      repositories.mediaRepository.getByType(type, withRelations),
+    );
   }
 
   function toggleFavorite(id: number) {

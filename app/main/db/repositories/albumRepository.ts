@@ -32,11 +32,11 @@ export default function createAlbumRepository(db: VimpDBExecutor) {
     id: number,
     config?: TConfig,
   ) {
-    return db.query.albums.findFirst({ ...config, where: { id } });
+    return db.query.albums.findFirst({ ...config, where: { id } }).sync();
   }
 
   function getAll<TConfig extends AlbumFindManyConfig>(config?: TConfig) {
-    return db.query.albums.findMany(config);
+    return db.query.albums.findMany(config).sync();
   }
 
   function toggleFavorite(id: number) {

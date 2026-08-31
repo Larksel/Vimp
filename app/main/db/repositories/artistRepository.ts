@@ -32,11 +32,11 @@ export default function createArtistRepository(db: VimpDBExecutor) {
     id: number,
     config?: TConfig,
   ) {
-    return db.query.artists.findFirst({ ...config, where: { id } });
+    return db.query.artists.findFirst({ ...config, where: { id } }).sync();
   }
 
   function getAll<TConfig extends ArtistFindManyConfig>(config?: TConfig) {
-    return db.query.artists.findMany(config);
+    return db.query.artists.findMany(config).sync();
   }
 
   function update(id: number, data: Partial<InsertArtist>) {
