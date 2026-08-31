@@ -15,6 +15,7 @@ import { useAudioAnimation } from '@renderer/features/audioReaction';
 import { usePlaylistAPI } from '@renderer/stores/usePlaylistStore';
 import { AudioItem, MediaType } from '@shared/types/entities';
 
+// TODO Corrigir reordenação manual
 export default function PlaylistView() {
   const { id } = useParams();
   const [isHeaderCollapsed, setIsHeaderCollapsed] = useState(true);
