@@ -77,11 +77,6 @@ function createPlayer(): Player {
           ...track,
           playCount: track.playCount + 1,
           lastPlayedAt,
-          audioHistoryEntry: {
-            ...track.audioHistoryEntry,
-            playCount: track.audioHistoryEntry.playCount + 1,
-            lastPlayedAt,
-          },
         };
 
         useLibraryStore.getState().api.updateLocalAudio(updatedTrack);

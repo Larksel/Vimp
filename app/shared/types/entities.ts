@@ -148,15 +148,6 @@ export interface AudioItem extends Media {
   albums: { title: string }[];
   playlists: { id: number; name: string }[];
   tags: { id: number; name: string; type: TagType }[];
-  audioHistoryEntry: {
-    playCount: number;
-    lastPlayedAt: Date | null;
-  };
-  videoHistoryEntries: {
-    completed: boolean;
-    stoppedAt: number;
-    playedAt: Date;
-  }[];
 }
 
 export interface VideoItem extends Media {

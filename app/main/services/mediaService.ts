@@ -20,8 +20,6 @@ function normalizeList(value?: string | string[]): string[] {
 export default function createMediaService(repositories: Repositories) {
   const crudMethods = createCrudService(repositories.mediaRepository);
 
-  // TODO Corrigir relacionamento com históricos
-  // TODO Achatar camadas das listas
   const withRelations = {
     with: {
       albums: {
@@ -40,13 +38,13 @@ export default function createMediaService(repositories: Repositories) {
           name: true,
         },
       },
-      audioHistoryEntry: {
+      audioTracking: {
         columns: {
           playCount: true,
           lastPlayedAt: true,
         },
       },
-      videoHistoryEntries: {
+      videoTracking: {
         columns: {
           completed: true,
           stoppedAt: true,
@@ -60,7 +58,7 @@ export default function createMediaService(repositories: Repositories) {
   function normalizeAudioItem<T extends Record<string, unknown>>(media: T): T {
     if (media.type !== MediaType.AUDIO) return media;
 
-    const historyRelation = media.audioHistoryEntry;
+    const historyRelation = media.audioTracking;
     const audioHistoryEntry = Array.isArray(historyRelation)
       ? historyRelation[0]
       : historyRelation;
@@ -72,10 +70,9 @@ export default function createMediaService(repositories: Repositories) {
 
     return {
       ...media,
-      audioHistoryEntry: normalizedHistory,
-      playCount: (normalizedHistory as { playCount?: number }).playCount ?? 0,
+      playCount: (normalizedHistory as { playCount: number }).playCount ?? 0,
       lastPlayedAt:
-        (normalizedHistory as { lastPlayedAt?: Date | null }).lastPlayedAt ??
+        (normalizedHistory as { lastPlayedAt: Date | null }).lastPlayedAt ??
         null,
     };
   }
