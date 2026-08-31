@@ -1,12 +1,10 @@
 import { contextBridge, ipcRenderer } from 'electron';
 import IPCChannels from '@shared/constants/IPCChannels';
-import tracksDB from './databases/tracksDB';
 import config from './modules/config';
 import library from './modules/library';
-import playlistsDB from './databases/playlistsDB';
 import fileSystem from './modules/fileSystem';
-import media from './modules/media';
-import playlist from './modules/playlist';
+import media from './database/media';
+import playlist from './database/playlist';
 
 const VimpAPI = {
   app: {
@@ -22,8 +20,6 @@ const VimpAPI = {
   },
   library,
   config,
-  tracksDB,
-  playlistsDB,
   media,
   playlist,
   fileSystem,

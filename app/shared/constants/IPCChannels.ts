@@ -19,35 +19,7 @@ enum IPCChannels {
   LIBRARY_SCAN = 'library:scan',
   LIBRARY_SCAN_AND_SAVE = 'library:scanAndSave',
 
-  /* DATABASES */
-  GENERICDB_HAS_CHANGED = 'genericDB:hasChanged',
-
-  // TracksDB
-  TRACKSDB_GET_ALL = 'tracksDB:getAll',
-  TRACKSDB_GET_BY_ID = 'tracksDB:getById',
-  TRACKSDB_CREATE = 'tracksDB:create',
-  TRACKSDB_UPDATE = 'tracksDB:update',
-  TRACKSDB_DELETE = 'tracksDB:delete',
-  TRACKSDB_CLEAR = 'tracksDB:clear',
-  TRACKSDB_HAS_CHANGED = 'tracksDB:hasChanged',
-
-  TRACKSDB_GET_BY_PATH = 'tracksDB:getByPath',
-  TRACKSDB_INCREMENT_PLAY_COUNT = 'tracksDB:incrementPlayCount',
-  TRACKSDB_UPDATE_FAVORITE = 'tracksDB:updateFavorite',
-  TRACKSDB_UPDATE_LAST_PLAYED = 'tracksDB:updateLastPlayed',
-
-  // PlaylistsDB
-  PLAYLISTSDB_GET_ALL = 'playlistsDB:getAll',
-  PLAYLISTSDB_GET_BY_ID = 'playlistsDB:getById',
-  PLAYLISTSDB_CREATE = 'playlistsDB:create',
-  PLAYLISTSDB_UPDATE = 'playlistsDB:update',
-  PLAYLISTSDB_DELETE = 'playlistsDB:delete',
-  PLAYLISTSDB_CLEAR = 'playlistsDB:clear',
-  PLAYLISTSDB_HAS_CHANGED = 'playlistsDB:hasChanged',
-
-  PLAYLISTSDB_INCREMENT_PLAY_COUNT = 'playlistsDB:incrementPlayCount',
-  PLAYLISTSDB_UPDATE_FAVORITE = 'playlistsDB:updateFavorite',
-  PLAYLISTSDB_UPDATE_LAST_PLAYED = 'playlistsDB:updateLastPlayed',
+  /* DATABASE */
 
   // Media
   MEDIA_GET_ALL = 'media:getAll',

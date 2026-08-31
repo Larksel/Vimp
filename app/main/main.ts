@@ -16,11 +16,8 @@ import MainWindowModule from '@main/modules/MainWindowModule';
 import MetadataModule from '@main/modules/MetadataModule';
 import WatcherModule from '@main/modules/WatcherModule';
 // IPC Modules
-import IPCTracksDatabase from '@main/modules/ipc/IPCTracksDatabase';
-import IPCPlaylistsDatabase from '@main/modules/ipc/IPCPlaylistsDatabase';
 import IPCMediaService from '@main/modules/ipc/IPCMediaService';
 import IPCPlaylistService from '@main/modules/ipc/IPCPlaylistService';
-import DBManager from './dbManager';
 import { setupAppDirs } from './utils/utils-resources';
 import { vimpProtocols } from '@shared/constants/vimpProtocols';
 import VimpDB from './db';
@@ -87,9 +84,8 @@ if (!gotTheLock) {
     const config = configModule.getConfig();
 
     // Initialize databases
-    const dbManager = new DBManager(mainWindow!);
     const vimpDB = new VimpDB(mainWindow!);
-    await ModulesManager.init(dbManager, vimpDB);
+    await ModulesManager.init(vimpDB);
     const services = createServices(vimpDB.getRepositories());
 
     // Then initialize the rest with their dependencies
@@ -100,8 +96,6 @@ if (!gotTheLock) {
       new AppMenuModule(mainWindow!),
       new WatcherModule(services, config, metadataModule),
       // IPC Modules
-      new IPCTracksDatabase(dbManager),
-      new IPCPlaylistsDatabase(dbManager),
       new IPCMediaService(mainWindow!, services),
       new IPCPlaylistService(mainWindow!, services),
     );

@@ -46,34 +46,6 @@ export interface Track extends CommonData {
   albumartist?: string;
 }
 
-export interface Playlist extends CommonData {
-  title: string;
-  cover?: string;
-  description?: string;
-  totalDuration?: number;
-
-  /**
-   * Array with track IDs
-   */
-  tracks: string[];
-
-  /**
-   * Indicates whether the playlist is automatically generated based on criteria such as most played songs.
-   */
-  isDynamic: boolean;
-
-  // Other attributes that may be useful later
-  category?: 'Music' | 'Podcast' | 'Audiobook' | 'Other';
-  privacy?: 'Public' | 'Private' | 'Unlisted';
-}
-
-export type GenericModel<T> = PouchDB.Core.ExistingDocument<
-  T & PouchDB.Core.AllDocsMeta
->;
-
-export type TrackModel = GenericModel<Track>;
-export type PlaylistModel = GenericModel<Playlist>;
-
 export interface Config {
   musicFolders: string[];
   displayNotifications: boolean;

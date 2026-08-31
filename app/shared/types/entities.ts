@@ -139,7 +139,6 @@ export interface VideoHistory {
 
 // ---- Tipos agregados (usados pelo renderer) ----
 
-// TODO implementar relação com históricos
 export interface AudioItem extends Media {
   type: MediaType.AUDIO;
   playCount: number;
