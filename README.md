@@ -18,7 +18,7 @@ Vimp é um programa desktop simples que permite reproduzir músicas armazenadas 
 
 **Front-end:** React, Zustand, TailwindCSS
 
-**Back-end:** Electron, PouchDB
+**Back-end:** Electron, SQLite
 
 ## Rodando localmente
 

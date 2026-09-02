@@ -3,7 +3,6 @@
   "files": [],
   "compilerOptions": {
     "target": "esnext",
-    "types": ["@types/pouchdb"],
     "module": "esnext",
     "sourceMap": false,
     "strict": true,
