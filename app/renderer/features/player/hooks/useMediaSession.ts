@@ -93,7 +93,7 @@ export default function useMediaSession() {
       artworkBlobUrl.current = blobUrl;
 
       const artists = Array.isArray(currentTrack.artists)
-        ? currentTrack.artists.join(', ')
+        ? currentTrack.artists.map((artist) => artist.name).join(', ')
         : currentTrack.artists;
 
       logger.debug(`Metadata set for track: ${currentTrack.title}`);
