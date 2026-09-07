@@ -58,7 +58,7 @@ export default class VimpDB extends BaseWindowModule {
     this.repositories = this.createRepositories();
   }
 
-  getRepositories() {
+  getRepositories(): ReturnType<typeof this.createRepositories> {
     if (!this.loaded || !this.repositories) {
       throw new Error(`Can't create repositories before db connection`);
     }
