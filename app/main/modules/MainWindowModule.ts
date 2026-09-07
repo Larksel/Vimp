@@ -41,7 +41,7 @@ export default class MainWindowModule extends BaseModule {
 
   protected async load() {
     this.createWindow();
-    logger.info('Main window created');
+    logger.debug('Main window created');
   }
 
   getWindow() {
@@ -70,6 +70,7 @@ export default class MainWindowModule extends BaseModule {
 
     this.window.once('ready-to-show', () => {
       if (!this.window) {
+        logger.error(`Main window is not defined. Loading Failed.`);
         throw new Error('"mainWindow" is not defined');
       }
 

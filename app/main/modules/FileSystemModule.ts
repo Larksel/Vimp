@@ -27,7 +27,7 @@ export default class FileSystemModule extends BaseModule {
 
       return arrayBuffer as ArrayBuffer;
     } catch (error) {
-      logger.error(`Failed to read audio file ${filePath}: ${error}`);
+      logger.error(`Failed to read audio file ${filePath}: \n${error}`);
       throw new Error(`Could not load audio file: ${filePath}`);
     }
   }

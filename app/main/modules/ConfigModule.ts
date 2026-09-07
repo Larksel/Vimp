@@ -15,7 +15,7 @@ export default class ConfigModule extends BaseModule implements IConfigModule {
   constructor() {
     super();
 
-    logger.info(`Config path: ${app.getPath('appData')}`);
+    logger.info(`Using config store at: ${app.getPath('appData')}`);
 
     this.config = new Store<Config>({
       name: 'config',

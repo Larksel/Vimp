@@ -177,7 +177,6 @@ function createPlayer(): Player {
 
       track = trackModel;
       hasPlayed = false;
-      logger.info(`Loading new track: ${trackModel.path}`);
 
       await mediaService
         .loadAudioFile(trackModel.path)
@@ -187,7 +186,6 @@ function createPlayer(): Player {
 
           audio.src = objectURL;
 
-          logger.info('Audio loaded');
         })
         .catch((error: Error) => {
           logger.error(`Error loading audio for player: ${error.message}`);

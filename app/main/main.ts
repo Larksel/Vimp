@@ -70,7 +70,7 @@ if (!gotTheLock) {
 
     if (isDebug) {
       installExtension(REACT_DEVELOPER_TOOLS)
-        .then((ext) => logger.info(`Loaded Extension: ${ext.name}`))
+        .then((ext) => logger.debug(`Loaded Extension: ${ext.name}`))
         .catch((err) => logger.warn(`Error on extension loading: ${err}`));
     }
 

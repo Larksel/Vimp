@@ -58,7 +58,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
   const libraryAPI = useLibraryStore.getState().api;
   const player = getPlayer();
 
-  logger.info(
+  logger.debug(
     `Initializing PlayerStore with config: ${JSON.stringify(playerConfig, null, 2)}`,
   );
 
@@ -119,14 +119,14 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
           originalQueue: originalQueue,
         });
 
-        logger.debug('New queue started');
+        logger.info(`New queue started with ${newQueue.length} items`);
 
         api.playTrackAtIndex(queuePosition);
       },
       play: async () => {
         try {
           await player.play();
-          logger.debug('PlayerStatus changed to PLAY');
+
           audioDispatcher.setIsPlaying(true);
           set({ playerStatus: PlayerStatus.PLAY });
         } catch (err) {
@@ -138,8 +138,8 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
       },
       pause: () => {
         player.pause();
-        logger.debug('PlayerStatus changed to PAUSE');
         audioDispatcher.setIsPlaying(false);
+
         set({ playerStatus: PlayerStatus.PAUSE });
       },
       togglePlayPause: () => {
@@ -156,7 +156,6 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
         player.stop();
         get().api.seekTo(0);
 
-        logger.debug('PlayerStatus changed to STOP');
         audioDispatcher.setIsPlaying(false);
 
         set({
@@ -173,15 +172,12 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
         if (queuePosition === null || queue.length == 0) return;
 
         if (currentTime > 5) {
-          logger.info('Rewind track');
           api.seekTo(0);
           return;
         }
 
         const isFirstTrack = queuePosition === 0;
         const newPosition = isFirstTrack ? queue.length - 1 : queuePosition - 1;
-
-        logger.info('Go to previous track');
 
         api.playTrackAtIndex(newPosition);
       },
@@ -192,8 +188,6 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
 
         const isLastTrack = queuePosition === queue.length - 1;
         const newPosition = isLastTrack ? 0 : queuePosition + 1;
-
-        logger.info('Go to next track');
 
         api.playTrackAtIndex(newPosition);
       },
@@ -210,7 +204,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
           case RepeatMode.OFF:
             await player.setTrack(queue[queuePosition]);
             api.pause();
-            logger.info('Player finished playing. Pausing...');
+            logger.info('Player finished playback. Pausing...');
             return;
 
           case RepeatMode.ONE:
@@ -437,7 +431,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
         libraryAPI.updateLocalAudio(updatedTrack);
         await mediaService.toggleFavorite(id);
 
-        logger.info(`Favorited track: ${track.title}`);
+        logger.debug(`Favorited track: ${track.title}`);
       },
       toggleShuffle: () => {
         const { queue, queuePosition, originalQueue, isShuffleEnabled } = get();
@@ -452,7 +446,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
           newQueue = QueueUtils.shuffleTracks([...queue], queuePosition);
           newQueuePosition = 0;
 
-          logger.info('Queue shuffled');
+          logger.debug('Queue shuffled');
         } else {
           const currentTrackID = queue[queuePosition].id;
           const currentTrackIndex = originalQueue.findIndex(
@@ -462,7 +456,7 @@ const usePlayerStore = createPlayerStore<PlayerState>((set, get) => {
           newQueue = [...originalQueue];
           newQueuePosition = currentTrackIndex !== -1 ? currentTrackIndex : 0;
 
-          logger.info('Queue back to original order');
+          logger.debug('Queue back to original order');
         }
 
         configAPI.setAudioShuffle(shouldShuffle);

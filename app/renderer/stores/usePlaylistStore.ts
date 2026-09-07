@@ -31,18 +31,18 @@ const usePlaylistStore = createPlaylistStore<PlaylistState>(() => {
         const playlist = libraryAPI.getPlaylistFromID(playlistId);
         if (!playlist) return;
 
-        logger.debug(
+        logger.info(
           `Reordering item ${itemId} to position ${position} in playlist ${playlist.name}`,
         );
 
         await playlistService.moveItem(itemId, position);
       },
       addMedia: async (playlistId, mediaId) => {
-        logger.debug(`Adding media ${mediaId} to playlist ${playlistId}`);
+        logger.info(`Adding media ${mediaId} to playlist ${playlistId}`);
         await playlistService.addMedia(playlistId, mediaId);
       },
       removeMedia: async (playlistId, mediaId) => {
-        logger.debug(`Removing media ${mediaId} from playlist ${playlistId}`);
+        logger.info(`Removing media ${mediaId} from playlist ${playlistId}`);
         await playlistService.removeMedia(playlistId, mediaId);
       },
       toggleFavorite: async (playlistId) => {
@@ -61,7 +61,7 @@ const usePlaylistStore = createPlaylistStore<PlaylistState>(() => {
       },
       renamePlaylist: async (playlistId, newName) => {
         if (!newName || newName.trim() === '') {
-          logger.warn('Playlist name cannot be empty.');
+          logger.error('Playlist name cannot be empty.');
           return;
         }
 

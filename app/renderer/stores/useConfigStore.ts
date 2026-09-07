@@ -28,7 +28,7 @@ const useConfigStore = createConfigStore<ConfigState>((set) => {
   const initialConfig = config.__initialConfig;
 
   logger.debug(
-    `Initializing ConfigStore with config: ${JSON.stringify(initialConfig, null, 2)}`,
+    `ConfigStore initialized with config: ${JSON.stringify(initialConfig, null, 2)}`,
   );
 
   return {

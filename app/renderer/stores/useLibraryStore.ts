@@ -32,8 +32,6 @@ interface LibraryState {
 }
 
 const useLibraryStore = createLibraryStore<LibraryState>((set, get) => {
-  logger.info('Initializing LibraryStore');
-
   return {
     loading: {
       audio: true,

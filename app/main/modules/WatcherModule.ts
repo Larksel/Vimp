@@ -56,9 +56,6 @@ export default class WatcherModule extends BaseModule {
     if (!existingTrack) {
       const track: Track = await this.metadataModule.getMetadata(resolvedPath);
       this.mediaService.insertTrack(track);
-      logger.info(`ADDED: ${filePath}`);
-    } else {
-      logger.info(`SKIPPED: ${filePath}`);
     }
   }
 
@@ -71,9 +68,6 @@ export default class WatcherModule extends BaseModule {
 
     if (existingTrack) {
       this.mediaService.deleteByPath(resolvedPath);
-      logger.info(`REMOVED: ${filePath}`);
-    } else {
-      logger.info(`Track Not Found: ${filePath}`);
     }
   }
 }

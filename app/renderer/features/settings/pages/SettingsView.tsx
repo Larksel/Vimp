@@ -1,12 +1,9 @@
-import { createRendererLogger } from '@renderer/utils/logger';
 import { Button, Input, Switch } from '@renderer/components/common';
 import { useState } from 'react';
 
 import * as Settings from '../components';
 import useConfigStore, { useConfigAPI } from '@renderer/stores/useConfigStore';
 import { useLibraryAPI } from '@renderer/stores/useLibraryStore';
-
-const logger = createRendererLogger('SettingsView');
 
 export default function SettingsView() {
   const config = useConfigStore((state) => state);
@@ -17,7 +14,6 @@ export default function SettingsView() {
   const rescanTracks = async () => {
     setScanning(() => true);
 
-    logger.debug('Triggered library scan and save');
     libraryAPI.scanFolders();
 
     setScanning(() => false);

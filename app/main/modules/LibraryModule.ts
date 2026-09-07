@@ -25,6 +25,7 @@ export default class LibraryModule
 {
   public status: {
     processed: number;
+    existing: number;
     added: number;
     total: number;
   };
@@ -47,13 +48,14 @@ export default class LibraryModule
     this.config = config;
     this.status = {
       processed: 0,
+      existing: 0,
       added: 0,
       total: 0,
     };
   }
 
   protected async load(): Promise<void> {
-    logger.info('Starting initial library scan');
+    logger.debug('Starting initial library scan');
     this.mediaService.scanMissingMedia();
     this.playlistService.removeMissingMediaFromPlaylists();
     await this.scanAndSave();
@@ -81,7 +83,7 @@ export default class LibraryModule
       return { folders: [], files: [] };
     }
 
-    logger.info(`Scanning: ${existingPaths.join(', ')}`);
+    logger.info(`Scanning paths: ${existingPaths.join(', ')}`);
 
     const pathsStats = await Promise.all(
       existingPaths.map(async (folder) => ({
@@ -118,8 +120,9 @@ export default class LibraryModule
 
     const supportedFiles = this.filterSupportedFiles(files, 'allSupported');
 
-    logger.info(`Found ${folders.length} folders`);
-    logger.info(`Found ${supportedFiles.length} supported files`);
+    logger.info(
+      `Found ${folders.length} folders and ${supportedFiles.length} supported files`,
+    );
 
     return {
       folders: folders,
@@ -137,7 +140,7 @@ export default class LibraryModule
     const validPaths = itemsPath.filter((path) => path);
     if (validPaths.length === 0) return null;
 
-    logger.info('Initializing import');
+    logger.info(`Checking ${validPaths.length} files to import`);
 
     const scannedFiles: ScannedFiles = {
       tracks: [],
@@ -158,12 +161,16 @@ export default class LibraryModule
       await scanQueue.start();
       await this.insertScannedFiles(scannedFiles);
 
-      logger.info('Import completed');
-      logger.info(
+      logger.debug(
         `Processed ${this.status.processed}/${this.status.total} files`,
       );
-      logger.info(`Added ${this.status.added} files to database`);
+      logger.info(
+        `${this.status.existing} files already exist in the database`,
+      );
+      logger.info(`${this.status.added} files were added to the database`);
       this.resetImportProgress();
+
+      logger.debug('Import completed');
 
       return scannedFiles;
     } catch (error) {
@@ -222,13 +229,13 @@ export default class LibraryModule
   }
 
   private createScanQueue() {
-    logger.info('Processing queue created');
+    logger.debug('Processing queue created');
     const scanQueue = new queue();
     scanQueue.concurrency = 32;
     scanQueue.autostart = false;
 
     scanQueue.addEventListener('end', () => {
-      logger.info('Processing queue completed');
+      logger.debug('Processing queue completed');
     });
 
     return scanQueue;
@@ -249,13 +256,15 @@ export default class LibraryModule
         return;
       }
 
-      const existingDoc = this.mediaService.getByPath(resolvedPath);
+      const existingTrack = this.mediaService.getByPath(resolvedPath);
 
-      if (!existingDoc) {
+      if (!existingTrack) {
         const metadata = await this.metadataModule.getMetadata(resolvedPath);
         if (!scannedFiles[fileType]) scannedFiles[fileType] = [];
         scannedFiles[fileType].push(metadata);
         this.status.added++;
+      } else {
+        this.status.existing++;
       }
 
       this.status.processed++;
@@ -266,6 +275,7 @@ export default class LibraryModule
 
   private resetImportProgress(): void {
     this.status.processed = 0;
+    this.status.existing = 0;
     this.status.added = 0;
     this.status.total = 0;
   }
@@ -273,7 +283,7 @@ export default class LibraryModule
   private async insertScannedFiles(scannedFiles: ScannedFiles): Promise<void> {
     for (const [fileType, files] of Object.entries(scannedFiles)) {
       if (fileType === FileTypes.TRACKS && files.length > 0) {
-        logger.info(`Inserting ${files.length} ${fileType} into database`);
+        logger.debug(`Inserting ${files.length} ${fileType} into database`);
         this.mediaService.insertManyTracks(files);
       }
     }
